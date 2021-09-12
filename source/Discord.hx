@@ -75,7 +75,7 @@ class DiscordClient
 			details: details,
 			state: state,
 			largeImageKey: 'logo',
-			largeImageText: "Modded Engine Version: " + MainMenuState.modEngineVersion,
+			largeImageText: "Graphex " + MainMenuState.modEngineVersion,
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),
