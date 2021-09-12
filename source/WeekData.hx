@@ -6,7 +6,12 @@ class WeekData {
 	//Go to StoryMenuState.hx and add the characters/backgrounds
 	public static var songsNames:Array<Dynamic> = [
 		['Tutorial'],								//Tutorial, this one isn't added to Freeplay, instead it is added from assets/preload/freeplaySonglist.txt
-		['sunny', 'snowy', 'thunder'],			//Week raiback		
+		['Bopeebo', 'Fresh', 'Dad-Battle'],			//Week 1
+		['Spookeez', 'South', 'Monster'],			//Week 2
+		['Pico', 'Philly-Nice', 'Blammed'],			//Week 3
+		['Satin-Panties', 'High', 'Milf'],			//Week 4
+		['Cocoa', 'Eggnog', 'Winter-Horrorland'],	//Week 5
+		['Senpai', 'Roses', 'Thorns']				//Week 6
 	];
 
 	// Custom week number, used for your week's score not being overwritten by a new vanilla week when the game updates
@@ -31,8 +36,12 @@ class WeekData {
 	//if you have the Low Quality option disabled on "Preferences"
 	public static var loadDirectory:Array<String> = [
 		'tutorial', //Tutorial loads "tutorial" folder on assets/
-		null,	//Week raiback
-		
+		null,	//Week 1
+		null,	//Week 2
+		null,	//Week 3
+		null,	//Week 4
+		null,	//Week 5
+		null	//Week 6
 	];
 
 	//The only use for this is to display a different name for the Week when you're on the score reset menu.
@@ -41,7 +50,12 @@ class WeekData {
 	//Edit: This now also messes with Discord Rich Presence, so it's kind of relevant.
 	public static var weekResetName:Array<String> = [
 		"Tutorial",
-		null,	//Week raiback
+		null,	//Week 1
+		null,	//Week 2
+		null,	//Week 3
+		null,	//Week 4
+		null,	//Week 5
+		null	//Week 6
 	];
 
 
