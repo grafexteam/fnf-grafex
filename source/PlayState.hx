@@ -982,7 +982,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 		CoolUtil.precacheSound('dialogue');
 		CoolUtil.precacheSound('dialogueClose');
-		var doof:DialogueBoxPsych = new DialogueBoxPsych(dialogue, song);
+		var doof:DialogueBoxNew = new DialogueBoxNew(dialogue, song);
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
 		doof.nextDialogueThing = startNextDialogue;
@@ -3015,11 +3015,6 @@ class PlayState extends MusicBeatState
 				{
 					badNoteHit();
 				}
-
-				/*for (i in 0...keysPressed.length)
-				{
-					if(!keysPressed[i] && controlArray[i]) keysPressed[i] = true;
-				}*/
 			}
 		}
 
