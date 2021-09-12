@@ -14,7 +14,7 @@ import flixel.FlxSubState;
 using StringTools;
 
 // TO DO: Clean code? Maybe? idk
-class DialogueBoxPsych extends FlxSpriteGroup
+class DialogueBoxNew extends FlxSpriteGroup
 {
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
@@ -44,15 +44,16 @@ class DialogueBoxPsych extends FlxSpriteGroup
 				char.animation.addByPrefix('talk', 'bftalkloop', 24, true); //During dialogue
 				char.flipX = !char.flipX;
 
-			case 'psychic':
-				char.frames = Paths.getSparrowAtlas('dialogue/Psy_Dialogue'); //oppa gangnam style xddddd kill me
-				char.animation.addByPrefix('talkIdle', 'PSYtalk', 24, true);
-				char.animation.addByPrefix('talk', 'PSY loop', 24, true);
-				char.animation.addByPrefix('angryIdle', 'PSY angry', 24, true);
-				char.animation.addByPrefix('angry', 'PSY ANGRY loop', 24, true);
-				char.animation.addByPrefix('unamusedIdle', 'PSY unamused', 24, true);
-				char.animation.addByPrefix('unamused', 'PSY UNAMUSED loop', 24, true);
-				char.y -= 140;
+				// THIS IS EXAMPLE!
+			/*case 'CHAR':
+				char.frames = Paths.getSparrowAtlas('dialogue/FILENAME');
+				char.animation.addByPrefix('talkIdle', 'NAME IN XML', 24, true); //Dialogue ended
+				char.animation.addByPrefix('talk', 'NAME IN XML', 24, true); //During dialogue
+				char.animation.addByPrefix('angryIdle', 'NAME IN XML', 24, true); //Dialogue ended, but CHAR is ANGRY lmao
+				char.animation.addByPrefix('angry', 'NAME IN XML', 24, true); //During dialogue, but CHAR is ANGRY lmao
+				char.animation.addByPrefix('unamusedIdle', 'NAME IN XML', 24, true); //Dialogue ended, but CHAR is UNAMUSED lmao
+				char.animation.addByPrefix('unamused', 'NAME IN XML', 24, true); //During dialogue, but CHAR is UNAMUSED lmao
+				char.y -= 140;*/ // Sample is by Xale, Script is by ShadowMario
 		}
 		char.animation.play('talkIdle', true);
 	}
