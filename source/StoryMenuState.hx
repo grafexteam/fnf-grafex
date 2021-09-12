@@ -27,28 +27,46 @@ class StoryMenuState extends MusicBeatState
 	// defaults to True
 	public static var weekUnlocked:Array<Bool> = [
 		true,	//Tutorial
-		true,	//Week Raiback
-		
+		true,	//Week 1
+		true,	//Week 2
+		true,	//Week 3
+		true,	//Week 4
+		true,	//Week 5
+		true	//Week 6
 	];
 
 	//It works like this:
 	// ['Left character', 'Center character', 'Right character']
 	var weekCharacters:Array<Dynamic> = [
-		['', 'bf', 'gf'],
 		['dad', 'bf', 'gf'],
+		['dad', 'bf', 'gf'],
+		['spooky', 'bf', 'gf'],
+		['pico', 'bf', 'gf'],
+		['mom', 'bf', 'gf'],
+		['parents-christmas', 'bf', 'gf'],
+		['senpai', 'bf', 'gf']
 	];
 
 	//The week's name, displayed on top-right
 	var weekNames:Array<String> = [
-		"how to funk",
-		"introducing no name character Raiback!",
-		
+		"",
+		"Daddy Dearest",
+		"Spooky Month",
+		"PICO",
+		"MOMMY MUST MURDER",
+		"RED SNOW",
+		"hating simulator ft. moawling"
 	];
 
 	//Background asset name, the background files are stored on assets/preload/menubackgrounds/
 	var weekBackground:Array<String> = [
 		'stage',		
+		'stage',
+		'halloween',
+		'philly',
+		'limo',
 		'christmas',
+		'school'
 	];
 	
 	var scoreText:FlxText;
