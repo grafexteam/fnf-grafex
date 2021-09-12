@@ -42,7 +42,6 @@ import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
 import openfl.media.Video;
-import Achievements;
 import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
@@ -1808,11 +1807,6 @@ class PlayState extends MusicBeatState
 		if(!inCutscene) {
 			var lerpVal:Float = CoolUtil.boundTo(elapsed * 2.4, 0, 1);
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-			if(!startingSong && !endingSong && boyfriend.animation.curAnim.name.startsWith('idle'))
-			{
-				boyfriendIdleTime += elapsed;
-				boyfriendIdleTime = 0;
-			}
 		}
 
 		super.update(elapsed);
@@ -2644,27 +2638,7 @@ class PlayState extends MusicBeatState
 		seenCutscene = false;
 		KillNotes();
 
-		#if ACHIEVEMENTS_ALLOWED
-		if(achievementObj != null) {
-			return;
-		} else {
-			var achieve:Int = checkForAchievement([1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15]);
-			if(achieve > -1) {
-				startAchievement(achieve);
-				return;
-			}
-		}
-		#end
-
 		callOnLuas('onEndSong', []);
-		if (SONG.validScore)
-		{
-			#if !switch
-			var percent:Float = ratingPercent;
-			if(Math.isNaN(percent)) percent = 0;
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
-			#end
-		}
 
 		if (isStoryMode)
 		{
@@ -2742,23 +2716,6 @@ class PlayState extends MusicBeatState
 			cpuControlled = false;
 		}
 	}
-
-	#if ACHIEVEMENTS_ALLOWED
-	var achievementObj:AchievementObject = null;
-	function startAchievement(achieve:Int) {
-		achievementObj = new AchievementObject(achieve, camOther);
-		achievementObj.onFinish = achievementEnd;
-		add(achievementObj);
-		trace('Giving achievement ' + achieve);
-	}
-	function achievementEnd():Void
-	{
-		achievementObj = null;
-		if(endingSong && !inCutscene) {
-			endSong();
-		}
-	}
-	#end
 
 	private function KillNotes() {
 		while(notes.length > 0) {
@@ -2967,25 +2924,23 @@ class PlayState extends MusicBeatState
 
 		if (!boyfriend.stunned && generatedMusic)
 		{
-			if((left || down || up || right) && !endingSong) {
-				notes.forEachAlive(function(daNote:Note) {
-					if(daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit && daNote.mustPress) {
+			if((left || down || up || right) && !endingSong)
+			{
+				notes.forEachAlive(function(daNote:Note)
+				{
+					if(daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit && daNote.mustPress)
+					{
 						goodNoteHit(daNote);
 					}
 				});
-
-				#if ACHIEVEMENTS_ALLOWED
-				var achieve:Int = checkForAchievement([11]);
-				if(achieve > -1) {
-					startAchievement(achieve);
-				}
-				#end
 			} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing')
-			&& !boyfriend.animation.curAnim.name.endsWith('miss')) {
+			&& !boyfriend.animation.curAnim.name.endsWith('miss'))
+			{
 				boyfriend.dance();
 			}
 
-			if((leftP || downP || upP || rightP) && !endingSong) {
+			if((leftP || downP || upP || rightP) && !endingSong)
+			{
 				if(!ClientPrefs.ghostTapping)
 					boyfriend.holdTimer = 0;
 
@@ -2995,18 +2950,26 @@ class PlayState extends MusicBeatState
 				var notesDatas:Array<Int> = [];
 				var dupeNotes:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note) {
-					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit) {
-						if (notesDatas.indexOf(daNote.noteData) != -1) {
-							for (i in 0...notesHitArray.length) {
+					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit)
+					{
+						if (notesDatas.indexOf(daNote.noteData) != -1)
+						{
+							for (i in 0...notesHitArray.length)
+							{
 								var prevNote = notesHitArray[i];
-								if (prevNote.noteData == daNote.noteData && Math.abs(daNote.strumTime - prevNote.strumTime) < 10) {
+								if (prevNote.noteData == daNote.noteData && Math.abs(daNote.strumTime - prevNote.strumTime) < 10)
+								{
 									dupeNotes.push(daNote);
-								} else if (prevNote.noteData == daNote.noteData && daNote.strumTime < prevNote.strumTime) {
+								}
+								else if (prevNote.noteData == daNote.noteData && daNote.strumTime < prevNote.strumTime)
+								{
 									notesHitArray.remove(prevNote);
 									notesHitArray.push(daNote);
 								}
 							}
-						} else {
+						}
+						else
+						{
 							notesHitArray.push(daNote);
 							notesDatas.push(daNote.noteData);
 						}
@@ -3014,7 +2977,8 @@ class PlayState extends MusicBeatState
 					}
 				});
 
-				for (i in 0...dupeNotes.length) {
+				for (i in 0...dupeNotes.length)
+				{
 					var daNote = dupeNotes[i];
 					daNote.kill();
 					notes.remove(daNote, true);
@@ -3024,39 +2988,50 @@ class PlayState extends MusicBeatState
 
 				if (perfectMode)
 					goodNoteHit(notesHitArray[0]);
-				else if (notesHitArray.length > 0) {
-					for (i in 0...controlArray.length) {
-						if(controlArray[i] && notesDatas.indexOf(i) == -1) {
-							if(canMiss) {
+				else if (notesHitArray.length > 0)
+				{
+					for (i in 0...controlArray.length)
+					{
+						if(controlArray[i] && notesDatas.indexOf(i) == -1) 
+						{
+							if(canMiss) 
+							{
 								badNoteHit();
 							}
 						}
 					}
-					for (i in 0...notesHitArray.length) {
+					for (i in 0...notesHitArray.length)
+					{
 						var daNote = notesHitArray[i];
-						if(controlArray[daNote.noteData]) {
+						if(controlArray[daNote.noteData])
+						{
 							goodNoteHit(daNote);
 							if(ClientPrefs.ghostTapping)
 								boyfriend.holdTimer = 0;
 						}
 					}
-				} else if(canMiss) {
+				}
+				else if(canMiss)
+				{
 					badNoteHit();
 				}
 
-				for (i in 0...keysPressed.length) {
+				/*for (i in 0...keysPressed.length)
+				{
 					if(!keysPressed[i] && controlArray[i]) keysPressed[i] = true;
-				}
+				}*/
 			}
 		}
 
 		playerStrums.forEach(function(spr:StrumNote)
 		{
-			if(controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm') {
+			if(controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
+			{
 				spr.playAnim('pressed');
 				spr.resetAnim = 0;
 			}
-			if(controlReleaseArray[spr.ID]) {
+			if(controlReleaseArray[spr.ID])
+			{
 				spr.playAnim('static');
 				spr.resetAnim = 0;
 			}
@@ -3588,71 +3563,6 @@ class PlayState extends MusicBeatState
 			setOnLuas('ratingName', ratingString);
 		}
 	}
-
-	#if ACHIEVEMENTS_ALLOWED
-	private function checkForAchievement(arrayIDs:Array<Int>):Int {
-		for (i in 0...arrayIDs.length) {
-			if(!Achievements.achievementsUnlocked[arrayIDs[i]][1]) {
-				switch(arrayIDs[i]) {
-					case 1 | 2 | 3 | 4 | 5 | 6 | 7:
-						if(isStoryMode && campaignMisses + songMisses < 1 && CoolUtil.difficultyString() == 'Hard' &&
-						storyPlaylist.length <= 1 && WeekData.getCurrentWeekNumber() == arrayIDs[i] && !changedDifficulty && !usedPractice) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 8:
-						if(ratingPercent < 0.2 && !practiceMode && !cpuControlled) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 9:
-						if(ratingPercent >= 1 && !usedPractice && !cpuControlled) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 10:
-						if(Achievements.henchmenDeath >= 100) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 11:
-						if(boyfriend.holdTimer >= 20 && !usedPractice) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 12:
-						if(!boyfriendIdled && !usedPractice) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 13:
-						if(!usedPractice) {
-							var howManyPresses:Int = 0;
-							for (j in 0...keysPressed.length) {
-								if(keysPressed[j]) howManyPresses++;
-							}
-
-							if(howManyPresses <= 2) {
-								Achievements.unlockAchievement(arrayIDs[i]);
-								return arrayIDs[i];
-							}
-						}
-					case 14:
-						if(ClientPrefs.framerate <= 60 && ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-					case 15:
-						if(SONG.song.toLowerCase() == 'test' && !usedPractice) {
-							Achievements.unlockAchievement(arrayIDs[i]);
-							return arrayIDs[i];
-						}
-				}
-			}
-		}
-		return -1;
-	}
-	#end
 
 	var curLight:Int = 0;
 	var curLightEvent:Int = 0;

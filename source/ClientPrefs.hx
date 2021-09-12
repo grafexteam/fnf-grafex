@@ -81,16 +81,6 @@ class ClientPrefs {
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.hideTime = hideTime;
 
-		var achieves:Array<String> = [];
-		for (i in 0...Achievements.achievementsUnlocked.length) {
-			if(Achievements.achievementsUnlocked[i][1]) {
-				achieves.push(Achievements.achievementsUnlocked[i][0]);
-			}
-		}
-		FlxG.save.data.achievementsUnlocked = achieves;
-		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
-		FlxG.save.flush();
-
 		var save:FlxSave = new FlxSave();
 		save.bind('controls', 'ninjamuffin99'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = lastControls;
