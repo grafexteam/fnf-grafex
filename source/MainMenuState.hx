@@ -23,8 +23,8 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.3.1'; //This is also used for Discord RPC
-	public static var modEngineVersion:String = 'b0.0.1';
+	public static var psychEngineVersion:String = '0.3.1'; //This is also used for Discord RPC - ShadowMario
+	public static var modEngineVersion:String = 'b0.0.2';
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
