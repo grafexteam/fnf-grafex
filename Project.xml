@@ -95,7 +95,7 @@
 	<assets path="assets/week6"         library="week6"         exclude="*.mp3" unless="web"/>
 	
 	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
-	<assets path='art/readme.txt' rename='you MUST readme.txt' />
+	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
 
 	<haxelib name="actuate" />
 	<haxelib name="extension-webm"/>
@@ -166,10 +166,9 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<!-- Place custom nodes like icons here (higher priority to override the HaxeFlixel icon) -->
 	
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
-	<icon path="art/iconOG.png" />
+	<icon path="extra/icons/icon32.png" size='32'/>
+	<icon path="extra/icons/icon64.png" size='64'/>
+	<icon path="extra/icons/iconOG.png" />
 </project>
