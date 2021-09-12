@@ -188,7 +188,7 @@ class TitleState extends MusicBeatState
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
 		add(logoBl);
-		//logoBl.shader = swagShader.shader;
+		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
@@ -297,13 +297,15 @@ class TitleState extends MusicBeatState
 		{
 			if(titleText != null) titleText.animation.play('press');
 
-			FlxG.camera.flash(FlxColor.WHITE, 1);
+			FlxG.camera.flash(FlxColor.WHITE, 0.4);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
-			transitioning = true;
+                        FlxTween.tween(FlxG.camera, {y: FlxG.height}, 2, {ease: FlxEase.expoIn, startDelay: -0.1});
+			
+                        transitioning = true;
 			// FlxG.sound.music.stop();
 
-			new FlxTimer().start(1, function(tmr:FlxTimer)
+			new FlxTimer().start(3, function(tmr:FlxTimer)
 			{
 				MusicBeatState.switchState(new MainMenuState());
 				closedState = true;
@@ -362,18 +364,16 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		if(logoBl != null) 
-			logoBl.animation.play('bump');
+		logoBl.animation.play('bump', true);
+		danceLeft = !danceLeft;
 
-		if(gfDance != null) {
-			danceLeft = !danceLeft;
+		if (danceLeft)
+			gfDance.animation.play('danceRight');
+		else
+			gfDance.animation.play('danceLeft');
 
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
-		}
-
+		FlxG.log.add(curBeat);
+ 
 		if(!closedState) {
 			switch (curBeat)
 			{
@@ -437,7 +437,7 @@ class TitleState extends MusicBeatState
 		{
 			remove(logoSpr);
 
-			FlxG.camera.flash(FlxColor.WHITE, 4);
+			FlxG.camera.flash(FlxColor.WHITE, 1);
 			remove(credGroup);
 			skippedIntro = true;
 		}

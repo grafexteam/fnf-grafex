@@ -21,7 +21,9 @@ class MenuCharacter extends FlxSprite
 		antialiasing = ClientPrefs.globalAntialiasing;
 
 		switch(character) {
-			case 'bf':
+			case '':
+                          
+                        case 'bf':
 				frames = Paths.getSparrowAtlas('menucharacters/Menu_BF');
 				animation.addByPrefix('idle', "M BF Idle", 24);
 				animation.addByPrefix('confirm', 'M bf HEY', 24, false);

@@ -34,19 +34,30 @@ class OptionsState extends MusicBeatState
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
+        public static var vin:FlxSprite;
 
 	override function create() {
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		FlxG.sound.playMusic(Paths.music("configurator"), 1, true);
+
+                menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
 		menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
+                
+                vin = new FlxSprite().loadGraphic(Paths.image('vin'));
+		
+		vin.setGraphicSize(Std.int(vin.width * 1));
+		vin.updateHitbox();
+		vin.screenCenter();
+		vin.antialiasing = ClientPrefs.globalAntialiasing;
+		
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -60,7 +71,8 @@ class OptionsState extends MusicBeatState
 		}
 		changeSelection();
 
-		super.create();
+		add(vin);
+                  super.create();
 	}
 
 	override function closeSubState() {
@@ -81,7 +93,8 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
+			FlxG.sound.music.stop();
+                        MusicBeatState.switchState(new MainMenuState());
 		}
 
 		if (controls.ACCEPT) {
@@ -670,8 +683,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Framerate',
 		'Note Delay'
 	];
-
-	static var options:Array<String> = [
+	 
+        static var options:Array<String> = [
 		'GRAPHICS',
 		'Low Quality',
 		'Anti-Aliasing',
@@ -681,12 +694,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 		#end
 		'GAMEPLAY',
 		'Downscroll',
-		'Middlescroll',
 		'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
 		'Hide HUD',
-		'Hide Song Length',
 		'Flashing Lights',
 		'Camera Zooms'
 		#if !mobile
@@ -856,8 +867,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Middlescroll':
 						ClientPrefs.middleScroll = !ClientPrefs.middleScroll;
-
-					case 'Ghost Tapping':
+ 
+                                        case 'Ghost Tapping':
 						ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
 
 					case 'Camera Zooms':
@@ -869,9 +880,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Persistent Cached Data':
 						ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
 						FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
-
-					case 'Hide Song Length':
-						ClientPrefs.hideTime = !ClientPrefs.hideTime;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -949,7 +957,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked, notes go Down instead of Up, simple enough.";
 			case 'Middlescroll':
 				daText = "If checked, hides Opponent's notes and your notes get centered.";
-			case 'Ghost Tapping':
+                        case 'Ghost Tapping':
 				daText = "If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.";
 			case 'Swearing':
 				daText = "If unchecked, your mom won't be angry at you.";
@@ -963,8 +971,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, the camera won't zoom in on a beat hit.";
 			case 'Hide HUD':
 				daText = "If checked, hides most HUD elements.";
-			case 'Hide Song Length':
-				daText = "If checked, the bar showing how much time is left\nwill be hidden.";
 		}
 		descText.text = daText;
 
@@ -1034,7 +1040,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.downScroll;
 					case 'Middlescroll':
 						daValue = ClientPrefs.middleScroll;
-					case 'Ghost Tapping':
+                                        case 'Ghost Tapping':
 						daValue = ClientPrefs.ghostTapping;
 					case 'Swearing':
 						daValue = ClientPrefs.cursing;
@@ -1046,8 +1052,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.hideHud;
 					case 'Persistent Cached Data':
 						daValue = ClientPrefs.imagesPersist;
-					case 'Hide Song Length':
-						daValue = ClientPrefs.hideTime;
 				}
 				checkbox.daValue = daValue;
 			}
