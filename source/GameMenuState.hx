@@ -5,6 +5,7 @@ import Discord.DiscordClient;
 #end
 // This shit used for script count optimization ":) - XaleTheCat
 import Data;
+import AttachedStuff;
 // ---
 import flixel.FlxG;
 import flixel.FlxObject;

@@ -6,6 +6,7 @@ import Discord.DiscordClient;
 // This used for working all-in-one script and optimization ":) - Xale
 import GameMenuState;
 import Data;
+import AttachedStuff;
 // ---
 import Section.SwagSection;
 import Song.SwagSong;
