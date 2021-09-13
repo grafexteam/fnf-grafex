@@ -285,9 +285,9 @@ class PlayState extends MusicBeatState
 				curStage = 'spooky';
 
 				if(!ClientPrefs.lowQuality) {
-					halloweenBG = new BGSprite('halloween_bg', -200, -100, ['halloweem bg0', 'halloweem bg lightning strike']);
+					halloweenBG = new BGSprite('halloween_bg', -200, -80, ['halloweem bg0', 'halloweem bg lightning strike']);
 				} else {
-					halloweenBG = new BGSprite('halloween_bg_low', -200, -100);
+					halloweenBG = new BGSprite('halloween_bg_low', -200, -80);
 				}
 				add(halloweenBG);
 
