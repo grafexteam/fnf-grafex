@@ -20,7 +20,7 @@ import lime.app.Application;
 
 using StringTools;
 
-class OldMainMenuState extends MusicBeatState
+class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.3.1'; //This is also used for Discord RPC - ShadowMario
 	public static var modEngineVersion:String = 'b0.0.2';
