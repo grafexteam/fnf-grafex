@@ -9,6 +9,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+// This used for working all-in-one script ":) - Xale
+import GameMenuState;
+// ---
 
 class GameOverSubstate extends MusicBeatSubstate
 {

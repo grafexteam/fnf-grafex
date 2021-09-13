@@ -3,6 +3,9 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
+// This used for working all-in-one script ":) - Xale
+import GameMenuState;
+// ---
 import Section.SwagSection;
 import Song.SwagSong;
 import WiggleEffect.WiggleEffectType;
