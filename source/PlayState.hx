@@ -1955,8 +1955,8 @@ class PlayState extends MusicBeatState
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
 
-		FlxG.watch.addQuick("beatShit", curBeat);
-		FlxG.watch.addQuick("stepShit", curStep);
+		FlxG.watch.addQuick("beatHit", curBeat);
+		FlxG.watch.addQuick("stepHit", curStep);
 
 		if (health <= 0 && !practiceMode)
 		{
@@ -2098,7 +2098,8 @@ class PlayState extends MusicBeatState
 						vocals.volume = 1;
 
 					var time:Float = 0.15;
-					if(daNote.isSustainNote && !daNote.animation.curAnim.name.endsWith('end')) {
+					if(daNote.isSustainNote && !daNote.animation.curAnim.name.endsWith('end'))
+					{
 						time += 0.15;
 					}
 					StrumPlayAnim(true, Std.int(Math.abs(daNote.noteData)) % 4, time);
@@ -2112,12 +2113,16 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if(daNote.mustPress && cpuControlled) {
-					if(daNote.isSustainNote) {
-						if(daNote.canBeHit) {
+				if(daNote.mustPress && cpuControlled)
+				{
+					if(daNote.isSustainNote)
+					{
+						if(daNote.canBeHit)
+						{
 							goodNoteHit(daNote);
 						}
-					} else if(daNote.strumTime <= Conductor.songPosition) {
+					} else if(daNote.strumTime <= Conductor.songPosition)
+					{
 						goodNoteHit(daNote);
 					}
 				}
@@ -2131,9 +2136,11 @@ class PlayState extends MusicBeatState
 					{
 						if (daNote.tooLate || !daNote.wasGoodHit)
 						{
-							if(!endingSong) {
+							if(!endingSong)
+							{
 								//Dupe note removing - NinjaMuffin (Xale supposes ._ .)
-								notes.forEachAlive(function(note:Note) {
+								notes.forEachAlive(function(note:Note)
+								{
 									if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 10) {
 										note.kill();
 										notes.remove(note, true);
@@ -2141,7 +2148,8 @@ class PlayState extends MusicBeatState
 									}
 								});
 
-								switch(daNote.noteType) {
+								switch(daNote.noteType)
+								{
 									case 3:
 										//By default "noteType = 3" is hurt note... This does nothing -w-" - Xale
 
@@ -2151,7 +2159,8 @@ class PlayState extends MusicBeatState
 										vocals.volume = 0;
 										RecalculateRating();
 
-										if(ClientPrefs.ghostTapping) {
+										if(ClientPrefs.ghostTapping)
+										{
 											switch (daNote.noteData % 4)
 											{
 												case 0:
@@ -2181,10 +2190,12 @@ class PlayState extends MusicBeatState
 		}
 
 
-		while(eventNotes.length > 0) {
+		while(eventNotes.length > 0)
+		{
 			var early:Float = eventNoteEarlyTrigger(eventNotes[0]);
 			var leStrumTime:Float = eventNotes[0][0];
-			if(Conductor.songPosition < leStrumTime - early) {
+			if(Conductor.songPosition < leStrumTime - early)
+			{
 				break;
 			}
 
@@ -2446,7 +2457,6 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Play Animation':
-				trace('Anim to play: ' + value1);
 				var val2:Int = Std.parseInt(value2);
 				if(Math.isNaN(val2)) val2 = 0;
 
@@ -2677,9 +2687,6 @@ class PlayState extends MusicBeatState
 			{
 				var difficulty:String = '' + CoolUtil.difficultyStuff[storyDifficulty][1];
 
-				trace('LOADING NEXT SONG');
-				trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
-
 				var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
 				if (winterHorrorlandNext)
 				{
@@ -2712,7 +2719,6 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
 			MusicBeatState.switchState(new FreeplayState());
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			usedPractice = false;
@@ -3389,11 +3395,6 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-
-		if(lastBeatHit >= curBeat) {
-			trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
-			return;
-		}
 
 		if (generatedMusic)
 		{
