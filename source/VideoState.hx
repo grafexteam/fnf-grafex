@@ -55,16 +55,6 @@ class VideoState extends MusicBeatState
 		
 		leSource = source;
 		transClass = toTrans;
-
-		/*if (GlobalVideo.get() != null) {
-			GlobalVideo.get().hide();
-			GlobalVideo.get().stop();
-			
-		}
-		if (frameSkipLimit != -1 && GlobalVideo.isWebm && GlobalVideo.get() == null)
-		{
-			GlobalVideo.getWebm().webm.SKIP_STEP_LIMIT = frameSkipLimit;	
-		}*/
 	}
 	
 	override function create()
@@ -109,12 +99,10 @@ class VideoState extends MusicBeatState
 		{
 			if (Assets.exists(leSource.replace(".webm", ".ogg"), MUSIC) || Assets.exists(leSource.replace(".webm", ".ogg"), SOUND))
 			{
-				//if (!vidSound.playing)
 				useSound = true;
 				vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
 			}
 		}
-		//if (doneSomeShit)
 		GlobalVideo.get().source(leSource);
 		GlobalVideo.get().clearPause();
 		if (GlobalVideo.isWebm)
@@ -126,27 +114,11 @@ class VideoState extends MusicBeatState
 		{
 			GlobalVideo.get().restart();
 		} else {
-			//if (!vidSound.playing)
 			GlobalVideo.get().play();
 		}
-		
-		/*if (useSound)
-		{*/
-			//vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
-		
-			/*new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{*/
-				vidSound.time = vidSound.length * soundMultiplier;
-				/*new FlxTimer().start(1.2, function(tmr:FlxTimer)
-				{
-					if (useSound)
-					{
-						vidSound.time = vidSound.length * soundMultiplier;
-					}
-				}, 0);*/
-				doShit = true;
-			//}, 1);
-		//}
+
+		vidSound.time = vidSound.length * soundMultiplier;
+		doShit = true;
 		
 		if (autoPause && FlxG.sound.music != null && FlxG.sound.music.playing)
 		{
@@ -209,20 +181,6 @@ class VideoState extends MusicBeatState
 		{
 			GlobalVideo.get().restart();
 		}
-		/*if (FlxG.keys.justPressed.P)
-		{
-			txt.text = pauseText;
-			trace("PRESSED PAUSE");
-			GlobalVideo.get().togglePause();
-			if (GlobalVideo.get().paused)
-			{
-				GlobalVideo.get().alpha();
-			} else {
-				GlobalVideo.get().unalpha();
-				txt.text = defaultText;
-				txt.visible = false;
-			}
-		}*/
 		
 		if (GlobalVideo.get().ended || GlobalVideo.get().stopped)
 		{
@@ -251,7 +209,6 @@ class VideoState extends MusicBeatState
 					FlxG.sound.music.resume();
 				}
 				FlxG.autoPause = true;
-				/*GlobalVideo.get().hide();*/
 				GlobalVideo.get().stop();
 				FlxG.switchState(transClass);
 			}

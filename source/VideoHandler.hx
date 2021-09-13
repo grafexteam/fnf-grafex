@@ -68,15 +68,15 @@ class VideoHandler
 	}
 	
 	
-	public function netStream_onAsyncError (event:AsyncErrorEvent):Void {
-		
-		trace ("Error loading video");
-		
+	public function netStream_onAsyncError (event:AsyncErrorEvent):Void
+	{
+		// does nothing - Xale
 	}
 	
 	
-	public function netConnection_onNetStatus (event:NetStatusEvent):Void {
-		trace (event.info.code);
+	public function netConnection_onNetStatus (event:NetStatusEvent):Void
+	{
+		// does nothing - Xale
 	}
 	
 	public function play():Void

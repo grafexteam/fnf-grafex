@@ -41,6 +41,16 @@ class DiscordClient
 		});
 	}
 
+	static function onError(_code:Int, _message:String)
+	{
+		// I deleted traces, so this does nothing now - Xale
+	}
+
+	static function onDisconnected(_code:Int, _message:String)
+	{
+		// I deleted traces, so this does nothing now - Xale
+	}
+
 	public static function initialize()
 	{
 		var DiscordDaemon = sys.thread.Thread.create(() ->
