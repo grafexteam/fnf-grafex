@@ -31,6 +31,7 @@ import haxe.Json;
 import Character;
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import lime.system.Clipboard;
+import Data;
 
 #if MODS_ALLOWED
 import sys.FileSystem;

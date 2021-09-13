@@ -3,8 +3,9 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-// This used for working all-in-one script ":) - Xale
+// This used for working all-in-one script and optimization ":) - Xale
 import GameMenuState;
+import Data;
 // ---
 import Section.SwagSection;
 import Song.SwagSong;

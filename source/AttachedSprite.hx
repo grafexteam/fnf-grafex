@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import Data;
 
 using StringTools;
 
