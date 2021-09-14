@@ -10,7 +10,7 @@
 * Xale - Lead Coding, Artist
 * PurpleSnake - Coding, Assets
 
-##Brand New GameMenu!
+## Brand New GameMenu!
 * All States in one script.
 * Better graphic! (TODO)
 * Faster loading.
