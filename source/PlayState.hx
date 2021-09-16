@@ -793,6 +793,7 @@ class PlayState extends MusicBeatState
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(p2HealthColor, p1HealthColor);
 		healthBar.visible = !ClientPrefs.hideHud;
+		healthBar.numDivisions = 1800;
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
@@ -1817,6 +1818,7 @@ class PlayState extends MusicBeatState
 		} else {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%)';
 		}
+		scoreTxt.visible = true;
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
@@ -2807,14 +2809,6 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		/* if (combo > 60)
-				daRating = 'sick';
-			else if (combo > 12)
-				daRating = 'good'
-			else if (combo > 4)
-				daRating = 'bad';
-		 */
-
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
 
@@ -3435,9 +3429,9 @@ class PlayState extends MusicBeatState
 		{
 			iconP1.scale.set(1.5);
 			iconP2.scale.set(1.5);
+			//scoreTxt.scale.set(1.2);	
 		}
 		
-
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
@@ -3565,7 +3559,7 @@ class PlayState extends MusicBeatState
 				ratingString = '?';
 			} else if(ratingPercent >= 1) {
 				ratingPercent = 1;
-				ratingString = ratingStuff[ratingStuff.length-1][0]; //Uses last string - NinjaMuffin (Xale suposses ._ .)
+				ratingString = ratingStuff[ratingStuff.length-1][0]; //Uses last string - NinjaMuffin (Xale suposses ._ .) EDIT: I realised that wasn't Muffin btw, but who? ._.
 			} else {
 				for (i in 0...ratingStuff.length-1) {
 					if(ratingPercent < ratingStuff[i][1]) {
@@ -3574,6 +3568,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
+		scoreTxt.visible = true;
 
 			setOnLuas('rating', ratingPercent);
 			setOnLuas('ratingName', ratingString);
