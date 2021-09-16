@@ -3,6 +3,7 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
 import Data;
+import MusicBeatState;
 
 using StringTools;
 

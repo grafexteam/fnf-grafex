@@ -8,6 +8,8 @@ import Data;
 import AttachedStuff;
 import Controls;
 import SongData;
+import GameMenuStuff;
+import MusicBeatState;
 // ---
 import flixel.FlxG;
 import flixel.FlxObject;

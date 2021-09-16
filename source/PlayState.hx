@@ -9,6 +9,7 @@ import Data;
 import AttachedStuff;
 import Notes;
 import SongData;
+import MusicBeatState;
 // ---
 import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;

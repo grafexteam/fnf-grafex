@@ -15,6 +15,7 @@ import flixel.util.FlxColor;
 // This used for working all-in-one scripts ":) - Xale
 import GameMenuState;
 import SongData;
+import MusicBeatState;
 // ---
 
 class PauseSubState extends MusicBeatSubstate

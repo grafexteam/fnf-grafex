@@ -11,6 +11,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 // This used for working all-in-one script ":) - Xale
 import GameMenuState;
+import MusicBeatState;
 // ---
 
 class GameOverSubstate extends MusicBeatSubstate
