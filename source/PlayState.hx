@@ -1879,20 +1879,20 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.player2)
 		{
-			case 'bf' | 'gf':
+			/*case 'bf':
 				if (healthBar.percent < 20)
 					iconP2.animation.curAnim.curFrame = 2;
 				else if (healthBar.percent > 20 && healthBar.percent < 80)
 					iconP2.animation.curAnim.curFrame = 0;
 				else if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
+					iconP2.animation.curAnim.curFrame = 1;*/
 			default:
 				if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 1;
+					iconP2.animation.curAnim.curFrame = 2;
 				else if (healthBar.percent > 20 && healthBar.percent < 80)
 					iconP2.animation.curAnim.curFrame = 0;
 				else if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 2;
+					iconP2.animation.curAnim.curFrame = 1;
 		}
 
 		if (FlxG.keys.justPressed.EIGHT) {
