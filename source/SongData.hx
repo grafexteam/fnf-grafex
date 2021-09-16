@@ -1,16 +1,42 @@
 package;
 
-import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
 
 using StringTools;
 
-typedef SwagSong =
+typedef SectionVars =
+{
+	var sectionNotes:Array<Dynamic>;
+	var lengthInSteps:Int;
+	var typeOfSection:Int;
+	var mustHitSection:Bool;
+	var bpm:Float;
+	var changeBPM:Bool;
+	var altAnim:Bool;
+}
+
+class Section
+{
+	public var sectionNotes:Array<Dynamic> = [];
+
+	public var lengthInSteps:Int = 16;
+	public var typeOfSection:Int = 0;
+	public var mustHitSection:Bool = true;
+
+	public static var COPYCAT:Int = 0;
+
+	public function new(lengthInSteps:Int = 16)
+	{
+		this.lengthInSteps = lengthInSteps;
+	}
+}
+
+typedef SongVars =
 {
 	var song:String;
-	var notes:Array<SwagSection>;
+	var notes:Array<SectionVars>;
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;
@@ -27,7 +53,7 @@ typedef SwagSong =
 class Song
 {
 	public var song:String;
-	public var notes:Array<SwagSection>;
+	public var notes:Array<SectionVars>;
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
@@ -45,10 +71,10 @@ class Song
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
+	public static function loadFromJson(jsonInput:String, ?folder:String):SongVars
 	{
 		var rawJson;
-		if(jsonInput == 'events') { //Makes the game not crash while trying to load an events chart, doesn't work on HTML tho
+		if(jsonInput == 'events') {
 			#if sys
 			rawJson = sys.io.File.getContent(Paths.json(folder.toLowerCase() + '/events')).trim();
 			#else
@@ -61,31 +87,14 @@ class Song
 		while (!rawJson.endsWith("}"))
 		{
 			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
 		}
-
-		// FIX THE CASTING ON WINDOWS/NATIVE
-		// Windows???
-		// trace(songData);
-
-		// trace('LOADED FROM JSON: ' + songData.notes);
-		/* 
-			for (i in 0...songData.notes.length)
-			{
-				trace('LOADED FROM JSON: ' + songData.notes[i].sectionNotes);
-				// songData.notes[i].sectionNotes = songData.notes[i].sectionNotes
-			}
-
-				daNotes = songData.notes;
-				daSong = songData.song;
-				daBpm = songData.bpm; */
 
 		return parseJSONshit(rawJson);
 	}
 
-	public static function parseJSONshit(rawJson:String):SwagSong
+	public static function parseJSONshit(rawJson:String):SongVars
 	{
-		var swagShit:SwagSong = cast Json.parse(rawJson).song;
+		var swagShit:SongVars = cast Json.parse(rawJson).song;
 		swagShit.validScore = true;
 		return swagShit;
 	}

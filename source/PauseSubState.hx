@@ -12,8 +12,9 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-// This used for working all-in-one script ":) - Xale
+// This used for working all-in-one scripts ":) - Xale
 import GameMenuState;
+import SongData;
 // ---
 
 class PauseSubState extends MusicBeatSubstate

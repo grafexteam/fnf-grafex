@@ -8,9 +8,8 @@ import GameMenuState;
 import Data;
 import AttachedStuff;
 import Notes;
+import SongData;
 // ---
-import Section.SwagSection;
-import Song.SwagSong;
 import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -94,7 +93,7 @@ class PlayState extends MusicBeatState
 	public var gfGroup:FlxTypedGroup<Character>;
 
 	public static var curStage:String = '';
-	public static var SONG:SwagSong = null;
+	public static var SONG:SongVars = null;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
@@ -1299,7 +1298,7 @@ class PlayState extends MusicBeatState
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		var noteData:Array<SwagSection>;
+		var noteData:Array<SectionVars>;
 
 		noteData = songData.notes;
 
@@ -1314,7 +1313,7 @@ class PlayState extends MusicBeatState
 		#else
 		if (OpenFlAssets.exists(file)) {
 		#end
-			var eventsData:Array<SwagSection> = Song.loadFromJson('events', songName).notes;
+			var eventsData:Array<SectionVars> = Song.loadFromJson('events', songName).notes;
 			for (section in eventsData)
 			{
 				for (songNotes in section.sectionNotes)

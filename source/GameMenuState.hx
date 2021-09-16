@@ -6,6 +6,8 @@ import Discord.DiscordClient;
 // This shit used for script count optimization ":) - XaleTheCat
 import Data;
 import AttachedStuff;
+import Controls;
+import SongData;
 // ---
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -27,7 +29,7 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
-import Controls;
+
 
 using StringTools;
 
