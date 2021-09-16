@@ -42,7 +42,7 @@ class Note extends FlxSprite
 	private function set_noteType(value:Int):Int {
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 3: //Hurt note
+				case 3 | 4: //Hurt note
 					reloadNote('HURT');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -320,7 +320,7 @@ class NoteSplash extends FlxSprite
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 			switch(noteType) {
-				case 3: //Hurt note
+				case 3 | 4: //Hurt note
 					loadAnims('HURT' + skin);
 
 				default:
