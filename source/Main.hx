@@ -9,6 +9,7 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import Data;
+import VideoState;
 
 #if cpp
 import webm.WebmPlayer;

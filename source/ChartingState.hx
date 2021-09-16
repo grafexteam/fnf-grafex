@@ -4,6 +4,7 @@ package;
 import Discord.DiscordClient;
 #end
 import Notes;
+import Data;
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
