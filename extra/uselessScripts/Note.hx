@@ -294,3 +294,4 @@ class Note extends FlxSprite
 		}
 	}
 }
+

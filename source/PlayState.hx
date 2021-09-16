@@ -7,6 +7,7 @@ import Discord.DiscordClient;
 import GameMenuState;
 import Data;
 import AttachedStuff;
+import Notes;
 // ---
 import Section.SwagSection;
 import Song.SwagSong;
@@ -1688,11 +1689,6 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		/*if (FlxG.keys.justPressed.NINE)
-		{
-			iconP1.swapOldIcon();
-		}*/
-
 		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
@@ -2512,12 +2508,13 @@ class PlayState extends MusicBeatState
 				var charType:Int = Std.parseInt(value1);
 				if(Math.isNaN(charType)) charType = 0;
 
-				switch(charType) {
+				switch(charType)
+				{
 					case 0:
-						if(boyfriend.curCharacter != value2) {
-							if(!boyfriendMap.exists(value2)) {
+						if(boyfriend.curCharacter != value2)
+						{
+							if(!boyfriendMap.exists(value2))
 								addCharacterToList(value2, charType);
-							}
 
 							boyfriend.visible = false;
 							boyfriend = boyfriendMap.get(value2);
@@ -2526,19 +2523,23 @@ class PlayState extends MusicBeatState
 						}
 
 					case 1:
-						if(dad.curCharacter != value2) {
-							if(!dadMap.exists(value2)) {
+						if(dad.curCharacter != value2)
+						{
+							if(!dadMap.exists(value2))
 								addCharacterToList(value2, charType);
-							}
 
 							var wasGf:Bool = dad.curCharacter.startsWith('gf');
 							dad.visible = false;
 							dad = dadMap.get(value2);
-							if(!dad.curCharacter.startsWith('gf')) {
-								if(wasGf) {
+							if(!dad.curCharacter.startsWith('gf'))
+							{
+								if(wasGf) 
+								{
 									gf.visible = true;
 								}
-							} else {
+							}
+							else
+							{
 								gf.visible = false;
 							}
 							dad.visible = true;
@@ -2546,10 +2547,10 @@ class PlayState extends MusicBeatState
 						}
 
 					case 2:
-						if(gf.curCharacter != value2) {
-							if(!gfMap.exists(value2)) {
+						if(gf.curCharacter != value2)
+						{
+							if(!gfMap.exists(value2))
 								addCharacterToList(value2, charType);
-							}
 
 							var isGfVisible:Bool = gf.visible;
 							gf.visible = false;
@@ -2564,7 +2565,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function moveCameraSection(?id:Int = 0):Void {
+	function moveCameraSection(?id:Int = 0):Void
+	{
 		if (SONG.notes[id] != null && camFollow.x != dad.getMidpoint().x + 150 && !SONG.notes[id].mustHitSection)
 		{
 			moveCamera(true);
@@ -2578,8 +2580,10 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function moveCamera(isDad:Bool) {
-		if(isDad) {
+	public function moveCamera(isDad:Bool)
+	{
+		if(isDad)
+		{
 			camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			camFollow.x += dad.cameraPosition[0];
 			camFollow.y += dad.cameraPosition[1];
@@ -2591,7 +2595,9 @@ class PlayState extends MusicBeatState
 			{
 				tweenCamIn();
 			}
-		} else {
+		}
+		else
+		{
 			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 
 			switch (curStage)
@@ -2614,7 +2620,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function snapCamFollowToPos(x:Float, y:Float) {
+	function snapCamFollowToPos(x:Float, y:Float)
+	{
 		camFollow.set(x, y);
 		camFollowPos.setPosition(x, y);
 	}
@@ -2627,10 +2634,14 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 		vocals.pause();
-		if(ClientPrefs.noteOffset <= 0) {
+		if(ClientPrefs.noteOffset <= 0)
+		{
 			finishCallback();
-		} else {
-			finishTimer = new FlxTimer().start(ClientPrefs.noteOffset / 1000, function(tmr:FlxTimer) {
+		}
+		else
+		{
+			finishTimer = new FlxTimer().start(ClientPrefs.noteOffset / 1000, function(tmr:FlxTimer)
+			{
 				finishCallback();
 			});
 		}
@@ -3420,8 +3431,12 @@ class PlayState extends MusicBeatState
 			camHUD.zoom += 0.03;
 		}
 
-		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-		iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+		if (camZooming)
+		{
+			iconP1.scale.set(1.5);
+			iconP2.scale.set(1.5);
+		}
+		
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
