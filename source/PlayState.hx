@@ -191,6 +191,7 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	var songTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -807,6 +808,11 @@ class PlayState extends MusicBeatState
 		iconP2.visible = !ClientPrefs.hideHud;
 		add(iconP2);
 
+		songTxt = new FlxText(4, healthBarBG.y + 50, 0, displaySongName + " (" + storyDifficultyText + ")", 16);
+		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		songTxt.scrollFactor.set();
+		add(songTxt);
+
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
@@ -837,6 +843,7 @@ class PlayState extends MusicBeatState
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+		songTxt.cameras = [camHUD];
 
 		startingSong = true;
 		updateTime = true;
@@ -3164,7 +3171,18 @@ class PlayState extends MusicBeatState
 						{
 							spawnNoteSplashOnNote(note);
 							var randomShot:String = 'singDOWN-alt';
-							switch (FlxG.random.int(1, 4))
+							switch (note.noteData % 4)
+							{
+								case 0:
+									dad.playAnim('singLEFT-alt', true);
+								case 1:
+									dad.playAnim('singDOWN-alt', true);
+								case 2:
+									dad.playAnim('singUP-alt', true);
+								case 3:
+									dad.playAnim('singRIGHT-alt', true);
+							}
+							/*switch (FlxG.random.int(1, 4))
 							{
 								case 1:
 									randomShot = 'singDOWN-alt';
@@ -3174,8 +3192,8 @@ class PlayState extends MusicBeatState
 									randomShot = 'singLEFT-alt';
 								case 4:
 									randomShot = 'singRIGHT-alt';
-							}
-							dad.playAnim(randomShot, true);
+							}*/
+							//dad.playAnim(randomShot, true);
 							boyfriend.playAnim('Dodge', true);
 						}
 			
