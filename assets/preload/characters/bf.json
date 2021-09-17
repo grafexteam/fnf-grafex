@@ -6,6 +6,17 @@
 				-5,
 				0
 			],
+			"anim": "Dodge",
+			"fps": 24,
+			"name": "boyfriend dodge",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-5,
+				0
+			],
 			"anim": "idle",
 			"fps": 24,
 			"name": "BF idle dance",

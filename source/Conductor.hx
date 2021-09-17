@@ -1,11 +1,7 @@
 package;
 
-import Song.SwagSong;
+import SongData.SongVars;
 
-/**
- * ...
- * @author
- */
 
 typedef BPMChangeEvent =
 {
@@ -32,7 +28,7 @@ class Conductor
 	{
 	}
 
-	public static function mapBPMChanges(song:SwagSong)
+	public static function mapBPMChanges(song:SongVars)
 	{
 		bpmChangeMap = [];
 
@@ -56,7 +52,6 @@ class Conductor
 			totalSteps += deltaSteps;
 			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
 		}
-		trace("new BPM map BUDDY " + bpmChangeMap);
 	}
 
 	public static function changeBPM(newBpm:Float)

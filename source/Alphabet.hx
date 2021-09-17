@@ -7,12 +7,10 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
+import Data;
 
 using StringTools;
 
-/**
- * Loosley based on FlxTypeText lolol
- */
 class Alphabet extends FlxSpriteGroup
 {
 	public var delay:Float = 0.05;
@@ -119,10 +117,6 @@ class Alphabet extends FlxSpriteGroup
 		var xPos:Float = 0;
 		for (character in splitWords)
 		{
-			// if (character.fastCodeAt() == " ")
-			// {
-			// }
-
 			var spaceChar:Bool = (character == " " || character == "-" || character == "_");
 			if (spaceChar)
 			{
@@ -145,7 +139,6 @@ class Alphabet extends FlxSpriteGroup
 				}
 				consecutiveSpaces = 0;
 
-				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0, textSize);
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0, textSize);
 
 				if (isBold)
@@ -185,8 +178,6 @@ class Alphabet extends FlxSpriteGroup
 
 				lastSprite = letter;
 			}
-
-			// loopNum += 1;
 		}
 	}
 
@@ -206,8 +197,6 @@ class Alphabet extends FlxSpriteGroup
 	{
 		_finalText = text;
 		doSplitWords();
-
-		// trace(arrayShit);
 
 		if(speed <= 0) {
 			while(loopNum < splitWords.length) {
@@ -253,8 +242,6 @@ class Alphabet extends FlxSpriteGroup
 				{
 					lastSprite.updateHitbox();
 					xPos += lastSprite.width + 3;
-					// if (isBold)
-					// xPos -= 80;
 				}
 				else
 				{
@@ -267,7 +254,6 @@ class Alphabet extends FlxSpriteGroup
 				}
 				consecutiveSpaces = 0;
 
-				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0, textSize);
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti, textSize);
 				letter.row = curRow;
 				if (isBold)

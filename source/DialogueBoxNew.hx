@@ -10,10 +10,10 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxSubState;
+import Data;
 
 using StringTools;
 
-// TO DO: Clean code? Maybe? idk
 class DialogueBoxNew extends FlxSpriteGroup
 {
 	var dialogue:Alphabet;
@@ -44,7 +44,7 @@ class DialogueBoxNew extends FlxSpriteGroup
 				char.animation.addByPrefix('talk', 'bftalkloop', 24, true); //During dialogue
 				char.flipX = !char.flipX;
 
-				// THIS IS EXAMPLE!
+				// THIS IS EXAMPLE!!
 			/*case 'CHAR':
 				char.frames = Paths.getSparrowAtlas('dialogue/FILENAME');
 				char.animation.addByPrefix('talkIdle', 'NAME IN XML', 24, true); //Dialogue ended
@@ -53,7 +53,8 @@ class DialogueBoxNew extends FlxSpriteGroup
 				char.animation.addByPrefix('angry', 'NAME IN XML', 24, true); //During dialogue, but CHAR is ANGRY lmao
 				char.animation.addByPrefix('unamusedIdle', 'NAME IN XML', 24, true); //Dialogue ended, but CHAR is UNAMUSED lmao
 				char.animation.addByPrefix('unamused', 'NAME IN XML', 24, true); //During dialogue, but CHAR is UNAMUSED lmao
-				char.y -= 140;*/ // Sample is by Xale, Script is by ShadowMario
+				char.y -= 140;*/
+				// Sample is by Xale, Script is by ShadowMario
 		}
 		char.animation.play('talkIdle', true);
 	}
@@ -291,7 +292,6 @@ class DialogueBoxNew extends FlxSpriteGroup
 		}
 
 		textToType = splitName[5];
-		//FlxG.log.add(textToType);
 		box.visible = true;
 
 		var centerPrefix:String = '';

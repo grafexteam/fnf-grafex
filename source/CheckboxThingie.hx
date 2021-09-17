@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import Data;
 
 class CheckboxThingie extends FlxSprite
 {

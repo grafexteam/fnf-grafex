@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
+import Data;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;

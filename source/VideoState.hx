@@ -14,6 +14,13 @@ import openfl.utils.Assets;
 import openfl.utils.AssetType;
 import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
+import webm.*;
+import openfl.events.AsyncErrorEvent;
+import openfl.events.MouseEvent;
+import openfl.events.NetStatusEvent;
+import openfl.media.Video;
+import openfl.net.NetConnection;
+import openfl.net.NetStream;
 
 import openfl.Lib;
 
@@ -55,16 +62,6 @@ class VideoState extends MusicBeatState
 		
 		leSource = source;
 		transClass = toTrans;
-
-		/*if (GlobalVideo.get() != null) {
-			GlobalVideo.get().hide();
-			GlobalVideo.get().stop();
-			
-		}
-		if (frameSkipLimit != -1 && GlobalVideo.isWebm && GlobalVideo.get() == null)
-		{
-			GlobalVideo.getWebm().webm.SKIP_STEP_LIMIT = frameSkipLimit;	
-		}*/
 	}
 	
 	override function create()
@@ -109,12 +106,10 @@ class VideoState extends MusicBeatState
 		{
 			if (Assets.exists(leSource.replace(".webm", ".ogg"), MUSIC) || Assets.exists(leSource.replace(".webm", ".ogg"), SOUND))
 			{
-				//if (!vidSound.playing)
 				useSound = true;
 				vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
 			}
 		}
-		//if (doneSomeShit)
 		GlobalVideo.get().source(leSource);
 		GlobalVideo.get().clearPause();
 		if (GlobalVideo.isWebm)
@@ -126,27 +121,11 @@ class VideoState extends MusicBeatState
 		{
 			GlobalVideo.get().restart();
 		} else {
-			//if (!vidSound.playing)
 			GlobalVideo.get().play();
 		}
-		
-		/*if (useSound)
-		{*/
-			//vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
-		
-			/*new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{*/
-				vidSound.time = vidSound.length * soundMultiplier;
-				/*new FlxTimer().start(1.2, function(tmr:FlxTimer)
-				{
-					if (useSound)
-					{
-						vidSound.time = vidSound.length * soundMultiplier;
-					}
-				}, 0);*/
-				doShit = true;
-			//}, 1);
-		//}
+
+		vidSound.time = vidSound.length * soundMultiplier;
+		doShit = true;
 		
 		if (autoPause && FlxG.sound.music != null && FlxG.sound.music.playing)
 		{
@@ -209,20 +188,6 @@ class VideoState extends MusicBeatState
 		{
 			GlobalVideo.get().restart();
 		}
-		/*if (FlxG.keys.justPressed.P)
-		{
-			txt.text = pauseText;
-			trace("PRESSED PAUSE");
-			GlobalVideo.get().togglePause();
-			if (GlobalVideo.get().paused)
-			{
-				GlobalVideo.get().alpha();
-			} else {
-				GlobalVideo.get().unalpha();
-				txt.text = defaultText;
-				txt.visible = false;
-			}
-		}*/
 		
 		if (GlobalVideo.get().ended || GlobalVideo.get().stopped)
 		{
@@ -251,7 +216,6 @@ class VideoState extends MusicBeatState
 					FlxG.sound.music.resume();
 				}
 				FlxG.autoPause = true;
-				/*GlobalVideo.get().hide();*/
 				GlobalVideo.get().stop();
 				FlxG.switchState(transClass);
 			}
@@ -286,4 +250,448 @@ class VideoState extends MusicBeatState
 		GlobalVideo.get().stopped = false;
 		GlobalVideo.get().ended = false;
 	}
+}
+
+class VideoHandler
+{
+	public var netStream:NetStream;
+	public var video:Video;
+	public var isReady:Bool = false;
+	public var addOverlay:Bool = false;
+	public var vidPath:String = "";
+	public var ignoreShit:Bool = false;
+	
+	public function new()
+	{
+		isReady = false;
+	}
+	
+	public function source(?vPath:String):Void
+	{
+		if (vPath != null && vPath.length > 0)
+		{
+		vidPath = vPath;
+		}
+	}
+	
+	public function init1():Void
+	{
+		isReady = false;
+		video = new Video();
+		video.visible = false;
+	}
+	
+	public function init2():Void
+	{
+		#if web
+		var netConnection = new NetConnection ();
+		netConnection.connect (null);
+		
+		netStream = new NetStream (netConnection);
+		netStream.client = { onMetaData: client_onMetaData };
+		netStream.addEventListener (AsyncErrorEvent.ASYNC_ERROR, netStream_onAsyncError);
+
+		netConnection.addEventListener (NetStatusEvent.NET_STATUS, netConnection_onNetStatus);
+		netConnection.addEventListener (NetStatusEvent.NET_STATUS, onPlay);
+		netConnection.addEventListener (NetStatusEvent.NET_STATUS, onEnd);
+		#end
+	}
+	
+	public function client_onMetaData (metaData:Dynamic) {
+		
+		video.attachNetStream (netStream);
+		
+		video.width = FlxG.width;
+		video.height = FlxG.height;
+		
+	}
+	
+	
+	public function netStream_onAsyncError (event:AsyncErrorEvent):Void
+	{
+		// does nothing - Xale
+	}
+	
+	
+	public function netConnection_onNetStatus (event:NetStatusEvent):Void
+	{
+		// does nothing - Xale
+	}
+	
+	public function play():Void
+	{
+		#if web
+		ignoreShit = true;
+		netStream.close();
+		init2();
+		netStream.play(vidPath);
+		ignoreShit = false;
+		#end
+		trace(vidPath);
+	}
+	
+	public function stop():Void
+	{
+		netStream.close();
+		onStop();
+	}
+	
+	public function restart():Void
+	{
+		play();
+		onRestart();
+	}
+	
+	public function update(elapsed:Float):Void
+	{
+		video.x = GlobalVideo.calc(0);
+		video.y = GlobalVideo.calc(1);
+		video.width = GlobalVideo.calc(2);
+		video.height = GlobalVideo.calc(3);
+	}
+	
+	public var stopped:Bool = false;
+	public var restarted:Bool = false;
+	public var played:Bool = false;
+	public var ended:Bool = false;
+	public var paused:Bool = false;
+	
+	public function pause():Void
+	{
+		netStream.pause();
+		paused = true;
+	}
+	
+	public function resume():Void
+	{
+		netStream.resume();
+		paused = false;
+	}
+	
+	public function togglePause():Void
+	{
+		if (paused)
+		{
+			resume();
+		} else {
+			pause();
+		}
+	}
+	
+	public function clearPause():Void
+	{
+		paused = false;
+	}
+	
+	public function onStop():Void
+	{
+		if (!ignoreShit)
+		{
+			stopped = true;
+		}
+	}
+	
+	public function onRestart():Void
+	{
+		restarted = true;
+	}
+	
+	public function onPlay(event:NetStatusEvent):Void
+	{
+		if (event.info.code == "NetStream.Play.Start")
+		{
+			played = true;
+		}
+	}
+	
+	public function onEnd(event:NetStatusEvent):Void
+	{
+		if (event.info.code == "NetStream.Play.Complete")
+		{
+			ended = true;
+		}
+	}
+	
+	public function alpha():Void
+	{
+		video.alpha = GlobalVideo.daAlpha1;
+	}
+	
+	public function unalpha():Void
+	{
+		video.alpha = GlobalVideo.daAlpha2;
+	}
+	
+	public function hide():Void
+	{
+		video.visible = false;
+	}
+	
+	public function show():Void
+	{
+		video.visible = true;
+	}
+}
+
+class WebmHandler
+{
+	#if desktop
+	public var webm:WebmPlayer;
+	public var vidPath:String = "";
+	public var io:WebmIo;
+	public var initialized:Bool = false;
+	
+	public function new()
+	{
+	}
+	
+	public function source(?vPath:String):Void
+	{
+		if (vPath != null && vPath.length > 0)
+		{
+		vidPath = vPath;
+		}
+	}
+	
+	public function makePlayer():Void
+	{
+		io = new WebmIoFile(vidPath);
+		webm = new WebmPlayer();
+		webm.fuck(io, false);
+		webm.addEventListener(WebmEvent.PLAY, function(e) {
+			onPlay();
+			FlxG.log.add('started');
+		});
+		webm.addEventListener(WebmEvent.COMPLETE, function(e) {
+			onEnd();
+			FlxG.log.add('completed');
+		});
+		webm.addEventListener(WebmEvent.STOP, function(e) {
+			onStop();
+			FlxG.log.add('stopped');
+		});
+		webm.addEventListener(WebmEvent.RESTART, function(e) {
+			onRestart();
+			FlxG.log.add('restarted');
+		});
+		webm.visible = false;
+		initialized = true;
+	}
+	
+	public function updatePlayer():Void
+	{
+		FlxG.log.add('ate your ass');
+		io = new WebmIoFile(vidPath);
+		webm.fuck(io, false);
+	}
+	
+	public function play():Void
+	{
+		if (initialized)
+		{
+			FlxG.log.add('what the fuck');
+			webm.play();
+		}
+	}
+	
+	public function stop():Void
+	{
+		if (initialized)
+		{
+			webm.stop();
+		}
+	}
+	
+	public function restart():Void
+	{
+		if (initialized)
+		{
+			FlxG.log.add('what the fuck part 2');
+			webm.restart();
+		}
+	}
+	
+	public function update(elapsed:Float)
+	{
+		webm.x = GlobalVideo.calc(0);
+		webm.y = GlobalVideo.calc(1);
+		webm.width = GlobalVideo.calc(2);
+		webm.height = GlobalVideo.calc(3);
+	}
+	
+	public var stopped:Bool = false;
+	public var restarted:Bool = false;
+	public var played:Bool = false;
+	public var ended:Bool = false;
+	public var paused:Bool = false;
+	
+	public function pause():Void
+	{
+		webm.changePlaying(false);
+		paused = true;
+	}
+	
+	public function resume():Void
+	{
+		webm.changePlaying(true);
+		paused = false;
+	}
+	
+	public function togglePause():Void
+	{
+		if (paused)
+		{
+			resume();
+		} else {
+			pause();
+		}
+	}
+	
+	public function clearPause():Void
+	{
+		paused = false;
+		webm.removePause();
+	}
+	
+	public function onStop():Void
+	{
+		stopped = true;
+	}
+	
+	public function onRestart():Void
+	{
+		restarted = true;
+	}
+	
+	public function onPlay():Void
+	{
+		played = true;
+	}
+	
+	public function onEnd():Void
+	{
+		ended = true;
+	}
+	
+	public function alpha():Void
+	{
+		webm.alpha = GlobalVideo.daAlpha1;
+	}
+	
+	public function unalpha():Void
+	{
+		webm.alpha = GlobalVideo.daAlpha2;
+	}
+	
+	public function hide():Void
+	{
+		webm.visible = false;
+	}
+	
+	public function show():Void
+	{
+		webm.visible = true;
+	}
+	#else
+	public var webm:Sprite;
+	public function new()
+	{
+		// does nothing ._ . - Xale
+	}
+	#end
+}
+
+class GlobalVideo
+{
+	private static var video:VideoHandler;
+	private static var webm:WebmHandler;
+	public static var isWebm:Bool = false;
+	public static var isAndroid:Bool = false;
+	public static var daAlpha1:Float = 0.2;
+	public static var daAlpha2:Float = 1;
+
+	public static function setVid(vid:VideoHandler):Void
+	{
+		video = vid;
+	}
+	
+	public static function getVid():VideoHandler
+	{
+		return video;
+	}
+	
+	public static function setWebm(vid:WebmHandler):Void
+	{
+		webm = vid;
+		isWebm = true;
+	}
+	
+	public static function getWebm():WebmHandler
+	{
+		return webm;
+	}
+	
+	public static function get():Dynamic
+	{
+		if (isWebm)
+		{
+			return getWebm();
+		} else {
+			return getVid();
+		}
+	}
+	
+	public static function calc(ind:Int):Dynamic
+	{
+		var stageWidth:Int = Lib.current.stage.stageWidth;
+		var stageHeight:Int = Lib.current.stage.stageHeight;
+
+		var width:Float = GameDimensions.width;
+		var height:Float = GameDimensions.height;
+		
+		var ratioX:Float = height / width;
+		var ratioY:Float = width / height;
+		var appliedWidth:Float = stageHeight * ratioY;
+		var appliedHeight:Float = stageWidth * ratioX;
+		
+		var remainingX:Float = stageWidth - appliedWidth;
+		var remainingY:Float = stageHeight - appliedHeight;
+		remainingX = remainingX / 2;
+		remainingY = remainingY / 2;
+		
+		appliedWidth = Std.int(appliedWidth);
+		appliedHeight = Std.int(appliedHeight);
+		
+		if (appliedHeight > stageHeight)
+		{
+			remainingY = 0;
+			appliedHeight = stageHeight;
+		}
+		
+		if (appliedWidth > stageWidth)
+		{
+			remainingX = 0;
+			appliedWidth = stageWidth;
+		}
+		
+		switch(ind)
+		{
+			case 0:
+				return remainingX;
+			case 1:
+				return remainingY;
+			case 2:
+				return appliedWidth;
+			case 3:
+				return appliedHeight;
+		}
+		
+		return null;
+	}
+}
+
+class GameDimensions
+{
+	public static var width:Int = 1280;
+	public static var height:Int = 720;
 }
