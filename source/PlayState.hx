@@ -2149,9 +2149,6 @@ class PlayState extends MusicBeatState
 
 								switch(daNote.noteType)
 								{
-									case 3:
-										//By default "noteType = 3" is hurt note... This does nothing -w-" - Xale
-
 									default:
 										health -= 0.0475;
 										songMisses++;
@@ -3095,7 +3092,8 @@ class PlayState extends MusicBeatState
 	{
 		if (!note.wasGoodHit)
 		{
-			switch(note.noteType) {
+			switch(note.noteType)
+			{
 				case 3: //Hurt note - ShadowMario
 					if(cpuControlled) return;
 
@@ -3106,18 +3104,14 @@ class PlayState extends MusicBeatState
 						{
 							--songMisses;
 							RecalculateRating();
-							if(!note.isSustainNote) {
+							if(!note.isSustainNote)
+							{
 								health -= 0.26; //0.26 + 0.04 = -0.3 (-15%) of HP if you hit a hurt note - ShadowMario
 								spawnNoteSplashOnNote(note);
 							}
 							else health -= 0.06; //0.06 + 0.04 = -0.1 (-5%) of HP if you hit a hurt sustain note - ShadowMario
-	
-							if(boyfriend.animation.getByName('hurt') != null) {
-								boyfriend.playAnim('hurt', true);
-								boyfriend.specialAnim = true;
-							}
 						}
-
+			
 						note.wasGoodHit = true;
 						vocals.volume = 0;
 
@@ -3129,6 +3123,40 @@ class PlayState extends MusicBeatState
 						}
 					}
 					return;
+
+				case 4: //Bullet note
+				if(cpuControlled) return;
+					if(!boyfriend.stunned)
+					{
+						if(!endingSong)
+						{
+							spawnNoteSplashOnNote(note);
+							var randomShot:String = 'singDOWN-alt';
+							switch (FlxG.random.int(1, 4))
+							{
+								case 1:
+									randomShot = 'singDOWN-alt';
+								case 2:
+									randomShot = 'singUP-alt';
+								case 3:
+									randomShot = 'singLEFT-alt';
+								case 4:
+									randomShot = 'singRIGHT-alt';
+							}
+							dad.playAnim(randomShot, true);
+							boyfriend.playAnim('Dodge', true);
+						}
+			
+						note.wasGoodHit = true;
+
+						if (!note.isSustainNote)
+						{
+							note.kill();
+							notes.remove(note, true);
+							note.destroy();
+						}
+					}
+				return;
 			}
 
 			if (!note.isSustainNote)

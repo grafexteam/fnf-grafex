@@ -292,7 +292,6 @@ class DialogueBoxNew extends FlxSpriteGroup
 		}
 
 		textToType = splitName[5];
-		//FlxG.log.add(textToType);
 		box.visible = true;
 
 		var centerPrefix:String = '';

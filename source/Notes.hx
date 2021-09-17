@@ -42,7 +42,7 @@ class Note extends FlxSprite
 	private function set_noteType(value:Int):Int {
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 3 | 4: //Hurt note
+				case 3: //Hurt note
 					reloadNote('HURT');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -71,6 +71,7 @@ class Note extends FlxSprite
 		this.inEditor = inEditor;
 
 		x += PlayState.STRUM_X + 50;
+		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
 		this.strumTime = strumTime;
 		if(!inEditor) this.strumTime += ClientPrefs.noteOffset;
@@ -132,6 +133,8 @@ class Note extends FlxSprite
 			}
 		}
 
+		// trace(prevNote);
+
 		if (isSustainNote && prevNote != null)
 		{
 			alpha = 0.6;
@@ -174,6 +177,7 @@ class Note extends FlxSprite
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
+				// prevNote.setGraphicSize();
 			}
 		}
 
@@ -265,6 +269,7 @@ class Note extends FlxSprite
 
 		if (mustPress)
 		{
+			// The * 0.5 is so that it's easier to hit them too late, instead of too early
 			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
 				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
 				canBeHit = true;
@@ -296,7 +301,8 @@ class NoteSplash extends FlxSprite
 	private var idleAnim:String;
 	private var lastNoteType:Int = -1;
 
-	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
+	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0)
+	{
 		super(x, y);
 
 		var skin:String = 'noteSplashes';
@@ -311,7 +317,8 @@ class NoteSplash extends FlxSprite
 		antialiasing = ClientPrefs.globalAntialiasing;
 	}
 
-	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, noteType:Int = 0) {
+	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, noteType:Int = 0)
+	{
 		setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
 		alpha = 0.6;
 
@@ -320,8 +327,14 @@ class NoteSplash extends FlxSprite
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 			switch(noteType) {
-				case 3 | 4: //Hurt note
+				case 3: //Hurt note
 					loadAnims('HURT' + skin);
+
+				case 4: //Bullet note
+					loadAnims('SHOT' + skin);
+
+				case 5: //Healing note
+					loadAnims('Heal' + skin);
 
 				default:
 					loadAnims(skin);
@@ -347,9 +360,11 @@ class NoteSplash extends FlxSprite
 		animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
 	}
 
-	function loadAnims(skin:String) {
+	function loadAnims(skin:String)
+	{
 		frames = Paths.getSparrowAtlas(skin);
-		for (i in 1...3) {
+		for (i in 1...3)
+		{
 			animation.addByPrefix("note1-" + i, "note splash blue " + i, 24, false);
 			animation.addByPrefix("note2-" + i, "note splash green " + i, 24, false);
 			animation.addByPrefix("note0-" + i, "note splash purple " + i, 24, false);
@@ -370,17 +385,21 @@ class StrumNote extends FlxSprite
 	public var resetAnim:Float = 0;
 	private var noteData:Int = 0;
 
-	public function new(x:Float, y:Float, leData:Int) {
+	public function new(x:Float, y:Float, leData:Int)
+	{
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 		noteData = leData;
 		super(x, y);
 	}
 
-	override function update(elapsed:Float) {
-		if(resetAnim > 0) {
+	override function update(elapsed:Float)
+	{
+		if(resetAnim > 0)
+		{
 			resetAnim -= elapsed;
-			if(resetAnim <= 0) {
+			if(resetAnim <= 0)
+			{
 				playAnim('static');
 				resetAnim = 0;
 			}
@@ -389,19 +408,24 @@ class StrumNote extends FlxSprite
 		super.update(elapsed);
 	}
 
-	public function playAnim(anim:String, ?force:Bool = false) {
+	public function playAnim(anim:String, ?force:Bool = false)
+	{
 		animation.play(anim, force);
 		centerOffsets();
-		if(animation.curAnim.name == 'static') {
+		if(animation.curAnim.name == 'static')
+		{
 			colorSwap.hue = 0;
 			colorSwap.saturation = 0;
 			colorSwap.brightness = 0;
-		} else {
+		}
+		else
+		{
 			colorSwap.hue = ClientPrefs.arrowHSV[noteData % 4][0] / 360;
 			colorSwap.saturation = ClientPrefs.arrowHSV[noteData % 4][1] / 100;
 			colorSwap.brightness = ClientPrefs.arrowHSV[noteData % 4][2] / 100;
 
-			if(animation.curAnim.name == 'confirm' && !PlayState.curStage.startsWith('school')) {
+			if(animation.curAnim.name == 'confirm' && !PlayState.curStage.startsWith('school'))
+			{
 				offset.x -= 13;
 				offset.y -= 13;
 			}
