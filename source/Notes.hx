@@ -48,6 +48,12 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 
+				case 4: //Heal note
+					reloadNote('Heal');
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+
 				default:
 					colorSwap.hue = ClientPrefs.arrowHSV[noteData % 4][0] / 360;
 					colorSwap.saturation = ClientPrefs.arrowHSV[noteData % 4][1] / 100;
@@ -330,10 +336,7 @@ class NoteSplash extends FlxSprite
 				case 3: //Hurt note
 					loadAnims('HURT' + skin);
 
-				case 4: //Bullet note
-					loadAnims('SHOT' + skin);
-
-				case 5: //Healing note
+				case 4: //Healing note
 					loadAnims('Heal' + skin);
 
 				default:

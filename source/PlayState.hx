@@ -2170,6 +2170,9 @@ class PlayState extends MusicBeatState
 											}
 										}
 										callOnLuas('noteMiss', [daNote.noteData, daNote.noteType]);
+
+									case 4:
+										health = 0;
 								}
 							}
 						}
@@ -3046,14 +3049,17 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	function badNoteHit():Void {
+	function badNoteHit():Void
+	{
 		var controlArray:Array<Bool> = [controls.NOTE_LEFT_P, controls.NOTE_DOWN_P, controls.NOTE_UP_P, controls.NOTE_RIGHT_P];
-		for (i in 0...controlArray.length) {
-			if(controlArray[i]) {
-				noteMiss(i);
-				callOnLuas('noteMissPress', [i]);
+		for (i in 0...controlArray.length)
+			{
+			if(controlArray[i])
+				{
+					noteMiss(i);
+					callOnLuas('noteMissPress', [i]);
+				}
 			}
-		}
 	}
 
 	function noteMiss(direction:Int = 1):Void
@@ -3094,7 +3100,7 @@ class PlayState extends MusicBeatState
 		{
 			switch(note.noteType)
 			{
-				case 3: //Hurt note - ShadowMario
+				case 3: //Hurt note
 					if(cpuControlled) return;
 
 					if(!boyfriend.stunned)
@@ -3123,6 +3129,32 @@ class PlayState extends MusicBeatState
 						}
 					}
 					return;
+
+				/*case 5: //Heal note
+					if(cpuControlled) return;
+
+					if(!boyfriend.stunned)
+					{
+						if(!endingSong)
+						{
+							if(!note.isSustainNote)
+							{
+								health += 0.26; //0.26 + 0.04 = +0.3 (+15%) of HP if you hit a heal note - Xale
+								spawnNoteSplashOnNote(note);
+							}
+							else health += 0.06; //0.06 + 0.04 = +0.1 (+5%) of HP if you hit a heal sustain note - Xale
+						}
+			
+						note.wasGoodHit = true;
+
+						if (!note.isSustainNote)
+						{
+							note.kill();
+							notes.remove(note, true);
+							note.destroy();
+						}
+					}
+					return;*/
 
 				case 4: //Bullet note
 				if(cpuControlled) return;
