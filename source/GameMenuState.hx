@@ -2121,27 +2121,33 @@ class PreferencesSubstate extends MusicBeatSubstate
 					item.alpha = 1;
 				}
 
-				for (j in 0...checkboxArray.length) {
+				for (j in 0...checkboxArray.length)
+				{
 					var tracker:FlxSprite = checkboxArray[j].sprTracker;
-					if(tracker == item) {
+					if(tracker == item)
+					{
 						checkboxArray[j].alpha = item.alpha;
 						break;
 					}
 				}
 			}
 		}
-		for (i in 0...grpTexts.members.length) {
+		for (i in 0...grpTexts.members.length)
+		{
 			var text:AttachedText = grpTexts.members[i];
 			if(text != null) {
 				text.alpha = 0.6;
-				if(textNumber[i] == curSelected) {
+				if(textNumber[i] == curSelected)
+				{
 					text.alpha = 1;
 				}
 			}
 		}
 
-		if(options[curSelected] == 'Anti-Aliasing') {
-			if(showCharacter == null) {
+		if(options[curSelected] == 'Anti-Aliasing')
+		{
+			if(showCharacter == null)
+			{
 				showCharacter = new Character(840, 170, 'bf', true);
 				showCharacter.setGraphicSize(Std.int(showCharacter.width * 0.8));
 				showCharacter.updateHitbox();
@@ -2155,12 +2161,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
 
-	function reloadValues() {
-		for (i in 0...checkboxArray.length) {
+	function reloadValues()
+	{
+		for (i in 0...checkboxArray.length)
+		{
 			var checkbox:CheckboxThingie = checkboxArray[i];
 			if(checkbox != null) {
 				var daValue:Bool = false;
-				switch(options[checkboxNumber[i]]) {
+				switch(options[checkboxNumber[i]])
+				{
 					case 'FPS Counter':
 						daValue = ClientPrefs.showFPS;
 					case 'Low Quality':
@@ -2175,7 +2184,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.downScroll;
 					case 'Middlescroll':
 						daValue = ClientPrefs.middleScroll;
-                                        case 'Ghost Tapping':
+                    case 'Ghost Tapping':
 						daValue = ClientPrefs.ghostTapping;
 					case 'Swearing':
 						daValue = ClientPrefs.cursing;
@@ -2191,11 +2200,14 @@ class PreferencesSubstate extends MusicBeatSubstate
 				checkbox.daValue = daValue;
 			}
 		}
-		for (i in 0...grpTexts.members.length) {
+		for (i in 0...grpTexts.members.length)
+		{
 			var text:AttachedText = grpTexts.members[i];
-			if(text != null) {
+			if(text != null)
+			{
 				var daText:String = '';
-				switch(options[textNumber[i]]) {
+				switch(options[textNumber[i]])
+				{
 					case 'Framerate':
 						daText = '' + ClientPrefs.framerate;
 					case 'Note Delay':
@@ -2209,9 +2221,12 @@ class PreferencesSubstate extends MusicBeatSubstate
 		}
 	}
 
-	private function unselectableCheck(num:Int):Bool {
-		for (i in 0...unselectableOptions.length) {
-			if(options[num] == unselectableOptions[i]) {
+	private function unselectableCheck(num:Int):Bool
+	{
+		for (i in 0...unselectableOptions.length)
+		{
+			if(options[num] == unselectableOptions[i])
+			{
 				return true;
 			}
 		}
