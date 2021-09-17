@@ -10,8 +10,8 @@ import AttachedStuff;
 import Notes;
 import SongData;
 import MusicBeatState;
+import ShaderEffects;
 // ---
-import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
