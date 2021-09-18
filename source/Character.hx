@@ -29,7 +29,6 @@ typedef CharacterFile = {
 
 	var flip_x:Bool;
 	var no_antialiasing:Bool;
-	var healthbar_colors:Array<Int>;
 }
 
 typedef AnimArray = {
