@@ -146,7 +146,7 @@ class ClientPrefs {
 		}
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls', 'ninjamuffin99');
+		save.bind('controls', 'xale');
 		if(save != null && save.data.customControls != null) {
 			reloadControls(save.data.customControls);
 		}
@@ -199,8 +199,8 @@ class WeekData {
 	//Go to FreeplayState.hx and add the head icons
 	//Go to StoryMenuState.hx and add the characters/backgrounds
 	public static var songsNames:Array<Dynamic> = [
-		['Tutorial'],								//Tutorial, this one isn't added to Freeplay, instead it is added from assets/preload/freeplaySonglist.txt
-		['Bopeebo', 'Fresh', 'Dad-Battle'],			//Week 1
+		['Tutorial'],							//Tutorial, this one isn't added to Freeplay, instead it is added from assets/preload/freeplaySonglist.txt
+		['Bopeebo', 'Fresh', 'Dad-Battle', 'Alteratrocity'],			//Week 1
 		['Spookeez', 'South', 'Monster'],			//Week 2
 		['Pico', 'Philly-Nice', 'Blammed'],			//Week 3
 		['Satin-Panties', 'High', 'Milf'],			//Week 4
