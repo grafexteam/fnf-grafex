@@ -11,6 +11,7 @@ import Notes;
 import SongData;
 import MusicBeatState;
 import ShaderEffects;
+import BackgroundStuff;
 // ---
 import flixel.FlxBasic;
 import flixel.FlxCamera;
