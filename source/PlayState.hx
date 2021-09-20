@@ -12,6 +12,7 @@ import SongData;
 import MusicBeatState;
 import ShaderEffects;
 import BackgroundStuff;
+import Dialogue;
 // ---
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -697,7 +698,7 @@ class PlayState extends MusicBeatState
 		if (OpenFlAssets.exists(file)) {
 			dialogue = CoolUtil.coolTextFile(file);
 		}
-		var doof:DialogueBox = new DialogueBox(false, dialogue);
+		var doof:PixelDialogueBox = new PixelDialogueBox(false, dialogue);
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
 		doof.nextDialogueThing = startNextDialogue;
@@ -1034,7 +1035,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 		CoolUtil.precacheSound('dialogue');
 		CoolUtil.precacheSound('dialogueClose');
-		var doof:DialogueBoxNew = new DialogueBoxNew(dialogue, song);
+		var doof:NormalDialogueBox = new NormalDialogueBox(dialogue, song);
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
 		doof.nextDialogueThing = startNextDialogue;
@@ -1042,7 +1043,7 @@ class PlayState extends MusicBeatState
 		add(doof);
 	}
 
-	function schoolIntro(?dialogueBox:DialogueBox):Void
+	function schoolIntro(?dialogueBox:PixelDialogueBox):Void
 	{
 		inCutscene = true;
 		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
