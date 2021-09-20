@@ -4,7 +4,7 @@
 ### Grafex Mod aka Psych Graphic Rework:
 * Xale - Lead Coding, Artist
 * PurpleSnake - Coding, Assets
-* 
+
 ### Psych Engine:
 * Shadow Mario - Coding
 * RiverOaken - Arts and Animations
@@ -23,4 +23,9 @@
 * Options menu:
 * And other!
 
-# Thank you for downloading this Engine! We hope you are glad with it ":)
+### You will ask me "Xale, what is planned?" and I will answer this:
+# TODO list!
+- GameMenu rework (code and graphic);
+- New arrows;
+- Countless Fixes and Optimizations;
+- And more! Stay tuned!
