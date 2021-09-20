@@ -11,7 +11,7 @@ class DiscordClient
 	public function new()
 	{
 		DiscordRpc.start({
-			clientID: "886589338345947156",
+			clientID: "888738996455362601",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
@@ -36,7 +36,7 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: "In the Menu",
 			state: null,
-			largeImageKey: 'logo',
+			largeImageKey: 'discordlogo',
 			largeImageText: "Grafex Engine"
 		});
 	}
@@ -71,7 +71,7 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'logo',
+			largeImageKey: 'discordlogo',
 			largeImageText: "Graphex " + EngineData.modEngineVersion,
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it

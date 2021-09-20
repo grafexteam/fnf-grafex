@@ -64,11 +64,6 @@
 	],
 	"healthicon": "spirit",
 	"flip_x": false,
-	"healthbar_colors": [
-		255,
-		60,
-		110
-	],
 	"camera_position": [
 		0,
 		0

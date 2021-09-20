@@ -11,6 +11,7 @@ import Notes;
 import SongData;
 import MusicBeatState;
 import ShaderEffects;
+import BackgroundStuff;
 // ---
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -67,7 +68,7 @@ class PlayState extends MusicBeatState
 		['Great', 0.9], //From 80% to 89%
 		['Sick!', 1], //From 90% to 99%
 		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1" - ShadowMario
-		// THANK YOU, SHADOWMARIO!! THANK YOU FOR REWORKING THIS SHIT!!! UWU - Xale
+		// THANK YOU, SHADOWMARIO!! THANK YOU FOR REWORKING THIS THING!!! UWU - Xale
 	]; 
 
 	//event variables
@@ -222,9 +223,9 @@ class PlayState extends MusicBeatState
 	public var backgroundGroup:FlxTypedGroup<FlxSprite>;
 	public var foregroundGroup:FlxTypedGroup<FlxSprite>;
 
-	// HealthBar VARs
-	public var p2HealthColor:Int = 0xFFFF0000;
-	public var p1HealthColor:Int = 0xFF0097C4;
+	// Health Vars shit
+	public static var p2HealthColor:Int = 0xFFFF0000;
+	public static var p1HealthColor:Int = 0xFF0097C4;
 	private var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
 
@@ -769,6 +770,53 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
+		switch(SONG.player2)
+		{
+			case 'bf' | 'bf-car' | 'bf-pixel' | 'bf-christmas' | 'bf-pixel-opponent':
+				p2HealthColor = 0xFF2f8cff;
+			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
+				p2HealthColor = 0xFF98030a;
+			case 'dad' | 'parents-christmas':
+				p2HealthColor = 0xFFa041d6;
+			case 'spooky':
+				p2HealthColor = 0xFFe09411;
+			case 'pico' | 'pico-player':
+				p2HealthColor = 0xFFa8dc39;
+			case 'mom' | 'mom-car':
+				p2HealthColor = 0xFFc73741;
+			case 'senpai' | 'senpai-angry':
+				p2HealthColor = 0xFFecb87b;
+			case 'spirit':
+				p2HealthColor = 0xFFff4747;
+			case 'hank':
+				p2HealthColor = 0xFF9a9a9a;
+			case 'monster' | 'monster-christmas':
+				p2HealthColor = 0xFFd2b915;
+		}
+		switch(SONG.player1)
+		{
+			case 'bf' | 'bf-car' | 'bf-pixel' | 'bf-christmas' | 'bf-pixel-opponent':
+				p1HealthColor = 0xFF2f8cff;
+			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
+				p1HealthColor = 0xFF98030a;
+			case 'dad' | 'parents-christmas':
+				p1HealthColor = 0xFFa041d6;
+			case 'spooky':
+				p1HealthColor = 0xFFe09411;
+			case 'pico' | 'pico-player':
+				p1HealthColor = 0xFFa8dc39;
+			case 'mom' | 'mom-car':
+				p1HealthColor = 0xFFc73741;
+			case 'senpai':
+				p1HealthColor = 0xFFecb87b;
+			case 'spirit':
+				p1HealthColor = 0xFFff4747;
+			case 'hank':
+				p1HealthColor = 0xFF9a9a9a;
+			case 'monster' | 'monster-christmas':
+				p1HealthColor = 0xFFd2b915;
+		}
+
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
@@ -778,16 +826,6 @@ class PlayState extends MusicBeatState
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
-
-		switch(SONG.player2)
-		{
-			case 'bf':
-				p1HealthColor = 0xFF0097C4;
-			case 'gf':
-				p2HealthColor = 0xFFc42d06;
-			case 'dad':
-				p2HealthColor = 0xFF5A07F5;
-		}
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);

@@ -32,6 +32,7 @@ import Character;
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import lime.system.Clipboard;
 import Data;
+import BackgroundStuff;
 
 #if MODS_ALLOWED
 import sys.FileSystem;

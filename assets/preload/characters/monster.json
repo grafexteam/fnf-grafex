@@ -30,7 +30,7 @@
 			"loop": false,
 			"anim": "singLEFT",
 			"fps": 24,
-			"name": "Monster left note",
+			"name": "Monster Right note",
 			"indices": []
 		},
 		{
@@ -41,7 +41,7 @@
 			"loop": false,
 			"anim": "singRIGHT",
 			"fps": 24,
-			"name": "Monster Right note",
+			"name": "Monster left note",
 			"indices": []
 		},
 		{
@@ -139,11 +139,6 @@
 	],
 	"healthicon": "monster",
 	"flip_x": false,
-	"healthbar_colors": [
-		243,
-		255,
-		110
-	],
 	"camera_position": [
 		0,
 		0

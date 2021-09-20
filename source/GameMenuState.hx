@@ -35,6 +35,7 @@ import flixel.graphics.FlxGraphic;
 
 using StringTools;
 
+// Made this cuz i may be dumb - Xale
 class GameMenuState extends MusicBeatState
 {
     override function create()
@@ -54,8 +55,8 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = ['story_mode', 'freeplay', 'credits', 'options'];
 
 	var magenta:FlxSprite;
-	var camFollow:FlxObject;
-	var camFollowPos:FlxObject;
+	public static var camFollow:FlxObject;
+	public static var camFollowPos:FlxObject;
 
 	override function create()
 	{
@@ -103,17 +104,16 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(0, (i * 140)  + offset);
+			var menuItem:FlxSprite = new FlxSprite(50, (i * 140)  + offset);
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
-			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			var scr:Float = (optionShit.length - 4) * 0.135;
 			if(optionShit.length < 6) scr = 0;
-			menuItem.scrollFactor.set(0, scr);
+			menuItem.scrollFactor.set(0, yScroll);
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 			menuItem.updateHitbox();
 		}
@@ -137,6 +137,8 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 	}
+	//public var curYPos:Float = camFollowPos.y;
+	//public var curXPos:Float = camFollowPos.x;
 
 	var selectedSomethin:Bool = false;
 
@@ -208,37 +210,64 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
+		//menuItems.setPosition(0,0);
+
 		super.update(elapsed);
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.screenCenter(X);
+			//spr.screenCenter(X);
 		});
 	}
 
 	function changeItem(huh:Int = 0)
-	{
+	{		
 		curSelected += huh;
 
 		if (curSelected >= menuItems.length)
-			curSelected = 0;
+			{
+				curSelected = 0;
+			}
 		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
+			{
+				curSelected = menuItems.length - 1;
+			}
+
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.animation.play('idle');
-			spr.offset.y = 0;
-			spr.offset.x = -100;
-			spr.updateHitbox();
+			
 
 			if (spr.ID == curSelected)
 			{
 				spr.animation.play('selected');
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				spr.offset.x = 0.15 * (spr.frameWidth / 2 + 180);
-				spr.offset.y = 0.15 * spr.frameHeight;
+				//camFollowPos.setPosition(spr.getGraphicMidpoint().x, spr.y);
+				spr.animation.play('idle');
+				//spr.offset.x = 0.15 * (spr.frameWidth / 2 + 180);
+				//spr.offset.y = 0.15 * spr.frameHeight;
 				FlxG.log.add(spr.frameWidth);
+				FlxTween.tween(spr, {x: 300}, 0.1, {
+					ease: FlxEase.linear
+				});
+				
+
+				FlxTween.tween(spr.scale, {x: 1, y: 1}, 0.1, {
+					startDelay: 0.1,
+					ease: FlxEase.linear
+				});
+			}
+
+			if (spr.ID != curSelected)
+			{
+				FlxTween.tween(spr, {x: -50}, 0.1, {
+					startDelay: 0.1,
+					ease: FlxEase.linear
+				});
+								
+				FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
+					ease: FlxEase.linear
+				});
 			}
 		});
 	}
@@ -455,7 +484,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		#if desktop
-		DiscordClient.changePresence("In the Menu", null);
+		DiscordClient.changePresence("In the Freeplay Menu", null);
 		#end
 
 		for (i in 1...WeekData.songsNames.length) {

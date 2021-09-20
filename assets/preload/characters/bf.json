@@ -7,7 +7,7 @@
 				0
 			],
 			"anim": "Dodge",
-			"fps": 24,
+			"fps": 12,
 			"name": "boyfriend dodge",
 			"indices": []
 		},
@@ -185,11 +185,6 @@
 	],
 	"healthicon": "bf",
 	"flip_x": true,
-	"healthbar_colors": [
-		49,
-		176,
-		209
-	],
 	"camera_position": [
 		0,
 		0

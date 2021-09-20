@@ -29,7 +29,6 @@ typedef CharacterFile = {
 
 	var flip_x:Bool;
 	var no_antialiasing:Bool;
-	var healthbar_colors:Array<Int>;
 }
 
 typedef AnimArray = {
@@ -136,9 +135,6 @@ class Character extends FlxSprite
 				flipX = !!json.flip_x;
 				if(json.no_antialiasing)
 					noAntialiasing = true;
-
-				if(json.healthbar_colors != null && json.healthbar_colors.length > 2)
-					healthColorArray = json.healthbar_colors;
 
 				antialiasing = !noAntialiasing;
 				if(!ClientPrefs.globalAntialiasing) antialiasing = false;
