@@ -68,7 +68,7 @@ class PlayState extends MusicBeatState
 		['Great', 0.9], //From 80% to 89%
 		['Sick!', 1], //From 90% to 99%
 		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1" - ShadowMario
-		// THANK YOU, SHADOWMARIO!! THANK YOU FOR REWORKING THIS SHIT!!! UWU - Xale
+		// THANK YOU, SHADOWMARIO!! THANK YOU FOR REWORKING THIS THING!!! UWU - Xale
 	]; 
 
 	//event variables
