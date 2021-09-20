@@ -137,8 +137,6 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 	}
-	//public var curYPos:Float = camFollowPos.y;
-	//public var curXPos:Float = camFollowPos.x;
 
 	var selectedSomethin:Bool = false;
 
@@ -210,14 +208,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
-		//menuItems.setPosition(0,0);
-
 		super.update(elapsed);
-
-		menuItems.forEach(function(spr:FlxSprite)
-		{
-			//spr.screenCenter(X);
-		});
 	}
 
 	function changeItem(huh:Int = 0)
@@ -242,10 +233,6 @@ class MainMenuState extends MusicBeatState
 			{
 				spr.animation.play('selected');
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				//camFollowPos.setPosition(spr.getGraphicMidpoint().x, spr.y);
-				spr.animation.play('idle');
-				//spr.offset.x = 0.15 * (spr.frameWidth / 2 + 180);
-				//spr.offset.y = 0.15 * spr.frameHeight;
 				FlxG.log.add(spr.frameWidth);
 				FlxTween.tween(spr, {x: 300}, 0.1, {
 					ease: FlxEase.linear
@@ -260,6 +247,7 @@ class MainMenuState extends MusicBeatState
 
 			if (spr.ID != curSelected)
 			{
+				spr.animation.play('idle');
 				FlxTween.tween(spr, {x: -50}, 0.1, {
 					startDelay: 0.1,
 					ease: FlxEase.linear
@@ -306,7 +294,7 @@ class CreditsState extends MusicBeatState
 	{
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Menu", null);
 		#end
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
