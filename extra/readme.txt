@@ -16,10 +16,7 @@
                  /          _/           /             
 
 HEY! Yeah, YOU!
-Thanks for downloadin Friday Night FUNKIN' GRAPHEX ENGINE!
-
-THANKS FOR DOWNLOADING!!
-
+THANKS FOR DOWNLOADING the Friday Night FUNKIN' GRAPHEX ENGINE!(tm)
 
 -----------------------------------------------------------
     PERMISSIONS:
