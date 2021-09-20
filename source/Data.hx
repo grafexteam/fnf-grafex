@@ -200,7 +200,7 @@ class WeekData {
 	//Go to StoryMenuState.hx and add the characters/backgrounds
 	public static var songsNames:Array<Dynamic> = [
 		['Tutorial'],							//Tutorial, this one isn't added to Freeplay, instead it is added from assets/preload/freeplaySonglist.txt
-		['Bopeebo', 'Fresh', 'Dad-Battle', 'Alteratrocity'],			//Week 1
+		['Bopeebo', 'Fresh', 'Dad-Battle'],			//Week 1
 		['Spookeez', 'South', 'Monster'],			//Week 2
 		['Pico', 'Philly-Nice', 'Blammed'],			//Week 3
 		['Satin-Panties', 'High', 'Milf'],			//Week 4
