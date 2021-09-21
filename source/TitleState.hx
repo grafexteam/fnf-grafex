@@ -340,7 +340,7 @@ class TitleState extends MusicBeatState
 					createCoolText(['Graphex Engine by'], 45);
 				case 3:
 					addMoreText('XaleTheCat', 45);
-					addMoreText('PurpleSnake', 45);
+					//addMoreText('PurpleSnake', 45); // This guy haven't done anything yet - Xale
 				case 4:
 					deleteCoolText();
 				case 5:
