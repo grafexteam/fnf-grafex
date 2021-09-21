@@ -1310,7 +1310,7 @@ class PlayState extends MusicBeatState
 			vocals.pause();
 		}
 
-		// Song duration in a float, useful for the time left feature - NinjaMuffin (Xale supposes ._ .)
+		// Song duration in a float, useful for the time left feature - ShadowMario
 		songLength = FlxG.sound.music.length;
 		FlxTween.tween(timeBarBG, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
