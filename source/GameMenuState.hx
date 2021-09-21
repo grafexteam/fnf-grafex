@@ -266,14 +266,14 @@ class CreditsState extends MusicBeatState
 	private var iconArray:Array<AttachedSprite> = [];
 
 	private static var creditsStuff:Array<Dynamic> = [ //Name - Icon name - Description - Link - BG Color
+		['Graphex Team'],
+		['XaleTheCat','xale','Lead Developer of Grafex Mod','https://github.com/XaleTheCat', 0xFFFFBB1B],
+		//['PurpleSnake','snake','Developer of Grafex Mod','https://github.com/PurpleSSSnake', 0xFF6475F3],
+		[''],
 		['Psych Engine Team'],
 		['Shadow Mario','shadowmario','Main Programmer of Psych Engine','https://twitter.com/Shadow_Mario_',0xFFFFDD33],
 		['RiverOaken','riveroaken','Main Artist/Animator of Psych Engine','https://twitter.com/river_oaken',0xFFC30085],
 		['Keoiki','keoiki','Note Splash Animations','https://twitter.com/Keoiki_',0xFFFFFFFF],
-		[''],
-		['Graphex Team'],
-		['XaleTheCat','xale','Lead Developer of Grafex Mod','https://github.com/XaleTheCat', 0xFFFFBB1B],
-		['PurpleSnake','snake','Developer of Grafex Mod','https://github.com/PurpleSSSnake', 0xFF6475F3],
 		[''],
 		["Funkin' Crew"],
 		['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",				'https://twitter.com/ninja_muffin99',	0xFFF73838],
