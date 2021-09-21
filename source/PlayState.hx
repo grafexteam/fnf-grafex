@@ -2897,9 +2897,22 @@ class PlayState extends MusicBeatState
 
 		var seperatedScore:Array<Int> = [];
 
-		seperatedScore.push(Math.floor(combo / 100));
-		seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
-		seperatedScore.push(combo % 10);
+		if(combo >= 10 && combo != 100)
+			{
+
+			}
+		else if(combo >= 100)
+			{
+				seperatedScore.push(Math.floor(combo / 100));
+				seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
+				seperatedScore.push(combo % 10);
+			}
+		else if(combo <= 10)
+			{
+				seperatedScore.push(Math.floor(combo / 100));
+				seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
+				seperatedScore.push(combo % 10);
+			}
 
 		var daLoop:Int = 0;
 		for (i in seperatedScore)
