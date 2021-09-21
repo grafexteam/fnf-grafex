@@ -1925,13 +1925,6 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.player2)
 		{
-			/*case 'bf':
-				if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 2;
-				else if (healthBar.percent > 20 && healthBar.percent < 80)
-					iconP2.animation.curAnim.curFrame = 0;
-				else if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;*/
 			default:
 				if (healthBar.percent < 20)
 					iconP2.animation.curAnim.curFrame = 2;
@@ -3544,9 +3537,8 @@ class PlayState extends MusicBeatState
 
 		if (camZooming)
 		{
-			iconP1.scale.set(1.5);
-			iconP2.scale.set(1.5);
-			//scoreTxt.scale.set(1.2);	
+			iconP1.scale.set(1.3);
+			iconP2.scale.set(1.3);
 		}
 		
 		iconP1.updateHitbox();
