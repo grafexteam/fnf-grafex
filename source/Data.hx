@@ -6,6 +6,12 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
 
+// There must be all data about engine vars... There is only one at the moment -w-" - Xale
+class EngineData
+{
+	public static var modEngineVersion:String = 'b0.0.4.1';
+}
+
 class ClientPrefs {
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
@@ -186,12 +192,6 @@ class ClientPrefs {
 			}
 		}
 	}
-}
-
-class EngineData
-{
-    public static var psychEngineVersion:String = '0.3.1';
-	public static var modEngineVersion:String = 'b0.0.3';
 }
 
 class WeekData {
