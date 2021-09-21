@@ -2210,7 +2210,10 @@ class PlayState extends MusicBeatState
 										}
 										callOnLuas('noteMiss', [daNote.noteData, daNote.noteType]);
 
-									case 4:
+									case 4: // Heal note
+										// Does nothing - Xale
+
+									case 5: // Bullet note
 										health = 0;
 								}
 							}
@@ -3169,7 +3172,7 @@ class PlayState extends MusicBeatState
 					}
 					return;
 
-				/*case 5: //Heal note
+				case 4: //Heal note
 					if(cpuControlled) return;
 
 					if(!boyfriend.stunned)
@@ -3193,9 +3196,9 @@ class PlayState extends MusicBeatState
 							note.destroy();
 						}
 					}
-					return;*/
+					return;
 
-				case 4: //Bullet note
+				/*case 5: //Bullet note
 				if(cpuControlled) return;
 					if(!boyfriend.stunned)
 					{
@@ -3214,18 +3217,6 @@ class PlayState extends MusicBeatState
 								case 3:
 									dad.playAnim('singRIGHT-alt', true);
 							}
-							/*switch (FlxG.random.int(1, 4))
-							{
-								case 1:
-									randomShot = 'singDOWN-alt';
-								case 2:
-									randomShot = 'singUP-alt';
-								case 3:
-									randomShot = 'singLEFT-alt';
-								case 4:
-									randomShot = 'singRIGHT-alt';
-							}*/
-							//dad.playAnim(randomShot, true);
 							boyfriend.playAnim('Dodge', true);
 						}
 			
@@ -3238,7 +3229,7 @@ class PlayState extends MusicBeatState
 							note.destroy();
 						}
 					}
-				return;
+				return;*/
 			}
 
 			if (!note.isSustainNote)
