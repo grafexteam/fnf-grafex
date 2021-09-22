@@ -58,6 +58,7 @@ class MainMenuState extends MusicBeatState
 	public static var camFollow:FlxObject;
 	public static var camFollowPos:FlxObject;
 
+	
 	override function create()
 	{
 		#if desktop
@@ -135,6 +136,7 @@ class MainMenuState extends MusicBeatState
 		super.create();
 	}
 
+	
 	var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float)
@@ -175,19 +177,33 @@ class MainMenuState extends MusicBeatState
 				{
 					if (curSelected != spr.ID)
 					{
-						FlxTween.tween(spr, {alpha: 0}, 0.4, {
+						FlxTween.tween(spr, {alpha: 0}, 0.6, {
+							ease: FlxEase.quadOut,
+							
+						});
+						FlxTween.tween(spr, {x : -500}, 0.6, {
 							ease: FlxEase.quadOut,
 							onComplete: function(twn:FlxTween)
 							{
 								spr.kill();
 							}
 						});
+
+					
+					
+					
+					
 					}
 					else
 					{
 						FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 						{
 							var daChoice:String = optionShit[curSelected];
+							new FlxTimer().start(0.6, function(tmr:FlxTimer)
+								{
+									
+									
+							
 							switch (daChoice)
 							{
 								case 'story_mode':
@@ -198,7 +214,11 @@ class MainMenuState extends MusicBeatState
 									MusicBeatState.switchState(new CreditsState());
 								case 'options':
 									MusicBeatState.switchState(new OptionsState());
+							
+								
 							}
+						  });
+						
 						});
 					}
 				});
@@ -253,9 +273,16 @@ class MainMenuState extends MusicBeatState
 				FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
 					ease: FlxEase.linear
 				});
+			
+			
+			
+			
+			
 			}
 		});
+	
 	}
+	
 }
 
 class CreditsState extends MusicBeatState
@@ -268,7 +295,7 @@ class CreditsState extends MusicBeatState
 	private static var creditsStuff:Array<Dynamic> = [ //Name - Icon name - Description - Link - BG Color
 		['Graphex Engine by'],
 		['XaleTheCat','xale','Lead Developer of Grafex Engine','https://github.com/XaleTheCat', 0xFFf7a300],
-		//['PurpleSnake','snake','Additional developer of Grafex Engine','https://github.com/PurpleSSSnake', 0xFF6475F3],
+		['PurpleSnake','snake','Additional developer of Grafex Engine','https://github.com/PurpleSSSnake', 0xFF6475F3],
 		[''],
 		['Psych Engine Team'],
 		['Shadow Mario','shadowmario','Main Programmer of Psych Engine','https://twitter.com/Shadow_Mario_',0xFFFFDD33],
@@ -1190,7 +1217,6 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		FlxG.sound.playMusic(Paths.music("configurator"), 1, true);
 
                 menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		menuBG.color = 0xFFea71fd;
@@ -1242,7 +1268,7 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.sound.music.stop();
+			
                         MusicBeatState.switchState(new MainMenuState());
 		}
 
