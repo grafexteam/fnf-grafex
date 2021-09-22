@@ -177,48 +177,34 @@ class MainMenuState extends MusicBeatState
 				{
 					if (curSelected != spr.ID)
 					{
-						FlxTween.tween(spr, {alpha: 0}, 0.6, {
+						FlxTween.tween(spr, {alpha: 0}, 0.4, {
 							ease: FlxEase.quadOut,
 							
 						});
-						FlxTween.tween(spr, {x : -500}, 0.6, {
+						FlxTween.tween(spr, {x : -500}, 0.4, {
 							ease: FlxEase.quadOut,
 							onComplete: function(twn:FlxTween)
 							{
 								spr.kill();
 							}
-						});
-
-					
-					
-					
-					
+						});					
 					}
 					else
 					{
 						FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 						{
 							var daChoice:String = optionShit[curSelected];
-							new FlxTimer().start(0.6, function(tmr:FlxTimer)
-								{
-									
-									
-							
-							switch (daChoice)
-							{
-								case 'story_mode':
-									MusicBeatState.switchState(new StoryMenuState());
-								case 'freeplay':
-									MusicBeatState.switchState(new FreeplayState());
-								case 'credits':
-									MusicBeatState.switchState(new CreditsState());
-								case 'options':
-									MusicBeatState.switchState(new OptionsState());
-							
-								
-							}
-						  });
-						
+									switch (daChoice)
+									{
+										case 'story_mode':
+											MusicBeatState.switchState(new StoryMenuState());
+										case 'freeplay':
+											MusicBeatState.switchState(new FreeplayState());
+										case 'credits':
+											MusicBeatState.switchState(new CreditsState());
+										case 'options':
+											MusicBeatState.switchState(new OptionsState());
+									}
 						});
 					}
 				});
@@ -243,9 +229,7 @@ class MainMenuState extends MusicBeatState
 
 
 		menuItems.forEach(function(spr:FlxSprite)
-		{
-			
-
+	{
 			if (spr.ID == curSelected)
 			{
 				spr.animation.play('selected');
@@ -272,12 +256,7 @@ class MainMenuState extends MusicBeatState
 								
 				FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
 					ease: FlxEase.linear
-				});
-			
-			
-			
-			
-			
+				});			
 			}
 		});
 	
