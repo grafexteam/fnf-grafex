@@ -138,7 +138,6 @@ class Caching extends MusicBeatState
 			graph.destroyOnNoUse = false;
 			bitmapData.set(replaced,graph);
 			done++;
-			loadPercent = done;
 		}
 
 		for (i in music)
