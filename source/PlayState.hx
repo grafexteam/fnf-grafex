@@ -1317,9 +1317,9 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
 		#if desktop
-		// Updating Discord Rich Presence (with Time Left) - NinjaMuffin (Xale supposes ._ .)
 		DiscordClient.changePresence(detailsText, displaySongName + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
+		
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
 	}

@@ -5,6 +5,8 @@ import lime.app.Application;
 #if windows
 import Discord.DiscordClient;
 #end
+import Data;
+
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
 import flixel.ui.FlxBar;
@@ -46,15 +48,12 @@ class Caching extends MusicBeatState
 	var music = [];
 	var charts = [];
 
-
 	override function create()
 	{
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		FlxG.save.bind('grafex', 'xale');
 
 		PlayerSettings.init();
-
-		
 
 		FlxG.mouse.visible = false;
 
@@ -75,13 +74,9 @@ class Caching extends MusicBeatState
 		Logo.setGraphicSize(Std.int(Logo.width * 0.6));
 		
 			Logo.antialiasing = true;
-		
-		
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
                 #if cpp
-		
-			trace("caching images...");
 
 			for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
 			{
@@ -89,9 +84,6 @@ class Caching extends MusicBeatState
 					continue;
 				images.push(i);
 			}
-		
-
-		trace("caching music...");
 
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs")))
 		{
@@ -101,32 +93,23 @@ class Caching extends MusicBeatState
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		var bar = new FlxBar(10,FlxG.height - 50,FlxBarFillDirection.LEFT_TO_RIGHT,FlxG.width,40,null,"done",0,toBeDone);
-		bar.color = FlxColor.PURPLE;
-
-		add(bar);
-
 		add(Logo);
 		add(text);
-
-		trace('starting caching..');
 		
 		#if cpp
-		// update thread
 
 		sys.thread.Thread.create(() -> {
 			while(!loaded)
 			{
 				if (toBeDone != 0 && done != toBeDone)
 					{
-						
+						var alpha = CoolUtil.truncateFloat(done / toBeDone * 100,2) / 100;
+						text.alpha = 1;
 						text.text = "Loading... (" + done + "/" + toBeDone + ")";
 					}
 			}
 		
 		});
-
-		// cache thread
 
 		sys.thread.Thread.create(() -> {
 			cache();
@@ -146,34 +129,26 @@ class Caching extends MusicBeatState
 
 	function cache()
 	{
-		trace("LOADING: " + toBeDone + " OBJECTS.");
-
 		for (i in images)
 		{
 			var replaced = i.replace(".png","");
 			var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + i);
-			trace('id ' + replaced + ' file - assets/shared/images/characters/' + i + ' ${data.width}');
 			var graph = FlxGraphic.fromBitmapData(data);
 			graph.persist = true;
 			graph.destroyOnNoUse = false;
 			bitmapData.set(replaced,graph);
 			done++;
+			loadPercent = done;
 		}
 
 		for (i in music)
 		{
 			FlxG.sound.cache(Paths.inst(i));
 			FlxG.sound.cache(Paths.voices(i));
-			trace("cached " + i);
 			done++;
 		}
 
-
-		trace("Finished caching...");
-
 		loaded = true;
-
-		trace(Assets.cache.hasBitmapData('GF_assets'));
 
 		FlxG.switchState(new TitleState());
 	}
