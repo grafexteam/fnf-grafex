@@ -2897,26 +2897,13 @@ class PlayState extends MusicBeatState
 
 		var seperatedScore:Array<Int> = [];
 
-		if(combo >= 10 && combo != 100)
-			{
-
-			}
-		else if(combo >= 100)
-			{
-				seperatedScore.push(Math.floor(combo / 100));
-				seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
-				seperatedScore.push(combo % 10);
-			}
-		else if(combo <= 10)
-			{
-				seperatedScore.push(Math.floor(combo / 100));
-				seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
-				seperatedScore.push(combo % 10);
-			}
+		seperatedScore.push(Math.floor(combo / 100));
+		seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
+		seperatedScore.push(combo % 10);
 
 		var daLoop:Int = 0;
 		for (i in seperatedScore)
-		{
+		{			
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
@@ -2938,7 +2925,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 			numScore.visible = !ClientPrefs.hideHud;
 
-			if (combo >= 10 || combo == 0)
+			if (combo >= 10)
 				add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {

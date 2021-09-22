@@ -9,7 +9,7 @@ import Controls;
 // There must be all data about engine vars... There is only one at the moment -w-" - Xale
 class EngineData
 {
-	public static var modEngineVersion:String = 'b0.0.3.1';
+	public static var modEngineVersion:String = 'b0.0.3.2';
 }
 
 class ClientPrefs {
