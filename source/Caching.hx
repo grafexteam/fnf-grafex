@@ -50,7 +50,7 @@ class Caching extends MusicBeatState
 	override function create()
 	{
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		FlxG.save.bind('grafex', 'xale');
 
 		PlayerSettings.init();
 
@@ -80,8 +80,6 @@ class Caching extends MusicBeatState
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
                 #if cpp
-		
-			trace("caching images...");
 
 			for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
 			{
@@ -89,9 +87,6 @@ class Caching extends MusicBeatState
 					continue;
 				images.push(i);
 			}
-		
-
-		trace("caching music...");
 
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs")))
 		{
@@ -108,11 +103,8 @@ class Caching extends MusicBeatState
 
 		add(Logo);
 		add(text);
-
-		trace('starting caching..');
 		
 		#if cpp
-		// update thread
 
 		sys.thread.Thread.create(() -> {
 			while(!loaded)
@@ -125,8 +117,6 @@ class Caching extends MusicBeatState
 			}
 		
 		});
-
-		// cache thread
 
 		sys.thread.Thread.create(() -> {
 			cache();
@@ -146,8 +136,6 @@ class Caching extends MusicBeatState
 
 	function cache()
 	{
-		trace("LOADING: " + toBeDone + " OBJECTS.");
-
 		for (i in images)
 		{
 			var replaced = i.replace(".png","");
@@ -164,12 +152,8 @@ class Caching extends MusicBeatState
 		{
 			FlxG.sound.cache(Paths.inst(i));
 			FlxG.sound.cache(Paths.voices(i));
-			trace("cached " + i);
 			done++;
 		}
-
-
-		trace("Finished caching...");
 
 		loaded = true;
 
