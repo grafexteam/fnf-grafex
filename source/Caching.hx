@@ -65,7 +65,7 @@ class Caching extends MusicBeatState
 		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300,0,"Loading...");
 		text.size = 34;
 		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 0;
+	
 
 		Logo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('titlelogo'));
 		Logo.x -= Logo.width / 2;
