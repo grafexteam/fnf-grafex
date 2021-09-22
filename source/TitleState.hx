@@ -47,6 +47,8 @@ class TitleState extends MusicBeatState
 	var textGroup:FlxGroup;
 	var logoSpr:FlxSprite;
 
+	public static var isLogoLoaded:Bool = false;
+
 	var curWacky:Array<String> = [];
 
 	var wackyImage:FlxSprite;
@@ -149,6 +151,7 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+		isLogoLoaded = true;
 
 		swagShader = new ColorSwap();
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
@@ -319,14 +322,18 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		logoBl.animation.play('bump', true);
-		danceLeft = !danceLeft;
+		if(isLogoLoaded)
+		{
+			logoBl.animation.play('bump', true);
 
-		if (danceLeft)
-			gfDance.animation.play('danceRight');
-		else
-			gfDance.animation.play('danceLeft');
+			danceLeft = !danceLeft;
 
+			if (danceLeft)
+				gfDance.animation.play('danceRight');
+			else
+				gfDance.animation.play('danceLeft');
+		}
+		
 		FlxG.log.add(curBeat);
  
 		if(!closedState) {

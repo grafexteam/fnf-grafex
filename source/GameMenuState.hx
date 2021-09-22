@@ -61,6 +61,7 @@ class MainMenuState extends MusicBeatState
 	
 	override function create()
 	{
+		TitleState.isLogoLoaded = false;
 		#if desktop
 		DiscordClient.changePresence("In the Menu", null);
 		#end
