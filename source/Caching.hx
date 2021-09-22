@@ -5,6 +5,8 @@ import lime.app.Application;
 #if windows
 import Discord.DiscordClient;
 #end
+import Data;
+
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
 import flixel.ui.FlxBar;
@@ -46,15 +48,12 @@ class Caching extends MusicBeatState
 	var music = [];
 	var charts = [];
 
-
 	override function create()
 	{
 
 		FlxG.save.bind('grafex', 'xale');
 
 		PlayerSettings.init();
-
-		
 
 		FlxG.mouse.visible = false;
 
@@ -75,8 +74,6 @@ class Caching extends MusicBeatState
 		Logo.setGraphicSize(Std.int(Logo.width * 0.6));
 		
 			Logo.antialiasing = true;
-		
-		
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
                 #if cpp
@@ -96,11 +93,6 @@ class Caching extends MusicBeatState
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		var bar = new FlxBar(10,FlxG.height - 50,FlxBarFillDirection.LEFT_TO_RIGHT,FlxG.width,40,null,"done",0,toBeDone);
-		bar.color = FlxColor.PURPLE;
-
-		add(bar);
-
 		add(Logo);
 		add(text);
 		
@@ -111,7 +103,8 @@ class Caching extends MusicBeatState
 			{
 				if (toBeDone != 0 && done != toBeDone)
 					{
-						
+						var alpha = CoolUtil.truncateFloat(done / toBeDone * 100,2) / 100;
+						text.alpha = 1;
 						text.text = "Loading... (" + done + "/" + toBeDone + ")";
 					}
 			}
@@ -140,12 +133,12 @@ class Caching extends MusicBeatState
 		{
 			var replaced = i.replace(".png","");
 			var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + i);
-			trace('id ' + replaced + ' file - assets/shared/images/characters/' + i + ' ${data.width}');
 			var graph = FlxGraphic.fromBitmapData(data);
 			graph.persist = true;
 			graph.destroyOnNoUse = false;
 			bitmapData.set(replaced,graph);
 			done++;
+			loadPercent = done;
 		}
 
 		for (i in music)
@@ -156,8 +149,6 @@ class Caching extends MusicBeatState
 		}
 
 		loaded = true;
-
-		trace(Assets.cache.hasBitmapData('GF_assets'));
 
 		FlxG.switchState(new TitleState());
 	}
