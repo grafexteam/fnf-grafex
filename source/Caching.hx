@@ -39,8 +39,10 @@ class Caching extends MusicBeatState
 
 	var loaded = false;
 
+	var isAlphaReady:Bool = false;
+
 	var text:FlxText;
-	var Logo:FlxSprite;
+	var logo:FlxSprite;
 
 	public static var bitmapData:Map<String,FlxGraphic>;
 
@@ -66,14 +68,14 @@ class Caching extends MusicBeatState
 		text.alignment = FlxTextAlign.CENTER;
 	
 
-		Logo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('titlelogo'));
-		Logo.x -= Logo.width / 2;
-		Logo.y -= Logo.height / 2 + 100;
-		text.y -= Logo.height / 2 - 125;
+		logo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('titlelogo'));
+		logo.x -= logo.width / 2;
+		logo.y -= logo.height / 2 + 100;
+		text.y -= logo.height / 2 - 125;
 		text.x -= 170;
-		Logo.setGraphicSize(Std.int(Logo.width * 0.6));
+		logo.setGraphicSize(Std.int(logo.width * 0.6));
 		
-			Logo.antialiasing = true;
+			logo.antialiasing = true;
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
                 #if cpp
@@ -93,7 +95,7 @@ class Caching extends MusicBeatState
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		add(Logo);
+		add(logo);
 		add(text);
 		
 		#if cpp
@@ -123,6 +125,23 @@ class Caching extends MusicBeatState
 
 	override function update(elapsed) 
 	{
+		if(!isAlphaReady)
+			{
+				FlxTween.tween(logo, {alpha: 0.5}, 1, {
+					ease: FlxEase.quadInOut,
+					onComplete: function(twn:FlxTween)
+					{
+						isAlphaReady = true;
+						FlxTween.tween(logo, {alpha: 1}, 1, {
+							ease: FlxEase.quadInOut,
+							onComplete: function(twn:FlxTween)
+							{
+								isAlphaReady = false;
+							}
+						});
+					}
+				});
+			}
 		super.update(elapsed);
 	}
 
