@@ -39,8 +39,6 @@ class Caching extends MusicBeatState
 
 	var loaded = false;
 
-	var isAlphaReady:Bool = false;
-
 	var text:FlxText;
 	var logo:FlxSprite;
 
@@ -125,23 +123,16 @@ class Caching extends MusicBeatState
 
 	override function update(elapsed) 
 	{
-		if(!isAlphaReady)
+		FlxTween.tween(logo, {alpha: 0.5}, 1, {
+			ease: FlxEase.linear,
+			onComplete: function(twn:FlxTween)
 			{
-				FlxTween.tween(logo, {alpha: 0.5}, 1, {
-					ease: FlxEase.quadInOut,
-					onComplete: function(twn:FlxTween)
-					{
-						isAlphaReady = true;
-						FlxTween.tween(logo, {alpha: 1}, 1, {
-							ease: FlxEase.quadInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								isAlphaReady = false;
-							}
-						});
-					}
+				FlxTween.tween(logo, {alpha: 1}, 1, {
+					ease: FlxEase.linear
 				});
 			}
+		});
+		
 		super.update(elapsed);
 	}
 
