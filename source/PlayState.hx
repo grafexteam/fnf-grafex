@@ -1917,28 +1917,34 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
+			{
+				iconP1.animation.curAnim.curFrame = 1;
+				shakeFromLosing(iconP1);
+			}
 		else if (healthBar.percent > 20 && healthBar.percent < 80)
 			iconP1.animation.curAnim.curFrame = 0;
 		else if (healthBar.percent > 80)
 			iconP1.animation.curAnim.curFrame = 2;
 
-		switch(SONG.player2)
-		{
-			default:
-				if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 2;
-				else if (healthBar.percent > 20 && healthBar.percent < 80)
-					iconP2.animation.curAnim.curFrame = 0;
-				else if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-		}
 
+		if (healthBar.percent < 20)
+			iconP2.animation.curAnim.curFrame = 2;
+		else if (healthBar.percent > 20 && healthBar.percent < 80)
+			iconP2.animation.curAnim.curFrame = 0;
+		else if (healthBar.percent > 80)
+			{			
+				iconP2.animation.curAnim.curFrame = 1;
+				shakeFromLosing(iconP2);
+			}
+
+
+		#if debug
 		if (FlxG.keys.justPressed.EIGHT) {
 			persistentUpdate = false;
 			paused = true;
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
+		#end
 
 		if (startingSong)
 		{
@@ -3503,6 +3509,15 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
+		if (healthBar.percent < 20)
+			if(!endingSong)
+				shakeFromLosing(iconP1);
+
+		if (healthBar.percent > 80)
+			if(!endingSong)
+				shakeFromLosing(iconP2);
+
+
 		if (generatedMusic)
 		{
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
@@ -3677,4 +3692,21 @@ class PlayState extends MusicBeatState
 
 	var curLight:Int = 0;
 	var curLightEvent:Int = 0;
+
+	function shakeFromLosing(icon:HealthIcon)
+	{
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+		{
+			icon.setPosition(icon.x + 2, icon.y + 2);
+			new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				icon.setPosition(icon.x - 4, icon.y - 4);
+				new FlxTimer().start(0.1, function(tmr:FlxTimer)
+				{
+					icon.setPosition(icon.x + 2, icon.y + 2);
+					//shakeFromLosing(icon);
+				});
+			});
+		});
+	}
 }
