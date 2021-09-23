@@ -3704,7 +3704,6 @@ class PlayState extends MusicBeatState
 				new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
 					icon.setPosition(icon.x + 2, icon.y + 2);
-					//shakeFromLosing(icon);
 				});
 			});
 		});
