@@ -838,7 +838,7 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
-		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol
+		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol - Xale
 		{
 			case 'school' | 'schoolEvil':
 
