@@ -92,10 +92,6 @@ class ClientPrefs {
 		save.data.customControls = lastControls;
 		save.flush();
 		FlxG.log.add("Settings saved!");
-
-		if(FlxG.save.data.caching != null)
-			trace('That is ok');
-			trace(caching);
 	}
 
 	public static function loadPrefs() {
