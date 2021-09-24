@@ -73,6 +73,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end
+		
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
 		FlxG.sound.volumeDownKeys = volumeDownKeys;

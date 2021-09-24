@@ -6,10 +6,10 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
 
-// There must be all data about engine vars... There is only one at the moment -w-" - Xale
 class EngineData
 {
 	public static var modEngineVersion:String = 'b0.0.3.2';
+	public static var isCachingEnabled:Bool = true; // Note: Cache won't work if you run game with debug - Xale
 }
 
 class ClientPrefs {
@@ -27,9 +27,9 @@ class ClientPrefs {
 	public static var hideHud:Bool = false;
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var hideTime:Bool = false;
+	public static var caching:Bool = true;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -82,15 +82,20 @@ class ClientPrefs {
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
 		FlxG.save.data.arrowHSV = arrowHSV;
-		FlxG.save.data.imagesPersist = imagesPersist;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.hideTime = hideTime;
+		FlxG.save.data.caching = caching;
+		//caching = FlxG.save.data.caching;
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls', 'xale'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = lastControls;
 		save.flush();
 		FlxG.log.add("Settings saved!");
+
+		if(FlxG.save.data.caching != null)
+			trace('That is ok');
+			trace(caching);
 	}
 
 	public static function loadPrefs() {
@@ -140,15 +145,14 @@ class ClientPrefs {
 		if(FlxG.save.data.arrowHSV != null) {
 			arrowHSV = FlxG.save.data.arrowHSV;
 		}
-		if(FlxG.save.data.imagesPersist != null) {
-			imagesPersist = FlxG.save.data.imagesPersist;
-			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
-		}
 		if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}
 		if(FlxG.save.data.hideTime != null) {
 			hideTime = FlxG.save.data.hideTime;
+		}
+		if(FlxG.save.data.caching != null) {
+			caching = FlxG.save.data.caching;
 		}
 
 		var save:FlxSave = new FlxSave();
@@ -192,6 +196,13 @@ class ClientPrefs {
 			}
 		}
 	}
+
+	public static function getCaching()
+		{
+			caching = FlxG.save.data.caching;
+			return caching;
+		}
+		
 }
 
 class WeekData {

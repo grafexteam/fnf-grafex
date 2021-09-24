@@ -58,9 +58,11 @@ class MainMenuState extends MusicBeatState
 	public static var camFollow:FlxObject;
 	public static var camFollowPos:FlxObject;
 
-	
+	public static var caching:Bool;
+
 	override function create()
 	{
+		trace(caching);
 		TitleState.isLogoLoaded = false;
 		#if desktop
 		DiscordClient.changePresence("In the Menu", null);
@@ -1194,7 +1196,7 @@ class OptionsState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("Options Menu", null);
+		DiscordClient.changePresence("In the Options Menu", null);
 		#end
 
 
@@ -1839,14 +1841,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Note Delay'
 	];
 	 
-        static var options:Array<String> = [
+    static var options:Array<String> = [
 		'GRAPHICS',
 		'Low Quality',
 		'Anti-Aliasing',
-		'Persistent Cached Data',
+
 		#if !html5
 		'Framerate', //Apparently 120FPS isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		#end
+
 		'GAMEPLAY',
 		'Downscroll',
 		'Ghost Tapping',
@@ -1855,6 +1858,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Hide HUD',
 		'Flashing Lights',
 		'Camera Zooms'
+
 		#if !mobile
 		,'FPS Counter'
 		#end
@@ -1872,6 +1876,31 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 	public function new()
 	{
+		if(EngineData.isCachingEnabled)
+			options = [
+				'GAMEPLAY',
+				'Data Cache',
+				'Downscroll',
+				'Ghost Tapping',
+				'Note Delay',
+				'Note Splashes',
+				'Hide HUD',
+				'Flashing Lights',
+				'Camera Zooms',
+		
+				#if !mobile
+				'FPS Counter',
+				#end
+
+				'GRAPHICS',
+				'Low Quality',
+				'Anti-Aliasing',
+		
+				#if !html5
+				'Framerate',
+				#end
+			];
+
 		super();
 		characterLayer = new FlxTypedGroup<Character>();
 		add(characterLayer);
@@ -2023,7 +2052,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Middlescroll':
 						ClientPrefs.middleScroll = !ClientPrefs.middleScroll;
  
-                                        case 'Ghost Tapping':
+                    case 'Ghost Tapping':
 						ClientPrefs.ghostTapping = !ClientPrefs.ghostTapping;
 
 					case 'Camera Zooms':
@@ -2032,9 +2061,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
-					case 'Persistent Cached Data':
-						ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
-						FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+					case 'Data Cache':
+						ClientPrefs.caching = !ClientPrefs.caching;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -2104,15 +2132,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, hides FPS Counter.";
 			case 'Low Quality':
 				daText = "If checked, disables some background details,\ndecreases loading times and improves performance.";
-			case 'Persistent Cached Data':
-				daText = "If checked, images loaded will stay in memory\nuntil the game is closed, this increases memory usage,\nbut basically makes reloading times instant.";
+			case 'Data Cache':
+				daText = "If checked, loaded images will stay in memory.\nThis will make all loadings faster";
 			case 'Anti-Aliasing':
 				daText = "If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.";
 			case 'Downscroll':
 				daText = "If checked, notes go Down instead of Up, simple enough.";
 			case 'Middlescroll':
 				daText = "If checked, hides Opponent's notes and your notes get centered.";
-                        case 'Ghost Tapping':
+            case 'Ghost Tapping':
 				daText = "If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.";
 			case 'Swearing':
 				daText = "If unchecked, your mom won't be angry at you.";
@@ -2214,8 +2242,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.camZooms;
 					case 'Hide HUD':
 						daValue = ClientPrefs.hideHud;
-					case 'Persistent Cached Data':
-						daValue = ClientPrefs.imagesPersist;
+					case 'Data Cache':
+						daValue = ClientPrefs.caching;
 				}
 				checkbox.daValue = daValue;
 			}
