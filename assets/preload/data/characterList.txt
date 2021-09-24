@@ -20,3 +20,4 @@ spirit
 bf-pixel-opponent
 pico-player
 hank
+tankman
