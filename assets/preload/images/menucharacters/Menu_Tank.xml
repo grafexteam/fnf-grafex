@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="Menu_Tank.png">
-	<!-- Created with Adobe Animate version 18.0.2.126 -->
+	<!-- Created with Adobe Animate version 21.0.5.40714 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="T Tank Idle0000" x="0" y="0" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0001" x="233" y="0" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0002" x="466" y="0" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0003" x="699" y="0" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0004" x="0" y="302" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0005" x="233" y="302" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0006" x="466" y="302" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0007" x="699" y="302" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0008" x="0" y="604" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0009" x="233" y="604" width="233" height="302"/>
-	<SubTexture name="T Tank Idle0010" x="466" y="604" width="233" height="302"/>
+	<SubTexture name="T Tank Idle0000" x="0" y="0" width="230" height="301" pivotX="0" pivotY="0" frameX="0" frameY="0" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0001" x="230" y="0" width="229" height="293" frameX="-1" frameY="-7" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0002" x="459" y="0" width="229" height="293" frameX="-1" frameY="-7" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0003" x="688" y="0" width="226" height="292" frameX="-2" frameY="-8" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0004" x="914" y="0" width="226" height="292" frameX="-2" frameY="-8" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0005" x="1140" y="0" width="228" height="295" frameX="0" frameY="-5" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0006" x="1368" y="0" width="228" height="295" frameX="0" frameY="-5" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0007" x="1596" y="0" width="229" height="301" frameX="0" frameY="0" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0008" x="0" y="301" width="229" height="301" frameX="0" frameY="0" frameWidth="230" frameHeight="302"/>
+	<SubTexture name="T Tank Idle0009" x="229" y="301" width="230" height="302"/>
+	<SubTexture name="T Tank Idle0010" x="459" y="301" width="230" height="302"/>
+	<SubTexture name="T Tank Idle0011" x="689" y="301" width="230" height="302"/>
+	<SubTexture name="T Tank Idle0012" x="919" y="301" width="230" height="302"/>
 </TextureAtlas>
