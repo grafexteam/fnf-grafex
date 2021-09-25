@@ -102,7 +102,10 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				coolStartDeath();
 				bf.startedDeath = true;
-			}
+			  
+
+
+                       }
 		}
 
 		if (FlxG.sound.music.playing)
@@ -123,6 +126,11 @@ class GameOverSubstate extends MusicBeatSubstate
 	function coolStartDeath(?volume:Float = 1):Void
 	{
 		FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), volume);
+
+                 if (PlayState.curStage == 'tankStage' || PlayState.curStage == 'tankStage2')
+			{
+			    FlxG.sound.play(Paths.sound('jeffGameover-' + FlxG.random.int(1, 25), 'week7'));
+			}
 	}
 
 	function endBullshit():Void
