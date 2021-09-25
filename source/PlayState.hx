@@ -325,7 +325,6 @@ class PlayState extends MusicBeatState
 					bg.loadGraphic(Paths.image("tankSky", 'week7'));
 					bg.scrollFactor.set(0, 0);
 					bg.antialiasing = true;
-					//bg.setGraphicSize(Std.int(bg.width * 1.5));
 					add(bg);
 
 					var clouds:FlxSprite = new FlxSprite(FlxG.random.int(-700, -100), FlxG.random.int(-20, 20)).loadGraphic(Paths.image('tankClouds', 'week7'));
@@ -356,14 +355,12 @@ class PlayState extends MusicBeatState
 					ruins.antialiasing = true;
 					add(ruins);
 
-
 					var smokeLeft:FlxSprite = new FlxSprite(-200,-100);
 					smokeLeft.frames = Paths.getSparrowAtlas('smokeLeft', 'week7');
 					smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
 					smokeLeft.scrollFactor.set(0.4, 0.4);
 					smokeLeft.antialiasing = true;
-					smokeLeft.animation.play('idle');
-					
+					smokeLeft.animation.play('idle');					
 					add(smokeLeft);
 
 					var smokeRight:FlxSprite = new FlxSprite(1100,-100);
@@ -371,8 +368,7 @@ class PlayState extends MusicBeatState
 					smokeRight.animation.addByPrefix('idle', 'SmokeRight ', 24, true);
 					smokeRight.scrollFactor.set(0.4, 0.4);
 					smokeRight.antialiasing = true;
-					smokeRight.animation.play('idle');
-					
+					smokeRight.animation.play('idle');					
 					add(smokeRight);
 
 
@@ -380,11 +376,8 @@ class PlayState extends MusicBeatState
 					tankWatchtower.frames = Paths.getSparrowAtlas('tankWatchtower', 'week7');
 					tankWatchtower.animation.addByPrefix('idle', 'watchtower gradient color instance 1', 24, false);
 					tankWatchtower.scrollFactor.set(0.5, 0.5);
-					tankWatchtower.antialiasing = true;
-					
-					
+					tankWatchtower.antialiasing = true;					
 					add(tankWatchtower);
-
 					
 					tankRolling = new FlxSprite(300,300);
 					tankRolling.frames = Paths.getSparrowAtlas('tankRolling', 'week7');
@@ -392,18 +385,16 @@ class PlayState extends MusicBeatState
 					tankRolling.scrollFactor.set(0.5, 0.5);
 					tankRolling.antialiasing = true;
 					tankRolling.animation.play('idle');
-					
+			
 					tankmanRun = new FlxTypedGroup<TankmenBG>();
 					add(tankRolling);
-                                        add(tankmanRun);
+                    add(tankmanRun);
 					
-
 					var ground:FlxSprite = new FlxSprite(-420,-150).loadGraphic(Paths.image('tankGround', 'week7'));
 					ground.scrollFactor.set();
 					ground.antialiasing = true;
 					ground.setGraphicSize(Std.int(ground.width * 1.15));
-					ground.scrollFactor.set(1, 1);
-					
+					ground.scrollFactor.set(1, 1);	
 					ground.updateHitbox();
 					add(ground);
 
@@ -412,56 +403,35 @@ class PlayState extends MusicBeatState
 					tank0.animation.addByPrefix('idle', 'fg tankhead far right ', 24, false);
 					tank0.scrollFactor.set(1.7, 1.5);
 					tank0.antialiasing = true;
-					
 					tank0.updateHitbox();
-					
-					
-					
-
 
 					tank1 = new FlxSprite(-300,750);
 					tank1.frames = Paths.getSparrowAtlas('tank1', 'week7');
 					tank1.animation.addByPrefix('idle', 'fg tankhead 5 ', 24, false);
 					tank1.scrollFactor.set(2.0, 0.2);
-					tank1.antialiasing = true;
-					
+					tank1.antialiasing = true;			
 					tank1.updateHitbox();
-					
-					
-					
-
 
 					tank2 = new FlxSprite(450,940);
 					tank2.frames = Paths.getSparrowAtlas('tank2', 'week7');
 					tank2.animation.addByPrefix('idle', 'foreground man 3 ', 24, false);
 					tank2.scrollFactor.set(1.5, 1.5);
-					tank2.antialiasing = true;
-					
-					tank2.updateHitbox();
-					
-					
-
+					tank2.antialiasing = true;		
+					tank2.updateHitbox();		
 
 					tank3 = new FlxSprite(1300,1200);
 					tank3.frames = Paths.getSparrowAtlas('tank3', 'week7');
 					tank3.animation.addByPrefix('idle', 'fg tankhead 4 ', 24, false);
 					tank3.scrollFactor.set(3.5, 2.5);
-					tank3.antialiasing = true;
-					
+					tank3.antialiasing = true;		
 					tank3.updateHitbox();
 					
-					
-
-
 					tank4 = new FlxSprite(1300,900);
 					tank4.frames = Paths.getSparrowAtlas('tank4', 'week7');
 					tank4.animation.addByPrefix('idle', 'fg tankman bobbin 3 ', 24, false);
 					tank4.scrollFactor.set(1.5, 1.5);
-					tank4.antialiasing = true;
-					
-					tank4.updateHitbox();
-					
-					
+					tank4.antialiasing = true;		
+					tank4.updateHitbox();	
 
 					tank5 = new FlxSprite(1620,700);
 					tank5.frames = Paths.getSparrowAtlas('tank5', 'week7');
@@ -479,7 +449,6 @@ class PlayState extends MusicBeatState
 					bg.loadGraphic(Paths.image("tankSky", 'week7'));
 					bg.scrollFactor.set(0, 0);
 					bg.antialiasing = true;
-					//bg.setGraphicSize(Std.int(bg.width * 1.5));
 					add(bg);
 
 					var clouds:FlxSprite = new FlxSprite(FlxG.random.int(-700, -100), FlxG.random.int(-20, 20)).loadGraphic(Paths.image('tankClouds', 'week7'));
@@ -510,14 +479,12 @@ class PlayState extends MusicBeatState
 					ruins.antialiasing = true;
 					add(ruins);
 
-
 					var smokeLeft:FlxSprite = new FlxSprite(-200,-100);
 					smokeLeft.frames = Paths.getSparrowAtlas('smokeLeft', 'week7');
 					smokeLeft.animation.addByPrefix('idle', 'SmokeBlurLeft ', 24, true);
 					smokeLeft.scrollFactor.set(0.4, 0.4);
 					smokeLeft.antialiasing = true;
-					smokeLeft.animation.play('idle');
-					
+					smokeLeft.animation.play('idle');		
 					add(smokeLeft);
 
 					var smokeRight:FlxSprite = new FlxSprite(1100,-100);
@@ -525,38 +492,29 @@ class PlayState extends MusicBeatState
 					smokeRight.animation.addByPrefix('idle', 'SmokeRight ', 24, true);
 					smokeRight.scrollFactor.set(0.4, 0.4);
 					smokeRight.antialiasing = true;
-					smokeRight.animation.play('idle');
-					
+					smokeRight.animation.play('idle');				
 					add(smokeRight);
-
 
 					tankWatchtower = new FlxSprite(100,30);
 					tankWatchtower.frames = Paths.getSparrowAtlas('tankWatchtower', 'week7');
 					tankWatchtower.animation.addByPrefix('idle', 'watchtower gradient color instance 1', 24, false);
 					tankWatchtower.scrollFactor.set(0.5, 0.5);
 					tankWatchtower.antialiasing = true;
-					
-					
 					add(tankWatchtower);
 
-					
 					tankRolling = new FlxSprite(300,300);
 					tankRolling.frames = Paths.getSparrowAtlas('tankRolling', 'week7');
 					tankRolling.animation.addByPrefix('idle', 'BG tank w lighting ', 24, true);
 					tankRolling.scrollFactor.set(0.5, 0.5);
 					tankRolling.antialiasing = true;
-					tankRolling.animation.play('idle');
-					
+					tankRolling.animation.play('idle');	
 					add(tankRolling);
-
-					
 
 					var ground:FlxSprite = new FlxSprite(-420,-150).loadGraphic(Paths.image('tankGround', 'week7'));
 					ground.scrollFactor.set();
 					ground.antialiasing = true;
 					ground.setGraphicSize(Std.int(ground.width * 1.15));
 					ground.scrollFactor.set(1, 1);
-					
 					ground.updateHitbox();
 					add(ground);
 
@@ -565,57 +523,36 @@ class PlayState extends MusicBeatState
 					tank0.animation.addByPrefix('idle', 'fg tankhead far right ', 24, false);
 					tank0.scrollFactor.set(1.7, 1.5);
 					tank0.antialiasing = true;
-					
 					tank0.updateHitbox();
-					
-					
-					
-
 
 					tank1 = new FlxSprite(-300,750);
 					tank1.frames = Paths.getSparrowAtlas('tank1', 'week7');
 					tank1.animation.addByPrefix('idle', 'fg tankhead 5 ', 24, false);
 					tank1.scrollFactor.set(2.0, 0.2);
-					tank1.antialiasing = true;
-					
+					tank1.antialiasing = true;	
 					tank1.updateHitbox();
-					
-					
-					
-
 
 					tank2 = new FlxSprite(450,940);
 					tank2.frames = Paths.getSparrowAtlas('tank2', 'week7');
 					tank2.animation.addByPrefix('idle', 'foreground man 3 ', 24, false);
 					tank2.scrollFactor.set(1.5, 1.5);
-					tank2.antialiasing = true;
-					
+					tank2.antialiasing = true;		
 					tank2.updateHitbox();
-					
-					
-
 
 					tank3 = new FlxSprite(1300,1200);
 					tank3.frames = Paths.getSparrowAtlas('tank3', 'week7');
 					tank3.animation.addByPrefix('idle', 'fg tankhead 4 ', 24, false);
 					tank3.scrollFactor.set(3.5, 2.5);
 					tank3.antialiasing = true;
-					
 					tank3.updateHitbox();
-					
-					
-
 
 					tank4 = new FlxSprite(1300,900);
 					tank4.frames = Paths.getSparrowAtlas('tank4', 'week7');
 					tank4.animation.addByPrefix('idle', 'fg tankman bobbin 3 ', 24, false);
 					tank4.scrollFactor.set(1.5, 1.5);
-					tank4.antialiasing = true;
-					
+					tank4.antialiasing = true;		
 					tank4.updateHitbox();
 					
-					
-
 					tank5 = new FlxSprite(1620,700);
 					tank5.frames = Paths.getSparrowAtlas('tank5', 'week7');
 					tank5.animation.addByPrefix('idle', 'fg tankhead far right ', 24, false);
@@ -623,10 +560,6 @@ class PlayState extends MusicBeatState
 					tank5.antialiasing = true;
 					
 					tank5.updateHitbox();
-					
-					
-
-					
 			}
 			
 			case 'spookeez' | 'south' | 'monster':
@@ -1160,9 +1093,9 @@ class PlayState extends MusicBeatState
 				p2HealthColor = 0xFFff4747;
 			case 'hank':
 				p2HealthColor = 0xFF9a9a9a;
-                        case 'tankman':			
-                                p2HealthColor = 0xFF000000;
-                        case 'monster' | 'monster-christmas':
+            case 'tankman':			
+                p2HealthColor = 0xFF282f55;
+            case 'monster' | 'monster-christmas':
 				p2HealthColor = 0xFFd2b915;
 		}
 		switch(SONG.player1)
@@ -1367,6 +1300,9 @@ class PlayState extends MusicBeatState
 				case 'senpai' | 'roses' | 'thorns':
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
+				
+				case 'ugh':
+					
 
 				default:
 					startCountdown();
