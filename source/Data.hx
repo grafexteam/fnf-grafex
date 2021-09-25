@@ -216,7 +216,9 @@ class WeekData {
 		['Pico', 'Philly-Nice', 'Blammed'],			//Week 3
 		['Satin-Panties', 'High', 'Milf'],			//Week 4
 		['Cocoa', 'Eggnog', 'Winter-Horrorland'],	//Week 5
-		['Senpai', 'Roses', 'Thorns']				//Week 6
+		['Senpai', 'Roses', 'Thorns'],				//Week 6
+		['ugh', 'guns', 'stress']
+
 	];
 
 	// Custom week number, used for your week's score not being overwritten by a new vanilla week when the game updates
@@ -229,7 +231,8 @@ class WeekData {
 		null,	//Week 3
 		null,	//Week 4
 		null,	//Week 5
-		null	//Week 6
+		null,	//Week 6
+		null
 	];
 
 	//Tells which assets directory should it load
@@ -246,7 +249,8 @@ class WeekData {
 		null,	//Week 3
 		null,	//Week 4
 		null,	//Week 5
-		null	//Week 6
+		null,	//Week 6
+		null	//Week
 	];
 
 	//The only use for this is to display a different name for the Week when you're on the score reset menu.
@@ -260,7 +264,8 @@ class WeekData {
 		null,	//Week 3
 		null,	//Week 4
 		null,	//Week 5
-		null	//Week 6
+		null,	//Week 6
+		null
 	];
 
 

@@ -28,7 +28,7 @@ class MenuCharacter extends FlxSprite
 		switch(character) {
 			case '':
                           
-                        case 'bf':
+            case 'bf':
 				frames = Paths.getSparrowAtlas('menucharacters/Menu_BF');
 				animation.addByPrefix('idle', "M BF Idle", 24);
 				animation.addByPrefix('confirm', 'M bf HEY', 24, false);
@@ -60,6 +60,9 @@ class MenuCharacter extends FlxSprite
 			case 'senpai':
 				frames = Paths.getSparrowAtlas('menucharacters/Menu_Senpai');
 				animation.addByPrefix('idle', "M Senpai Idle", 24);
+			case 'tankman':
+				frames = Paths.getSparrowAtlas('menucharacters/Menu_Tank');
+				animation.addByPrefix('idle', "T Tank Idle", 24);
 		}
 		animation.play('idle');
 		updateHitbox();
@@ -79,6 +82,8 @@ class MenuCharacter extends FlxSprite
 
 			case 'mom':
 				offset.set(0, 10);
+			case 'tankman':
+					offset.set(0, 10);	
 
 			case 'parents-christmas':
 				offset.set(110, 10);

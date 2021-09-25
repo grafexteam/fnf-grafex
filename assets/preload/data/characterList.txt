@@ -21,3 +21,6 @@ bf-pixel-opponent
 pico-player
 hank
 tankman
+picospeaker
+tangf
+bfgf
