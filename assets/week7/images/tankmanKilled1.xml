@@ -38,9 +38,7 @@
 	<SubTexture name="John Shot 20013" x="754" y="2647" width="781" height="461" frameX="0" frameY="-209" frameWidth="1221" frameHeight="828"/>
 	<SubTexture name="John Shot 20014" x="0" y="0" width="0" height="0" frameX="-123" frameY="-327" frameWidth="1221" frameHeight="828"/>
 	<SubTexture name="John Shot 20015" x="754" y="2647" width="781" height="461" frameX="0" frameY="-209" frameWidth="1221" frameHeight="828"/>
-	<SubTexture name="John Shot 20016" x="0" y="0" width="0" height="0" frameX="-123" frameY="-327" frameWidth="1221" frameHeight="828"/>
-	<SubTexture name="John Shot 20017" x="754" y="2647" width="781" height="461" frameX="0" frameY="-209" frameWidth="1221" frameHeight="828"/>
-	<SubTexture name="John Shot 20018" x="0" y="0" width="0" height="0" frameX="-123" frameY="-327" frameWidth="1221" frameHeight="828"/>
+	<SubTexture name="John Shot 20016" x="754" y="2647" width="781" height="461" frameX="0" frameY="-209" frameWidth="1221" frameHeight="828"/>
 	<SubTexture name="tankman running0000" x="2045" y="2744" width="503" height="412" frameX="0" frameY="-10" frameWidth="505" frameHeight="478"/>
 	<SubTexture name="tankman running0001" x="2045" y="2744" width="503" height="412" frameX="0" frameY="-10" frameWidth="505" frameHeight="478"/>
 	<SubTexture name="tankman running0002" x="2045" y="2744" width="503" height="412" frameX="0" frameY="-10" frameWidth="505" frameHeight="478"/>

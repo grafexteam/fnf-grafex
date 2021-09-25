@@ -3919,7 +3919,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
 	
-	    /*if(SONG.song.toLowerCase() == 'stress')  ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME??
+	    if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME??
 			{
 				//RIGHT
 				for(i in 0...picoStep.right.length)
@@ -3959,9 +3959,6 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-	*/
-	
-	
 	}
 
 	var lightningStrikeBeat:Int = 0;
