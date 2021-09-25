@@ -87,7 +87,6 @@ class PlayState extends MusicBeatState
 	public var gfMap:Map<String, Character> = new Map<String, Character>();
 	#end
 
-	
 	var tank0:FlxSprite;
 	var tank1:FlxSprite;
 	var tank2:FlxSprite;
@@ -103,8 +102,6 @@ class PlayState extends MusicBeatState
 	var picoStep:Ps;
 	var tankStep:Ts;
 
-	
-	
 	public var BF_X:Float = 770;
 	public var BF_Y:Float = 100;
 	public var DAD_X:Float = 100;
@@ -200,10 +197,6 @@ class PlayState extends MusicBeatState
 	var grpLimoParticles:FlxTypedGroup<BGSprite>;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
 	var fastCar:BGSprite;
-
-	
-
-	
 	
 	var upperBoppers:BGSprite;
 	var bottomBoppers:BGSprite;
@@ -230,6 +223,7 @@ class PlayState extends MusicBeatState
 	public var defaultCamZoom:Float = 1.05;
 
 	var loseVin:FlxSprite;
+	var badLoseVin:FlxSprite;
 
 	// Pixel zoom
 	public static var daPixelZoom:Float = 6;
@@ -1194,6 +1188,14 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
+		badLoseVin = new FlxSprite(-80).loadGraphic(Paths.image('vinLose'));
+		badLoseVin.scrollFactor.set();
+		badLoseVin.updateHitbox();
+		badLoseVin.screenCenter();
+		badLoseVin.visible = true;
+		badLoseVin.alpha = 0;
+		add(badLoseVin);
+
 		loseVin = new FlxSprite(-80).loadGraphic(Paths.image('vin'));
 		loseVin.scrollFactor.set();
 		loseVin.updateHitbox();
@@ -1216,7 +1218,9 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 		songTxt.cameras = [camHUD];
+
 		loseVin.cameras = [camHUD];
+		badLoseVin.cameras = [camHUD];
 
 		startingSong = true;
 		updateTime = true;
@@ -2263,7 +2267,6 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 
 		var iconOffset:Int = 26;
-		var vinAlpha:Float = 0;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
@@ -2297,11 +2300,30 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		vinAlpha = FlxMath.lerp(healthBar.percent/50*5+20, healthBar.percent+20, -1);
-
 		loseVin.alpha = 1 - (health / 2);
 
+		if(healthBar.percent < 30)
+			FlxTween.tween(badLoseVin, {alpha: 0.7}, 1, {ease: FlxEase.linear});
+		else
+			FlxTween.tween(badLoseVin, {alpha: 0}, 1, {ease: FlxEase.linear});
 
+		if(!endingSong)
+			{
+				switch(curSong.toLowerCase())
+				{
+					case 'thorns':
+						switch(CoolUtil.difficultyStuff[storyDifficulty][0])
+						{
+							case 'Hard': // Hard
+								health -= 0.001;
+							case 'Easy': // Easy
+								// Does nothing
+							case 'Normal': // Normal
+								health -= 0.0005;
+						}					
+				}
+			}
+			
 		if (startingSong)
 		{
 			if (startedCountdown)
@@ -3856,7 +3878,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
 	
-	    if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME??
+	    if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME?? - Snake // Uhm... it is okay now? - Xale
 			{
 				//RIGHT
 				for(i in 0...picoStep.right.length)
@@ -3864,7 +3886,6 @@ class PlayState extends MusicBeatState
 					if (curStep == picoStep.right[i])
 					{
 						gf.playAnim('shoot' + FlxG.random.int(1, 2), true);
-						//var tankmanRunner:TankmenBG = new TankmenBG();
 					}
 				}
 				//LEFT
@@ -3881,7 +3902,6 @@ class PlayState extends MusicBeatState
 					if (curStep == tankStep.left[i]){
 						var tankmanRunner:TankmenBG = new TankmenBG();
 						tankmanRunner.resetShit(FlxG.random.int(630, 730) * -1, 255, true, 1, 1.5);
-	
 						tankmanRun.add(tankmanRunner);
 					}
 				}

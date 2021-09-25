@@ -27,6 +27,9 @@ import openfl.display.BitmapData;
 import openfl.utils.AssetType;
 import lime.graphics.Image;
 import flixel.graphics.FlxGraphic;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
 
 import openfl.utils.AssetManifest;
 import openfl.utils.AssetLibrary;
@@ -41,9 +44,6 @@ using StringTools;
 
 class TankmenBG extends FlxSprite
 {
-
-	        
-
     public var tankSpeed:Float = 0.7 * 1000;
     public var goingRight:Bool = false;
     var runAnimPlayedTimes:Int = 0;
@@ -87,15 +87,16 @@ class TankmenBG extends FlxSprite
             {
                 offset.x = 300;
                 velocity.x = 0;
+                //setPosition(x, y-500);
             }
         }
         else
         {
             velocity.x = tankSpeed * (newSpeedModifier * -1);
             if(animation.curAnim.name == "shot")
-            {
-                
+            {         
                 velocity.x = 0;
+                //setPosition(x, y-500);
             }
         }
         
@@ -110,6 +111,11 @@ class TankmenBG extends FlxSprite
             {
                 offset.x = 400;
                 velocity.x = 10;
+                new FlxTimer().start(0.1, function(tmr:FlxTimer)
+					{
+						setPosition(x, y+20);
+					});
+                
             }
             flipX = true;
 
@@ -119,7 +125,13 @@ class TankmenBG extends FlxSprite
             {
                 offset.x = 0;
                 velocity.x = 10;
+                new FlxTimer().start(0.1, function(tmr:FlxTimer)
+					{
+						setPosition(x, y+20);
+					});
+                
             }
+
         }
         super.update(elapsed);
         
