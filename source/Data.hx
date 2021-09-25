@@ -9,7 +9,16 @@ import Controls;
 class EngineData
 {
 	public static var modEngineVersion:String = 'b0.0.3.2';
-	public static var isCachingEnabled:Bool = true; // Note: Cache won't work if you run game with debug - Xale
+
+	public static var isCachingEnabled:Bool = false;
+	public static var isMod:Bool = false; // WIP
+
+	
+	// Note: Cache won't work if you run game with debug - Xale
+	// Another Note: Cache is kinda shit, so, by default it is false.
+
+
+
 }
 
 class ClientPrefs {
