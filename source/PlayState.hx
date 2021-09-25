@@ -13,6 +13,7 @@ import MusicBeatState;
 import ShaderEffects;
 import BackgroundStuff;
 import Dialogue;
+import VideoState;
 // ---
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -1300,9 +1301,6 @@ class PlayState extends MusicBeatState
 				case 'senpai' | 'roses' | 'thorns':
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
-				
-				case 'ugh':
-					
 
 				default:
 					startCountdown();

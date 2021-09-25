@@ -10,6 +10,7 @@ import Controls;
 import SongData;
 import GameMenuStuff;
 import MusicBeatState;
+import VideoState;
 // ---
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -778,6 +779,8 @@ class SongMetadata
 
 class StoryMenuState extends MusicBeatState
 {
+	var isCutscene:Bool = false;
+
 	// Wether you have to beat the previous week for playing this one
 	// Not recommended, as people usually download your mod for, you know,
 	// playing just the modded week then delete it.
@@ -887,7 +890,6 @@ class StoryMenuState extends MusicBeatState
 		add(grpLocks);
 
 		#if desktop
-		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
@@ -900,7 +902,6 @@ class StoryMenuState extends MusicBeatState
 
 			weekThing.screenCenter(X);
 			weekThing.antialiasing = ClientPrefs.globalAntialiasing;
-			// weekThing.updateHitbox();
 
 			// Needs an offset thingie
 			if (i < weekUnlocked.length && !weekUnlocked[i])
@@ -1090,12 +1091,29 @@ class StoryMenuState extends MusicBeatState
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			PlayState.campaignMisses = 0;
-			new FlxTimer().start(1, function(tmr:FlxTimer)
+
+			var video:MP4Handler = new MP4Handler();
+
+			if (curWeek == 7 && !isCutscene) // Checks if the current week is Tutorial.
 			{
-				LoadingState.loadAndSwitchState(new PlayState(), true);
-				FreeplayState.destroyFreeplayVocals();
-			});
-                       
+				new FlxTimer().start(1, function(tmr:FlxTimer)
+					{
+						video.playMP4(Paths.video('ughCutscene'), new PlayState());
+					});
+					
+			    isCutscene = true;
+			}
+			else
+			{
+			    new FlxTimer().start(1, function(tmr:FlxTimer)
+			    {
+			        if (isCutscene)
+			            video.onVLCComplete();
+				
+			        LoadingState.loadAndSwitchState(new PlayState(), true);
+					FreeplayState.destroyFreeplayVocals();
+			    });
+			}
 		}
 	}
 
