@@ -235,6 +235,8 @@ class PlayState extends MusicBeatState
 	public static var daPixelZoom:Float = 6;
 
 	public var inCutscene:Bool = false;
+        public var isCutscene:Bool = false;
+
 	var songLength:Float = 0;
 	public static var displaySongName:String = "";
 
@@ -3064,13 +3066,16 @@ class PlayState extends MusicBeatState
 		endingSong = true;
 		camZooming = false;
 		inCutscene = false;
-		updateTime = false;
+                isCutscene = false;
+		
+                 updateTime = false;
 
 		deathCounter = 0;
 		seenCutscene = false;
 		KillNotes();
 
 		callOnLuas('onEndSong', []);
+	
 
 		if (isStoryMode)
 		{
@@ -3104,8 +3109,9 @@ class PlayState extends MusicBeatState
 			else
 			{
 				var difficulty:String = '' + CoolUtil.difficultyStuff[storyDifficulty][1];
-
-				var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
+                                var video:MP4Handler = new MP4Handler();
+				
+                                var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
 				if (winterHorrorlandNext)
 				{
 					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
@@ -3121,7 +3127,27 @@ class PlayState extends MusicBeatState
 				FlxTransitionableState.skipNextTransOut = true;
 
 				prevCamFollow = camFollow;
-				prevCamFollowPos = camFollowPos;
+				
+				
+				
+				if (SONG.song.toLowerCase() == 'ugh') // fck
+			        {
+				
+						video.playMP4(Paths.video('gunsCutscene'), new PlayState());
+					
+					
+			    
+			        }
+                                if (SONG.song.toLowerCase() == 'guns') // fck
+			        {
+				
+						video.playMP4(Paths.video('stressCutscene'), new PlayState());
+					
+					
+			    
+			        }
+
+                                prevCamFollowPos = camFollowPos;
 
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
