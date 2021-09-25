@@ -1210,13 +1210,14 @@ class PlayState extends MusicBeatState
 			default:
 				healthBarHigh = new AttachedSprite('healthBarHigh');
 				healthBarHigh.y = FlxG.height * 0.89;
+				if(ClientPrefs.downScroll) healthBarHigh.y = 0.11 * FlxG.height;
 				healthBarHigh.screenCenter(X);
 				healthBarHigh.scrollFactor.set();
 				healthBarHigh.visible = !ClientPrefs.hideHud;
 				healthBarHigh.xAdd = -4;
 				healthBarHigh.yAdd = -4;
 				add(healthBarHigh);
-				if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
+				
 
 				healthBarHigh.cameras = [camHUD];
 		}
