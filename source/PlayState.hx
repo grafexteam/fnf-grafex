@@ -228,6 +228,8 @@ class PlayState extends MusicBeatState
 
 	public var defaultCamZoom:Float = 1.05;
 
+	var loseVin:FlxSprite;
+
 	// Pixel zoom
 	public static var daPixelZoom:Float = 6;
 
@@ -1255,6 +1257,14 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
+		loseVin = new FlxSprite(-80).loadGraphic(Paths.image('vin'));
+		loseVin.scrollFactor.set();
+		loseVin.updateHitbox();
+		loseVin.screenCenter();
+		loseVin.visible = true;
+		loseVin.alpha = 0;
+		add(loseVin);
+
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1269,6 +1279,7 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 		songTxt.cameras = [camHUD];
+		loseVin.cameras = [camHUD];
 
 		startingSong = true;
 		updateTime = true;
@@ -2315,33 +2326,31 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 
 		var iconOffset:Int = 26;
+		var vinAlpha:Float = 0;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		if (health > 2)
 			health = 2;
+
 		if (healthBar.percent < 20)
 			{
 				iconP1.animation.curAnim.curFrame = 1;
+				iconP2.animation.curAnim.curFrame = 2;
 				shakeFromLosing(iconP1);
 			}
 		else if (healthBar.percent > 20 && healthBar.percent < 80)
-			iconP1.animation.curAnim.curFrame = 0;
+			{
+				iconP1.animation.curAnim.curFrame = 0;
+				iconP2.animation.curAnim.curFrame = 0;
+			}
 		else if (healthBar.percent > 80)
-			iconP1.animation.curAnim.curFrame = 2;
-
-
-		if (healthBar.percent < 20)
-			iconP2.animation.curAnim.curFrame = 2;
-		else if (healthBar.percent > 20 && healthBar.percent < 80)
-			iconP2.animation.curAnim.curFrame = 0;
-		else if (healthBar.percent > 80)
-			{			
+			{
+				iconP1.animation.curAnim.curFrame = 2;
 				iconP2.animation.curAnim.curFrame = 1;
 				shakeFromLosing(iconP2);
 			}
-
 
 		#if debug
 		if (FlxG.keys.justPressed.EIGHT) {
@@ -2350,6 +2359,11 @@ class PlayState extends MusicBeatState
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
 		#end
+
+		vinAlpha = FlxMath.lerp(healthBar.percent/50*5+20, healthBar.percent+20, -1);
+
+		loseVin.alpha = 1 - (health / 2);
+
 
 		if (startingSong)
 		{
