@@ -248,10 +248,11 @@ class PlayState extends MusicBeatState
 	public var backgroundGroup:FlxTypedGroup<FlxSprite>;
 	public var foregroundGroup:FlxTypedGroup<FlxSprite>;
 
-	// Health Vars shit
+	// Health VARs
 	public static var p2HealthColor:Int = 0xFFFF0000;
 	public static var p1HealthColor:Int = 0xFF0097C4;
 	private var healthBarBG:AttachedSprite;
+	private var healthBarHigh:AttachedSprite;
 	public var healthBar:FlxBar;
 
 	override public function create()
@@ -1202,6 +1203,25 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
+		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol - Xale
+		{
+			case 'school' | 'schoolEvil':
+
+			default:
+				healthBarHigh = new AttachedSprite('healthBarHigh');
+				healthBarHigh.y = FlxG.height * 0.89;
+				healthBarHigh.screenCenter(X);
+				healthBarHigh.scrollFactor.set();
+				healthBarHigh.visible = !ClientPrefs.hideHud;
+				healthBarHigh.xAdd = -4;
+				healthBarHigh.yAdd = -4;
+				add(healthBarHigh);
+				if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
+
+				healthBarHigh.cameras = [camHUD];
+		}
+
+
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		iconP1.visible = !ClientPrefs.hideHud;
@@ -1268,7 +1288,7 @@ class PlayState extends MusicBeatState
 		if(doPush) 
 			luaArray.push(new FunkinLua(luaFile));
 		#end
-		
+	
 		var daSong:String = curSong.toLowerCase();
 		if (isStoryMode && !seenCutscene)
 		{

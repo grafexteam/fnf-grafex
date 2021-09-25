@@ -58,11 +58,8 @@ class MainMenuState extends MusicBeatState
 	public static var camFollow:FlxObject;
 	public static var camFollowPos:FlxObject;
 
-	public static var caching:Bool;
-
 	override function create()
 	{
-		trace(caching);
 		TitleState.isLogoLoaded = false;
 		#if desktop
 		DiscordClient.changePresence("In the Menu", null);

@@ -49,10 +49,6 @@ class FakeData {
 		save.bind('controls', 'xale'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.flush();
 		FlxG.log.add("Settings saved!");
-
-		if(FlxG.save.data.caching != null)
-			trace('That is ok');
-			trace(caching);
 	}
 
 	public static function loadPrefs() {
