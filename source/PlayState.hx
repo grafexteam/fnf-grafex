@@ -173,6 +173,7 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
+	var camPos:FlxPoint;
 
 	var dialogue:Array<String> = ['xale was here', "I'm too =)"];
 
@@ -940,7 +941,7 @@ class PlayState extends MusicBeatState
 		boyfriend.y += boyfriend.positionArray[1];
 		boyfriendGroup.add(boyfriend);
 		
-		var camPos:FlxPoint = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+		camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		camPos.x += gf.cameraPosition[0];
 		camPos.y += gf.cameraPosition[1];
 
@@ -2081,6 +2082,7 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
+	//var camPos:FlxPoint = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 
 	override public function update(elapsed:Float)
 	{
@@ -2320,7 +2322,17 @@ class PlayState extends MusicBeatState
 								// Does nothing
 							case 'Normal': // Normal
 								health -= 0.0005;
-						}					
+						}
+					case 'stress':
+						switch(curBeat)
+						{
+							case 184:
+								new FlxTimer().start(0.1, function(tmr:FlxTimer)
+									{
+										camPos.x = dad.x;
+										FlxTween.tween(FlxG.camera, {zoom: 1.3}, 2, {ease: FlxEase.linear});
+									});
+						}						
 				}
 			}
 			
