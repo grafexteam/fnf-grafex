@@ -74,11 +74,24 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
+		#if debug
+            initialState = TitleState;
+        #end
+    
+        #if !debug
+		if(EngineData.isCachingEnabled)
+			initialState = Caching;
+		else
+			initialState = TitleState;
+        #end
+
+		
+
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));
 		#end
 
-		addChild(new FlxGame(gameWidth, gameHeight, LoaderState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
 		var ourSource:String = "assets/videos/daWeirdVid/dontDelete.webm";
 

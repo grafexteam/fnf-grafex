@@ -1899,31 +1899,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 	public function new()
 	{
-		if(EngineData.isCachingEnabled)
-			options = [
-				'GAMEPLAY',
-				'Data Cache',
-				'Downscroll',
-				'Ghost Tapping',
-				'Note Delay',
-				'Note Splashes',
-				'Hide HUD',
-				'Flashing Lights',
-				'Camera Zooms',
-		
-				#if !mobile
-				'FPS Counter',
-				#end
-
-				'GRAPHICS',
-				'Low Quality',
-				'Anti-Aliasing',
-		
-				#if !html5
-				'Framerate',
-				#end
-			];
-
 		super();
 		characterLayer = new FlxTypedGroup<Character>();
 		add(characterLayer);
@@ -2083,9 +2058,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
-
-					case 'Data Cache':
-						ClientPrefs.caching = !ClientPrefs.caching;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -2155,8 +2127,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, hides FPS Counter.";
 			case 'Low Quality':
 				daText = "If checked, disables some background details,\ndecreases loading times and improves performance.";
-			case 'Data Cache':
-				daText = "If checked, loaded images will stay in memory.\nThis will make all loadings faster";
 			case 'Anti-Aliasing':
 				daText = "If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.";
 			case 'Downscroll':
@@ -2265,8 +2235,6 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.camZooms;
 					case 'Hide HUD':
 						daValue = ClientPrefs.hideHud;
-					case 'Data Cache':
-						daValue = ClientPrefs.caching;
 				}
 				checkbox.daValue = daValue;
 			}
