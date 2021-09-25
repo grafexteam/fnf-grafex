@@ -430,6 +430,7 @@ class FreeplayState extends MusicBeatState
 		['mom'],							//Week 4
 		['parents', 'parents', 'monster'],	//Week 5
 		['senpai', 'senpai', 'spirit'],		//Week 6
+                ['tankman']
 		
 
 	];
@@ -1094,12 +1095,7 @@ class StoryMenuState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});
-                        if (curWeek == 7) {
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-				{
-					FlxG.switchState(new VideoState('videos/ughcutscene.webm', new PlayState()));
-				});
-			}
+                       
 		}
 	}
 
