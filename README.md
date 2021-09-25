@@ -3,6 +3,7 @@
 ## Credits:
 ### Grafex Mod aka Psych Graphic Rework:
 * Xale - Lead Coding, Artist
+* PurpleSnake - Second Coder
 
 ### Psych Engine:
 * Shadow Mario - Coding
