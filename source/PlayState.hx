@@ -394,8 +394,9 @@ class PlayState extends MusicBeatState
 					tankRolling.animation.play('idle');
 					
 					tankmanRun = new FlxTypedGroup<TankmenBG>();
-					add(tankmanRun);
 					add(tankRolling);
+                                        add(tankmanRun);
+					
 
 					var ground:FlxSprite = new FlxSprite(-420,-150).loadGraphic(Paths.image('tankGround', 'week7'));
 					ground.scrollFactor.set();
