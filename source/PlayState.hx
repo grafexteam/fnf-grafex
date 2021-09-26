@@ -3916,7 +3916,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
 	
-	    if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME?? - Snake // Uhm... it is okay now? - Xale
+	    if(SONG.song.toLowerCase() == 'stress')   
 			{
 				//RIGHT
 				for(i in 0...picoStep.right.length)
