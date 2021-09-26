@@ -3143,10 +3143,9 @@ class PlayState extends MusicBeatState
 			else
 			{
 				var difficulty:String = '' + CoolUtil.difficultyStuff[storyDifficulty][1];
-                var video:MP4Handler = new MP4Handler();
-				var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
-
-                var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
+                                var video:MP4Handler = new MP4Handler();
+				
+                                var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
 				if (winterHorrorlandNext)
 				{
 					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
@@ -3162,26 +3161,37 @@ class PlayState extends MusicBeatState
 				FlxTransitionableState.skipNextTransOut = true;
 
 				prevCamFollow = camFollow;
-                prevCamFollowPos = camFollowPos;
+				
+				
+				
+				if (SONG.song.toLowerCase() == 'ugh') // fck
+			        {
+				
+						video.playMP4(Paths.video('gunsCutscene'), new PlayState());
+					
+					
+			    
+			        }
+                                if (SONG.song.toLowerCase() == 'guns') // fck
+			        {
+				
+						video.playMP4(Paths.video('stressCutscene'), new PlayState());
+					
+					
+			    
+			        }
+
+                                prevCamFollowPos = camFollowPos;
 
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
-				if(winterHorrorlandNext)
-				{
-					new FlxTimer().start(1.5, function(tmr:FlxTimer)
-					{
+				if(winterHorrorlandNext) {
+					new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 						LoadingState.loadAndSwitchState(new PlayState());
 					});
-				}
-				else
-				{
-					if(sys.FileSystem.exists(Paths.video(cutsceneFile))) {
-						video.playMP4(Paths.video(SONG.song.toLowerCase() + 'Cutscene'), new PlayState());
-						trace('File found');
-					}
-					else
-						LoadingState.loadAndSwitchState(new PlayState());
+				} else {
+					LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}
 		}
@@ -3906,9 +3916,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
 	
-		if(!endingSong)
-		{
-			if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME?? - Snake // Uhm... is it okay now? - Xale
+	    if(SONG.song.toLowerCase() == 'stress')   
 			{
 				//RIGHT
 				for(i in 0...picoStep.right.length)
@@ -3935,7 +3943,7 @@ class PlayState extends MusicBeatState
 						tankmanRun.add(tankmanRunner);
 					}
 				}
-		
+	
 				//Right spawn
 				for(i in 0...tankStep.right.length)
 				{
@@ -3946,7 +3954,6 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-		}
 	}
 
 	var lightningStrikeBeat:Int = 0;
