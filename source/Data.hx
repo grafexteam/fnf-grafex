@@ -15,10 +15,7 @@ class EngineData
 
 	
 	// Note: Cache won't work if you run game with debug - Xale
-	// Another Note: Cache is kinda shit, so, by default it is false.
-
-
-
+	// Another Note: Cache is kinda shit, so, by default it is false - Xale
 }
 
 class ClientPrefs {
@@ -222,7 +219,7 @@ class WeekData {
 		['Satin-Panties', 'High', 'Milf'],			//Week 4
 		['Cocoa', 'Eggnog', 'Winter-Horrorland'],	//Week 5
 		['Senpai', 'Roses', 'Thorns'],				//Week 6
-		['ugh', 'guns', 'stress']
+		['Ugh', 'Guns', 'Stress']
 
 	];
 
