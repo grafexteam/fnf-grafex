@@ -87,6 +87,9 @@ class PlayState extends MusicBeatState
 	public var gfMap:Map<String, Character> = new Map<String, Character>();
 	#end
 
+	var video:MP4Handler = new MP4Handler();
+	var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
+
 	var tank0:FlxSprite;
 	var tank1:FlxSprite;
 	var tank2:FlxSprite;
@@ -3089,7 +3092,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-
 	var transitioning = false;
 	function endSong():Void
 	{
@@ -3143,8 +3145,6 @@ class PlayState extends MusicBeatState
 			else
 			{
 				var difficulty:String = '' + CoolUtil.difficultyStuff[storyDifficulty][1];
-                var video:MP4Handler = new MP4Handler();
-				var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
 
                 var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
 				if (winterHorrorlandNext)

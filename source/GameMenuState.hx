@@ -779,8 +779,6 @@ class SongMetadata
 
 class StoryMenuState extends MusicBeatState
 {
-	var isCutscene:Bool = false;
-
 	// Wether you have to beat the previous week for playing this one
 	// Not recommended, as people usually download your mod for, you know,
 	// playing just the modded week then delete it.
@@ -1093,27 +1091,17 @@ class StoryMenuState extends MusicBeatState
 			PlayState.campaignMisses = 0;
 
 			var video:MP4Handler = new MP4Handler();
-
-			if (curWeek == 7 && !isCutscene) // Checks if the current week is Tutorial.
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-					{
-						video.playMP4(Paths.video('ughCutscene'), new PlayState());
-					});
-					
-			    isCutscene = true;
-			}
-			else
-			{
-			    new FlxTimer().start(1, function(tmr:FlxTimer)
-			    {
-			        if (isCutscene)
-			            video.onVLCComplete();
-				
-			        LoadingState.loadAndSwitchState(new PlayState(), true);
+				if(sys.FileSystem.exists(Paths.video(PlayState.SONG.song.toLowerCase() + 'Cutscene'))) {
+					video.playMP4(Paths.video(PlayState.SONG.song.toLowerCase() + 'Cutscene'), new PlayState());
+					trace('File found');		
 					FreeplayState.destroyFreeplayVocals();
-			    });
-			}
+				}
+				else
+					LoadingState.loadAndSwitchState(new PlayState(), true);
+				FreeplayState.destroyFreeplayVocals();
+			});
 		}
 	}
 
