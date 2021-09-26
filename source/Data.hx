@@ -8,7 +8,7 @@ import Controls;
 
 class EngineData
 {
-	public static var modEngineVersion:String = 'b0.0.3.9';
+	public static var modEngineVersion:String = 'b0.0.4';
 
 	public static var isCachingEnabled:Bool = false;
 	public static var isMod:Bool = false; // WIP
