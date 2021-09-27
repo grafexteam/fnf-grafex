@@ -87,9 +87,6 @@ class PlayState extends MusicBeatState
 	public var gfMap:Map<String, Character> = new Map<String, Character>();
 	#end
 
-	var video:MP4Handler = new MP4Handler();
-	var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
-
 	var tank0:FlxSprite;
 	var tank1:FlxSprite;
 	var tank2:FlxSprite;
@@ -2321,13 +2318,14 @@ class PlayState extends MusicBeatState
 					case 'thorns':
 						switch(CoolUtil.difficultyStuff[storyDifficulty][0])
 						{
-							case 'Hard': // Hard
-								health -= 0.001;
+                            case 'Hard': // Hard
+								health -= 0.0001;
 							case 'Easy': // Easy
 								// Does nothing
 							case 'Normal': // Normal
-								health -= 0.0005;
-						}
+								health -= 0.00005;
+								
+                        }
 					case 'stress':
 						switch(curBeat)
 						{
@@ -3092,6 +3090,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+
 	var transitioning = false;
 	function endSong():Void
 	{
@@ -3145,6 +3144,8 @@ class PlayState extends MusicBeatState
 			else
 			{
 				var difficulty:String = '' + CoolUtil.difficultyStuff[storyDifficulty][1];
+                var video:MP4Handler = new MP4Handler();
+				var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
 
                 var winterHorrorlandNext = (SONG.song.toLowerCase() == "eggnog");
 				if (winterHorrorlandNext)
@@ -3989,11 +3990,24 @@ class PlayState extends MusicBeatState
 			camHUD.zoom += 0.03;
 		}
 
-		if (camZooming)
-		{
-			iconP1.scale.set(1.3);
-			iconP2.scale.set(1.3);
-		}
+		
+
+
+                if (camZooming&& curBeat % 2 == 1)
+		   {
+			iconP2.scale.x += 0.15;
+		        iconP2.scale.y += 0.15;
+                        iconP1.scale.x += 0.15;
+		        iconP1.scale.y += 0.15;
+		   }
+		if (camZooming&& curBeat % 2 == 0)
+			{
+				iconP1.scale.x += 0.3;
+		                iconP1.scale.y += 0.3;
+			        iconP2.scale.x += 0.3;
+		                iconP2.scale.y += 0.3;
+
+                        }
 		
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
