@@ -235,6 +235,7 @@ class WeekData {
 		null,	//Week 5
 		null,	//Week 6
 		null
+
 	];
 
 	//Tells which assets directory should it load
@@ -252,7 +253,8 @@ class WeekData {
 		null,	//Week 4
 		null,	//Week 5
 		null,	//Week 6
-		null	//Week
+		null	//Week 7
+
 	];
 
 	//The only use for this is to display a different name for the Week when you're on the score reset menu.
@@ -267,7 +269,8 @@ class WeekData {
 		null,	//Week 4
 		null,	//Week 5
 		null,	//Week 6
-		null
+		null	//Week 7
+
 	];
 
 
