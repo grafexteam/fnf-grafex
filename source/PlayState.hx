@@ -1228,7 +1228,7 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		updateTime = true;
 
-		#if MODS_ALLOWED
+	
 		var doPush:Bool = false;
 		var luaFile:String = 'data/' + PlayState.SONG.song.toLowerCase() + '/script.lua';
 		if(sys.FileSystem.exists(Paths.mods(luaFile))) {
@@ -1243,7 +1243,7 @@ class PlayState extends MusicBeatState
 		
 		if(doPush) 
 			luaArray.push(new FunkinLua(luaFile));
-		#end
+		
 	
 		var daSong:String = curSong.toLowerCase();
 		if (isStoryMode && !seenCutscene)
