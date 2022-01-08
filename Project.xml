@@ -44,7 +44,6 @@
 	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>
 	
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
-	<define name="MODS_ALLOWED" if="desktop" />
 	<define name="LUA_ALLOWED" if="windows" />
 
 	<!-- <define name="PRELOAD_ALL" /> -->
@@ -98,7 +97,6 @@
 	<assets path="assets/week7"         library="week7"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/>
 	
-	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
 
 	<haxelib name="actuate" />
