@@ -701,15 +701,6 @@ class FunkinLua {
 				return Reflect.setProperty(sprites.get(tag), variable, value);
 			}
 		});
-		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, ?song:String = null) {
-			if(FileSystem.exists(Paths.mods('data/' + dialogueFile + '.txt'))) {
-				var shit:Array<String> = File.getContent(Paths.mods('data/' + dialogueFile + '.txt')).trim().split('\n');
-				for (i in 0...shit.length) {
-					shit[i] = shit[i].trim();
-				}
-				lePlayState.dialogueIntro(shit, song);
-			}
-		});
 		call('onCreate', []);
 		#end
 	}

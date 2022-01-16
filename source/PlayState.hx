@@ -876,6 +876,8 @@ class PlayState extends MusicBeatState
 					gfVersion = 'gf-christmas';
 				case 'school' | 'schoolEvil':
 					gfVersion = 'gf-pixel';
+				case 'alteratrocity':
+					gfVersion = 'beatbox';
 				default:
 					gfVersion = 'gf';
 			}
@@ -1229,21 +1231,10 @@ class PlayState extends MusicBeatState
 		updateTime = true;
 
 	
-		var doPush:Bool = false;
 		var luaFile:String = 'data/' + PlayState.SONG.song.toLowerCase() + '/script.lua';
-		if(sys.FileSystem.exists(Paths.mods(luaFile))) {
-			luaFile = Paths.mods(luaFile);
-			doPush = true;
-		} else {
-			luaFile = Paths.getPreloadPath(luaFile);
-			if(sys.FileSystem.exists(luaFile)) {
-				doPush = true;
-			}
-		}
-		
-		if(doPush) 
+		luaFile = Paths.getPreloadPath(luaFile);
+		if(sys.FileSystem.exists(luaFile))
 			luaArray.push(new FunkinLua(luaFile));
-		
 	
 		var daSong:String = curSong.toLowerCase();
 		if (isStoryMode && !seenCutscene)

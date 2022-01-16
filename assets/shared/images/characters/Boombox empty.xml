@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Boombox empty.png">
+	<!-- Created with Adobe Animate version 18.0.2.126 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="bbbump0000" x="0" y="0" width="703" height="352"/>
+	<SubTexture name="bbbump0001" x="703" y="0" width="703" height="352"/>
+	<SubTexture name="bbbump0002" x="1406" y="0" width="703" height="352"/>
+	<SubTexture name="bbbump0003" x="2109" y="0" width="703" height="352"/>
+	<SubTexture name="bbbump0004" x="2812" y="0" width="703" height="352"/>
+	<SubTexture name="bbbump0005" x="0" y="352" width="703" height="352"/>
+	<SubTexture name="bbbump0006" x="703" y="352" width="703" height="352"/>
+	<SubTexture name="bbbump0007" x="1406" y="352" width="703" height="352"/>
+	<SubTexture name="bbbump0008" x="2109" y="352" width="703" height="352"/>
+	<SubTexture name="bbbump0009" x="2812" y="352" width="703" height="352"/>
+	<SubTexture name="bbbump0010" x="0" y="704" width="703" height="352"/>
+	<SubTexture name="bbbump0011" x="703" y="704" width="703" height="352"/>
+	<SubTexture name="bbbump0012" x="1406" y="704" width="703" height="352"/>
+	<SubTexture name="bbbump0013" x="2109" y="704" width="703" height="352"/>
+	<SubTexture name="bbbump0014" x="2812" y="704" width="703" height="352"/>
+	<SubTexture name="bbbump0015" x="0" y="1056" width="703" height="352"/>
+	<SubTexture name="bbbump0016" x="703" y="1056" width="703" height="352"/>
+	<SubTexture name="bbbump0017" x="1406" y="1056" width="703" height="352"/>
+	<SubTexture name="bbbump0018" x="2109" y="1056" width="703" height="352"/>
+	<SubTexture name="bbbump0019" x="2812" y="1056" width="703" height="352"/>
+	<SubTexture name="bbbump0020" x="0" y="1408" width="703" height="352"/>
+	<SubTexture name="bbbump0021" x="703" y="1408" width="703" height="352"/>
+	<SubTexture name="bbbump0022" x="1406" y="1408" width="703" height="352"/>
+	<SubTexture name="bbbump0023" x="2109" y="1408" width="703" height="352"/>
+	<SubTexture name="bbbump0024" x="2812" y="1408" width="703" height="352"/>
+	<SubTexture name="bbbump0025" x="0" y="1760" width="703" height="352"/>
+	<SubTexture name="bbbump0026" x="703" y="1760" width="703" height="352"/>
+	<SubTexture name="bbbump0027" x="1406" y="1760" width="703" height="352"/>
+	<SubTexture name="bbbump0028" x="2109" y="1760" width="703" height="352"/>
+	<SubTexture name="bbbump0029" x="2812" y="1760" width="703" height="352"/>
+</TextureAtlas>
