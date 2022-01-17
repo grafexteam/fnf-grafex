@@ -1206,7 +1206,7 @@ class PlayState extends MusicBeatState
 		loseVin.updateHitbox();
 		loseVin.screenCenter();
 		loseVin.visible = true;
-		loseVin.alpha = 0;
+		loseVin.alpha = 0.4;
 		add(loseVin);
 
 		strumLineNotes.cameras = [camHUD];
@@ -2263,9 +2263,9 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
-
+		iconP1.scale.set(1.2, 1.2);
+		iconP2.scale.set(1.2, 1.2);
+	
 		if (health > 2)
 			health = 2;
 
@@ -2295,10 +2295,8 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		loseVin.alpha = 1 - (health / 2);
-
-		if(healthBar.percent < 30)
-			FlxTween.tween(badLoseVin, {alpha: 0.7}, 1, {ease: FlxEase.linear});
+	if(healthBar.percent < 30)
+			FlxTween.tween(badLoseVin, {alpha: 1}, 1, {ease: FlxEase.linear});
 		else
 			FlxTween.tween(badLoseVin, {alpha: 0}, 1, {ease: FlxEase.linear});
 
@@ -3243,16 +3241,9 @@ class PlayState extends MusicBeatState
 			songScore += score;
 			songHits++;
 			RecalculateRating();
-			if(scoreTxtTween != null) {
-				scoreTxtTween.cancel();
-			}
-			scoreTxt.scale.x = 1.1;
-			scoreTxt.scale.y = 1.1;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
-				onComplete: function(twn:FlxTween) {
-					scoreTxtTween = null;
-				}
-			});
+			
+			
+			
 		}
 
 		var pixelShitPart1:String = "";
@@ -3984,26 +3975,23 @@ class PlayState extends MusicBeatState
 		
 
 
-                if (camZooming&& curBeat % 2 == 1)
-		   {
-			iconP2.scale.x += 0.15;
-		        iconP2.scale.y += 0.15;
-                        iconP1.scale.x += 0.15;
-		        iconP1.scale.y += 0.15;
-		   }
-		if (camZooming&& curBeat % 2 == 0)
-			{
-				iconP1.scale.x += 0.3;
-		                iconP1.scale.y += 0.3;
-			        iconP2.scale.x += 0.3;
-		                iconP2.scale.y += 0.3;
-
-                        }
+              	iconP1.scale.set(1.2, 1.2);
+		iconP2.scale.set(1.2, 1.2);
+	
 		
+
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
-		if (curBeat % gfSpeed == 0 && !gf.stunned)
+		if (curBeat % 2 == 1){
+			scoreTxt.scale.x = 1;
+			scoreTxt.scale.y = 1;
+			FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+		}
+
+
+
+if (curBeat % gfSpeed == 0 && !gf.stunned)
 		{
 			gf.dance();
 		}
