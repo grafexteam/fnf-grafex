@@ -3395,8 +3395,8 @@ class PlayState extends MusicBeatState
 						goodNoteHit(daNote);
 					}
 				});
-			} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing')
-			&& !boyfriend.animation.curAnim.name.endsWith('miss'))
+			}
+			else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
 				boyfriend.dance();
 			}
@@ -3602,7 +3602,7 @@ class PlayState extends MusicBeatState
 					}
 					return;
 
-				/*case 5: //Bullet note
+				case 5: //Bullet note
 				if(cpuControlled) return;
 					if(!boyfriend.stunned)
 					{
@@ -3626,6 +3626,8 @@ class PlayState extends MusicBeatState
 			
 						note.wasGoodHit = true;
 
+						FlxG.camera.shake(0.02, 0.1);
+
 						if (!note.isSustainNote)
 						{
 							note.kill();
@@ -3633,7 +3635,7 @@ class PlayState extends MusicBeatState
 							note.destroy();
 						}
 					}
-				return;*/
+				return;
 			}
 
 			if (!note.isSustainNote)
