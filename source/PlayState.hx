@@ -2263,8 +2263,8 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 	
 		if (health > 2)
 			health = 2;
@@ -2597,6 +2597,8 @@ class PlayState extends MusicBeatState
 											}
 										}
 										callOnLuas('noteMiss', [daNote.noteData, daNote.noteType]);
+
+									case 3:
 
 									case 4: // Heal note
 										// Does nothing - Xale
