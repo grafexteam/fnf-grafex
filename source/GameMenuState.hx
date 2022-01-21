@@ -1212,7 +1212,7 @@ class OptionsState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("In the Options Menu", null);
+		DiscordClient.changePresence("Options Menu", null);
 	
 		#end
 		Application.current.window.title = Main.appTitle + ' Options Menu' ;
@@ -1870,7 +1870,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 		'GAMEPLAY',
 		'Downscroll',
-		'Ghost Tapping',
+		'ClickSounds',
+                'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
 		'Hide HUD',
@@ -2041,7 +2042,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Downscroll':
 						ClientPrefs.downScroll = !ClientPrefs.downScroll;
-
+                                        case 'ClickSounds':
+                                                ClientPrefs.clicksounds = !ClientPrefs.clicksounds;
 					case 'Middlescroll':
 						ClientPrefs.middleScroll = !ClientPrefs.middleScroll;
  
@@ -2126,6 +2128,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.";
 			case 'Downscroll':
 				daText = "If checked, notes go Down instead of Up, simple enough.";
+                        case 'ClickSounds':
+                                daText = "If cheked? add sound effect, when you correctly pressed note."; 
 			case 'Middlescroll':
 				daText = "If checked, hides Opponent's notes and your notes get centered.";
             case 'Ghost Tapping':
@@ -2218,6 +2222,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.flashing;
 					case 'Downscroll':
 						daValue = ClientPrefs.downScroll;
+                                        case 'ClickSounds':
+                                                daValue = ClientPrefs.clicksounds;
 					case 'Middlescroll':
 						daValue = ClientPrefs.middleScroll;
                     case 'Ghost Tapping':

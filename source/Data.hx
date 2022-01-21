@@ -36,6 +36,7 @@ class ClientPrefs {
 	public static var ghostTapping:Bool = true;
 	public static var hideTime:Bool = false;
 	public static var caching:Bool = true;
+        public static var clicksounds:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -91,6 +92,7 @@ class ClientPrefs {
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.hideTime = hideTime;
 		FlxG.save.data.caching = caching;
+                FlxG.save.data.clicksounds = clicksounds;
 		//caching = FlxG.save.data.caching;
 
 		var save:FlxSave = new FlxSave();
@@ -103,6 +105,9 @@ class ClientPrefs {
 	public static function loadPrefs() {
 		if(FlxG.save.data.downScroll != null) {
 			downScroll = FlxG.save.data.downScroll;
+		}
+                if(FlxG.save.data.clicksounds != null) {
+			clicksounds = FlxG.save.data.clicksounds;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;

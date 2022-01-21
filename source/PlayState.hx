@@ -3579,7 +3579,8 @@ class PlayState extends MusicBeatState
 							RecalculateRating();
 							if(!note.isSustainNote)
 							{
-								health -= 0.26; //0.26 + 0.04 = -0.3 (-15%) of HP if you hit a hurt note - ShadowMario
+								
+                                                                health -= 0.26; //0.26 + 0.04 = -0.3 (-15%) of HP if you hit a hurt note - ShadowMario
 								spawnNoteSplashOnNote(note);
 							}
 							else health -= 0.06; //0.06 + 0.04 = -0.1 (-5%) of HP if you hit a hurt sustain note - ShadowMario
@@ -3606,6 +3607,8 @@ class PlayState extends MusicBeatState
 						{
 							if(!note.isSustainNote)
 							{
+                                                            if(ClientPrefs.clicksounds)
+                                                                 FlxG.sound.play(Paths.sound('note_click'));
 								health += 0.26; //0.26 + 0.04 = +0.3 (+15%) of HP if you hit a heal note - Xale
 								spawnNoteSplashOnNote(note);
 							}
@@ -3661,7 +3664,9 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				popUpScore(note);
+				if(ClientPrefs.clicksounds)
+                                                                 FlxG.sound.play(Paths.sound('note_click'));
+                                 popUpScore(note);
 				combo += 1;
 			}
 
@@ -3674,14 +3679,16 @@ class PlayState extends MusicBeatState
 				boyfriend.playAnim('hey', true);
 				boyfriend.specialAnim = true;
 				boyfriend.heyTimer = 0.6;
-
+                                                       if(ClientPrefs.clicksounds)
+                                                                 FlxG.sound.play(Paths.sound('note_click'));
 				gf.playAnim('cheer', true);
 				gf.specialAnim = true;
 				gf.heyTimer = 0.6;
 			} else {
 				var daAlt = '';
 				if(note.noteType == 1) daAlt = '-alt';
-
+                                                                 if(ClientPrefs.clicksounds)
+                                                                 FlxG.sound.play(Paths.sound('note_click'));
 				var animToPlay:String = '';
 				switch (Std.int(Math.abs(note.noteData)))
 				{
