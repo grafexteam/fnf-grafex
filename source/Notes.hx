@@ -317,7 +317,15 @@ class NoteSplash extends FlxSprite
 	{
 		super(x, y);
 
-		var skin:String = 'noteSplashes';
+		var skin:String = '';
+                switch(PlayState.curStage)
+                        {
+                        case 'school' | 'schoolEvil':
+                           skin = 'noteSplashesPx';
+                        default:
+                           skin = 'noteSplashes';
+                        }
+
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -335,10 +343,18 @@ class NoteSplash extends FlxSprite
 		alpha = 0.6;
 
 		if(lastNoteType != noteType) {
-			var skin:String = 'noteSplashes';
+			var skin:String = '';
+                        switch(PlayState.curStage)
+                        {
+                        case 'school' | 'schoolEvil':
+                           skin = 'noteSplashesPx';
+                        default:
+                           skin = 'noteSplashes';
+                        }
+
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
-			switch(noteType) {
+			switch(noteType) { //DO NOT USE ON PIXEL STAGES
 				case 3: //Hurt note
 					loadAnims('HURT' + skin);
 
