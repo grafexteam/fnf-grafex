@@ -255,6 +255,7 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:AttachedSprite;
 	private var healthBarHigh:AttachedSprite;
 	public var healthBar:FlxBar;
+	public var healthBarWN:FlxBar;
 
 	override public function create()
 	{
@@ -1080,15 +1081,15 @@ class PlayState extends MusicBeatState
 		{
 			case 'bf' | 'bf-car' | 'bf-pixel' | 'bf-christmas' | 'bf-pixel-opponent':
 				p2HealthColor = 0xFF2f8cff;
-			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
+			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | 'bfgf':
 				p2HealthColor = 0xFF98030a;
-			case 'dad' | 'parents-christmas':
+			case 'dad':
 				p2HealthColor = 0xFFa041d6;
 			case 'spooky':
-				p2HealthColor = 0xFFe09411;
+				p2HealthColor = 0xFFE09411;
 			case 'pico' | 'pico-player':
 				p2HealthColor = 0xFFa8dc39;
-			case 'mom' | 'mom-car':
+			case 'mom' | 'mom-car' | 'parents-christmas':
 				p2HealthColor = 0xFFc73741;
 			case 'senpai' | 'senpai-angry':
 				p2HealthColor = 0xFFecb87b;
@@ -1105,15 +1106,15 @@ class PlayState extends MusicBeatState
 		{
 			case 'bf' | 'bf-car' | 'bf-pixel' | 'bf-christmas' | 'bf-pixel-opponent':
 				p1HealthColor = 0xFF2f8cff;
-			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
+			case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | 'bfgf':
 				p1HealthColor = 0xFF98030a;
-			case 'dad' | 'parents-christmas':
+			case 'dad':
 				p1HealthColor = 0xFFa041d6;
 			case 'spooky':
-				p1HealthColor = 0xFFe09411;
+				p1HealthColor = 0xFFE09411;
 			case 'pico' | 'pico-player':
 				p1HealthColor = 0xFFa8dc39;
-			case 'mom' | 'mom-car':
+			case 'mom' | 'mom-car'| 'parents-christmas':
 				p1HealthColor = 0xFFc73741;
 			case 'senpai':
 				p1HealthColor = 0xFFecb87b;
@@ -1142,6 +1143,28 @@ class PlayState extends MusicBeatState
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.numDivisions = 1800;
 		add(healthBar);
+                
+                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this,
+			'health', 0, 2);
+		healthBarWN.scrollFactor.set();
+		healthBarWN.numDivisions = 1800;
+		
+		add(healthBarWN);
+                switch(SONG.song.toLowerCase())
+                {
+                  case 'spookeez' | 'south':
+                          healthBarWN.createFilledBar(0xFFB2B2B2, p1HealthColor);
+                          healthBarWN.visible = true;
+                  case 'cocoa' | 'eggnog':
+                          healthBarWN.createFilledBar(0xFFa041d6, p1HealthColor);
+                          healthBarWN.visible = true;
+                  case 'stress':
+                          healthBarWN.createFilledBar(p2HealthColor, 0xFF2f8cff);
+                          healthBarWN.visible = true;
+                  default:
+                        healthBarWN.visible = false;
+                }
+
 		healthBarBG.sprTracker = healthBar;
 
 		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol - Xale
@@ -1164,7 +1187,9 @@ class PlayState extends MusicBeatState
 		}
 
 
-		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
+
+
+                iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		iconP1.visible = !ClientPrefs.hideHud;
 		add(iconP1);
@@ -1216,6 +1241,7 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
+	        healthBarWN.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
