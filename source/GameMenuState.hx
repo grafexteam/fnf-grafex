@@ -66,6 +66,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menu", null);
 		#end
 
+        Application.current.window.title = Main.appTitle + ' Main Menu' ;
 		camGame = new FlxCamera();
 
 		FlxG.cameras.reset(camGame);
@@ -300,6 +301,7 @@ class CreditsState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Credits Menu", null);
 		#end
+		Application.current.window.title = Main.appTitle + ' Credits Menu' ;
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		add(bg);
@@ -481,6 +483,7 @@ class FreeplayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("In the Freeplay Menu", null);
 		#end
+		Application.current.window.title = Main.appTitle + ' Freeplay Menu' ;
 
 		for (i in 1...WeekData.songsNames.length) {
 			#if !debug
@@ -857,6 +860,7 @@ class StoryMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
+        Application.current.window.title = Main.appTitle + ' Story Menu' ;
 		persistentUpdate = persistentDraw = true;
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
@@ -1204,11 +1208,14 @@ class OptionsState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
         public static var vin:FlxSprite;
+		
 
 	override function create() {
 		#if desktop
 		DiscordClient.changePresence("In the Options Menu", null);
+	
 		#end
+		Application.current.window.title = Main.appTitle + ' Options Menu' ;
 
 
                 menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
