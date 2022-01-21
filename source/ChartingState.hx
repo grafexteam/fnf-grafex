@@ -9,6 +9,7 @@ import SongData;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import lime.app.Application;
 import flixel.FlxObject;
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxGridOverlay;
@@ -136,6 +137,7 @@ class ChartingState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(PlayState.SONG.song, '-', ' '));
 		#end
+		Application.current.window.title = Main.appTitle + ' Charting song - ' + PlayState.displaySongName;
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.set();

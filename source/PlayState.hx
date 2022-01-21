@@ -15,6 +15,7 @@ import BackgroundStuff;
 import Dialogue;
 import VideoState;
 // ---
+import lime.app.Application;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -285,6 +286,8 @@ class PlayState extends MusicBeatState
 
 		var songName:String = SONG.song;
 		displaySongName = StringTools.replace(songName, '-', ' ');
+
+        Application.current.window.title = Main.appTitle + ' ' + CoolUtil.getArtist(SONG.song.toLowerCase()) + ' - ' + displaySongName;
 
 		#if desktop
 		storyDifficultyText = '' + CoolUtil.difficultyStuff[storyDifficulty][0];
@@ -2256,15 +2259,13 @@ class PlayState extends MusicBeatState
 		}
 
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
 
 		var iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
-	
-		if (health > 2)
+		
+                if (health > 2)
 			health = 2;
 
 		if (healthBar.percent < 20)
@@ -2290,6 +2291,7 @@ class PlayState extends MusicBeatState
 			persistentUpdate = false;
 			paused = true;
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			
 		}
 		#end
 
@@ -2401,6 +2403,7 @@ class PlayState extends MusicBeatState
 				#if desktop
 				DiscordClient.changePresence("Game Over - " + detailsText, displaySongName + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
+				Application.current.window.title = Main.appTitle + ' ' + CoolUtil.getArtist(SONG.song.toLowerCase()) + ' - ' + displaySongName + ' Game Over';
 			}
 		}
 
@@ -3975,18 +3978,25 @@ class PlayState extends MusicBeatState
 		}
 
 		
+               if (curBeat % 2 == 0)
+                {
+			iconP1.scale.x = 1;
+			iconP2.scale.y = 1;
+                        FlxTween.tween(iconP1.scale, {x: 1.1, y: 1.1}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+                        FlxTween.tween(iconP2.scale, {x: 1.1, y: 1.1}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+		}
 
-
-              	iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+              
 	
 		
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
-
-		if (curBeat % 2 == 1){
-			scoreTxt.scale.x = 1;
+		if (curBeat % 2 == 1)
+                {
+			iconP1.scale.x = 1;
+			iconP2.scale.y = 1;
+                        FlxTween.tween(iconP1.scale, {x: 1.2, y: 1.2}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+                        FlxTween.tween(iconP2.scale, {x: 1.2, y: 1.2}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+                        scoreTxt.scale.x = 1;
 			scoreTxt.scale.y = 1;
 			FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
 		}

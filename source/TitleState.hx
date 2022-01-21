@@ -73,6 +73,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end
+		Application.current.window.title = Main.appTitle + ' Title State';
 		
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
