@@ -2284,8 +2284,7 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
-		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 30), 0, 1))));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 30), 0, 1))));
+	
 
 
 		var iconOffset:Int = 26;
