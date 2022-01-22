@@ -11,6 +11,7 @@ import SongData;
 import GameMenuStuff;
 import MusicBeatState;
 import VideoState;
+import Highscore;
 // ---
 import flixel.FlxG;
 import flixel.FlxObject;

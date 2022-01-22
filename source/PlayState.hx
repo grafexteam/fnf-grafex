@@ -14,6 +14,7 @@ import ShaderEffects;
 import BackgroundStuff;
 import Dialogue;
 import VideoState;
+import Highscore;
 // ---
 import lime.app.Application;
 import flixel.FlxBasic;
@@ -3934,7 +3935,7 @@ class PlayState extends MusicBeatState
 	
 		if(!endingSong)
 		{
-			if(SONG.song.toLowerCase() == 'stress')  //ITS WORKED, BUT NOW ITS FUCKIN CRASHED GAME?? - Snake // Uhm... is it okay now? - Xale
+			if(SONG.song.toLowerCase() == 'stress')  
 			{
 				//RIGHT
 				for(i in 0...picoStep.right.length)

@@ -85,11 +85,13 @@ class CoolUtil
 	}
     public static function getArtist(song:String) 
 		{
-			var artistPrefix:String = 'Kawai Sprite';
+			var artistPrefix:String = '';
 			switch (song) // Write here your Composer
 			{
-				default:
-					artistPrefix = 'Kawai Sprite';
+				case 'alteratrocity':
+                                       artistPrefix = 'XaleTheCat';
+                                default:
+				       artistPrefix = 'Kawai Sprite';
 			}	
 	
 			return artistPrefix;
