@@ -3609,7 +3609,7 @@ class PlayState extends MusicBeatState
 							if(!note.isSustainNote)
 							{
                                                             if(ClientPrefs.clicksounds)
-                                                                 FlxG.sound.play(Paths.sound('note_click'));
+                                                                 FlxG.sound.play(Paths.sound('note_click'), 0.6);
 								health += 0.26; //0.26 + 0.04 = +0.3 (+15%) of HP if you hit a heal note - Xale
 								spawnNoteSplashOnNote(note);
 							}
@@ -3666,7 +3666,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				if(ClientPrefs.clicksounds)
-                                FlxG.sound.play(Paths.sound('note_click'));
+                                FlxG.sound.play(Paths.sound('note_click'), 0.6);
                                  popUpScore(note);
 				combo += 1;
 			}
@@ -3681,7 +3681,7 @@ class PlayState extends MusicBeatState
 				boyfriend.specialAnim = true;
 				boyfriend.heyTimer = 0.6;
                                                        if(ClientPrefs.clicksounds)
-                                                                 FlxG.sound.play(Paths.sound('note_click'));
+                                                                 FlxG.sound.play(Paths.sound('note_click'), 0.6);
 				gf.playAnim('cheer', true);
 				gf.specialAnim = true;
 				gf.heyTimer = 0.6;
@@ -3691,7 +3691,7 @@ class PlayState extends MusicBeatState
                                 if (!note.isSustainNote)
 			        {
 				if(ClientPrefs.clicksounds)
-                                FlxG.sound.play(Paths.sound('note_click'));
+                                FlxG.sound.play(Paths.sound('note_click'), 0.6);
 			        }  
                                                                 
 				var animToPlay:String = '';
