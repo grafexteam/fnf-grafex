@@ -1870,7 +1870,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 		'GAMEPLAY',
 		'Downscroll',
-		'ClickSounds',
+		'HitSounds',
                 'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
@@ -2042,7 +2042,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Downscroll':
 						ClientPrefs.downScroll = !ClientPrefs.downScroll;
-                                        case 'ClickSounds':
+                                        case 'HitSounds':
                                                 ClientPrefs.clicksounds = !ClientPrefs.clicksounds;
 					case 'Middlescroll':
 						ClientPrefs.middleScroll = !ClientPrefs.middleScroll;
@@ -2128,8 +2128,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.";
 			case 'Downscroll':
 				daText = "If checked, notes go Down instead of Up, simple enough.";
-                        case 'ClickSounds':
-                                daText = "If cheked? add sound effect, when you correctly pressed note."; 
+                        case 'HitSounds':
+                                daText = "If checked, add sound effect, when you correctly pressed note."; 
 			case 'Middlescroll':
 				daText = "If checked, hides Opponent's notes and your notes get centered.";
             case 'Ghost Tapping':
@@ -2222,7 +2222,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.flashing;
 					case 'Downscroll':
 						daValue = ClientPrefs.downScroll;
-                                        case 'ClickSounds':
+                                        case 'HitSounds':
                                                 daValue = ClientPrefs.clicksounds;
 					case 'Middlescroll':
 						daValue = ClientPrefs.middleScroll;

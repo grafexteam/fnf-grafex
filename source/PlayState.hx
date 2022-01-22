@@ -3665,7 +3665,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				if(ClientPrefs.clicksounds)
-                                                                 FlxG.sound.play(Paths.sound('note_click'));
+                                FlxG.sound.play(Paths.sound('note_click'));
                                  popUpScore(note);
 				combo += 1;
 			}
@@ -3687,8 +3687,12 @@ class PlayState extends MusicBeatState
 			} else {
 				var daAlt = '';
 				if(note.noteType == 1) daAlt = '-alt';
-                                                                 if(ClientPrefs.clicksounds)
-                                                                 FlxG.sound.play(Paths.sound('note_click'));
+                                if (!note.isSustainNote)
+			        {
+				if(ClientPrefs.clicksounds)
+                                FlxG.sound.play(Paths.sound('note_click'));
+			        }  
+                                                                
 				var animToPlay:String = '';
 				switch (Std.int(Math.abs(note.noteData)))
 				{
