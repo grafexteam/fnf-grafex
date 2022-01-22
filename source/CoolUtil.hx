@@ -86,7 +86,7 @@ class CoolUtil
     public static function getArtist(song:String) 
 		{
 			var artistPrefix:String = '';
-			switch (song) // Write here your Composer
+			switch (song) // Write here your Composer(s)
 			{
 				case 'alteratrocity':
                                        artistPrefix = 'XaleTheCat';

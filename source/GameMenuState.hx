@@ -469,12 +469,6 @@ class FreeplayState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
-		for (i in 0...initSonglist.length)
-		{
-			var songArray:Array<String> = initSonglist[i].split(":");
-			addSong(songArray[0], 0, songArray[1]);
-			songs[songs.length-1].color = Std.parseInt(songArray[2]);
-		}
 		var colorsList = CoolUtil.coolTextFile(Paths.txt('freeplayColors'));
 		for (i in 0...colorsList.length)
 		{
@@ -486,7 +480,19 @@ class FreeplayState extends MusicBeatState
 		#end
 		Application.current.window.title = Main.appTitle + ' Freeplay Menu' ;
 
-		for (i in 1...WeekData.songsNames.length) {
+		        addSong("Tutorial", 0, "gf");
+			songs[songs.length-1].color = Std.parseInt("0xFF8F143B");
+                
+                for (i in 0...initSonglist.length)
+		{
+			var songArray:Array<String> = initSonglist[i].split(":");
+			addSong(songArray[0], 0, songArray[1]);
+			songs[songs.length-1].color = Std.parseInt(songArray[2]);
+		
+
+                }
+
+                for (i in 1...WeekData.songsNames.length) {
 			#if !debug
 			if (StoryMenuState.weekUnlocked[i])
 			#end
