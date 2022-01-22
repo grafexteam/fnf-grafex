@@ -3,12 +3,11 @@
 ## Credits:
 ### Grafex Mod aka Psych Graphic Rework:
 * Xale - Lead Coding, Artist
-* PurpleSnake - Second Coder
+* PurpleSnake - Secondary Coder
 
 ### Psych Engine:
 * Shadow Mario - Coding
 * RiverOaken - Arts and Animations
-* Keoiki - Note Splash Animations
 
 ## Brand New GameMenu!
 * All States in one script.
