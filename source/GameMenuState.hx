@@ -1219,7 +1219,7 @@ class OptionsState extends MusicBeatState
 		Application.current.window.title = Main.appTitle + ' Options Menu' ;
 
 
-                menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+        menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -1872,7 +1872,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'GAMEPLAY',
 		'Downscroll',
 		'HitSounds',
-                'Ghost Tapping',
+        'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
 		'Hide HUD',
