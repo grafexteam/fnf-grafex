@@ -104,15 +104,15 @@
 				2,
 				0
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "idle-loop",
 			"indices": [
 				10,
 				11,
 				12,
 				13
 			],
-			"fps": 24,
-			"anim": "idle-loop",
-			"loop": true,
 			"name": "Parent Christmas Idle"
 		},
 		{
@@ -120,15 +120,15 @@
 				-47,
 				24
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singUP-loop",
 			"indices": [
 				10,
 				11,
 				12,
 				13
 			],
-			"fps": 24,
-			"anim": "singUP-loop",
-			"loop": true,
 			"name": "Parent Up Note Dad"
 		},
 		{
@@ -136,15 +136,15 @@
 				-30,
 				16
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singLEFT-loop",
 			"indices": [
 				12,
 				13,
 				14,
 				15
 			],
-			"fps": 24,
-			"anim": "singLEFT-loop",
-			"loop": true,
 			"name": "Parent Left Note Dad"
 		},
 		{
@@ -152,15 +152,15 @@
 				-31,
 				-29
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singDOWN-loop",
 			"indices": [
 				11,
 				12,
 				13,
 				14
 			],
-			"fps": 24,
-			"anim": "singDOWN-loop",
-			"loop": true,
 			"name": "Parent Down Note Dad"
 		},
 		{
@@ -168,15 +168,15 @@
 				-1,
 				-23
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singRIGHT-loop",
 			"indices": [
 				12,
 				13,
 				14,
 				15
 			],
-			"fps": 24,
-			"anim": "singRIGHT-loop",
-			"loop": true,
 			"name": "Parent Right Note Dad"
 		},
 		{
@@ -184,15 +184,15 @@
 				-1,
 				-24
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singRIGHT-alt-loop",
 			"indices": [
 				11,
 				12,
 				13,
 				14
 			],
-			"fps": 24,
-			"anim": "singRIGHT-alt-loop",
-			"loop": true,
 			"name": "Parent Right Note Mom"
 		},
 		{
@@ -200,15 +200,15 @@
 				-47,
 				24
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singUP-alt-loop",
 			"indices": [
 				10,
 				11,
 				12,
 				13
 			],
-			"fps": 24,
-			"anim": "singUP-alt-loop",
-			"loop": true,
 			"name": "Parent Up Note Mom"
 		},
 		{
@@ -216,15 +216,15 @@
 				-30,
 				15
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singLEFT-alt-loop",
 			"indices": [
 				11,
 				12,
 				13,
 				14
 			],
-			"fps": 24,
-			"anim": "singLEFT-alt-loop",
-			"loop": true,
 			"name": "Parent Left Note Mom"
 		},
 		{
@@ -232,15 +232,15 @@
 				-30,
 				-27
 			],
+			"loop": true,
+			"fps": 24,
+			"anim": "singDOWN-alt-loop",
 			"indices": [
 				11,
 				12,
 				13,
 				14
 			],
-			"fps": 24,
-			"anim": "singDOWN-alt-loop",
-			"loop": true,
 			"name": "Parent Down Note Mom"
 		}
 	],
@@ -250,8 +250,18 @@
 		-500,
 		0
 	],
+	"healthbar_colors2": [
+		172,
+		105,
+		222
+	],
 	"healthicon": "parents",
 	"flip_x": false,
+	"healthbar_colors": [
+		216,
+		85,
+		142
+	],
 	"camera_position": [
 		0,
 		0

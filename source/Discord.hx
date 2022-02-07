@@ -2,7 +2,11 @@ package;
 
 import Sys.sleep;
 import discord_rpc.DiscordRpc;
-import Data;
+
+#if LUA_ALLOWED
+import llua.Lua;
+import llua.State;
+#end
 
 using StringTools;
 
@@ -21,6 +25,7 @@ class DiscordClient
 		{
 			DiscordRpc.process();
 			sleep(2);
+			//trace("Discord Client Update");
 		}
 
 		DiscordRpc.shutdown();
@@ -43,12 +48,12 @@ class DiscordClient
 
 	static function onError(_code:Int, _message:String)
 	{
-		// I deleted traces, so this does nothing now - Xale
+		trace('Error! $_code : $_message');
 	}
 
 	static function onDisconnected(_code:Int, _message:String)
 	{
-		// I deleted traces, so this does nothing now - Xale
+		trace('Disconnected! $_code : $_message');
 	}
 
 	public static function initialize()
@@ -57,6 +62,7 @@ class DiscordClient
 		{
 			new DiscordClient();
 		});
+		trace("Discord Client initialized");
 	}
 
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey : String, ?hasStartTimestamp : Bool, ?endTimestamp: Float)
@@ -71,12 +77,22 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'discordlogo',
-			largeImageText: "Graphex " + EngineData.modEngineVersion,
+			largeImageKey: 'icon',
+			largeImageText: "Engine Version: " + MainMenuState.GrafexEngineVersion,
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),
             endTimestamp : Std.int(endTimestamp / 1000)
 		});
+
+		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
+
+	#if LUA_ALLOWED
+	public static function addLuaCallbacks(lua:State) {
+		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
+			changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
+		});
+	}
+	#end
 }

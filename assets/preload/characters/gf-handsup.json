@@ -1,0 +1,82 @@
+{
+	"animations": [
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "surrender",
+			"fps": 24,
+			"name": "gf handsup",
+			"indices": [
+				0,
+				1
+			]
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "danceLeft",
+			"fps": 24,
+			"name": "gf idle",
+			"indices": [
+				20,
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10
+			]
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "danceRight",
+			"fps": 24,
+			"name": "gf idle",
+			"indices": [
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19
+			]
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/gf-handsup",
+	"position": [
+		100,
+		102
+	],
+	"healthicon": "icon-gf",
+	"flip_x": false,
+	"healthbar_colors": [
+		165,
+		0,
+		77
+	],
+	"camera_position": [
+		-100,
+		-100
+	],
+	"sing_duration": 4,
+	"scale": 1.4
+}

@@ -1,0 +1,45 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [
+				0,
+				0
+			],
+			"fps": 24,
+			"anim": "idle",
+			"indices": [],
+			"name": "HankScaredIdle"
+		},
+		{
+			"loop": false,
+			"offsets": [
+				413,
+				324
+			],
+			"fps": 24,
+			"anim": "shoot",
+			"indices": [],
+			"name": "HankScaredShootsTiky"
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/hankscared",
+	"position": [
+		0,
+		180
+	],
+	"healthicon": "hank",
+	"flip_x": true,
+	"healthbar_colors": [
+		28,
+		29,
+		59
+	],
+	"camera_position": [
+		-100,
+		80
+	],
+	"sing_duration": 4,
+	"scale": 1
+}

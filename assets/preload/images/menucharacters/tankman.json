@@ -1,0 +1,10 @@
+{
+	"confirm_anim": "M Dad Idle",
+	"idle_anim": "M Tankman Idle",
+	"position": [
+		40,
+		-26
+	],
+	"scale": 1.27,
+	"image": "Menu_Tankman"
+}

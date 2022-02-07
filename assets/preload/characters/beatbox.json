@@ -1,94 +1,13 @@
 {
 	"animations": [
 		{
-			"offsets": [
-				3,
-				0
-			],
 			"loop": false,
-			"anim": "cheer",
-			"fps": 24,
-			"name": "GF Cheer",
-			"indices": []
-		},
-		{
-			"offsets": [
-				0,
-				-19
-			],
-			"loop": false,
-			"anim": "singLEFT",
-			"fps": 24,
-			"name": "GF left note",
-			"indices": []
-		},
-		{
-			"offsets": [
-				0,
-				-20
-			],
-			"loop": false,
-			"anim": "singDOWN",
-			"fps": 24,
-			"name": "GF Down Note",
-			"indices": []
-		},
-		{
-			"offsets": [
-				0,
-				4
-			],
-			"loop": false,
-			"anim": "singUP",
-			"fps": 24,
-			"name": "GF Up Note",
-			"indices": []
-		},
-		{
-			"offsets": [
-				0,
-				-20
-			],
-			"loop": false,
-			"anim": "singRIGHT",
-			"fps": 24,
-			"name": "GF Right Note",
-			"indices": []
-		},
-		{
-			"offsets": [
-				-2,
-				-21
-			],
-			"loop": false,
-			"anim": "sad",
-			"fps": 24,
-			"name": "gf sad",
-			"indices": [
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7,
-				8,
-				9,
-				10,
-				11,
-				12
-			]
-		},
-		{
 			"offsets": [
 				0,
 				-9
 			],
-			"loop": false,
-			"anim": "danceLeft",
 			"fps": 24,
-			"name": "bbbump",
+			"anim": "danceLeft",
 			"indices": [
 				30,
 				0,
@@ -106,17 +25,17 @@
 				12,
 				13,
 				14
-			]
+			],
+			"name": "bbbump"
 		},
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				-9
 			],
-			"loop": false,
-			"anim": "danceRight",
 			"fps": 24,
-			"name": "bbbump",
+			"anim": "danceRight",
 			"indices": [
 				15,
 				16,
@@ -133,58 +52,8 @@
 				27,
 				28,
 				29
-			]
-		},
-		{
-			"offsets": [
-				45,
-				-8
 			],
-			"loop": true,
-			"anim": "hairBlow",
-			"fps": 24,
-			"name": "GF Dancing Beat Hair blowing",
-			"indices": [
-				0,
-				1,
-				2,
-				3
-			]
-		},
-		{
-			"offsets": [
-				0,
-				-9
-			],
-			"loop": false,
-			"anim": "hairFall",
-			"fps": 24,
-			"name": "GF Dancing Beat Hair Landing",
-			"indices": [
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7,
-				8,
-				9,
-				10,
-				11
-			]
-		},
-		{
-			"offsets": [
-				-2,
-				-17
-			],
-			"loop": true,
-			"anim": "scared",
-			"fps": 24,
-			"name": "GF FEAR",
-			"indices": []
+			"name": "bbbump"
 		}
 	],
 	"no_antialiasing": false,
@@ -195,6 +64,16 @@
 	],
 	"healthicon": "gf",
 	"flip_x": false,
+	"healthbar_colors": [
+		143,
+		20,
+		59
+	],
+         "healthbar_colors2": [
+		143,
+		20,
+		59
+	],
 	"camera_position": [
 		0,
 		0

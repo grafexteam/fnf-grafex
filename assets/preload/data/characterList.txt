@@ -20,6 +20,12 @@ spirit
 bf-pixel-opponent
 pico-player
 hank
+hank-scared
+hank-scared-flipX
+gf-handsup
+bf-singdeath
+acceleranttricky
+nil-gf
 tankman
 picospeaker
 tangf

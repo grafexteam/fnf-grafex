@@ -1,83 +1,82 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "idle",
+			"loop": false,
 			"fps": 24,
-			"name": "Tankman Idle Dance instance ",
-			"indices": []
+			"anim": "idle",
+			"indices": [],
+			"name": "Tankman Idle Dance instance "
 		},
 		{
-			"loop": false,
 			"offsets": [
 				66,
 				-110
 			],
-			"anim": "singDOWN",
+			"loop": false,
 			"fps": 24,
-			"name": "Tankman DOWN note instance ",
-			"indices": []
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "Tankman DOWN note instance "
 		},
 		{
-			"loop": false,
 			"offsets": [
 				36,
 				51
 			],
-			"anim": "singUP",
+			"loop": false,
 			"fps": 24,
-			"name": "Tankman UP note instance ",
-			"indices": []
+			"anim": "singUP",
+			"indices": [],
+			"name": "Tankman UP note instance "
 		},
 		{
+			"loop": false,
 			"offsets": [
 				85,
 				-13
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "singLEFT",
-			"indices": [],
-			"name": "Tankman Right Note instance "
+			"fps": 24,
+			"name": "Tankman Right Note instance ",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [
 				-19,
 				-30
 			],
-			"loop": false,
-			"fps": 24,
 			"anim": "singRIGHT",
-			"indices": [],
-			"name": "Tankman Note Left instance "
-		},
-		{
-			"loop": false,
-			"offsets": [
-				0,
-				10
-			],
-			"anim": "singDOWN-alt",
 			"fps": 24,
-			"name": "PRETTY GOOD tankman instance ",
+			"name": "Tankman Note Left instance ",
 			"indices": []
 		},
 		{
 			"offsets": [
+				0,
+				10
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singDOWN-alt",
+			"indices": [],
+			"name": "PRETTY GOOD tankman instance "
+		},
+		{
+			"loop": false,
+			"offsets": [
 				-18,
 				-10
 			],
-			"indices": [],
-			"fps": 24,
 			"anim": "singUP-alt",
-			"loop": false,
-			"name": "TANKMAN UGH instance "
+			"fps": 24,
+			"name": "TANKMAN UGH instance ",
+			"indices": []
 		}
-                
 	],
 	"no_antialiasing": false,
 	"image": "characters/tankmanCaptain",
@@ -87,6 +86,16 @@
 	],
 	"healthicon": "tankman",
 	"flip_x": true,
+	"healthbar_colors": [
+		35,
+		36,
+		53
+	],
+"healthbar_colors2": [
+		35,
+		36,
+		53
+	],
 	"camera_position": [
 		0,
 		0

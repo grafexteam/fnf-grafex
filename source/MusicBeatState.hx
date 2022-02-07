@@ -12,8 +12,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.FlxState;
-import flixel.FlxSubState;
-import Data;
+import flixel.FlxBasic;
 
 class MusicBeatState extends FlxUIState
 {
@@ -28,17 +27,33 @@ class MusicBeatState extends FlxUIState
 		return PlayerSettings.player1.controls;
 
 	override function create() {
+		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		super.create();
 
 		// Custom made Trans out
-		if(!FlxTransitionableState.skipNextTransOut) {
+		if(!skip) {
 			openSubState(new CustomFadeTransition(1, true));
 		}
 		FlxTransitionableState.skipNextTransOut = false;
 	}
+	
+	#if (VIDEOS_ALLOWED && windows)
+	override public function onFocus():Void
+	{
+		FlxVideo.onFocus();
+		super.onFocus();
+	}
+	
+	override public function onFocusLost():Void
+	{
+		FlxVideo.onFocusLost();
+		super.onFocusLost();
+	}
+	#end
 
 	override function update(elapsed:Float)
 	{
+		//everyStep();
 		var oldStep:Int = curStep;
 
 		updateCurStep();
@@ -81,10 +96,12 @@ class MusicBeatState extends FlxUIState
 				CustomFadeTransition.finishCallback = function() {
 					FlxG.resetState();
 				};
+				//trace('resetted');
 			} else {
 				CustomFadeTransition.finishCallback = function() {
 					FlxG.switchState(nextState);
 				};
+				//trace('changed state');
 			}
 			return;
 		}
@@ -100,66 +117,6 @@ class MusicBeatState extends FlxUIState
 		var curState:Dynamic = FlxG.state;
 		var leState:MusicBeatState = curState;
 		return leState;
-	}
-
-	public function stepHit():Void
-	{
-		if (curStep % 4 == 0)
-			beatHit();
-	}
-
-	public function beatHit():Void
-	{
-		//does nothing
-	}
-}
-
-class MusicBeatSubstate extends FlxSubState
-{
-	public function new()
-	{
-		super();
-	}
-
-	private var lastBeat:Float = 0;
-	private var lastStep:Float = 0;
-
-	private var curStep:Int = 0;
-	private var curBeat:Int = 0;
-	private var controls(get, never):Controls;
-
-	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
-
-	override function update(elapsed:Float)
-	{
-		//everyStep();
-		var oldStep:Int = curStep;
-
-		updateCurStep();
-		curBeat = Math.floor(curStep / 4);
-
-		if (oldStep != curStep && curStep > 0)
-			stepHit();
-
-
-		super.update(elapsed);
-	}
-
-	private function updateCurStep():Void
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition > Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
 	public function stepHit():Void

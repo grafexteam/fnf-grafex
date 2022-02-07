@@ -31,7 +31,7 @@
 			"fps": 24,
 			"anim": "singLEFT",
 			"indices": [],
-			"name": "Monster Right note"
+			"name": "Monster left note"
 		},
 		{
 			"offsets": [
@@ -42,7 +42,7 @@
 			"fps": 24,
 			"anim": "singRIGHT",
 			"indices": [],
-			"name": "Monster left note"
+			"name": "Monster Right note"
 		},
 		{
 			"offsets": [
@@ -139,6 +139,16 @@
 	],
 	"healthicon": "monster",
 	"flip_x": false,
+	"healthbar_colors": [
+		243,
+		255,
+		110
+	],
+"healthbar_colors2": [
+		243,
+		255,
+		110
+	],
 	"camera_position": [
 		0,
 		0

@@ -93,8 +93,18 @@
 		0,
 		200
 	],
+	"healthbar_colors2": [
+		180,
+		180,
+		180
+	],
 	"healthicon": "spooky",
 	"flip_x": false,
+	"healthbar_colors": [
+		213,
+		126,
+		0
+	],
 	"camera_position": [
 		0,
 		0

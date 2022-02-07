@@ -23,7 +23,8 @@ import openfl.net.NetConnection;
 import openfl.net.NetStream;
 import vlc.VlcBitmap;
 import openfl.events.Event;
-import GameMenuState;
+import StoryMenuState;
+import PlayState;
 
 import openfl.Lib;
 
@@ -142,7 +143,12 @@ class VideoState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (useSound)
+		if(FlxG.keys.justPressed.F11)
+                {
+                   FlxG.fullscreen = !FlxG.fullscreen;
+                }
+
+                if (useSound)
 		{
 			var wasFuckingHit = GlobalVideo.get().webm.wasHitOnce;
 			soundMultiplier = GlobalVideo.get().webm.renderedCount / videoFrames;
@@ -891,6 +897,6 @@ class MP4Handler
 			LoadingState.loadAndSwitchState(finishCallback);
 		}
 		else
-			LoadingState.loadAndSwitchState(new GameMenuState.MainMenuState());
+			LoadingState.loadAndSwitchState(new MainMenuState());
 	}
 }

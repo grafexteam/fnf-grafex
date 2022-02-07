@@ -3,7 +3,8 @@ package;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import Paths;
-import SongData;
+import Section;
+import Song;
 import Conductor;
 import Math;
 import openfl.geom.Matrix;
@@ -47,8 +48,7 @@ class TankmenBG extends FlxSprite
     public var tankSpeed:Float = 0.7 * 1000;
     public var goingRight:Bool = false;
     var runAnimPlayedTimes:Int = 0;
-    var runAnimPlayedTimesMax:Int = 1;
-  
+    var runAnimPlayedTimesMax:Int = 1; 
 
     override public function new()
     {

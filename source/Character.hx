@@ -6,10 +6,14 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
+import Section.SwagSection;
+
+import sys.io.File;
+import sys.FileSystem;
+
 import openfl.utils.Assets;
 import haxe.Json;
 import haxe.format.JsonParser;
-import Data;
 
 using StringTools;
 
@@ -25,6 +29,8 @@ typedef CharacterFile = {
 
 	var flip_x:Bool;
 	var no_antialiasing:Bool;
+	var healthbar_colors:Array<Int>;
+        var healthbar_colors2:Array<Int>;
 }
 
 typedef AnimArray = {
@@ -60,12 +66,15 @@ class Character extends FlxSprite
 	public var positionArray:Array<Float> = [0, 0];
 	public var cameraPosition:Array<Float> = [0, 0];
 
+	public var hasMissAnimations:Bool = false;
+
 	//Used on Character Editor
 	public var imageFile:String = '';
 	public var jsonScale:Float = 1;
 	public var noAntialiasing:Bool = false;
 	public var originalFlipX:Bool = false;
 	public var healthColorArray:Array<Int> = [255, 0, 0];
+        public var healthColorArray2:Array<Int> = [255, 0, 0];
 
 	public static var DEFAULT_CHARACTER:String = 'bf'; //In case a character is missing, it will use BF on its place
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
@@ -88,18 +97,28 @@ class Character extends FlxSprite
 
 			default:
 				var characterPath:String = 'characters/' + curCharacter + '.json';
+
 				var path:String = Paths.getPreloadPath(characterPath);
 				if (!Assets.exists(path))
+			
 				{
 					path = Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
 				}
 
+				
 				var rawJson = Assets.getText(path);
+		
 
 				var json:CharacterFile = cast Json.parse(rawJson);
-				if(Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT))) {
+				
+				if(Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
+				
+				{
+				//bozo forgot about the packer shits : P
 					frames = Paths.getPackerAtlas(json.image);
-				} else {
+				}
+				else
+				{
 					frames = Paths.getSparrowAtlas(json.image);
 				}
 				imageFile = json.image;
@@ -116,8 +135,14 @@ class Character extends FlxSprite
 				healthIcon = json.healthicon;
 				singDuration = json.sing_duration;
 				flipX = !!json.flip_x;
-				if(json.no_antialiasing)
+				if(json.no_antialiasing) {
+					antialiasing = false;
 					noAntialiasing = true;
+				}
+
+				if(json.healthbar_colors != null && json.healthbar_colors.length > 2)
+				{        healthColorArray = json.healthbar_colors;
+                                         healthColorArray2 = json.healthbar_colors2;}
 
 				antialiasing = !noAntialiasing;
 				if(!ClientPrefs.globalAntialiasing) antialiasing = false;
@@ -143,21 +168,42 @@ class Character extends FlxSprite
 				} else {
 					quickAnimAdd('idle', 'BF idle dance');
 				}
+				//trace('Loaded file to character ' + curCharacter);
 		}
 		originalFlipX = flipX;
 
+		if(animOffsets.exists('singLEFTmiss') || animOffsets.exists('singDOWNmiss') || animOffsets.exists('singUPmiss') || animOffsets.exists('singRIGHTmiss')) hasMissAnimations = true;
 		recalculateDanceIdle();
 		dance();
 
 		if (isPlayer)
 		{
 			flipX = !flipX;
+
+			/*// Doesn't flip for BF, since his are already in the right place???
+			if (!curCharacter.startsWith('bf'))
+			{
+				// var animArray
+				if(animation.getByName('singLEFT') != null && animation.getByName('singRIGHT') != null)
+				{
+					var oldRight = animation.getByName('singRIGHT').frames;
+					animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
+					animation.getByName('singLEFT').frames = oldRight;
+				}
+
+				// IF THEY HAVE MISS ANIMATIONS??
+				if (animation.getByName('singLEFTmiss') != null && animation.getByName('singRIGHTmiss') != null)
+				{
+					var oldMiss = animation.getByName('singRIGHTmiss').frames;
+					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
+					animation.getByName('singLEFTmiss').frames = oldMiss;
+				}
+			}*/
 		}
 	}
 
 	override function update(elapsed:Float)
 	{
-		
 		if(!debugMode && animation.curAnim != null)
 		{
 			if(heyTimer > 0)
@@ -201,7 +247,10 @@ class Character extends FlxSprite
 	}
 
 	public var danced:Bool = false;
-	
+
+	/**
+	 * FOR GF DANCING SHIT
+	 */
 	public function dance()
 	{
 		if (!debugMode && !specialAnim)
