@@ -17,7 +17,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
-import Achievements;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
@@ -26,7 +25,7 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var GrafexEngineVersion:String = '0.1pre'; //This is also used for Discord RPC
+	public static var GrafexEngineVersion:String = '0.15'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -42,7 +41,7 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
-                #if ACHIEVEMENTS_ALLOWED 'awards', #end
+                #if MODS_ALLOWED 'mods', #end
 		'credits',
 		#if !switch 'donate', #end
 		'options'
@@ -180,7 +179,7 @@ class MainMenuState extends MusicBeatState
        		case 5:
        			tipfuck = "Snake was here ._.";
        		case 6:
-       			tipfuck = "LUA Mods are not allowed)";
+       			tipfuck = "Check your options)";
        		case 7:
        			tipfuck = "Are you ok?";
         }
@@ -203,31 +202,11 @@ class MainMenuState extends MusicBeatState
 
 		changeItem();
 
-		#if ACHIEVEMENTS_ALLOWED
-		Achievements.loadAchievements();
-		var leDate = Date.now();
-		if (leDate.getDay() == 5 && leDate.getHours() >= 18) {
-			var achieveID:Int = Achievements.getAchievementIndex('friday_night_play');
-			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
-				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
-				giveAchievement();
-				ClientPrefs.saveSettings();
-			}
-		}
-		#end
-
 		super.create();
         tipTextStartScrolling();
 	}
 
-	#if ACHIEVEMENTS_ALLOWED
-	// Unlocks "Freaky on a Friday Night" achievement
-	function giveAchievement() {
-		add(new AchievementObject('friday_night_play', camAchievement));
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-		trace('Giving achievement "friday_night_play"');
-	}
-	#end
+	
 
 	var selectedSomethin:Bool = false;
 
@@ -256,7 +235,7 @@ class MainMenuState extends MusicBeatState
         		        case 5:
         		            tipfuck = "Snake was here ._.";
         		        case 6:
-        		            tipfuck = "LUA Mods are not allowed)";
+        		            tipfuck = "Check your options)";
         		        case 7:
         		            tipfuck = "Are you ok?";
         		        }
@@ -337,9 +316,12 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
+										MusicBeatState.switchState(new FreeplayState());
+									#if MODS_ALLOWED
+									case 'mods':
+										MusicBeatState.switchState(new ModsMenuState());
+									#end
 									
-									case 'awards':
-										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
