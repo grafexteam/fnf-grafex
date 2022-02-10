@@ -402,10 +402,10 @@ class PlayState extends MusicBeatState
 					curStage = 'school';
 				case 'thorns':
 					curStage = 'schoolEvil';
-                case 'ugh' | 'guns':
-                    curStage ='tankStage';
-                case 'stress':
-                    curStage ='tankStage2';
+              //  case 'ugh' | 'guns':
+             //       curStage ='tankStage';
+             //   case 'stress':
+             //       curStage ='tankStage2';
 				default:
 					curStage = 'stage';
 			}
@@ -439,7 +439,7 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'tankStage': //week7
+		/*	case 'tankStage': //week7
 					{
 				
                                         defaultCamZoom = 0.9;
@@ -687,7 +687,7 @@ class PlayState extends MusicBeatState
 					tank5.antialiasing = ClientPrefs.globalAntialiasing;
 					
 					tank5.updateHitbox();
-			}
+			} */
 
 case 'stage': //Week 1
 				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
@@ -975,14 +975,14 @@ case 'stage': //Week 1
 		add(dadGroup);
 		add(boyfriendGroup);
  
-		if (curStage == 'tankStage' || curStage == 'tankStage2'){
+		/*if (curStage == 'tankStage' || curStage == 'tankStage2'){
 			add(tank0);
 			add(tank1);
 			add(tank2);
 			add(tank4);
 			add(tank5);
 			add(tank3);
-		}
+		}*/
 		if(curStage == 'spooky') {
 			add(halloweenWhite);
 		}
@@ -2531,10 +2531,10 @@ function set_songSpeed(value:Float):Float
 		switch (curStage)
 		{
 			
-                        case 'tankStage':
-				moveTank();
-			case 'tankStage2':
-				moveTank();
+                      //  case 'tankStage':
+			//	moveTank();
+			//case 'tankStage2':
+			//	moveTank();
                         case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
@@ -4839,16 +4839,16 @@ function set_songSpeed(value:Float):Float
 
 		switch (curStage)
 		{
-			case "tankStage2" | "tankStage":
-					if(curBeat % 2 == 0){
-						tankWatchtower.animation.play('idle', true);
-						tank0.animation.play('idle', true);
-						tank1.animation.play('idle', true);
-						tank2.animation.play('idle', true);
-						tank3.animation.play('idle', true);
-						tank4.animation.play('idle', true);
-						tank5.animation.play('idle', true);
-					}
+			//case "tankStage2" | "tankStage":
+			//		if(curBeat % 2 == 0){
+			//			tankWatchtower.animation.play('idle', true);
+			//			tank0.animation.play('idle', true);
+			//			tank1.animation.play('idle', true);
+			//			tank2.animation.play('idle', true);
+			//			tank3.animation.play('idle', true);
+			//			tank4.animation.play('idle', true);
+			//			tank5.animation.play('idle', true);
+			//		}
                 case 'school':
 				if(!ClientPrefs.lowQuality) {
 					bgGirls.dance();

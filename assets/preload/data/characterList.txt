@@ -26,8 +26,4 @@ gf-handsup
 bf-singdeath
 acceleranttricky
 nil-gf
-tankman
-picospeaker
-tangf
-bfgf
 beatbox
