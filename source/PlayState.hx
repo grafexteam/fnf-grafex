@@ -1147,12 +1147,13 @@ case 'stage': //Week 1
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.setFormat(Paths.font("MFE.ttf"), 32, FlxColor.BLACK, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.WHITE);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
-		timeTxt.borderSize = 2;
+                timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
+
 
 		
 		updateTime = showTime;
@@ -4776,7 +4777,9 @@ function set_songSpeed(value:Float):Float
 
 		if(camZooming)
 			{
-				switch(ClientPrefs.hliconbop)
+				 timeTxt.size = 32;                  
+                                 FlxTween.tween(timeTxt, {size: 35}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD}); 
+                                switch(ClientPrefs.hliconbop)
 				{
 					case 'Modern':
 						iconP1.scale.set(1.2, 1.2);
@@ -4815,7 +4818,7 @@ function set_songSpeed(value:Float):Float
 					{
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;
-						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});               
 					}
 			}
 		
