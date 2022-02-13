@@ -343,6 +343,7 @@ class PlayState extends MusicBeatState
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
+                camGame.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
@@ -1306,7 +1307,7 @@ case 'stage': //Week 1
 		healthBarBG.sprTracker = healthBar;
 
 
-                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 13), this, 'health', 0, 2);
+                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 13.5), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha - 0.1;
 		add(healthBarWN);

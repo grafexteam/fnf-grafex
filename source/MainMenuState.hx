@@ -168,21 +168,25 @@ class MainMenuState extends MusicBeatState
 
         switch(FlxG.random.int(1, 7))
         {
-       		case 1:
-       			tipfuck = "Also try terraria";
-       		case 2:
-       			tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-       		case 3:
-       			tipfuck = "Nothing to see here -_-";
-       		case 4:
-       			tipfuck = "Xale was here uWu";
-       		case 5:
-       			tipfuck = "Snake was here ._.";
-       		case 6:
-       			tipfuck = "Check your options)";
-       		case 7:
-       			tipfuck = "Are you ok?";
-        }
+        		        case 1:
+        		            tipfuck = "Also try Terraria";
+        		        case 2:
+        		            tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
+        		        case 3:
+        		            tipfuck = "Nothing to see here -_-";
+        		        case 4:
+        		        	tipfuck = "Xale was here uWu";
+        		        case 5:
+        		            tipfuck = "Snake was here ._.";
+        		        case 6:
+        		            tipfuck = "Check your options)";
+        		        case 7:
+        		            tipfuck = "Are you ok?";
+                                case 8:
+        		            tipfuck = "Week7 not included.";
+                                case 9:
+        		            tipfuck = "Nanomachines, son.";
+        		        }
 
         tipBackground = new FlxSprite();
 		tipBackground.scrollFactor.set();
@@ -221,26 +225,8 @@ class MainMenuState extends MusicBeatState
 				{
 					tipText.x -= elapsed * 130;
 					if (tipText.x < -tipText.width)
-					{
-						switch(FlxG.random.int(1, 7))
-        		        {
-        		        case 1:
-        		            tipfuck = "Also try Terraria";
-        		        case 2:
-        		            tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-        		        case 3:
-        		            tipfuck = "Nothing to see here -_-";
-        		        case 4:
-        		        	tipfuck = "Xale was here uWu";
-        		        case 5:
-        		            tipfuck = "Snake was here ._.";
-        		        case 6:
-        		            tipfuck = "Check your options)";
-        		        case 7:
-        		            tipfuck = "Are you ok?";
-        		        }
-					 
-        		        tipTextScrolling = false;
+					{	 
+        		                        tipTextScrolling = false;
 						tipTextStartScrolling();
 					}
 				}
@@ -279,7 +265,8 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
+					//CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
+                                        trace('No, you wont');
 				}
 				else
 				{
@@ -296,7 +283,7 @@ class MainMenuState extends MusicBeatState
 									ease: FlxEase.quadOut,
 									
 								});
-								FlxTween.tween(spr, {x : -500}, 0.4, {
+								FlxTween.tween(spr, {x : -500, y : -100}, 0.55, {
 									ease: FlxEase.quadOut,
 									onComplete: function(twn:FlxTween)
 									{
