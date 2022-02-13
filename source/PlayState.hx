@@ -2850,6 +2850,11 @@ function set_songSpeed(value:Float):Float
 		if (generatedMusic)
 		{
 			var fakeCrochet:Float = (60 / SONG.bpm) * 1000;
+                        var off:Float = 0;
+			if(Note.downScrollHoldEndOffset.exists(ClientPrefs.noteSkin))
+			{
+				off = Note.downScrollHoldEndOffset.get(ClientPrefs.noteSkin);
+			}
 			notes.forEachAlive(function(daNote:Note)
 			{
 				// i am so fucking sorry for this if condition
@@ -2896,6 +2901,7 @@ function set_songSpeed(value:Float):Float
 									daNote.y += 8;
 								} else {
 									daNote.y -= 19;
+                                                                        daNote.y += off;
 								}
 							} 
 							daNote.y += (Note.swagWidth / 2) - (60.5 * (roundedSpeed - 1));

@@ -38,8 +38,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	private var grpTexts:FlxTypedGroup<AttachedText>;
 
 	private var boyfriend:Character = null;
+        private var previewNotes:AttachedSprite;
 	private var descBox:FlxSprite;
 	private var descText:FlxText;
+
+	private var previewNoteOption:Option;
 
 	public var title:String;
 	public var rpcTitle:String;
@@ -100,6 +103,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
+                        var textChild:AttachedText = null;
 			if(optionsArray[i].type == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
@@ -108,23 +112,49 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			} else {
 				optionText.x -= 80;
 				optionText.xAdd -= 80;
-				var valueText:AttachedText = new AttachedText('' + optionsArray[i].getValue(), optionText.width + 80);
-				valueText.sprTracker = optionText;
-				valueText.copyAlpha = true;
-				valueText.ID = i;
-				grpTexts.add(valueText);
-				optionsArray[i].setChild(valueText);
+				textChild = new AttachedText('' + optionsArray[i].getValue(), optionText.width + 80);
+				textChild.sprTracker = optionText;
+				textChild.copyAlpha = true;
+				textChild.ID = i;
+				grpTexts.add(textChild);
+				optionsArray[i].setChild(textChild);
 			}
+
 
 			if(optionsArray[i].showBoyfriend && boyfriend == null)
 			{
 				reloadBoyfriend();
+			}
+                        if(optionsArray[i].showNotes && previewNotes == null)
+			{
+				var colorSwap:ColorSwap = new ColorSwap();
+				colorSwap.hue = ClientPrefs.arrowHSV[2][0] / 360;
+				colorSwap.saturation = ClientPrefs.arrowHSV[2][1] / 100;
+				colorSwap.brightness = ClientPrefs.arrowHSV[2][2] / 100;
+
+				previewNotes = new AttachedSprite();
+				previewNotes.loadGraphic(Paths.image('previewNotes'), true, 164, 164);
+				previewNotes.shader = colorSwap.shader;
+				previewNotes.animation.add('frames', [0, 1, 2], 0);
+				previewNotes.animation.play('frames');
+				previewNotes.sprTracker = textChild;
+				previewNoteOption = optionsArray[i];
+				previewNotes.setGraphicSize(Std.int(previewNotes.width * 0.7));
+				previewNotes.updateHitbox();
+				previewNotes.yAdd = 20;
+				add(previewNotes);
+				updateNotes();
 			}
 			updateTextFrom(optionsArray[i]);
 		}
 
 		changeSelection();
 		reloadCheckboxes();
+	}
+        public function updateNotes()
+	{
+		previewNotes.animation.curAnim.curFrame = previewNoteOption.curOption;
+		previewNotes.xAdd = previewNotes.sprTracker.width + 20;
 	}
 
 	public function addOption(option:Option) {

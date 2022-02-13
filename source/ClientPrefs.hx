@@ -14,6 +14,7 @@ class ClientPrefs {
         public static var hliconbop:String = 'Grafex';
         public static var underdelayalpha:Float = 0.1;
         public static var underdelayonoff:Bool = true;
+        public static var noteSkin:String = 'Default';
 
         //WHAT WAS
         public static var downScroll:Bool = false;
@@ -94,6 +95,7 @@ class ClientPrefs {
                 FlxG.save.data.hitsound = hitsound;
                 FlxG.save.data.cameramove = cameramove;
                 FlxG.save.data.hliconbop = hliconbop;
+                FlxG.save.data.noteSkin = noteSkin;
 
                 FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
@@ -139,7 +141,9 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		
+		if(FlxG.save.data.noteSkin != null) {
+			noteSkin = FlxG.save.data.noteSkin;
+		}
                if(FlxG.save.data.cameramove == null) {
 			cameramove = false;
 		}

@@ -33,6 +33,16 @@ class VisualsUISubState extends BaseOptionsMenu
 	{
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
+                
+                var option:Option = new Option('Note Skin:',
+			"Funny notes dropping down, how should they look like?",
+			'noteSkin',
+			'string',
+			'Default',
+			['Default', 'Future', 'Chip']);
+		option.showNotes = true;
+		option.onChange = onChangeNoteSkin;
+		addOption(option);
 
 		var option:Option = new Option('Note Splashes',
 			"If unchecked, hitting \"Sick!\" notes won't show particles.",
@@ -131,7 +141,12 @@ class VisualsUISubState extends BaseOptionsMenu
 	}
 
 	#if !mobile
-	function onChangeFPSCounter()
+	function onChangeNoteSkin()
+	{
+		updateNotes();
+	}
+
+function onChangeFPSCounter()
 	{
 		if(Main.fpsVar != null)
 			Main.fpsVar.visible = ClientPrefs.showFPS;
