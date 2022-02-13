@@ -215,6 +215,8 @@ class TitleState extends MusicBeatState
 		gfDance.shader = swagShader.shader;
 		add(logoBl);
 		logoBl.shader = swagShader.shader;
+       
+                FlxTween.tween(logoBl, {y: logoBl.y + 25}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);		
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');

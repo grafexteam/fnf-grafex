@@ -135,6 +135,10 @@ class PauseSubState extends MusicBeatSubstate
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
+        if(FlxG.keys.justPressed.F11)
+        {
+           FlxG.fullscreen = !FlxG.fullscreen;
+        }
 
 		if (upP)
 		{
@@ -167,7 +171,7 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
-					close();
+					regenMenu();
 				case 'Toggle Practice Mode':
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
 					PlayState.changedDifficulty = true;
