@@ -34,6 +34,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
                 
+                var option:Option = new Option('Show Judgement',
+			'If checked, shows judgement HUD.',
+			'showjud',
+			'bool',
+			true);
+		addOption(option); 
+
                 var option:Option = new Option('Note Skin:',
 			"Funny notes dropping down, how should they look like?",
 			'noteSkin',

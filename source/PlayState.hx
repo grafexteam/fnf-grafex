@@ -164,6 +164,7 @@ class PlayState extends MusicBeatState
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
 	public var combo:Int = 0;
+        var judgementCounter:FlxText;
 
 	public var isHealthCheckingEnabled:Bool = true;
 	private var healthBarBG:AttachedSprite;
@@ -1305,7 +1306,7 @@ case 'stage': //Week 1
 		healthBarBG.sprTracker = healthBar;
 
 
-                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
+                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 13), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha - 0.1;
 		add(healthBarWN);
@@ -1345,18 +1346,31 @@ case 'stage': //Week 1
 		add(iconP2);
 		reloadHealthBarColors();
             
-        songTxt = new FlxText(8, healthBarBG.y + 50, 0, SONG.song + " (" + storyDifficultyText + ")", 16);
+                songTxt = new FlxText(8, healthBarBG.y + 50, 0, SONG.song + " (" + storyDifficultyText + ")", 18);
 		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
 		songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.1);
-    	songTxt.scrollFactor.set();
+                songTxt.borderSize = 1.2;
+                songTxt.borderQuality = 1.5;
+    	        songTxt.scrollFactor.set();
 		add(songTxt); 
  
-        scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
+                scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
+
+                judgementCounter = new FlxText(20, 0, 0, "", 20);
+		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		judgementCounter.borderSize = 1.5;
+		judgementCounter.borderQuality = 2;
+		judgementCounter.scrollFactor.set();
+		judgementCounter.cameras = [camHUD];
+		judgementCounter.screenCenter(Y);
+		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+                judgementCounter.visible = ClientPrefs.showjud;
+		add(judgementCounter);
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "", 32);
 		botplayTxt.text = "BOTPLAY";
@@ -2663,9 +2677,11 @@ function set_songSpeed(value:Float):Float
 
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
+                        judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
 		} else {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
-		}
+		        judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+                }
 
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;

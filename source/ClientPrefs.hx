@@ -15,6 +15,7 @@ class ClientPrefs {
         public static var underdelayalpha:Float = 0.1;
         public static var underdelayonoff:Bool = true;
         public static var noteSkin:String = 'Default';
+        public static var showjud:Bool = true;
 
         //WHAT WAS
         public static var downScroll:Bool = false;
@@ -91,7 +92,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
-		
+		FlxG.save.data.showjud = showjud;
                 FlxG.save.data.hitsound = hitsound;
                 FlxG.save.data.cameramove = cameramove;
                 FlxG.save.data.hliconbop = hliconbop;
@@ -144,7 +145,13 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
-               if(FlxG.save.data.cameramove == null) {
+                if(FlxG.save.data.showjud == null) {
+			showjud = true;
+		}
+               if(FlxG.save.data.showjud != null) {
+			showjud = FlxG.save.data.showjud;
+		}
+                if(FlxG.save.data.cameramove == null) {
 			cameramove = false;
 		}
                if(FlxG.save.data.cameramove != null) {
