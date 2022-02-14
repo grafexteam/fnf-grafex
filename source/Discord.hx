@@ -15,7 +15,7 @@ class DiscordClient
 	public function new()
 	{
 		DiscordRpc.start({
-			clientID: "888738996455362601",
+			clientID: "885223855327698985",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
@@ -39,9 +39,9 @@ class DiscordClient
 	static function onReady()
 	{
 		DiscordRpc.presence({
-			details: "In the Menu",
+			details: "The Menu",
 			state: null,
-			largeImageKey: 'discordlogo',
+			largeImageKey: 'grafexengine',
 			largeImageText: "Grafex Engine"
 		});
 	}
@@ -65,7 +65,7 @@ class DiscordClient
 		trace("Discord Client initialized");
 	}
 
-	public static function changePresence(details:String, state:Null<String>, ?smallImageKey : String, ?hasStartTimestamp : Bool, ?endTimestamp: Float)
+	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?smallImageText:String, ?hasStartTimestamp : Bool, ?endTimestamp: Float)
 	{
 		var startTimestamp:Float = if(hasStartTimestamp) Date.now().getTime() else 0;
 
@@ -77,21 +77,22 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'icon',
-			largeImageText: "Engine Version: " + MainMenuState.GrafexEngineVersion,
+			largeImageKey: 'grafexengine',
+			largeImageText: "Grafex v " + MainMenuState.GrafexEngineVersion,
 			smallImageKey : smallImageKey,
+                        smallImageText : smallImageText,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),
-            endTimestamp : Std.int(endTimestamp / 1000)
+                        endTimestamp : Std.int(endTimestamp / 1000)
 		});
 
-		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
+		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, ,$smallImageText ,$hasStartTimestamp, $endTimestamp');
 	}
 
 	#if LUA_ALLOWED
 	public static function addLuaCallbacks(lua:State) {
-		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
-			changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
+		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?smallImageText:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
+			changePresence(details, state, smallImageKey, smallImageText, hasStartTimestamp, endTimestamp);
 		});
 	}
 	#end
