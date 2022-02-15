@@ -2870,7 +2870,7 @@ function set_songSpeed(value:Float):Float
                         var off:Float = 0;
 			if(Note.downScrollHoldEndOffset.exists(ClientPrefs.noteSkin))
 			{
-				off = Note.downScrollHoldEndOffset.get(ClientPrefs.noteSkin);
+			off = Note.downScrollHoldEndOffset.get(ClientPrefs.noteSkin);
 			}
 			notes.forEachAlive(function(daNote:Note)
 			{

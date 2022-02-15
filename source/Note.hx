@@ -12,6 +12,8 @@ using StringTools;
 
 class Note extends FlxSprite
 {
+        public var deftype:Bool;       
+ 
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
@@ -98,7 +100,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note':
 					ignoreNote = mustPress;
-					reloadNote('HURT');
+					reloadNote('HURT','','', true);
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -225,7 +227,10 @@ class Note extends FlxSprite
 					var holdScale:Float = 1;
 					if(holdArrowScales.exists(ClientPrefs.noteSkin))
 					{
-						holdScale = holdArrowScales.get(ClientPrefs.noteSkin);
+                                                if(deftype){
+						holdScale = 1;}
+                                                else{
+                                                holdScale = holdArrowScales.get(ClientPrefs.noteSkin);}
 					}
 					prevNote.scale.y *= holdScale;
 				}
@@ -243,15 +248,21 @@ class Note extends FlxSprite
 		x += offsetX;
 	}
 
-	function reloadNote(?prefix:String = '', ?texture:String = '', ?suffix:String = '') {
+	function reloadNote(?prefix:String = '', ?texture:String = '', ?suffix:String = '', ?deftype:Bool) {
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
+                if(deftype == null) deftype = false;
 		
 		var coolswag:String = '';
 		if(ClientPrefs.noteSkin != 'Default')
 		{
-			coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
+	          if(deftype)
+                    {
+                     coolswag = '';
+                    }
+                  else
+                     coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
 		}
                 var skin:String = texture;
 		if(texture.length < 1) {
