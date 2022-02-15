@@ -19,7 +19,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -32,7 +32,7 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+		
 
 		if(PlayState.chartingMode)
 		{
@@ -137,7 +137,7 @@ class PauseSubState extends MusicBeatSubstate
 		var accepted = controls.ACCEPT;
         if(FlxG.keys.justPressed.F11)
         {
-           FlxG.fullscreen = !FlxG.fullscreen;
+        FlxG.fullscreen = !FlxG.fullscreen;
         }
 
 		if (upP)
@@ -152,7 +152,8 @@ class PauseSubState extends MusicBeatSubstate
 		if (accepted)
 		{
 			var daSelected:String = menuItems[curSelected];
-			if(difficultyChoices.contains(daSelected)) {
+			if(difficultyChoices.contains(daSelected)) 
+				{
 				var name:String = PlayState.SONG.song.toLowerCase();
 				var poop = Highscore.formatSong(name, curSelected);
 				PlayState.SONG = Song.loadFromJson(poop, name);
@@ -162,8 +163,13 @@ class PauseSubState extends MusicBeatSubstate
 				FlxG.sound.music.volume = 0;
 				PlayState.changedDifficulty = true;
 				PlayState.chartingMode = false;
-				return;
+				//return;
 			}
+			else
+			{
+				menuItems = menuItemsOG;
+				regenMenu();
+			}	
 
 			switch (daSelected)
 			{
@@ -197,8 +203,8 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.chartingMode = false;
 
 				case 'BACK':
-					menuItems = menuItemsOG;
-					regenMenu();
+					//menuItems = menuItemsOG;
+					//regenMenu();
 			}
 		}
 	}
