@@ -256,7 +256,7 @@ class Note extends FlxSprite
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
-                if(deftype == null) deftype = true;
+                if(deftype == null) deftype = false;
 		
 		var coolswag:String = '';
 		if(ClientPrefs.noteSkin != 'Default')
