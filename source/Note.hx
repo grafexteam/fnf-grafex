@@ -227,10 +227,14 @@ class Note extends FlxSprite
 					var holdScale:Float = 1;
 					if(holdArrowScales.exists(ClientPrefs.noteSkin))
 					{
-                                                if(deftype){
-						holdScale = 1;}
-                                                else{
-                                                holdScale = holdArrowScales.get(ClientPrefs.noteSkin);}
+                                                if(prevNote.deftype)
+                                                {
+						holdScale = 1;
+                                                }
+                                                else
+                                                {
+                                                holdScale = holdArrowScales.get(ClientPrefs.noteSkin);
+                                                }
 					}
 					prevNote.scale.y *= holdScale;
 				}
@@ -319,7 +323,10 @@ class Note extends FlxSprite
 		if(isSustainNote) {
 			scale.y = lastScaleY;
 			if(ClientPrefs.keSustains) {
-				scale.y *= 0.75;
+				if(prevNote.deftype){
+                                scale.y *= 1;}
+                                else{
+                                 scale.y *= 0.75;}
 			}
 		}
 		updateHitbox();

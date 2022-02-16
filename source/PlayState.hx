@@ -2030,9 +2030,11 @@ function set_songSpeed(value:Float):Float
 							countdownReady.setGraphicSize(Std.int(countdownReady.width * daPixelZoom));
 
 						countdownReady.screenCenter();
+                                                //countdownReady.scale.x = 0.7;
+                                                //countdownReady.scale.y = 0.7;
 						countdownReady.antialiasing = antialias;
 						add(countdownReady);
-						FlxTween.tween(countdownReady, {/*y: countdownReady.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownReady, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -2049,9 +2051,11 @@ function set_songSpeed(value:Float):Float
 							countdownSet.setGraphicSize(Std.int(countdownSet.width * daPixelZoom));
 
 						countdownSet.screenCenter();
+                                                //countdownSet.scale.x = 0.7;
+                                                //countdownSet.scale.y = 0.7;
 						countdownSet.antialiasing = antialias;
 						add(countdownSet);
-						FlxTween.tween(countdownSet, {/*y: countdownSet.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownSet, { alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -2070,9 +2074,11 @@ function set_songSpeed(value:Float):Float
 						countdownGo.updateHitbox();
 
 						countdownGo.screenCenter();
+                                                //countdownGo.scale.x = 0.7;
+                                                //countdownGo.scale.y = 0.7;
 						countdownGo.antialiasing = antialias;
 						add(countdownGo);
-						FlxTween.tween(countdownGo, {/*y: countdownGo.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownGo, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
