@@ -720,14 +720,14 @@ case 'stage': //Week 1
 
 			case 'spooky': //Week 2
 				if(!ClientPrefs.lowQuality) {
-					halloweenBG = new BGSprite('halloween_bg', -200, -100, ['halloweem bg0', 'halloweem bg lightning strike']);
+					halloweenBG = new BGSprite('halloween_bg', -200, 0, ['halloweem bg0', 'halloweem bg lightning strike']);
 				} else {
 					halloweenBG = new BGSprite('halloween_bg_low', -200, -100);
 				}
 				add(halloweenBG);
 
 				halloweenWhite = new BGSprite(null, -FlxG.width, -FlxG.height, 0, 0);
-				halloweenWhite.makeGraphic(Std.int(FlxG.width * 3), Std.int(FlxG.height * 3), FlxColor.WHITE);
+				halloweenWhite.makeGraphic(Std.int(FlxG.width * 3), Std.int(FlxG.height * 4), FlxColor.WHITE);
 				halloweenWhite.alpha = 0;
 				halloweenWhite.blend = ADD;
 
@@ -1150,7 +1150,7 @@ case 'stage': //Week 1
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("MFE.ttf"), 32, FlxColor.BLACK, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.WHITE);
+		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
                 timeTxt.borderSize = 2;
@@ -1160,21 +1160,21 @@ case 'stage': //Week 1
 
 		
 		updateTime = showTime;
-                laneunderlayOpponent = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
+        laneunderlayOpponent = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
 		laneunderlayOpponent.color = FlxColor.BLACK;
 		laneunderlayOpponent.scrollFactor.set();
-                laneunderlayOpponent.alpha = ClientPrefs.underdelayalpha - 1;
-                laneunderlayOpponent.visible = ClientPrefs.underdelayonoff;
+        laneunderlayOpponent.alpha = ClientPrefs.underdelayalpha - 1;
+        laneunderlayOpponent.visible = ClientPrefs.underdelayonoff;
 
 		laneunderlay = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
 		laneunderlay.color = FlxColor.BLACK;
 		laneunderlay.scrollFactor.set();
-                laneunderlay.alpha = ClientPrefs.underdelayalpha - 1;
-                laneunderlay.visible = ClientPrefs.underdelayonoff;
-                if(!ClientPrefs.middleScroll) 
-                 {
-                   add(laneunderlayOpponent);
-                 }
+        laneunderlay.alpha = ClientPrefs.underdelayalpha - 1;
+        laneunderlay.visible = ClientPrefs.underdelayonoff;
+        if(!ClientPrefs.middleScroll) 
+        	{
+        	  add(laneunderlayOpponent);
+        	}
 		add(laneunderlay);
 
 		timeBarBG = new AttachedSprite('timeBar');
@@ -1201,8 +1201,7 @@ case 'stage': //Week 1
 		timeBarBG.sprTracker = timeBar;
 
 
-               
-                strumLineNotes = new FlxTypedGroup<StrumNote>();
+        strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
 		add(grpNoteSplashes);
 
