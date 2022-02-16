@@ -25,7 +25,7 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var GrafexEngineVersion:String = '0.1.5'; //This is also used for Discord RPC
+	public static var GrafexEngineVersion:String = '0.2'; //This is also used for Discord RPC  || Maybe, why not ¯\_(ツ)_/¯ -snake
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -253,8 +253,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
-
-			if (controls.BACK)
+                        if (controls.BACK)
 			{
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -380,13 +379,13 @@ class MainMenuState extends MusicBeatState
 					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 					FlxG.log.add(spr.frameWidth);
 					FlxTween.tween(spr, {x: 300}, 0.1, {
-						ease: FlxEase.linear
+						ease: FlxEase.circInOut
 					});
 					
 	
 					FlxTween.tween(spr.scale, {x: 1, y: 1}, 0.1, {
 						startDelay: 0.1,
-						ease: FlxEase.linear
+						ease: FlxEase.circInOut
 					});
 				}
 	
@@ -395,11 +394,11 @@ class MainMenuState extends MusicBeatState
 					spr.animation.play('idle');
 					FlxTween.tween(spr, {x: -50}, 0.1, {
 						startDelay: 0.1,
-						ease: FlxEase.linear
+						ease: FlxEase.circInOut
 					});
 									
 					FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
-						ease: FlxEase.linear
+						ease: FlxEase.circInOut
 					});			
 				}
 			});

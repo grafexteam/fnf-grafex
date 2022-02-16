@@ -5,6 +5,7 @@ import Discord.DiscordClient;
 import sys.thread.Thread;
 #end
 import flixel.FlxG;
+import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
@@ -134,6 +135,7 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
+        var logoBltrail:FlxTrail;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
@@ -196,7 +198,7 @@ class TitleState extends MusicBeatState
 		
 		
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 1, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
@@ -213,10 +215,13 @@ class TitleState extends MusicBeatState
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
-		add(logoBl);
+                logoBltrail = new FlxTrail(logoBl, 24, 0, 0.4, 0.02);
+		add(logoBltrail);
+                add(logoBl);
+                logoBltrail.shader = swagShader.shader;
 		logoBl.shader = swagShader.shader;
        
-                FlxTween.tween(logoBl, {y: logoBl.y + 25}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
+                FlxTween.tween(logoBl, {y: logoBl.y + 80}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);		
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
@@ -227,10 +232,6 @@ class TitleState extends MusicBeatState
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
 		add(titleText);
-
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -331,10 +332,11 @@ if(FlxG.keys.justPressed.F11)
 
 				FlxG.camera.flash(FlxColor.WHITE, 1);
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-
-                       
+                        FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                        FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 			FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
 			FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	                FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
 			FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 			FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
                         FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
