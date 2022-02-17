@@ -142,6 +142,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
+                
+                var option:Option = new Option('MEMORY Counter',
+			'If unchecked, hides MEMORY Counter.',
+			'showMEM',
+			'bool',
+			true);
+		addOption(option);
+		option.onChange = onChangeMEMCounter;
 		#end
 
 		super();
@@ -157,6 +165,11 @@ function onChangeFPSCounter()
 	{
 		if(Main.fpsVar != null)
 			Main.fpsVar.visible = ClientPrefs.showFPS;
+	}
+function onChangeMEMCounter()
+	{
+		if(Main.memoryCounter != null)
+			Main.memoryCounter.visible = ClientPrefs.showMEM;
 	}
 	#end
 }

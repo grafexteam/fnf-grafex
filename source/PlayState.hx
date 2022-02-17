@@ -71,15 +71,26 @@ class PlayState extends MusicBeatState
     public var shaderUpdates:Array<Float->Void> = [];
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['You Suck!', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
+                ['E', 0.2], 
+                ['D', 0.3], //
+                ['C', 0.4], //
+                ['B', 0.5], //
+                ['B+', 0.6], //
+                ['A-', 0.7], //
+                ['A', 0.75], //
+                ['A+', 0.79], //
+                ['AA-', 0.81], //
+                ['AA', 0.85], //
+                ['AA+', 0.89], //
+		['AAA-', 0.9], //
+                ['AAA', 0.92], //
+                ['AAA+', 0.94], //
+                ['S', 0.96], //
+                ['S+', 0.97], //
+                ['SS', 0.98], // My soul is gone - snake
+		['SS+', 0.99], // That like KADE ENGINE COMPLEX accuracy system ._.
+		['SSS', 0.995], //
+                ['SSS+', 1], //
 		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
@@ -1300,22 +1311,21 @@ case 'stage': //Week 1
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'health', 0, 2);
-		healthBar.scrollFactor.set();
+		healthBar.scrollFactor.set();// y 10  heigh 14
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
 
-                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 13.5), this, 'health', 0, 2);
+                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
-		healthBarWN.alpha = ClientPrefs.healthBarAlpha - 0.1;
+		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBarWN);
                 healthBarWN.visible = true;
               
         healthBarHigh = new AttachedSprite('healthBarHigh');
-		healthBarHigh.y = FlxG.height * 0.9;
-		if(ClientPrefs.downScroll) healthBarHigh.y = 0.11 * FlxG.height;
+		healthBarHigh.y = healthBarBG.y;
 		healthBarHigh.screenCenter(X);
 		healthBarHigh.scrollFactor.set();              
         healthBarHigh.alpha = ClientPrefs.healthBarAlpha;
@@ -1334,13 +1344,13 @@ case 'stage': //Week 1
 		}
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		iconP1.y = healthBar.y - 75;
+		iconP1.y = healthBarWN.y - 75;
 		iconP1.visible = !ClientPrefs.hideHud;
 		iconP1.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
-		iconP2.y = healthBar.y - 75;
+		iconP2.y = healthBarWN.y - 75;
 		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
