@@ -41,9 +41,9 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
-                #if MODS_ALLOWED 'mods', #end
+        #if MODS_ALLOWED 'mods', #end
 		'credits',
-		#if !switch 'donate', #end
+		//#if !switch 'donate', #end // you can uncomment this if you want - Xale
 		'options'
 	];
 
@@ -101,7 +101,6 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -116,27 +115,6 @@ class MainMenuState extends MusicBeatState
 		add(boxMain);
 
 		var scale:Float = 1;
-
-		/*for (i in 0...optionShit.length)
-		{
-			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(50, (i * 140)  + offset);
-			menuItem.scale.x = scale;
-			menuItem.scale.y = scale;
-			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
-			menuItem.animation.play('idle');
-			menuItem.ID = i;
-			//menuItem.screenCenter(X);
-			menuItems.add(menuItem);
-			var scr:Float = (optionShit.length - 4) * 0.135;
-			if(optionShit.length < 6) scr = 0;
-			menuItem.scrollFactor.set(0, scr);
-			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
-			menuItem.updateHitbox();
-		}*/
 
 		for (i in 0...optionShit.length)
 			{
@@ -168,25 +146,25 @@ class MainMenuState extends MusicBeatState
 
         switch(FlxG.random.int(1, 7))
         {
-        		        case 1:
-        		            tipfuck = "Also try Terraria";
-        		        case 2:
-        		            tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-        		        case 3:
-        		            tipfuck = "Nothing to see here -_-";
-        		        case 4:
-        		        	tipfuck = "Xale was here uWu";
-        		        case 5:
-        		            tipfuck = "Snake was here ._.";
-        		        case 6:
-        		            tipfuck = "Check your options)";
-        		        case 7:
-        		            tipfuck = "Are you ok?";
-                                case 8:
-        		            tipfuck = "Week7 not included.";
-                                case 9:
-        		            tipfuck = "Nanomachines, son.";
-        		        }
+        	case 1:
+        	    tipfuck = "Also try Terraria";
+        	case 2:
+        	    tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
+        	case 3:
+        	    tipfuck = "Nothing to see here -_-";
+        	case 4:
+        		tipfuck = "Xale was here UwU";
+        	case 5:
+        	    tipfuck = "Snake was here ._.";
+        	case 6:
+        	    tipfuck = "Check your options)";
+        	case 7:
+        	    tipfuck = "Are you ok?";
+        	case 8:
+        	    tipfuck = "Week7 not included.";
+        	case 9:
+        	    tipfuck = "Nanomachines, son.";
+        }
 
         tipBackground = new FlxSprite();
 		tipBackground.scrollFactor.set();
@@ -202,15 +180,11 @@ class MainMenuState extends MusicBeatState
 
 		tipBackground.makeGraphic(FlxG.width, Std.int((tipTextMargin * 2) + tipText.height), FlxColor.BLACK);
 
-		// NG.core.calls.event.logEvent('swag').send();
-
 		changeItem();
 
 		super.create();
         tipTextStartScrolling();
 	}
-
-	
 
 	var selectedSomethin:Bool = false;
 
@@ -237,7 +211,7 @@ class MainMenuState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
+		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 		if (!selectedSomethin)
@@ -264,8 +238,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					//CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
-                                        trace('No, you wont');
+					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
 				}
 				else
 				{
@@ -345,7 +318,7 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
-        function changeItem(huh:Int = 0)
+    function changeItem(huh:Int = 0)
 	{
 		curSelected += huh;
 
@@ -353,23 +326,6 @@ class MainMenuState extends MusicBeatState
 			curSelected = 0;
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
-
-		/*menuItems.forEach(function(spr:FlxSprite)
-		{
-			spr.animation.play('idle');
-			spr.updateHitbox();
-
-			if (spr.ID == curSelected)
-			{
-				spr.animation.play('selected');
-				var add:Float = 0;
-				if(menuItems.length > 4) {
-					add = menuItems.length * 8;
-				}
-				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y - add);
-				spr.centerOffsets();
-			}
-		});*/
 
 		menuItems.forEach(function(spr:FlxSprite)
 			{
@@ -381,8 +337,7 @@ class MainMenuState extends MusicBeatState
 					FlxTween.tween(spr, {x: 300}, 0.1, {
 						ease: FlxEase.circInOut
 					});
-					
-	
+				
 					FlxTween.tween(spr.scale, {x: 1, y: 1}, 0.1, {
 						startDelay: 0.1,
 						ease: FlxEase.circInOut

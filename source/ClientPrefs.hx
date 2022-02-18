@@ -8,20 +8,20 @@ import Controls;
 
 class ClientPrefs {
 	//WHAT ADDED
-        public static var hitsound:Bool = false;
-        public static var cameramove:Bool = false;
-        public static var hsvol:Float = 1;
-        public static var hliconbop:String = 'Grafex';
-        public static var underdelayalpha:Float = 0.1;
-        public static var underdelayonoff:Bool = true;
-        public static var noteSkin:String = 'Default';
-        public static var showjud:Bool = true;
+    public static var hitsound:Bool = false;
+    public static var cameramove:Bool = false;
+    public static var hsvol:Float = 1;
+    public static var hliconbop:String = 'Grafex';
+    public static var underdelayalpha:Float = 0.1;
+    public static var underdelayonoff:Bool = true;
+    public static var noteSkin:String = 'Default';
+    public static var showjud:Bool = true;
 
         //WHAT WAS
-        public static var downScroll:Bool = false;
+    public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var showFPS:Bool = true;
-        public static var showMEM:Bool = true;
+    public static var showMEM:Bool = true;
 	public static var flashing:Bool = true;
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
@@ -94,22 +94,20 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 		FlxG.save.data.showjud = showjud;
-                FlxG.save.data.hitsound = hitsound;
-                FlxG.save.data.cameramove = cameramove;
-                FlxG.save.data.hliconbop = hliconbop;
-                FlxG.save.data.noteSkin = noteSkin;
-
-                FlxG.save.data.downScroll = downScroll;
+        FlxG.save.data.hitsound = hitsound;
+        FlxG.save.data.cameramove = cameramove;
+        FlxG.save.data.hliconbop = hliconbop;
+        FlxG.save.data.noteSkin = noteSkin;
+        FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
-                FlxG.save.data.showMEM = showMEM;
+        FlxG.save.data.showMEM = showMEM;
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
-		//FlxG.save.data.cursing = cursing;
-		//FlxG.save.data.violence = violence;
+
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -119,11 +117,11 @@ class ClientPrefs {
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.noReset = noReset;
-                FlxG.save.data.underdelayalpha = underdelayalpha;
-                FlxG.save.data.underdelayonoff = underdelayonoff;
+        FlxG.save.data.underdelayalpha = underdelayalpha;
+        FlxG.save.data.underdelayonoff = underdelayonoff;
 
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
-                FlxG.save.data.hsvol = hsvol;
+        FlxG.save.data.hsvol = hsvol;
 		FlxG.save.data.comboOffset = comboOffset;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
@@ -137,7 +135,7 @@ class ClientPrefs {
 		FlxG.save.flush();
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', 'xale'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
+		save.bind('controls', 'xale'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = keyBinds;
 		save.flush();
 		FlxG.log.add("Settings saved!");
@@ -160,18 +158,17 @@ class ClientPrefs {
 			cameramove = FlxG.save.data.cameramove;
 		}
 
-
-                if(FlxG.save.data.hitsound == null) {
-			hitsound = false;
+			if(FlxG.save.data.hitsound == null) {
+				hitsound = false;
 		}
 
-                if(FlxG.save.data.hitsound != null) {
-			hitsound = FlxG.save.data.hitsound;
+            if(FlxG.save.data.hitsound != null) {
+				hitsound = FlxG.save.data.hitsound;
 		}
 
 
-                if(FlxG.save.data.downScroll != null) {
-			downScroll = FlxG.save.data.downScroll;
+            if(FlxG.save.data.downScroll != null) {
+				downScroll = FlxG.save.data.downScroll;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
@@ -210,12 +207,6 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
-		/*if(FlxG.save.data.cursing != null) {
-			cursing = FlxG.save.data.cursing;
-		}
-		if(FlxG.save.data.violence != null) {
-			violence = FlxG.save.data.violence;
-		}*/
 		if(FlxG.save.data.camZooms != null) {
 			camZooms = FlxG.save.data.camZooms;
 		}
@@ -301,7 +292,7 @@ class ClientPrefs {
 		}
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', 'xale');
+		save.bind('controls', 'xale');
 		if(save != null && save.data.customControls != null) {
 			var loadedControls:Map<String, Array<FlxKey>> = save.data.customControls;
 			for (control => keys in loadedControls) {

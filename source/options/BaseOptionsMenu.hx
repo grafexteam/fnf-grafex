@@ -103,7 +103,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-                        var textChild:AttachedText = null;
+            var textChild:AttachedText = null;
 			if(optionsArray[i].type == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
@@ -125,7 +125,8 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			{
 				reloadBoyfriend();
 			}
-                        if(optionsArray[i].showNotes && previewNotes == null)
+			
+            if(optionsArray[i].showNotes && previewNotes == null)
 			{
 				var colorSwap:ColorSwap = new ColorSwap();
 				colorSwap.hue = ClientPrefs.arrowHSV[2][0] / 360;
