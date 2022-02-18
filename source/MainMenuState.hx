@@ -36,8 +36,8 @@ class MainMenuState extends MusicBeatState
 	private var camAchievement:FlxCamera;
 	
 	var boxMain:FlxSprite;
-	var tipText:FlxText;
-	var tipfuck:String = "";       
+	public var tipText:FlxText;
+	var tipValue:String = "";       
 	var tipBackground:FlxSprite;
 	var tipTextMargin:Float = 10;
 	var tipTextScrolling:Bool = false;
@@ -124,7 +124,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Grafex Engine v" + data.EngineData.grafexEngineVersion #if debug + " Debug" #end, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Grafex Engine v" + data.EngineData.grafexEngineVersion #if debug + " Debug Prebuild" #end, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -132,27 +132,27 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-        switch(FlxG.random.int(1, 7))
+		
+		switch(FlxG.random.int(1, 7))
         {
         	case 1:
-        	    tipfuck = "Also try Terraria";
+        	    tipValue = "Also try Terraria";
         	case 2:
-        	    tipfuck = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
+        	    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
         	case 3:
-        	    tipfuck = "Nothing to see here -_-";
+        	    tipValue = "Nothing to see here -_-";
         	case 4:
-        		tipfuck = "Xale was here UwU";
+        		tipValue = "Xale was here UwU";
         	case 5:
-        	    tipfuck = "Snake was here ._.";
+        	    tipValue = "Snake was here ._.";
         	case 6:
-        	    tipfuck = "Check your options)";
+        	    tipValue = "Check your options)";
         	case 7:
-        	    tipfuck = "Are you ok?";
+        	    tipValue = "Are you ok?";
         	case 8:
-        	    tipfuck = "Week 7 not included.";
+        	    tipValue = "Week 7 not included.";
         	case 9:
-        	    tipfuck = "Nanomachines, son.";
+        	    tipValue = "Nanomachines, son.";
         }
 
         tipBackground = new FlxSprite();
@@ -160,7 +160,7 @@ class MainMenuState extends MusicBeatState
 		tipBackground.alpha = 0.7;
 		add(tipBackground);
 
-        tipText = new FlxText(0, 0, 0, tipfuck);
+        tipText = new FlxText(0, 0, 0, tipValue);
 		tipText.scrollFactor.set();
 		tipText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT);
 		tipText.updateHitbox();
@@ -216,7 +216,8 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
-                        if (controls.BACK)
+
+            if (controls.BACK)
 			{
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -233,8 +234,6 @@ class MainMenuState extends MusicBeatState
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-
-					if(ClientPrefs.flashing) FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
 					menuItems.forEach(function(spr:FlxSprite)
 					{
@@ -291,21 +290,6 @@ class MainMenuState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function tipTextStartScrolling()
-	{
-		tipText.x = tipTextMargin;
-		tipText.y = -tipText.height;
-
-		new FlxTimer().start(1.0, function(timer:FlxTimer)
-		{
-			FlxTween.tween(tipText, {y: tipTextMargin}, 0.3);
-			new FlxTimer().start(4.5, function(timer:FlxTimer)
-			{
-				tipTextScrolling = true;
-			});
-		});
-	}
-
     function changeItem(huh:Int = 0)
 	{
 		curSelected += huh;
@@ -346,4 +330,49 @@ class MainMenuState extends MusicBeatState
 				}
 			});
 	}
+
+	function tipTextStartScrolling()
+		{
+			resetTipText();
+
+			tipText.x = tipTextMargin;
+			tipText.y = -tipText.height;
+	
+			new FlxTimer().start(1.0, function(timer:FlxTimer)
+			{
+				FlxTween.tween(tipText, {y: tipTextMargin}, 0.3);
+				
+				new FlxTimer().start(4.5, function(timer:FlxTimer)
+				{
+					tipTextScrolling = true;
+				});
+			});
+		}
+
+	function resetTipText()
+		{
+			switch(FlxG.random.int(1, 7))
+        	{
+        		case 1:
+        		    tipValue = "Also try Terraria";
+        		case 2:
+        		    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
+        		case 3:
+        		    tipValue = "Nothing to see here -_-";
+        		case 4:
+        			tipValue = "Xale was here UwU";
+        		case 5:
+        		    tipValue = "Snake was here ._.";
+        		case 6:
+        		    tipValue = "Check your options)";
+        		case 7:
+        		    tipValue = "Are you ok?";
+        		case 8:
+        		    tipValue = "Week 7 not included.";
+        		case 9:
+        		    tipValue = "Nanomachines, son.";
+        	}
+
+			tipText.text = tipValue;
+		}
 }
