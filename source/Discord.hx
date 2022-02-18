@@ -25,7 +25,6 @@ class DiscordClient
 		{
 			DiscordRpc.process();
 			sleep(2);
-			//trace("Discord Client Update");
 		}
 
 		DiscordRpc.shutdown();
@@ -78,7 +77,7 @@ class DiscordClient
 			details: details,
 			state: state,
 			largeImageKey: 'grafexengine',
-			largeImageText: "Grafex v " + MainMenuState.GrafexEngineVersion,
+			largeImageText: "Grafex v " + data.EngineData.grafexEngineVersion,
 			smallImageKey : smallImageKey,
                         smallImageText : smallImageText,
 			// Obtained times are in milliseconds so they are divided so Discord can use it

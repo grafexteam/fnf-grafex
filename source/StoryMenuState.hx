@@ -18,7 +18,7 @@ import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import flixel.graphics.FlxGraphic;
 import lime.app.Application;
-import WeekData;
+import data.WeekData;
 import VideoState;
 
 using StringTools;

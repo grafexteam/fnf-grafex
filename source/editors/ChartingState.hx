@@ -6,6 +6,7 @@ import Discord.DiscordClient;
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
+import data.StageData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;

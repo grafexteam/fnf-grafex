@@ -20,21 +20,24 @@ import lime.app.Application;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
+import flixel.addons.display.FlxBackdrop;
+import data.EngineData;
 
 using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var GrafexEngineVersion:String = '0.2'; //This is also used for Discord RPC  || Maybe, why not ¯\_(ツ)_/¯ -snake
+	public var face:FlxBackdrop;
+
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
-        var boxMain:FlxSprite;
-        var tipText:FlxText;
-        var tipfuck:String = "";       
+	var boxMain:FlxSprite;
+	var tipText:FlxText;
+	var tipfuck:String = "";       
 	var tipBackground:FlxSprite;
 	var tipTextMargin:Float = 10;
 	var tipTextScrolling:Bool = false;
@@ -52,7 +55,6 @@ class MainMenuState extends MusicBeatState
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
         
-
     override function create()
 	{
 		#if desktop
@@ -63,8 +65,8 @@ class MainMenuState extends MusicBeatState
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
 
-		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
-
+		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));	
+		
 		camGame = new FlxCamera();
 		camAchievement = new FlxCamera();
 		camAchievement.bgColor.alpha = 0;
@@ -72,35 +74,22 @@ class MainMenuState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camAchievement);
 		FlxCamera.defaultCameras = [camGame];
-
+		
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-		bg.scrollFactor.set(0, yScroll);
-		bg.setGraphicSize(Std.int(bg.width * 1.175));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = ClientPrefs.globalAntialiasing;
-		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollowPos = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 		add(camFollowPos);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
-		magenta.scrollFactor.set(0, yScroll);
-		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
-		magenta.updateHitbox();
-		magenta.screenCenter();
-		magenta.visible = false;
-		magenta.antialiasing = ClientPrefs.globalAntialiasing;
-		magenta.color = 0xFFfd719b;
-		add(magenta);
+		face = new FlxBackdrop(Paths.image('menuBG'), 10, 0, true, true);
+		face.scrollFactor.set(0,0);
+		add(face);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -135,7 +124,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Grafex Engine v" + GrafexEngineVersion #if debug + " Debug" #end, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Grafex Engine v" + data.EngineData.grafexEngineVersion #if debug + " Debug" #end, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -161,7 +150,7 @@ class MainMenuState extends MusicBeatState
         	case 7:
         	    tipfuck = "Are you ok?";
         	case 8:
-        	    tipfuck = "Week7 not included.";
+        	    tipfuck = "Week 7 not included.";
         	case 9:
         	    tipfuck = "Nanomachines, son.";
         }
@@ -187,31 +176,31 @@ class MainMenuState extends MusicBeatState
 	}
 
 	var selectedSomethin:Bool = false;
-
+	
 	override function update(elapsed:Float)
 	{
-                if(FlxG.keys.justPressed.F11)
-                {
-                   FlxG.fullscreen = !FlxG.fullscreen;
-                }
-		
-                if (tipTextScrolling)
-				{
-					tipText.x -= elapsed * 130;
-					if (tipText.x < -tipText.width)
-					{	 
-        		                        tipTextScrolling = false;
-						tipTextStartScrolling();
-					}
-				}
+		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
+		face.x -= 1;
+
+        if(FlxG.keys.justPressed.F11)
+           FlxG.fullscreen = !FlxG.fullscreen;
+		
+        if (tipTextScrolling)
+		{
+			tipText.x -= elapsed * 130;
+			if (tipText.x < -tipText.width)
+			{	 
+                tipTextScrolling = false;
+				tipTextStartScrolling();
+			}
+		}
 
         if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 		if (!selectedSomethin)
@@ -280,7 +269,6 @@ class MainMenuState extends MusicBeatState
 									case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
 									#end
-									
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':

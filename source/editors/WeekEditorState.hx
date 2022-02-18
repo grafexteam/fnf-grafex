@@ -31,7 +31,7 @@ import haxe.Json;
 import sys.io.File;
 import sys.FileSystem;
 #end
-import WeekData;
+import data.WeekData;
 
 using StringTools;
 

@@ -134,7 +134,7 @@ class Song
 				daBpm = songData.bpm; */
 
 		var songJson:SwagSong = parseJSONshit(rawJson);
-		if(jsonInput != 'events') StageData.loadDirectory(songJson);
+		if(jsonInput != 'events') data.StageData.loadDirectory(songJson);
 		onLoadJson(songJson);
 		return songJson;
 	}

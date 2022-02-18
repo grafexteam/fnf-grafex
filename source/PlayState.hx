@@ -51,7 +51,8 @@ import editors.CharacterEditorState;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
-import StageData;
+import data.StageData;
+import data.WeekData;
 import FunkinLua;
 import DialogueBoxPsych;
 import Shaders;
@@ -180,7 +181,7 @@ class PlayState extends MusicBeatState
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
-        public var healthThing:FlxText;
+    public var healthThing:FlxText;
 	
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -329,7 +330,7 @@ class PlayState extends MusicBeatState
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
-                camGame.bgColor.alpha = 0;
+        camGame.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
@@ -1040,12 +1041,11 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
-
-                healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
+        healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBarWN);
-                healthBarWN.visible = true;
+        healthBarWN.visible = true;
               
         healthBarHigh = new AttachedSprite('healthBarHigh');
 		healthBarHigh.y = healthBarBG.y;
@@ -1055,7 +1055,6 @@ class PlayState extends MusicBeatState
 		healthBarHigh.xAdd = -4;
 		healthBarHigh.yAdd = -4;
         add(healthBarHigh);
-        healthBarHigh.cameras = [camHUD];
  
 		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol - Xale
 		{
@@ -1105,17 +1104,17 @@ class PlayState extends MusicBeatState
         judgementCounter.visible = ClientPrefs.showjud;
 		add(judgementCounter);
  
-                healthThing = new FlxText(20,judgementCounter.y + 95,0,'100%', 20);
-                healthThing.borderSize = 2;
+        healthThing = new FlxText(20,judgementCounter.y + 95,0,'100%', 20);
+        healthThing.borderSize = 2;
 		healthThing.borderQuality = 2;
 		healthThing.scrollFactor.set();
 		healthThing.cameras = [camHUD];
 		healthThing.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		healthThing.scrollFactor.set();
 		healthThing.visible = !ClientPrefs.hideHud;
-                #if debug //for debug lol
-                add(healthThing);
-                #end
+        #if debug //for debug lol
+        add(healthThing);
+        #end
               
               
                
@@ -1126,9 +1125,8 @@ class PlayState extends MusicBeatState
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
 		add(botplayTxt);
-		if(ClientPrefs.downScroll) {
+		if(ClientPrefs.downScroll)
 			botplayTxt.y = timeBarBG.y - 78;
-		}
 
         badLoseVin = new FlxSprite(-80).loadGraphic(Paths.image('vinLose'));
 		badLoseVin.scrollFactor.set();
@@ -1165,6 +1163,7 @@ class PlayState extends MusicBeatState
         loseVin.cameras = [camHUD];
 		badLoseVin.cameras = [camHUD];
         songTxt.cameras = [camHUD];
+		healthBarHigh.cameras = [camHUD];
 
 		startingSong = true;
 
