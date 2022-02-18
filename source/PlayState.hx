@@ -65,25 +65,27 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+        var iconRPC:String = "";
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
     public var shaderUpdates:Array<Float->Void> = [];
 
 	public static var ratingStuff:Array<Dynamic> = [
-                ['E', 0.2], 
-                ['D', 0.3], //
-                ['C', 0.4], //
-                ['B', 0.5], //
-                ['B+', 0.6], //
-                ['A-', 0.7], //
-                ['A', 0.75], //
-                ['A+', 0.79], //
-                ['AA-', 0.81], //
-                ['AA', 0.85], //
-                ['AA+', 0.89], //
-		['AAA-', 0.9], //
-                ['AAA', 0.92], //
+                ['Sheesh', 0.1], 
+                ['E', 0.3], 
+                ['E+', 0.4], //
+                ['D', 0.5], //
+                ['D+', 0.6], //
+                ['C', 0.65], //
+                ['C+', 0.7], //
+                ['B', 0.75], //
+                ['B+', 0.8], //
+                ['A', 0.88], //
+                ['A+', 0.90], //
+                ['AA', 0.91], //
+		['AA+', 0.2], //
+                ['AAA', 0.93], //
                 ['AAA+', 0.94], //
                 ['S', 0.96], //
                 ['S+', 0.97], //
@@ -192,6 +194,7 @@ class PlayState extends MusicBeatState
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
+        public var healthThing:FlxText;
 	
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -391,6 +394,17 @@ class PlayState extends MusicBeatState
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + detailsText;
 		#end
+                
+                iconRPC = SONG.player2;
+                switch (iconRPC)
+		{
+			case 'senpai-angry':
+				iconRPC = 'senpai';
+			case 'monster-christmas':
+				iconRPC = 'monster';
+			case 'mom-car':
+				iconRPC = 'mom';
+		}
 
 		GameOverSubstate.resetVariables();
 		var songName:String = Paths.formatToSongPath(SONG.song);
@@ -1381,7 +1395,21 @@ case 'stage': //Week 1
 		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
         judgementCounter.visible = ClientPrefs.showjud;
 		add(judgementCounter);
-
+ 
+                healthThing = new FlxText(20,judgementCounter.y + 95,0,'100%', 20);
+                healthThing.borderSize = 2;
+		healthThing.borderQuality = 2;
+		healthThing.scrollFactor.set();
+		healthThing.cameras = [camHUD];
+		healthThing.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+		healthThing.scrollFactor.set();
+		healthThing.visible = !ClientPrefs.hideHud;
+                #if debug //for debug lol
+                add(healthThing);
+                #end
+              
+              
+               
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "", 32);
 		botplayTxt.text = "BOTPLAY";
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1531,7 +1559,7 @@ case 'stage': //Week 1
 
 		#if desktop
 		// Updating Discord Rich Presence.
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 		#end
 
 		if(!ClientPrefs.controllerMode)
@@ -2153,7 +2181,7 @@ function set_songSpeed(value:Float):Float
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2, true, songLength);
+                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength);
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
@@ -2490,11 +2518,11 @@ function set_songSpeed(value:Float):Float
 			#if desktop
 			if (startTimer.finished)
 			{
-                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 			}
 			#end
 		}
@@ -2509,11 +2537,11 @@ function set_songSpeed(value:Float):Float
 		{
 			if (Conductor.songPosition > 0.0)
 			{
-                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 			}
 		}
 		#end
@@ -2526,7 +2554,7 @@ function set_songSpeed(value:Float):Float
 		#if desktop
 		if (health > 0 && !paused)
 		{
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 		}
 		#end
 
@@ -2691,6 +2719,9 @@ function set_songSpeed(value:Float):Float
 
 		super.update(elapsed);
 
+                var maxHealthProb = health * 100;
+		healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
+
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
                 judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
@@ -2720,7 +2751,7 @@ function set_songSpeed(value:Float):Float
 
 		
 				#if desktop
-				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 				#end
 			}
 		}
@@ -3118,7 +3149,7 @@ function set_songSpeed(value:Float):Float
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), SONG.player2);
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 				#end
 				isDead = true;
 				return true;

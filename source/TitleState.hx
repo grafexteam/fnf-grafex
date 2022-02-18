@@ -470,19 +470,20 @@ if(FlxG.keys.justPressed.F11)
 			sickBeats++;
 			switch (sickBeats)
 			{
+                                case 0:
+                                        deleteCoolText();
 				case 1:
 					createCoolText(['Graphex Engine mod by'], 45);
 				case 3:
 					addMoreText('XaleTheCat', 45);
 					addMoreText('PurpleSnake', 45); 
 				case 4:
-					deleteCoolText();
+					addMoreText('present', 45); 
 				case 5:
-					createCoolText(['Psych Engine by'], 15);
+                                        deleteCoolText();
+					createCoolText(['Forked', 'from'], 15);
 				case 7:
-					addMoreText('Shadow Mario', 15);
-					addMoreText('RiverOaken', 15);
-					addMoreText('bb-panzu', 15);
+					addMoreText('Psych Engine', 45);			
 				case 8:
 					deleteCoolText();
 				case 9:
@@ -512,6 +513,7 @@ if(FlxG.keys.justPressed.F11)
 		{
 			remove(ngSpr);
                         bgFlash.alpha = 0.25;
+     
 
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
