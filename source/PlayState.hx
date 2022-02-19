@@ -79,7 +79,8 @@ class PlayState extends MusicBeatState
         ['B', 0.75], //
         ['A', 0.88], //
         ['S', 0.96], //
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	['SS', 1], //
+	['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
