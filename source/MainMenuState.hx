@@ -226,7 +226,6 @@ class MainMenuState extends MusicBeatState
 				tipTextStartScrolling();
 			}
 		}
-
 		if(selectedSomethin)
 			new FlxTimer().start(0.3, function(tmr:FlxTimer)
 				{
@@ -335,7 +334,7 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 		{
 			super.beatHit();
-                        FlxG.log.advanced(curBeat);
+                        if(curBeat % 2 == 0)
 			bgClick();		
 		} // This shit wasn't working, we idk why - Xale
 
