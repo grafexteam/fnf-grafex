@@ -15,7 +15,10 @@ import flixel.text.FlxText;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
+import Shaders;
+import flixel.system.FlxAssets.FlxShader;
 import lime.app.Application;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
@@ -34,6 +37,7 @@ class MainMenuState extends MusicBeatState
 	
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	public var movingBG:FlxBackdrop;
+        public var movBGval:Float = 1;
 	public var menuBox:FlxSprite;
 
 	var boxMain:FlxSprite;
@@ -94,7 +98,7 @@ class MainMenuState extends MusicBeatState
 
 		menuBox = new FlxSprite(-125, -100);
 		menuBox.frames = Paths.getSparrowAtlas('mainmenu/menuBox');
-		menuBox.animation.addByPrefix('idle', 'beat', 24, true);
+		menuBox.animation.addByPrefix('idle', 'beat', 36, true);
 		menuBox.animation.play('idle');
 		menuBox.antialiasing = ClientPrefs.globalAntialiasing;
 		menuBox.scrollFactor.set(0, yScroll);
@@ -191,10 +195,10 @@ class MainMenuState extends MusicBeatState
 	{
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
-		movingBG.x -= 1;
+		movingBG.x -= movBGval;
 
         if(FlxG.keys.justPressed.F11)
-           FlxG.fullscreen = !FlxG.fullscreen;
+        FlxG.fullscreen = !FlxG.fullscreen;
 		
         if (tipTextScrolling)
 		{
@@ -244,7 +248,8 @@ class MainMenuState extends MusicBeatState
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-
+                                        FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                                        movBGval = 4;
 					menuItems.forEach(function(spr:FlxSprite)
 					{
 						if (curSelected != spr.ID)
@@ -253,7 +258,7 @@ class MainMenuState extends MusicBeatState
 									ease: FlxEase.quadOut,
 									
 								});
-								FlxTween.tween(spr, {x : -500, y : -100}, 0.55, {
+								FlxTween.tween(spr, {x : -500}, 0.55, {
 									ease: FlxEase.quadOut,
 									onComplete: function(twn:FlxTween)
 									{
@@ -316,11 +321,11 @@ class MainMenuState extends MusicBeatState
 					spr.animation.play('selected');
 					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 					FlxG.log.add(spr.frameWidth);
-					FlxTween.tween(spr, {x: 300}, 0.1, {
+					FlxTween.tween(spr, {x: 150}, 0.1, {
 						ease: FlxEase.circInOut
 					});
 				
-					FlxTween.tween(spr.scale, {x: 1, y: 1}, 0.1, {
+					FlxTween.tween(spr.scale, {x: 0.8, y: 0.8}, 0.1, {
 						startDelay: 0.1,
 						ease: FlxEase.circInOut
 					});

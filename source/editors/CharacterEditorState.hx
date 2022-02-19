@@ -405,7 +405,7 @@ class CharacterEditorState extends MusicBeatState
 				161,
 				161
 			],
-                        "healthbar_colors2": [
+            "healthbar_colors2": [
 				100,
 				 50,
 				250

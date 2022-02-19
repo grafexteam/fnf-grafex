@@ -80,8 +80,8 @@ class PlayState extends MusicBeatState
         ['B', 0.75], //
         ['A', 0.88], //
         ['S', 0.96], //
-	['SS', 1], //
-	['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	    ['SS', 1], //
+	    ['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
@@ -4498,9 +4498,9 @@ function set_songSpeed(value:Float):Float
 
 		if(camZooming)
 			{
-				 timeTxt.size = 32;                  
-                                 FlxTween.tween(timeTxt, {size: 35}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD}); 
-                                switch(ClientPrefs.hliconbop)
+			timeTxt.size = 32;                  
+            FlxTween.tween(timeTxt, {size: 35}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD}); 
+            switch(ClientPrefs.hliconbop)
 				{
 					case 'Modern':
 						iconP1.scale.set(1.2, 1.2);
@@ -4737,7 +4737,6 @@ public static var othersCodeName:String = 'otherAchievements';
 		FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
 	    healthBarWN.createFilledBar(FlxColor.fromRGB(dad.healthColorArray2[0], dad.healthColorArray2[1], dad.healthColorArray2[2]), 
         FlxColor.fromRGB(boyfriend.healthColorArray2[0], boyfriend.healthColorArray2[1], boyfriend.healthColorArray2[2]));
-               
         healthBar.updateBar();
         healthBarWN.updateBar();
 	}
@@ -4820,6 +4819,5 @@ public static var othersCodeName:String = 'otherAchievements';
 					isHealthCheckingEnabled = true;
 				});
 
-			   
  		} // Yeah? There was such a thing? Lmao - Xale
 }

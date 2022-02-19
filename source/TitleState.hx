@@ -255,7 +255,7 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		if(FlxG.keys.justPressed.F11)
-           FlxG.fullscreen = !FlxG.fullscreen;
+            FlxG.fullscreen = !FlxG.fullscreen;
 		
         if (FlxG.keys.justPressed.F)
 			FlxG.fullscreen = !FlxG.fullscreen;
