@@ -27,14 +27,15 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public var face:FlxBackdrop;
-
 	public static var curSelected:Int = 0;
 
-	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
+	var menuItems:FlxTypedGroup<FlxSprite>;
+	public var movingBG:FlxBackdrop;
+	public var menuBox:FlxSprite;
+
 	var boxMain:FlxSprite;
 	public var tipText:FlxText;
 	var tipValue:String = "";       
@@ -87,9 +88,18 @@ class MainMenuState extends MusicBeatState
 		add(camFollow);
 		add(camFollowPos);
 
-		face = new FlxBackdrop(Paths.image('menuBG'), 10, 0, true, true);
-		face.scrollFactor.set(0,0);
-		add(face);
+		movingBG = new FlxBackdrop(Paths.image('menuBG'), 10, 0, true, true);
+		movingBG.scrollFactor.set(0,0);
+		add(movingBG);
+
+		menuBox = new FlxSprite(-125, -100);
+		menuBox.frames = Paths.getSparrowAtlas('mainmenu/menuBox');
+		menuBox.animation.addByPrefix('idle', 'beat', 24, true);
+		menuBox.animation.play('idle');
+		menuBox.antialiasing = ClientPrefs.globalAntialiasing;
+		menuBox.scrollFactor.set(0, yScroll);
+		menuBox.scale.set(1.2, 1.2);
+		add(menuBox);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -181,7 +191,7 @@ class MainMenuState extends MusicBeatState
 	{
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
-		face.x -= 1;
+		movingBG.x -= 1;
 
         if(FlxG.keys.justPressed.F11)
            FlxG.fullscreen = !FlxG.fullscreen;
