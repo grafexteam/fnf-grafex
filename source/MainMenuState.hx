@@ -224,6 +224,15 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
+		trace(movBGval);
+
+		if(selectedSomethin)
+			new FlxTimer().start(0.3, function(tmr:FlxTimer)
+				{
+					movBGval += 0.3;
+				});
+			
+
 		if(FlxG.keys.anyJustPressed(arrowLeftKeys) || FlxG.keys.anyJustPressed(arrowRightKeys))
 			bgClick();	
 
@@ -260,7 +269,6 @@ class MainMenuState extends MusicBeatState
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
                     FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
-                    movBGval = 4;
 					menuItems.forEach(function(spr:FlxSprite)
 					{
 						if (curSelected != spr.ID)
