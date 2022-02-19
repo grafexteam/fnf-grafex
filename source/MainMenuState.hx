@@ -64,12 +64,6 @@ class MainMenuState extends MusicBeatState
         
     override function create()
 	{
-		if(FlxG.sound.music == null) {
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-
-			FlxG.sound.music.fadeIn(4, 0, 0.7);
-		}
-		
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menu", null);
@@ -208,6 +202,8 @@ class MainMenuState extends MusicBeatState
 	{
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
+		trace(curBeat);
+
 		movingBG.x -= movBGval;
 
         if(FlxG.keys.justPressed.F11)
@@ -225,9 +221,6 @@ class MainMenuState extends MusicBeatState
 
 		if(FlxG.keys.anyJustPressed(arrowLeftKeys) || FlxG.keys.anyJustPressed(arrowRightKeys))
 			bgClick();	
-
-        if (FlxG.sound.music.volume < 0.8)
-			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 

@@ -252,6 +252,9 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		FlxG.watch.addQuick("beatShit", curBeat);
+		FlxG.watch.addQuick("stepShit", curStep);
+
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
@@ -309,13 +312,6 @@ class TitleState extends MusicBeatState
 
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
-					if(FlxG.sound.music == null) {
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-		
-						FlxG.sound.music.fadeIn(0, 4, 0.7);
-						
-						FlxG.sound.music.stop();
-					}
 					MusicBeatState.switchState(new MainMenuState());
 					
 					closedState = true;

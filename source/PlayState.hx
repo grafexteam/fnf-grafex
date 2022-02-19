@@ -78,8 +78,8 @@ class PlayState extends MusicBeatState
         ['D', 0.5], //
         ['C', 0.65], //
         ['B', 0.75], //
-        ['A', 0.88], //
-        ['S', 0.96], //
+        ['A', 0.85], //
+        ['S', 0.99], //
 	    ['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
