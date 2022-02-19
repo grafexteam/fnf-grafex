@@ -143,8 +143,8 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
                 
-                var option:Option = new Option('MEMORY Counter',
-			'If unchecked, hides MEMORY Counter.',
+        var option:Option = new Option('Memory Counter',
+			'If unchecked, hides Memory Counter.',
 			'showMEM',
 			'bool',
 			true);
