@@ -70,6 +70,9 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menu", null);
 		#end
 
+                FlxG.watch.addQuick("beatShit", curBeat);
+		FlxG.watch.addQuick("stepShit", curStep);
+
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
 
@@ -334,7 +337,7 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 		{
 			super.beatHit();
-
+                        FlxG.log.advanced(curBeat);
 			bgClick();		
 		} // This shit wasn't working, we idk why - Xale
 
@@ -442,8 +445,4 @@ class MainMenuState extends MusicBeatState
 			tipText.text = tipValue;
 		}		
 
-		function getCurBeat()
-			{
-
-			}
 }

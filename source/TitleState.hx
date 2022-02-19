@@ -79,6 +79,9 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		Application.current.window.title = Main.appTitle;
+
+                FlxG.watch.addQuick("beatShit", curBeat);
+		FlxG.watch.addQuick("stepShit", curStep);
 		
 		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
 		titleJSON = Json.parse(Assets.getText(path)); 
@@ -395,6 +398,8 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
+                FlxG.log.advanced(curBeat);
+
 		if(logoBl != null) 
 			logoBl.animation.play('bump', true);
 
@@ -409,9 +414,9 @@ class TitleState extends MusicBeatState
 
 		if(!closedState) {
 			sickBeats++;
-			switch (sickBeats)
+			switch (curBeat)
 			{
-                case 0:
+                case 4:
                     deleteCoolText();
 				case 1:
 					createCoolText(['Graphex Engine mod by'], 45);
@@ -421,7 +426,7 @@ class TitleState extends MusicBeatState
 				case 4:
 					addMoreText('present', 45); 
 				case 5:
-                    deleteCoolText();
+                                        deleteCoolText();
 					createCoolText(['Forked', 'from'], 15);
 				case 7:
 					addMoreText('Psych Engine', 45);			
