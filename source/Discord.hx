@@ -40,7 +40,7 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: "The Menu",
 			state: null,
-			largeImageKey: 'grafexengine',
+			largeImageKey: 'discordlogo',
 			largeImageText: "Grafex Engine"
 		});
 	}
@@ -76,7 +76,7 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'grafexengine',
+			largeImageKey: 'discordlogo',
 			largeImageText: "Grafex v " + data.EngineData.grafexEngineVersion,
 			smallImageKey : smallImageKey,
                         smallImageText : smallImageText,
