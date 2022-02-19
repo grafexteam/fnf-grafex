@@ -227,8 +227,6 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
-		trace(movBGval);
-
 		if(selectedSomethin)
 			new FlxTimer().start(0.3, function(tmr:FlxTimer)
 				{
