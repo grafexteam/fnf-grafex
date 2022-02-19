@@ -25,6 +25,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
 import flixel.addons.display.FlxBackdrop;
 import data.EngineData;
+import Conductor;
 
 using StringTools;
 
@@ -199,10 +200,14 @@ class MainMenuState extends MusicBeatState
 	var colorEntry:FlxColor;
 	
 	override function update(elapsed:Float)
-	{
-		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
+	{		
+		if (FlxG.sound.music != null)
+            Conductor.songPosition = FlxG.sound.music.time;
 
-		trace(curBeat);
+		Conductor.songPosition = FlxG.sound.music.time; // this is such a bullshit, we messed with this around 2 hours - Xale
+
+
+		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
 		movingBG.x -= movBGval;
 
@@ -323,7 +328,7 @@ class MainMenuState extends MusicBeatState
 			super.beatHit();
 
 			bgClick();		
-		}
+		} // This shit wasn't working, we idk why - Xale
 
     function changeItem(huh:Int = 0)
 	{
@@ -427,5 +432,10 @@ class MainMenuState extends MusicBeatState
         	}
 
 			tipText.text = tipValue;
-		}
+		}		
+
+		function getCurBeat()
+			{
+
+			}
 }
