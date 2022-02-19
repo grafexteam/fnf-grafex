@@ -58,9 +58,18 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
+
+	var arrowLeftKeys:Array<FlxKey>;
+	var arrowRightKeys:Array<FlxKey>;
         
     override function create()
 	{
+		if(FlxG.sound.music == null) {
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+
+			FlxG.sound.music.fadeIn(4, 0, 0.7);
+		}
+		
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menu", null);
@@ -70,6 +79,8 @@ class MainMenuState extends MusicBeatState
 		camGame = new FlxCamera();
 
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));	
+		arrowRightKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('ui_right'));
+		arrowLeftKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('ui_left'));
 		
 		camGame = new FlxCamera();
 		camAchievement = new FlxCamera();
@@ -91,8 +102,9 @@ class MainMenuState extends MusicBeatState
 		add(camFollow);
 		add(camFollowPos);
 
-		movingBG = new FlxBackdrop(Paths.image('menuBG'), 10, 0, true, true);
+		movingBG = new FlxBackdrop(Paths.image('menuDesat'), 10, 0, true, true);
 		movingBG.scrollFactor.set(0,0);
+		movingBG.color = 0xfffde871;
 		add(movingBG);
 
 		menuBox = new FlxSprite(-125, -100);
@@ -189,6 +201,8 @@ class MainMenuState extends MusicBeatState
 	}
 
 	var selectedSomethin:Bool = false;
+	var clickCount:Int = 0;
+	var colorEntry:FlxColor;
 	
 	override function update(elapsed:Float)
 	{
@@ -197,7 +211,7 @@ class MainMenuState extends MusicBeatState
 		movingBG.x -= movBGval;
 
         if(FlxG.keys.justPressed.F11)
-        FlxG.fullscreen = !FlxG.fullscreen;
+    		FlxG.fullscreen = !FlxG.fullscreen;
 		
         if (tipTextScrolling)
 		{
@@ -209,10 +223,11 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
+		if(FlxG.keys.anyJustPressed(arrowLeftKeys) || FlxG.keys.anyJustPressed(arrowRightKeys))
+			bgClick();	
+
         if (FlxG.sound.music.volume < 0.8)
-		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
 
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
@@ -223,8 +238,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
-
-			if (controls.UI_DOWN_P)
+			else if (controls.UI_DOWN_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
@@ -300,8 +314,23 @@ class MainMenuState extends MusicBeatState
 			#end
 		}
 
+		FlxG.watch.addQuick("beatShit", curBeat);
+		FlxG.watch.addQuick("stepShit", curStep);
+
 		super.update(elapsed);
 	}
+
+	override function stepHit()
+		{
+			super.stepHit();
+		}
+
+	override function beatHit()
+		{
+			super.beatHit();
+
+			bgClick();		
+		}
 
     function changeItem(huh:Int = 0)
 	{
@@ -343,6 +372,24 @@ class MainMenuState extends MusicBeatState
 				}
 			});
 	}
+
+	function bgClick()
+		{
+			if(clickCount >= 2)
+				clickCount = 0;
+			
+			switch(clickCount)
+			{
+				case 0:
+					colorEntry = 0xFF8971f9;
+	
+				case 1:
+					colorEntry = 0xFFdf7098;
+			}
+
+			FlxTween.color(movingBG, 1, colorEntry, 0xfffde871, {ease: FlxEase.quadOut});
+			clickCount++;	
+		}
 
 	function tipTextStartScrolling()
 		{

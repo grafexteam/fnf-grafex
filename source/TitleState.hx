@@ -18,7 +18,6 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import sys.FileSystem;
 import sys.io.File;
-//import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
@@ -48,6 +47,7 @@ typedef TitleData =
 	backgroundSprite:String,
 	bpm:Int
 }
+
 class TitleState extends MusicBeatState
 {
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
@@ -134,7 +134,7 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-        var logoBltrail:FlxTrail;
+    var logoBltrail:FlxTrail;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
@@ -177,6 +177,7 @@ class TitleState extends MusicBeatState
 		logoBl.updateHitbox();
 
 		swagShader = new ColorSwap();
+
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
 	
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
@@ -303,13 +304,18 @@ class TitleState extends MusicBeatState
 				FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
                 FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
-                           
-			
+                           			
 				transitioning = true;
 
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
-					
+					if(FlxG.sound.music == null) {
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+		
+						FlxG.sound.music.fadeIn(0, 4, 0.7);
+						
+						FlxG.sound.music.stop();
+					}
 					MusicBeatState.switchState(new MainMenuState());
 					
 					closedState = true;

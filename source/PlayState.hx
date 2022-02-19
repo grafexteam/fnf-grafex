@@ -66,7 +66,7 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
-        var iconRPC:String = "";
+    var iconRPC:String = "";
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -80,7 +80,6 @@ class PlayState extends MusicBeatState
         ['B', 0.75], //
         ['A', 0.88], //
         ['S', 0.96], //
-	    ['SS', 1], //
 	    ['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
@@ -2408,7 +2407,8 @@ function set_songSpeed(value:Float):Float
 
 		super.update(elapsed);
 
-                var maxHealthProb = health * 100;
+        var maxHealthProb = health * 100;
+
 		healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
 
 		if(ratingName == '?') {
@@ -4462,7 +4462,7 @@ function set_songSpeed(value:Float):Float
 			if(!endingSong)
 				shakeFromLosing(iconP2);
 
-                if (generatedMusic)
+        if (generatedMusic)
 		{
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
@@ -4616,7 +4616,7 @@ function set_songSpeed(value:Float):Float
 		}
 		lastBeatHit = curBeat;
 
-				setOnLuas('curBeat', curBeat);//DAWGG?????
+		setOnLuas('curBeat', curBeat);//DAWGG?????
 		callOnLuas('onBeatHit', []);
 	}
 
@@ -4803,7 +4803,7 @@ public static var othersCodeName:String = 'otherAchievements';
 	function redFlash()   // HaxeFlixel documentaion be like - Snake
 		{
 			FlxTween.color(iconP1, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            //FlxTween.color(iconP2, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
+            FlxTween.color(iconP2, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
             FlxTween.color(healthBar, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
             FlxTween.color(healthBarBG, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
             FlxTween.color(healthBarHigh, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});

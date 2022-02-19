@@ -68,9 +68,8 @@ class NotesSubState extends MusicBeatSubstate
 				var optionText:Alphabet = new Alphabet(0, yPos + 60, Std.string(ClientPrefs.arrowHSV[i][j]), true);
 				optionText.x = posX + (225 * j) + 250;
 				grpNumbers.add(optionText);
-			}
-                        
-                        var coolswag:String = '';
+			}            
+            var coolswag:String = '';
 			if(ClientPrefs.noteSkin != 'Default')
 			{
 				coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
