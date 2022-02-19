@@ -422,7 +422,7 @@ class TitleState extends MusicBeatState
 					createCoolText(['Graphex Engine mod by'], 45);
 				case 3:
 					addMoreText('XaleTheCat', 45);
-					addMoreText('PurpleSnake', 45); 
+					addMoreText('PurSnake', 45); 
 				case 4:
 					addMoreText('present', 45); 
 				case 5:
