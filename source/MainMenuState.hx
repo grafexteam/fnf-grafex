@@ -38,7 +38,7 @@ class MainMenuState extends MusicBeatState
 	
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	public var movingBG:FlxBackdrop;
-    public var movBGval:Float = 1;
+    public var movBGval:Float = 1.5;
 	public var menuBox:FlxSprite;
 
 	var boxMain:FlxSprite;
@@ -228,9 +228,9 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		if(selectedSomethin)
-			new FlxTimer().start(0.3, function(tmr:FlxTimer)
+			new FlxTimer().start(0.2, function(tmr:FlxTimer)
 				{
-					movBGval += 0.3;
+					movBGval += 0.4;
 				});
 			
 
