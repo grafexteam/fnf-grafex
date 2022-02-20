@@ -72,6 +72,7 @@ class MainMenuState extends MusicBeatState
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
+                Conductor.changeBPM(102);
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
@@ -268,10 +269,16 @@ class MainMenuState extends MusicBeatState
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-                    FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                                        FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
 					menuItems.forEach(function(spr:FlxSprite)
 					{
-						if (curSelected != spr.ID)
+						if (curSelected == spr.ID)
+							{
+								FlxTween.tween(spr, {x : 700}, 1.5, {
+									ease: FlxEase.quadOut,
+								});					
+							}
+                                               if (curSelected != spr.ID)
 							{
 								FlxTween.tween(spr, {alpha: 0}, 0.4, {
 									ease: FlxEase.quadOut,
