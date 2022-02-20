@@ -278,7 +278,7 @@ class MainMenuState extends MusicBeatState
 									ease: FlxEase.quadOut,
 								});					
 							}
-                                               if (curSelected != spr.ID)
+                            if (curSelected != spr.ID)
 							{
 								FlxTween.tween(spr, {alpha: 0}, 0.4, {
 									ease: FlxEase.quadOut,
@@ -341,9 +341,9 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 		{
 			super.beatHit();
-                        if(curBeat % 2 == 0)
+            if(curBeat % 2 == 0)
 			bgClick();		
-		} // This shit wasn't working, we idk why - Xale
+		} // no Epilepsy - PurSnake
 
     function changeItem(huh:Int = 0)
 	{
@@ -388,16 +388,21 @@ class MainMenuState extends MusicBeatState
 
 	function bgClick()
 		{
-			if(clickCount >= 2)
+			if(clickCount >= 4)
 				clickCount = 0;
 			
 			switch(clickCount)
 			{
 				case 0:
 					colorEntry = 0xFF8971f9;
-	
 				case 1:
 					colorEntry = 0xFFdf7098;
+				case 2:
+					colorEntry = 0xFF166193;
+				case 3:
+					colorEntry = 0xFF8dd620;
+				case 4:
+					colorEntry = 0xFFe22c66;
 			}
 
 			FlxTween.color(movingBG, 1, colorEntry, 0xfffde871, {ease: FlxEase.quadOut});

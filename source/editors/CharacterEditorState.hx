@@ -593,7 +593,7 @@ class CharacterEditorState extends MusicBeatState
 		healthColorStepperR = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y + 20, 20, char.healthColorArray[0], 0, 255, 0);
 		healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y + 20, 20, char.healthColorArray[1], 0, 255, 0);
 		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y + 20, 20, char.healthColorArray[2], 0, 255, 0);
-                healthColorStepper2R = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray2[0], 0, 255, 0);
+        healthColorStepper2R = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray2[0], 0, 255, 0);
 		healthColorStepper2G = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray2[1], 0, 255, 0);
 		healthColorStepper2B = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray2[2],0, 255, 0);
 

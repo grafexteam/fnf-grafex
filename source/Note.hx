@@ -261,12 +261,10 @@ class Note extends FlxSprite
 		var coolswag:String = '';
 		if(ClientPrefs.noteSkin != 'Default')
 		{
-	          if(deftype)
-                    {
-                     coolswag = '';
-                    }
-                  else
-                     coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
+	        if(deftype)
+                coolswag = '';
+            else
+                coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
 		}
                 var skin:String = texture;
 		if(texture.length < 1) {

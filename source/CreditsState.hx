@@ -44,7 +44,7 @@ class CreditsState extends MusicBeatState
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
-                #if MODS_ALLOWED
+        #if MODS_ALLOWED
 		//trace("finding mod shit");
 		for (folder in Paths.getModDirectories())
 		{
@@ -79,10 +79,10 @@ class CreditsState extends MusicBeatState
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Graphex Engine by'],
-		        ['XaleTheCat','xale','Developer of Grafex Engine','https://github.com/XaleTheCat','f7a300'],
-		        ['PurpleSnake','snake','Developer of Grafex Engine','https://github.com/PurpleSSSnake', 'C549DB'],
-                        [''],
-                        ['Psych Engine Team'],
+		    ['XaleTheCat','xale','Developer of Grafex Engine','https://github.com/XaleTheCat','f7a300'],
+		    ['PurpleSnake','snake','Developer of Grafex Engine','https://github.com/PurpleSSSnake', 'C549DB'],
+            [''],
+            ['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',						'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'riveroaken',		'Main Artist/Animator of Psych Engine',					'https://twitter.com/river_oaken',		'C30085'],
 			['bb-panzu',			'bb-panzu',			'Additional Programmer of Psych Engine',				'https://twitter.com/bbsub3',			'389A58'],
@@ -153,7 +153,7 @@ class CreditsState extends MusicBeatState
 	{
                 if(FlxG.keys.justPressed.F11)
                 {
-                   FlxG.fullscreen = !FlxG.fullscreen;
+                FlxG.fullscreen = !FlxG.fullscreen;
                 }
 		
                 if (FlxG.sound.music.volume < 0.7)

@@ -30,7 +30,7 @@ typedef CharacterFile = {
 	var flip_x:Bool;
 	var no_antialiasing:Bool;
 	var healthbar_colors:Array<Int>;
-        var healthbar_colors2:Array<Int>;
+    var healthbar_colors2:Array<Int>;
 }
 
 typedef AnimArray = {

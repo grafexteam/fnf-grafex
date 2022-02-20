@@ -931,7 +931,7 @@ void main()
    sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y + 4.0*blurSize)) * 0.05;
 
    //increase blur with intensity!
-  gl_FragColor = sum*intensity + flixel_texture2D(bitmap, texcoord); 
+   gl_FragColor = sum*intensity + flixel_texture2D(bitmap, texcoord); 
   // if(sin(iTime) > 0.0)
    //    fragColor = sum * sin(iTime)+ texture(iChannel0, texcoord);
   // else
