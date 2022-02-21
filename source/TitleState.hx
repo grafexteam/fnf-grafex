@@ -23,6 +23,7 @@ import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
+import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.system.ui.FlxSoundTray;
 import flixel.text.FlxText;
@@ -91,6 +92,7 @@ class TitleState extends MusicBeatState
 		FlxG.sound.volumeDownKeys = volumeDownKeys;
 		FlxG.sound.volumeUpKeys = volumeUpKeys;
 		FlxG.keys.preventDefaultKeys = [TAB];
+                FlxG.camera.zoom = 1;
 
 		PlayerSettings.init();
 
@@ -162,7 +164,7 @@ class TitleState extends MusicBeatState
 		bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
 		bgMenu.scale.set(2, 2);
 		add(bgMenu);
-		
+           
 		bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
 		bgFlash.visible = true;
 		bgFlash.alpha = 0;
@@ -257,9 +259,9 @@ class TitleState extends MusicBeatState
 	{
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-
 		if (FlxG.sound.music != null)
-			Conductor.songPosition = FlxG.sound.music.time;
+		Conductor.songPosition = FlxG.sound.music.time;
+                FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, 0.95);
 
 		if(FlxG.keys.justPressed.F11)
             FlxG.fullscreen = !FlxG.fullscreen;
@@ -397,6 +399,9 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+                if(curBeat % 2 == 0)
+                FlxG.camera.zoom += 0.025;
+
 
                 FlxG.log.advanced(curBeat);
 
