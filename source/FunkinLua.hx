@@ -20,6 +20,7 @@ import flixel.util.FlxColor;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.util.FlxSave;
 import openfl.display.BlendMode;
 import openfl.utils.Assets;
 import flixel.math.FlxMath;
@@ -40,8 +41,8 @@ import Discord;
 using StringTools;
 
 class FunkinLua {
-	public static var Function_Stop = 1;
-	public static var Function_Continue = 0;
+	public static var Function_Stop:Dynamic = 1;
+	public static var Function_Continue:Dynamic = 0;
 
 	#if LUA_ALLOWED
 	public var lua:State = null;
@@ -96,6 +97,7 @@ class FunkinLua {
 
 		set('isStoryMode', PlayState.isStoryMode);
 		set('difficulty', PlayState.storyDifficulty);
+		set('difficultyName', CoolUtil.difficulties[PlayState.storyDifficulty]);
 		set('weekRaw', PlayState.storyWeek);
 		set('week', data.WeekData.weeksList[PlayState.storyWeek]);
 		set('seenCutscene', PlayState.seenCutscene);
@@ -167,6 +169,20 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
+
+		#if windows
+		set('buildTarget', 'windows');
+		#elseif linux
+		set('buildTarget', 'linux');
+		#elseif mac
+		set('buildTarget', 'mac');
+		#elseif html5
+		set('buildTarget', 'browser');
+		#elseif android
+		set('buildTarget', 'android');
+		#else
+		set('buildTarget', 'unknown');
+		#end
 
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
@@ -792,6 +808,41 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getMouseY", function(camera:String) {
 			var cam:FlxCamera = cameraFromString(camera);
 			return FlxG.mouse.getScreenPosition(cam).y;
+		});
+		Lua_helper.add_callback(lua, "getMidpointX", function(variable:String) {
+			var obj:FlxObject = getObjectDirectly(variable);
+			if(obj != null) return obj.getMidpoint().x;
+
+			return 0;
+		});
+		Lua_helper.add_callback(lua, "getMidpointY", function(variable:String) {
+			var obj:FlxObject = getObjectDirectly(variable);
+			if(obj != null) return obj.getMidpoint().y;
+
+			return 0;
+		});
+		Lua_helper.add_callback(lua, "getGraphicMidpointX", function(variable:String) {
+			var obj:FlxSprite = getObjectDirectly(variable);
+			if(obj != null) return obj.getGraphicMidpoint().x;
+
+			return 0;
+		});
+		Lua_helper.add_callback(lua, "getGraphicMidpointY", function(variable:String) {
+			var obj:FlxSprite = getObjectDirectly(variable);
+			if(obj != null) return obj.getGraphicMidpoint().y;
+
+			return 0;
+		});
+
+		Lua_helper.add_callback(lua, "getScreenPositionX", function(variable:String) {
+			var obj:FlxObject = getObjectDirectly(variable);
+			if(obj != null) return obj.getScreenPosition().x;
+			return 0;
+		});
+		Lua_helper.add_callback(lua, "getScreenPositionY", function(variable:String) {
+			var obj:FlxObject = getObjectDirectly(variable);
+			if(obj != null) return obj.getScreenPosition().y;
+			return 0;
 		});
 		Lua_helper.add_callback(lua, "characterPlayAnim", function(character:String, anim:String, ?forced:Bool = false) {
 			switch(character.toLowerCase()) {
@@ -1442,6 +1493,45 @@ class FunkinLua {
 			}
 		});
 
+		Lua_helper.add_callback(lua, "initSaveData", function(name:String, ?folder:String = 'psychenginemods') {
+			if(!PlayState.instance.modchartSaves.exists(name))
+			{
+				var save:FlxSave = new FlxSave();
+				save.bind(name, folder);
+				PlayState.instance.modchartSaves.set(name, save);
+				return;
+			}
+			luaTrace('Save file already initialized: ' + name);
+		});
+		Lua_helper.add_callback(lua, "flushSaveData", function(name:String) {
+			if(PlayState.instance.modchartSaves.exists(name))
+			{
+				PlayState.instance.modchartSaves.get(name).flush();
+				return;
+			}
+			luaTrace('Save file not initialized: ' + name);
+		});
+		Lua_helper.add_callback(lua, "getDataFromSave", function(name:String, field:String) {
+			if(PlayState.instance.modchartSaves.exists(name))
+			{
+				var retVal:Dynamic = Reflect.field(PlayState.instance.modchartSaves.get(name).data, field);
+				return retVal;
+			}
+			luaTrace('Save file not initialized: ' + name);
+			return null;
+		});
+		Lua_helper.add_callback(lua, "setDataFromSave", function(name:String, field:String, value:Dynamic) {
+			if(PlayState.instance.modchartSaves.exists(name))
+			{
+				Reflect.setField(PlayState.instance.modchartSaves.get(name).data, field, value);
+				return;
+			}
+			luaTrace('Save file not initialized: ' + name);
+		});
+
+		Lua_helper.add_callback(lua, "getTextFromFile", function(path:String, ?ignoreModFolders:Bool = false) {
+			return Paths.getTextFromFile(path, ignoreModFolders);
+		});
 
 		// DEPRECATED, DONT MESS WITH THESE SHITS, ITS JUST THERE FOR BACKWARD COMPATIBILITY
 		Lua_helper.add_callback(lua, "luaSpriteMakeGraphic", function(tag:String, width:Int, height:Int, color:String) {
@@ -1759,6 +1849,27 @@ class FunkinLua {
 		#end
 		return Function_Continue;
 	}
+	function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true):Dynamic
+		{
+			var coverMeInPiss:Dynamic = getObjectDirectly(killMe[0], checkForTextsToo);
+			for (i in 1...killMe.length-1) {
+				coverMeInPiss = Reflect.getProperty(coverMeInPiss, killMe[i]);
+			}
+			return coverMeInPiss;
+		}
+	
+		function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true):Dynamic
+		{
+			var coverMeInPiss:Dynamic = null;
+			if(PlayState.instance.modchartSprites.exists(objectName)) {
+				coverMeInPiss = PlayState.instance.modchartSprites.get(objectName);
+			} else if(checkForTextsToo && PlayState.instance.modchartTexts.exists(objectName)) {
+				coverMeInPiss = PlayState.instance.modchartTexts.get(objectName);
+			} else {
+				coverMeInPiss = Reflect.getProperty(getInstance(), objectName);
+			}
+			return coverMeInPiss;
+		}
 
 	#if LUA_ALLOWED
 	function resultIsAllowed(leLua:State, leResult:Null<Int>) { //Makes it ignore warnings

@@ -233,7 +233,7 @@ class FreeplayState extends MusicBeatState
 	{
 		if(FlxG.keys.justPressed.F11)
                 {
-                   FlxG.fullscreen = !FlxG.fullscreen;
+                FlxG.fullscreen = !FlxG.fullscreen;
                 }
                 if (FlxG.sound.music.volume < 0.7)
 		{
@@ -477,6 +477,14 @@ class FreeplayState extends MusicBeatState
 		}
 		
 		curDifficulty = Math.round(Math.max(0, CoolUtil.defaultDifficulties.indexOf(CoolUtil.defaultDifficulty)));
+		if(CoolUtil.difficulties.contains(CoolUtil.defaultDifficulty))
+			{
+				curDifficulty = Math.round(Math.max(0, CoolUtil.defaultDifficulties.indexOf(CoolUtil.defaultDifficulty)));
+			}
+			else
+			{
+				curDifficulty = 0;
+			}
 		var newPos:Int = CoolUtil.difficulties.indexOf(lastDifficultyName);
 		//trace('Pos of ' + lastDifficultyName + ' is ' + newPos);
 		if(newPos > -1)

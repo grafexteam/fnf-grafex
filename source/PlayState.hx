@@ -15,6 +15,7 @@ import flixel.FlxGame;
 import VideoState;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.util.FlxSave;
 import flixel.FlxState;
 import flixel.FlxSubState;
 import Note.EventNote;
@@ -92,6 +93,7 @@ class PlayState extends MusicBeatState
 	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
 	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
+	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 
 	public var shader_chromatic_abberation:ChromaticAberrationEffect;
 	public var camGameShaders:Array<ShaderEffect> = [];
