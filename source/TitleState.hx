@@ -15,6 +15,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import haxe.Json;
 import openfl.display.Bitmap;
+import data.WeekData;
 import openfl.display.BitmapData;
 import sys.FileSystem;
 import sys.io.File;
@@ -79,7 +80,11 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+        Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
+
 		Application.current.window.title = Main.appTitle;
+                WeekData.loadTheFirstEnabledMod();
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);

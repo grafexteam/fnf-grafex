@@ -10,10 +10,15 @@ import editors.ChartingState;
 
 using StringTools;
 
+typedef EventNote = {
+	strumTime:Float,
+	event:String,
+	value1:String,
+	value2:String
+}
 class Note extends FlxSprite
 {
-        public var deftype:Bool;       
- 
+    public var deftype:Bool;       
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;

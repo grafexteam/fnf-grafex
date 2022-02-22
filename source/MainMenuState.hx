@@ -18,6 +18,7 @@ import flixel.tweens.FlxTween;
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import Shaders;
+import data.WeekData;
 import flixel.system.FlxAssets.FlxShader;
 import lime.app.Application;
 import editors.MasterEditorMenu;
@@ -69,6 +70,8 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menu", null);
 		#end
+
+                WeekData.loadTheFirstEnabledMod();
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
