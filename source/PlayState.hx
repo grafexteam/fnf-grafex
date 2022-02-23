@@ -2474,9 +2474,10 @@ function set_songSpeed(value:Float):Float
     	switch(ClientPrefs.hliconbop)
     	   {
     		case 'Grafex':	
-    			var iconOffset:Int = 26;
-    			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);	
+    		var iconOffset:Int = 26;
+
+		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
                 
              case 'Modern':		
 				var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
@@ -4519,8 +4520,7 @@ function set_songSpeed(value:Float):Float
 				camHUD.zoom += 0.03;
 			}
 
-		if(camZooming)
-			{
+		
 			timeTxt.size = 32;                  
             FlxTween.tween(timeTxt, {size: 35}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD}); 
             switch(ClientPrefs.hliconbop)
@@ -4542,8 +4542,8 @@ function set_songSpeed(value:Float):Float
 					case 'Grafex':
 						if (curBeat % 2 == 0)
 							{   
-								iconP1.scale.x = 1;
-								iconbop = 1.1;
+                                                                iconbop = 1.1;
+                                                                iconP1.scale.x = 1;
 								iconP2.scale.y = 1; 
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
@@ -4556,7 +4556,7 @@ function set_songSpeed(value:Float):Float
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
 							}
-				}
+				          }
 		
 				if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
 					{
@@ -4564,7 +4564,7 @@ function set_songSpeed(value:Float):Float
 						scoreTxt.scale.y = 1;
 						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});               
 					}
-			}
+			
 		
 		if (curBeat % gfSpeed == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing"))
 		{
