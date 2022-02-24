@@ -4346,7 +4346,7 @@ function set_songSpeed(value:Float):Float
 	{
 		gf.danced = false; //Sets head to the correct position once the animation ends
 		gf.playAnim('hairFall');
-		gf.specialAnim = true;
+		//gf.specialAnim = true;
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		// trainSound.stop();

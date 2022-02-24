@@ -640,6 +640,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 				transitioning = true;
+				FlxG.mouse.visible = false;
 			}
 
 			ghostLoop.setPosition(character.x, character.y);
