@@ -75,7 +75,7 @@ class MainMenuState extends MusicBeatState
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-                Conductor.changeBPM(102);
+                //Conductor.changeBPM(102);
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
@@ -160,27 +160,27 @@ class MainMenuState extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		
-		switch(FlxG.random.int(1, 7))
-        {
-        	case 1:
-        	    tipValue = "Also try Terraria";
-        	case 2:
-        	    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-        	case 3:
-        	    tipValue = "Nothing to see here -_-";
-        	case 4:
-        		tipValue = "Xale was here UwU";
-        	case 5:
-        	    tipValue = "Snake was here ._.";
-        	case 6:
-        	    tipValue = "Check your options)";
-        	case 7:
-        	    tipValue = "Are you ok?";
-        	case 8:
-        	    tipValue = "Week 7 not included.";
-        	case 9:
-        	    tipValue = "Nanomachines, son.";
-        }
+		switch(FlxG.random.int(1, 9))
+        	{
+        		case 1:
+        		    tipValue = "Also try Terraria";
+        		case 2:
+        		    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
+        		case 3:
+        		    tipValue = "Nothing to see here -_-";
+        		case 4:
+        			tipValue = "Xale was here UwU";
+        		case 5:
+        		    tipValue = "Snake was here ._.";
+        		case 6:
+        		    tipValue = "Check your options)";
+        		case 7:
+        		    tipValue = "Are you ok?";
+        		case 8:
+        		    tipValue = "Week 7 not included.";
+        		case 9:
+        		    tipValue = "Nanomachines, son.";
+        	}
 
         tipBackground = new FlxSprite();
 		tipBackground.scrollFactor.set();
@@ -391,7 +391,7 @@ class MainMenuState extends MusicBeatState
 
 	function bgClick()
 		{
-			if(clickCount >= 4)
+			if(clickCount > 4)
 				clickCount = 0;
 			
 			switch(clickCount)
@@ -432,7 +432,7 @@ class MainMenuState extends MusicBeatState
 
 	function resetTipText()
 		{
-			switch(FlxG.random.int(1, 7))
+			switch(FlxG.random.int(1, 9))
         	{
         		case 1:
         		    tipValue = "Also try Terraria";
