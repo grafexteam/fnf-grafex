@@ -117,6 +117,8 @@ class FunkinLua {
 		set('score', 0);
 		set('misses', 0);
 		set('hits', 0);
+                set('bfcamoffsetx', 0);
+                set('bfcamoffsety', 0);
 
 		set('rating', 0);
 		set('ratingName', '');

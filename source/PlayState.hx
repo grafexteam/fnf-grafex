@@ -1063,13 +1063,12 @@ class PlayState extends MusicBeatState
 		healthBarHigh.yAdd = -4;
         add(healthBarHigh);
  
-		switch(curStage) // Made this cuz this black things looks bad with pixel arrows lol - Xale
-		{
-			case 'school' | 'schoolEvil':     //Bruuh, pixel stages :/ - Snake
-                healthBarHigh.visible = false;
-
-			default:
-			    healthBarHigh.visible = !ClientPrefs.hideHud;	
+		 if(PlayState.isPixelStage) {
+			        healthBarHigh.visible = false;
+			}
+                else
+                {
+                healthBarHigh.visible = !ClientPrefs.hideHud;	
 		}
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
@@ -1257,7 +1256,6 @@ class PlayState extends MusicBeatState
 				case 'senpai' | 'roses' | 'thorns':
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
-
 				default:
 					startCountdown();
 			}
@@ -1555,23 +1553,23 @@ function set_songSpeed(value:Float):Float
 			inCutscene = true;
 			CoolUtil.precacheSound('dialogue');
 			CoolUtil.precacheSound('dialogueClose');
-			var doof:DialogueBoxPsych = new DialogueBoxPsych(dialogueFile, song);
-			doof.scrollFactor.set();
+			psychDialogue = new DialogueBoxPsych(dialogueFile, song);
+			psychDialogue.scrollFactor.set();
 			if(endingSong) {
-				doof.finishThing = function() {
+				psychDialogue.finishThing = function() {
 					psychDialogue = null;
 					endSong();
 				}
 			} else {
-				doof.finishThing = function() {
+				psychDialogue.finishThing = function() {
 					psychDialogue = null;
 					startCountdown();
 				}
 			}
-			doof.nextDialogueThing = startNextDialogue;
-			doof.skipDialogueThing = skipDialogue;
-			doof.cameras = [camHUD];
-			add(doof);
+			psychDialogue.nextDialogueThing = startNextDialogue;
+			psychDialogue.skipDialogueThing = skipDialogue;
+			psychDialogue.cameras = [camHUD];
+			add(psychDialogue);
 		} else {
 			FlxG.log.warn('Your dialogue file is badly formatted!');
 			if(endingSong) {
@@ -3283,16 +3281,18 @@ function set_songSpeed(value:Float):Float
 				case 'mall':
 					camFollow.y = boyfriend.getMidpoint().y - 200;
                                         bfcamoffsety = -100;
-				case 'school' | 'schoolEvil':
+		                case 'school' | 'schoolEvil' | 'farstage':
 					camFollow.x = boyfriend.getMidpoint().x - 200;
 					camFollow.y = boyfriend.getMidpoint().y - 200;
                                         bfcamoffsetx = -200;   
-                                        bfcamoffsety = -100;                   
+                                        bfcamoffsety = -100;          
 			}
+                        setOnLuas('bfcamoffsetx', bfcamoffsetx);
+                        setOnLuas('bfcamoffsety', bfcamoffsety);
+
 			camFollow.x -= boyfriend.cameraPosition[0];
 			camFollow.y += boyfriend.cameraPosition[1];
-                        
-
+       
 			if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
 			{
 				cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:

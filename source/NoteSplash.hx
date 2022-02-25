@@ -13,14 +13,10 @@ class NoteSplash extends FlxSprite
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 
-		var skin:String = '';
-                switch(PlayState.curStage)
-                        {
-                        case 'school' | 'schoolEvil':
-                           skin = 'noteSplashesPx';
-                        default:
-                           skin = 'noteSplashes';
-                        }
+		var skin = 'noteSplashes';
+                if(PlayState.isPixelStage) {
+			      skin = 'pixelUI/noteSplashesPx';
+			}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -38,14 +34,11 @@ class NoteSplash extends FlxSprite
 		alpha = 0.6;
 
 		if(texture == null) {
-			texture = '';
-                        switch(PlayState.curStage)
-                        {
-                        case 'school' | 'schoolEvil':
-                           texture = 'noteSplashesPx';
-                        default:
-                           texture = 'noteSplashes';
-                        }
+			texture = 'noteSplashes';
+                        if(PlayState.isPixelStage) {
+			       texture = 'pixelUI/noteSplashesPx';
+			}
+                       
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
 		}
 
