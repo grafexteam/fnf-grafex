@@ -301,6 +301,8 @@ class PlayState extends MusicBeatState
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
 
+	var maxHealthProb:Float;
+
 	override public function create()
 	{
 		instance = this;
@@ -1063,13 +1065,10 @@ class PlayState extends MusicBeatState
 		healthBarHigh.yAdd = -4;
         add(healthBarHigh);
  
-		 if(PlayState.isPixelStage) {
-			        healthBarHigh.visible = false;
-			}
-                else
-                {
-                healthBarHigh.visible = !ClientPrefs.hideHud;	
-		}
+		if (PlayState.isPixelStage)
+			healthBarHigh.visible = false;
+        else
+            healthBarHigh.visible = !ClientPrefs.hideHud;	
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBarWN.y - 75;
@@ -1106,24 +1105,21 @@ class PlayState extends MusicBeatState
 		judgementCounter.scrollFactor.set();
 		judgementCounter.cameras = [camHUD];
 		judgementCounter.screenCenter(Y);
-		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ' + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
         judgementCounter.visible = ClientPrefs.showjud;
 		add(judgementCounter);
  
-        healthThing = new FlxText(20,judgementCounter.y + 95,0,'100%', 20);
+        /*healthThing = new FlxText(20,judgementCounter.y + 95, 0,'100%', 20);
         healthThing.borderSize = 2;
 		healthThing.borderQuality = 2;
-		healthThing.scrollFactor.set();
 		healthThing.cameras = [camHUD];
 		healthThing.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		healthThing.scrollFactor.set();
 		healthThing.visible = !ClientPrefs.hideHud;
-        #if debug //for debug lol
+        #if debug //for debug lol - Snake || I think it will be better if we add this to main game - Xale
         add(healthThing);
-        #end
-              
-              
-               
+        #end*/
+                
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "", 32);
 		botplayTxt.text = "BOTPLAY";
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1177,7 +1173,6 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('data/' + Paths.formatToSongPath(SONG.song) + '/')];
-
 
 		for (folder in foldersToCheck)
 		{
@@ -1288,7 +1283,7 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
-function set_songSpeed(value:Float):Float
+	function set_songSpeed(value:Float):Float
 	{
 		if(generatedMusic)
 		{
@@ -1389,8 +1384,8 @@ function set_songSpeed(value:Float):Float
 		}
 		#end
 	}
-        public function addShaderToCamera(cam:String, effect:ShaderEffect)
-	{ // STOLE FROM ANDROMEDA
+    public function addShaderToCamera(cam:String, effect:ShaderEffect)
+	{ // STOLEN FROM ANDROMEDA
 
 		switch (cam.toLowerCase())
 		{
@@ -2292,6 +2287,9 @@ function set_songSpeed(value:Float):Float
 	override public function update(elapsed:Float)
 	{
         super.update(elapsed);
+
+		maxHealthProb = health * 100;
+
         if(FlxG.keys.justPressed.F11)
         {
            FlxG.fullscreen = !FlxG.fullscreen;
@@ -2424,19 +2422,18 @@ function set_songSpeed(value:Float):Float
 			}
 		}
 
-		
+		//healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
 
-        var maxHealthProb = health * 100;
-
-		healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
-
-		if(ratingName == '?') {
+		if(ratingName == '?')
+		{
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
-                judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
-		} else {
+			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ' + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
+		}
+		else
+		{
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
-		        judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
-                }
+			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ' + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
+        }
 
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
@@ -4823,7 +4820,7 @@ public static var othersCodeName:String = 'otherAchievements';
 			}); // ARE YOU JOKING RN?! TIMERS?! TODO: REWRITE THIS SHIT - Xale | Yep - Snake
 		}
 		
-	function redFlash()   // HaxeFlixel documentaion be like - Snake
+	function redFlash() // HaxeFlixel documentaion be like - Snake
 		{
 			FlxTween.color(iconP1, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
             FlxTween.color(iconP2, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});

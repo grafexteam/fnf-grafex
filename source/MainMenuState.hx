@@ -391,7 +391,7 @@ class MainMenuState extends MusicBeatState
 
 	function bgClick()
 		{
-			if(clickCount > 4)
+			if(clickCount > 1)
 				clickCount = 0;
 			
 			switch(clickCount)
@@ -400,12 +400,6 @@ class MainMenuState extends MusicBeatState
 					colorEntry = 0xFF8971f9;
 				case 1:
 					colorEntry = 0xFFdf7098;
-				case 2:
-					colorEntry = 0xFF166193;
-				case 3:
-					colorEntry = 0xFF8dd620;
-				case 4:
-					colorEntry = 0xFFe22c66;
 			}
 
 			FlxTween.color(movingBG, 1, colorEntry, 0xfffde871, {ease: FlxEase.quadOut});
