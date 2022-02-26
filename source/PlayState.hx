@@ -2427,7 +2427,7 @@ class PlayState extends MusicBeatState
 		if(ratingName == '?')
 		{
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
-			judgementCounter.text = '';
+			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
 		}
 		else
 		{

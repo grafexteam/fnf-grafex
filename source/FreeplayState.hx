@@ -59,7 +59,7 @@ class FreeplayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Menu", null);
 		#end
 
 		for (i in 0...WeekData.weeksList.length) {
@@ -85,7 +85,7 @@ class FreeplayState extends MusicBeatState
 		}
 		WeekData.loadTheFirstEnabledMod();
 
-		/*		//KIND OF BROKEN NOW AND ALSO PRETTY USELESS//
+		/*//KIND OF BROKEN NOW AND ALSO PRETTY USELESS//
 
 		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 		for (i in 0...initSonglist.length)
@@ -364,7 +364,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(controls.RESET)
         {
-                        persistentUpdate = false;
+            persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
@@ -374,7 +374,7 @@ class FreeplayState extends MusicBeatState
 	override function beatHit() {
 		super.beatHit();
 
-		if (FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 1 == 0)
+		if (FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0)
 			FlxG.camera.zoom += 0.015;
 	}
 
