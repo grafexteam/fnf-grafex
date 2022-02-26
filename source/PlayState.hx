@@ -3281,7 +3281,7 @@ function set_songSpeed(value:Float):Float
 				case 'mall':
 					camFollow.y = boyfriend.getMidpoint().y - 200;
                                         bfcamoffsety = -100;
-		                case 'school' | 'schoolEvil' | 'farstage':
+		                case 'school' | 'schoolEvil': 
 					camFollow.x = boyfriend.getMidpoint().x - 200;
 					camFollow.y = boyfriend.getMidpoint().y - 200;
                                         bfcamoffsetx = -200;   
