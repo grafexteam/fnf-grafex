@@ -376,6 +376,33 @@ class Paths
 	}
 	
         public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
+
+	public static function returnGraphic(key:String, ?library:String) {
+		#if MODS_ALLOWED
+		var modKey:String = modsImages(key);
+		if(FileSystem.exists(modKey)) {
+			if(!currentTrackedAssets.exists(modKey)) {
+				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
+				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
+				currentTrackedAssets.set(modKey, newGraphic);
+			}
+			localTrackedAssets.push(modKey);
+			return currentTrackedAssets.get(modKey);
+		}
+		#end
+
+		var path = getPath('images/$key.png', IMAGE, library);
+		if (OpenFlAssets.exists(path, IMAGE)) {
+			if(!currentTrackedAssets.exists(path)) {
+				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
+				currentTrackedAssets.set(path, newGraphic);
+			}
+			localTrackedAssets.push(path);
+			return currentTrackedAssets.get(path);
+		}
+		trace('oh no its returning null NOOOO');
+		return null;
+	}
 	#if MODS_ALLOWED
 	static public function addCustomGraphic(key:String):FlxGraphic {
 		if(FileSystem.exists(modsImages(key))) {
