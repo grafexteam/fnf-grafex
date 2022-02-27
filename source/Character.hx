@@ -183,8 +183,9 @@ class Character extends FlxSprite
 				}
 
 				if(json.healthbar_colors != null && json.healthbar_colors.length > 2)
-				{        healthColorArray = json.healthbar_colors;
-                                         healthColorArray2 = json.healthbar_colors2;}
+				{        healthColorArray = json.healthbar_colors;}
+                                if(json.healthbar_colors2 != null && json.healthbar_colors2.length > 2)
+				{        healthColorArray2 = json.healthbar_colors2;}
 
 				antialiasing = !noAntialiasing;
 				if(!ClientPrefs.globalAntialiasing) antialiasing = false;
