@@ -268,7 +268,7 @@ class Note extends FlxSprite
 		{
 	        if(deftype)
                 coolswag = '';
-            else
+                else
                 coolswag = '-' + ClientPrefs.noteSkin.toLowerCase().replace(' ', '-');
 		}
                 var skin:String = texture;

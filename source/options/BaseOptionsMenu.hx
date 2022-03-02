@@ -136,7 +136,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				previewNotes = new AttachedSprite();
 				previewNotes.loadGraphic(Paths.image('previewNotes'), true, 164, 164);
 				previewNotes.shader = colorSwap.shader;
-				previewNotes.animation.add('frames', [0, 1, 2], 0);
+				previewNotes.animation.add('frames', [0, 1, 2, 3], 0);
 				previewNotes.animation.play('frames');
 				previewNotes.sprTracker = textChild;
 				previewNoteOption = optionsArray[i];
@@ -170,7 +170,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	{
 		if(FlxG.keys.justPressed.F11)
                 {
-                   FlxG.fullscreen = !FlxG.fullscreen;
+                FlxG.fullscreen = !FlxG.fullscreen;
                 }
                 if (controls.UI_UP_P)
 		{

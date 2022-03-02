@@ -46,7 +46,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'noteSkin',
 			'string',
 			'Default',
-			['Default', 'Future', 'Chip']);
+			['Default', 'Future', 'Chip', 'Grafex']);
 		option.showNotes = true;
 		option.onChange = onChangeNoteSkin;
 		addOption(option);

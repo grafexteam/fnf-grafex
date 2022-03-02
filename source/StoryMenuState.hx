@@ -194,7 +194,7 @@ class StoryMenuState extends MusicBeatState
 	{
 		if(FlxG.keys.justPressed.F11)
                 {
-                   FlxG.fullscreen = !FlxG.fullscreen;
+                FlxG.fullscreen = !FlxG.fullscreen;
                 }
                 // scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));

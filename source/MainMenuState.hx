@@ -75,7 +75,7 @@ class MainMenuState extends MusicBeatState
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-                //Conductor.changeBPM(102);
+                Conductor.changeBPM(102);
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
@@ -123,7 +123,7 @@ class MainMenuState extends MusicBeatState
 
         boxMain = new FlxSprite(-25, 495);
 		boxMain.frames = Paths.getSparrowAtlas('mainmenu/boxMain');
-		boxMain.animation.addByPrefix('idle', 'beat', 15, true);
+		boxMain.animation.addByPrefix('idle', 'beat', 13, true);
 		boxMain.animation.play('idle');
 		boxMain.antialiasing = ClientPrefs.globalAntialiasing;
 		boxMain.scrollFactor.set();

@@ -84,14 +84,14 @@ class ModsMenuState extends MusicBeatState
 		noModsTxt.screenCenter();
 		visibleWhenNoMods.push(noModsTxt);
 
-		noModsTxt2 = new Alphabet(0, 360, "PRESS BACK TO EXIT AND INSTALL A MOD", true, false, 0.05, 0.66);
+		noModsTxt2 = new Alphabet(0, 400, "PRESS BACK TO EXIT AND INSTALL A MOD", true, false, 0.05, 0.66);
 		noModsTxt2.screenCenter(X);
 		noModsTxt2.scrollFactor.set();
 		add(noModsTxt2);
 		visibleWhenNoMods.push(noModsTxt2);
 		if(FlxG.random.bool(0.1))
 		{
-			noModsTxt3 = new Alphabet(0, 420, "BITCH.", true, false, 0.05, 0.66);
+			noModsTxt3 = new Alphabet(0, 5, "BITCH.", true, false, 0.05, 0.66);
 			noModsTxt3.screenCenter(X);
 			noModsTxt3.scrollFactor.set();
 			add(noModsTxt3);

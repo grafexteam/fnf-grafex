@@ -2299,10 +2299,12 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-            case 'schoolEvil':
+                        case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
 				}
+                                Application.current.window.title = randString(FlxG.random.int(8, 16));
+                                songTxt.text = randString(FlxG.random.int(6, 14)); 
 			case 'philly':
 				if (trainMoving)
 				{
@@ -4840,4 +4842,15 @@ public static var othersCodeName:String = 'otherAchievements';
 				});
 
  		} // Yeah? There was such a thing? Lmao - Xale
+        public static function randString(Length:Int)
+	{
+		var string:String = '';
+		var data:String = 'qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM';
+
+		for (i in 0...Length)
+		{
+			string += data.charAt(FlxG.random.int(0, data.length - 1));
+		}
+		return string;
+	}
 }
