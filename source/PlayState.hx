@@ -3985,7 +3985,7 @@ class PlayState extends MusicBeatState
 			if(note.gfNote) {
 				char = gf;
 			}
-                        
+                /*        
             if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false)
 				{
                     if (!dad.stunned)
@@ -4043,7 +4043,7 @@ class PlayState extends MusicBeatState
 							}                   
 						}
 				} 
-                      
+                      */
             char.playAnim(animToPlay, true);
 			char.holdTimer = 0;
 		}
@@ -4099,106 +4099,49 @@ class PlayState extends MusicBeatState
 			}
 
 			if (!note.isSustainNote)
-            {
-				if(maxCombo <= combo)
-				{
-				combo += 1;
-				maxCombo +=1;
-				}
-			    else
+			{
 				combo += 1;
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
 			}
 			health += note.hitHealth * healthGain;
 
-			if(!note.noAnimation)
-			{
+			if(!note.noAnimation) {
 				var daAlt = '';
 				if(note.noteType == 'Alt Animation') daAlt = '-alt';
 	
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
-					if(note.gfNote)
-					{
+
+				//if (note.isSustainNote){ wouldn't this be fun : P. i think it would be swell
+					
+					//if(note.gfNote) {
+					//  var anim = animToPlay +"-hold" + daAlt;
+					//	if(gf.animation.getByName(anim) == null)anim = animToPlay + daAlt;
+					//	gf.playAnim(anim, true);
+					//	gf.holdTimer = 0;
+					//} else {
+					//  var anim = animToPlay +"-hold" + daAlt;
+					//	if(boyfriend.animation.getByName(anim) == null)anim = animToPlay + daAlt;
+					//	boyfriend.playAnim(anim, true);
+					//	boyfriend.holdTimer = 0;
+					//}
+				//}else{
+					if(note.gfNote) {
 						gf.playAnim(animToPlay + daAlt, true);
 						gf.holdTimer = 0;
-					}
-					else
-					{
+					} else {
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
-                                    
-                        if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true)
-						{ //work very bad
-                            if (!boyfriend.stunned)
-                            {
-                                 cammoveoffest = 30;
-                                   
-								switch(Std.int(Math.abs(note.noteData)))
-								{
-									case 2:
-										camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		        camFollow.x += boyfriend.cameraPosition[0];
-			            		        camFollow.y += boyfriend.cameraPosition[1] - cammoveoffest;
-								
-                        		    	if(ClientPrefs.cameramove)
-											{ 
-										       	camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		                camFollow.x += boyfriend.cameraPosition[0];
-			            		                camFollow.y += boyfriend.cameraPosition[1];								
-											}
-									case 3:							
-										camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		        camFollow.x += boyfriend.cameraPosition[0] + cammoveoffest;
-			            		        camFollow.y += boyfriend.cameraPosition[1];
-										if(ClientPrefs.cameramove)
-										{
-										   	camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		    		camFollow.x += boyfriend.cameraPosition[0];
-			            		    		camFollow.y += boyfriend.cameraPosition[1];
-			            		    	}
-															 
-									case 1:
-										camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		        camFollow.x += boyfriend.cameraPosition[0];
-			            		        camFollow.y += boyfriend.cameraPosition[1] + cammoveoffest;
-													 
-                        		        if(ClientPrefs.cameramove)
-										{
-											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		            camFollow.x += boyfriend.cameraPosition[0];
-			            		            camFollow.y += boyfriend.cameraPosition[1];
-			            		        }
-																 
-									case 0:
-										camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		        camFollow.x += boyfriend.cameraPosition[0] - cammoveoffest;
-			            		        camFollow.y += boyfriend.cameraPosition[1];
-															 
-                        		        if(ClientPrefs.cameramove)
-										{
-										    camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-			            		            camFollow.x += boyfriend.cameraPosition[0];
-			            		            camFollow.y += boyfriend.cameraPosition[1];
-			            		        }
-								}                        
-							}
-						}
 					}
-				}
-
-
-				if(note.noteType == 'Hey!')
-				{
-					if(boyfriend.animOffsets.exists('hey'))
-					{
+				//}
+				if(note.noteType == 'Hey!') {
+					if(boyfriend.animOffsets.exists('hey')) {
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
 						boyfriend.heyTimer = 0.6;
 					}
 	
-					if(gf.animOffsets.exists('cheer'))
-					{
+					if(gf.animOffsets.exists('cheer')) {
 						gf.playAnim('cheer', true);
 						gf.specialAnim = true;
 						gf.heyTimer = 0.6;
@@ -4206,16 +4149,13 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if(cpuControlled)
-			{
+			if(cpuControlled) {
 				var time:Float = 0.15;
-				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) 
+				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
 					time += 0.15;
-
+				}
 				StrumPlayAnim(false, Std.int(Math.abs(note.noteData)) % 4, time);
-			}
-			else
-			{
+			} else {
 				playerStrums.forEach(function(spr:StrumNote)
 				{
 					if (Math.abs(note.noteData) == spr.ID)
@@ -4234,13 +4174,12 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				if(ClientPrefs.hitsound)
-                FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol);
-                note.kill();
+				note.kill();
 				notes.remove(note, true);
 				note.destroy();
 			}
 		}
+	}
 
 	function spawnNoteSplashOnNote(note:Note)
 	{
