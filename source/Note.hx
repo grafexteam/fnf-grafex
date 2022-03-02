@@ -17,8 +17,7 @@ typedef EventNote = {
 	value2:String
 }
 class Note extends FlxSprite
-{
-    public var deftype:Bool;       
+{ 
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
@@ -57,6 +56,7 @@ class Note extends FlxSprite
 	public var noteSplashHue:Float = 0;
 	public var noteSplashSat:Float = 0;
 	public var noteSplashBrt:Float = 0;
+        public var deftype:Bool;      
 
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
