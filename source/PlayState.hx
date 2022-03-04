@@ -1053,6 +1053,7 @@ class PlayState extends MusicBeatState
         healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
+                healthBarWN.visible = !ClientPrefs.hideHud;
 		add(healthBarWN);
         healthBarWN.visible = true;
               
