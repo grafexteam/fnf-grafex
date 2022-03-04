@@ -1089,7 +1089,9 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
+           songTxt.visible = !ClientPrefs.hideHud;
 		add(songTxt); 
+
  
         scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
