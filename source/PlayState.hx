@@ -1055,7 +1055,6 @@ class PlayState extends MusicBeatState
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
                 healthBarWN.visible = !ClientPrefs.hideHud;
 		add(healthBarWN);
-        healthBarWN.visible = true;
               
         healthBarHigh = new AttachedSprite('healthBarHigh');
 		healthBarHigh.y = healthBarBG.y;
