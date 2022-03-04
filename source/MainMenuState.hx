@@ -39,7 +39,6 @@ class MainMenuState extends MusicBeatState
 	
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	public var movingBG:FlxBackdrop;
-    public var movBGval:Float = 1.5;
 	public var menuBox:FlxSprite;
 
 	var boxMain:FlxSprite;
@@ -107,6 +106,7 @@ class MainMenuState extends MusicBeatState
 		movingBG = new FlxBackdrop(Paths.image('menuDesat'), 10, 0, true, true);
 		movingBG.scrollFactor.set(0,0);
 		movingBG.color = 0xfffde871;
+                movingBG.velocity.x = -90;
 		add(movingBG);
 
 		menuBox = new FlxSprite(-125, -100);
@@ -123,8 +123,8 @@ class MainMenuState extends MusicBeatState
 
         boxMain = new FlxSprite(-25, 495);
 		boxMain.frames = Paths.getSparrowAtlas('mainmenu/boxMain');
-		boxMain.animation.addByPrefix('idle', 'beat', 13, true);
-		boxMain.animation.play('idle');
+		boxMain.animation.addByPrefix('idle', 'beat', 13, false);
+		//boxMain.animation.play('idle');
 		boxMain.antialiasing = ClientPrefs.globalAntialiasing;
 		boxMain.scrollFactor.set();
 		boxMain.scale.set(0.55, 0.55);
@@ -216,8 +216,6 @@ class MainMenuState extends MusicBeatState
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
-		movingBG.x -= movBGval;
-
         if(FlxG.keys.justPressed.F11)
     		FlxG.fullscreen = !FlxG.fullscreen;
 		
@@ -231,9 +229,10 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		if(selectedSomethin)
-			new FlxTimer().start(0.2, function(tmr:FlxTimer)
+			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
-					movBGval += 0.4;
+					 
+                                         movingBG.velocity.x -= 40;
 				});
 			
 
@@ -344,6 +343,7 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 		{
 			super.beatHit();
+                        boxMain.animation.play('idle');
             if(curBeat % 2 == 0)
 			bgClick();		
 		} // no Epilepsy - PurSnake
@@ -402,7 +402,7 @@ class MainMenuState extends MusicBeatState
 					colorEntry = 0xFFdf7098;
 			}
 
-			FlxTween.color(movingBG, 1, colorEntry, 0xfffde871, {ease: FlxEase.quadOut});
+			FlxTween.color(movingBG, 0.7, colorEntry, 0xfffde871, {ease: FlxEase.quadOut});
 			clickCount++;	
 		}
 

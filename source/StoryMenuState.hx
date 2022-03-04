@@ -21,6 +21,7 @@ import lime.app.Application;
 import data.WeekData;
 import VideoState;
 
+
 using StringTools;
 
 class StoryMenuState extends MusicBeatState
@@ -284,7 +285,8 @@ class StoryMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
-				if(grpWeekCharacters.members[2].character != '') grpWeekCharacters.members[1].animation.play('confirm');
+				var bf:MenuCharacter = grpWeekCharacters.members[1];
+				if(bf.character != '' && bf.hasConfirmAnimation) grpWeekCharacters.members[0].animation.play('confirm');
 				stopspamming = true;
 			}
 

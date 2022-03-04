@@ -173,4 +173,5 @@ function onChangeMEMCounter()
 			Main.memoryCounter.visible = ClientPrefs.showMEM;
 	}
 	#end
+
 }

@@ -71,6 +71,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			false);
 		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
 		addOption(option);
+        
+                var option:Option = new Option('Auto Pause',
+			'If checked, pauses the game when unfocused.',
+			'autoPause',
+			'bool',
+			true);
+		option.onChange = onChangeAutoPause;
+		addOption(option);
 		super();
 	}
 
@@ -103,5 +111,9 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	function onChangePersistentData()
 	{
 		FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+	}
+      function onChangeAutoPause()
+	{
+		FlxG.autoPause = ClientPrefs.autoPause;
 	}
 }

@@ -15,6 +15,7 @@ class ClientPrefs {
     public static var underdelayalpha:Float = 0.1;
     public static var underdelayonoff:Bool = true;
     public static var noteSkin:String = 'Default';
+    public static var autoPause:Bool = true;
     public static var showjud:Bool = true;
 
         //WHAT WAS
@@ -93,6 +94,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+                FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.showjud = showjud;
         FlxG.save.data.hitsound = hitsound;
         FlxG.save.data.cameramove = cameramove;
@@ -153,6 +155,10 @@ class ClientPrefs {
 		}
                 if(FlxG.save.data.cameramove == null) {
 			cameramove = false;
+		}
+               if(FlxG.save.data.autoPause != null) {
+			autoPause = FlxG.save.data.autoPause;
+			FlxG.autoPause = autoPause;
 		}
                if(FlxG.save.data.cameramove != null) {
 			cameramove = FlxG.save.data.cameramove;

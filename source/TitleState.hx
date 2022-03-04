@@ -19,6 +19,7 @@ import data.WeekData;
 import openfl.display.BitmapData;
 import sys.FileSystem;
 import sys.io.File;
+import flixel.addons.display.FlxBackdrop;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
@@ -150,7 +151,7 @@ class TitleState extends MusicBeatState
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
     var bgFlash:FlxSprite;
-    var bgMenu:FlxSprite;
+    var bgMenu:FlxBackdrop;
 
 	function startIntro()
 	{
@@ -166,8 +167,10 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
-		bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
-		bgMenu.scale.set(2, 2);
+		//bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
+                bgMenu = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
+		//bgMenu.scale.set(2, 2);
+                bgMenu.velocity.set(70, 70); //thats it :D- snake
 		add(bgMenu);
            
 		bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
@@ -467,6 +470,7 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;
+                        FlxG.sound.music.time = 9400;
 		}
 	}
 }
