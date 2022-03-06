@@ -53,7 +53,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		Application.current.window.title = Main.appTitle + ' - FreePlay Menu';
+		Application.current.window.title = Main.appTitle + ' - Freeplay Menu';
 		
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);

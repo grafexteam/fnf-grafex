@@ -3289,18 +3289,19 @@ function pauseState()
 			{
 				case 'limo':
 					camFollow.x = boyfriend.getMidpoint().x - 300;
-                                        bfcamoffsetx = -200;
+                    bfcamoffsetx = -200;
 				case 'mall':
+
 					camFollow.y = boyfriend.getMidpoint().y - 200;
-                                        bfcamoffsety = -100;
-		                case 'school' | 'schoolEvil': 
+                    bfcamoffsety = -100;
+		        case 'school' | 'schoolEvil': 
 					camFollow.x = boyfriend.getMidpoint().x - 200;
 					camFollow.y = boyfriend.getMidpoint().y - 200;
-                                        bfcamoffsetx = -200;   
-                                        bfcamoffsety = -100;          
+                    bfcamoffsetx = -200;   
+                    bfcamoffsety = -100;          
 			}
-                        setOnLuas('bfcamoffsetx', bfcamoffsetx);
-                        setOnLuas('bfcamoffsety', bfcamoffsety);
+            setOnLuas('bfcamoffsetx', bfcamoffsetx);
+            setOnLuas('bfcamoffsety', bfcamoffsety);
 
 			camFollow.x -= boyfriend.cameraPosition[0];
 			camFollow.y += boyfriend.cameraPosition[1];
