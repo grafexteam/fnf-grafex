@@ -56,7 +56,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
-		Application.current.window.title = Main.appTitle + ' - StoryMode Menu';
+		Application.current.window.title = Main.appTitle + ' - Storymode Menu';
 
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);
