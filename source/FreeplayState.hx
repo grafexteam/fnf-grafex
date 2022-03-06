@@ -361,7 +361,8 @@ class FreeplayState extends MusicBeatState
 			}
                         });
 			FlxG.sound.music.fadeOut(0.9, 0);
-                        vocals.fadeOut(0.9, 0);
+                       if(vocals != null)
+                            vocals.fadeOut(0.9, 0);
 
 
 		}
