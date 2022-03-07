@@ -1,5 +1,5 @@
 # Friday Night Funkin' - Grafex Engine
-Engine вesigned to fix some bugs and minor graphics updates and new features. Also aiming to be an easier alternative to newbie coders.(Not for LUA mods -_-)
+Engine designed to fix some bugs and minor graphics updates and new features. Also aiming to be an easier alternative to newbie coders.
 
 ## Installation:
 You must have [the most up-to-date version of Haxe](https://haxe.org/download/), seriously, stop using 4.1.5, it misses some stuff.
