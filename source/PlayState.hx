@@ -268,6 +268,8 @@ class PlayState extends MusicBeatState
     var loseVin:FlxSprite;
 	var badLoseVin:FlxSprite;
 
+	var isEventWorking:Bool = false;
+
     // how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 	private var singAnimations:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
@@ -1702,7 +1704,7 @@ class PlayState extends MusicBeatState
 		    laneunderlayOpponent.screenCenter(Y);
 
 
-                        startedCountdown = true;
+            startedCountdown = true;
 			Conductor.songPosition = 0;
 			Conductor.songPosition -= Conductor.crochet * 5;
 			setOnLuas('startedCountdown', true);
@@ -2240,7 +2242,7 @@ class PlayState extends MusicBeatState
 		{
 			if (Conductor.songPosition > 0.0)
 			{
-                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
@@ -3104,6 +3106,7 @@ function pauseState()
 				char.specialAnim = true;
 
 			case 'Camera Follow Pos':
+				isEventWorking = true;
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 0;
@@ -3114,6 +3117,7 @@ function pauseState()
 					camFollow.x = val1;
 					camFollow.y = val2;
 					isCameraOnForcedPos = true;
+					isEventWorking = false;
 				}
                                
 			case 'Alt Idle Animation':
@@ -3999,7 +4003,7 @@ function pauseState()
 				char = gf;
 			}      
 
-            if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote)
+            if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote && !isEventWorking)
 			{
                 if (!dad.stunned)
                     {
@@ -4100,7 +4104,7 @@ function pauseState()
 							boyfriend.specialAnim = true;
 						}
 				}
-				
+		
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
 				{
@@ -4140,7 +4144,7 @@ function pauseState()
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
 
-						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote)
+						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote && !isEventWorking)
 							{
 								if (!boyfriend.stunned)
 								{
@@ -4155,7 +4159,7 @@ function pauseState()
 									
 											if(ClientPrefs.cameramove)
 												{ 
-													   camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
+													camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 													camFollow.x += boyfriend.cameraPosition[0];
 													camFollow.y += boyfriend.cameraPosition[1];								
 												}
@@ -4165,7 +4169,7 @@ function pauseState()
 											camFollow.y += boyfriend.cameraPosition[1];
 											if(ClientPrefs.cameramove)
 											{
-												   camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
+												camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 												camFollow.x += boyfriend.cameraPosition[0];
 												camFollow.y += boyfriend.cameraPosition[1];
 											}
