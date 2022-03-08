@@ -4087,6 +4087,9 @@ function pauseState()
 
 	function goodNoteHit(note:Note):Void
 	{
+		if(ClientPrefs.hitsound && !note.isSustainNote)
+			FlxG.sound.play(Paths.sound('note_click'));
+
 		if (!note.wasGoodHit)
 		{
 			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
