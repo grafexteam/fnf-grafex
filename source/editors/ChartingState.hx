@@ -46,6 +46,7 @@ import lime.media.AudioBuffer;
 import haxe.io.Bytes;
 import flash.geom.Rectangle;
 import flixel.util.FlxSort;
+import lime.app.Application;
 
 import sys.io.File;
 import sys.FileSystem;
@@ -193,6 +194,8 @@ class ChartingState extends MusicBeatState
 	public static var vortex:Bool = false;
 	override function create()
 	{
+		Application.current.window.title = Main.appTitle + ' // ' + 'Chart Editor';
+
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
 		else
