@@ -471,6 +471,33 @@ class FunkinLua {
 				}));
 			}
 		});
+
+                Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
+			if(name == null || name.length < 1)
+				name = PlayState.SONG.song;
+			if (difficultyNum == -1)
+				difficultyNum = PlayState.storyDifficulty;
+
+			var poop = Highscore.formatSong(name, difficultyNum);
+			PlayState.SONG = Song.loadFromJson(poop, name);
+			PlayState.storyDifficulty = difficultyNum;
+			PlayState.instance.persistentUpdate = false;
+			LoadingState.loadAndSwitchState(new PlayState());
+                        FlxG.sound.music.pause();
+			FlxG.sound.music.volume = 0;
+			if(PlayState.instance.vocals != null)
+			{
+				PlayState.instance.vocals.pause();
+				PlayState.instance.vocals.volume = 0;
+			}
+		});
+
+		Lua_helper.add_callback(lua, "clearUnusedMemory", function() {
+			Paths.clearUnusedMemory();
+			return true;
+		});
+
+
 		Lua_helper.add_callback(lua, "noteTweenY", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
 			cancelTween(tag);
 			if(note < 0) note = 0;
@@ -852,7 +879,7 @@ class FunkinLua {
 					if(PlayState.instance.dad.animOffsets.exists(anim))
 						PlayState.instance.dad.playAnim(anim, forced);
 				case 'gf' | 'girlfriend':
-					if(PlayState.instance.gf.animOffsets.exists(anim))
+					if(PlayState.instance.gf != null && PlayState.instance.gf.animOffsets.exists(anim))
 						PlayState.instance.gf.playAnim(anim, forced);
 				default: 
 					if(PlayState.instance.boyfriend.animOffsets.exists(anim))
@@ -862,7 +889,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "characterDance", function(character:String) {
 			switch(character.toLowerCase()) {
 				case 'dad': PlayState.instance.dad.dance();
-				case 'gf' | 'girlfriend': PlayState.instance.gf.dance();
+				case 'gf' | 'girlfriend': if(PlayState.instance.gf != null) PlayState.instance.gf.dance();
 				default: PlayState.instance.boyfriend.dance();
 			}
 		});

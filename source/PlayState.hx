@@ -4238,6 +4238,8 @@ function pauseState()
 
 			if (!note.isSustainNote)
 			{
+                  if(ClientPrefs.hitsound)
+				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol);
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
