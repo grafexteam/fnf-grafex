@@ -4086,8 +4086,6 @@ function pauseState()
 
 	function goodNoteHit(note:Note):Void
 	{
-		if(ClientPrefs.hitsound && !note.isSustainNote)
-			FlxG.sound.play(Paths.sound('note_click'));
 
 		if (!note.wasGoodHit)
 		{
@@ -4245,7 +4243,7 @@ function pauseState()
 			if (!note.isSustainNote)
 			{
                   if(ClientPrefs.hitsound)
-				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol);
+				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - snake
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
