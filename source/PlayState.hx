@@ -3117,7 +3117,6 @@ function pauseState()
 					camFollow.x = val1;
 					camFollow.y = val2;
 					isCameraOnForcedPos = true;
-					isEventWorking = false;
 				}
                                
 			case 'Alt Idle Animation':
