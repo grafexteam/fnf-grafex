@@ -2605,7 +2605,7 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
-                        if (!inCutscene) {
+            if (!inCutscene) {
 				if(!cpuControlled) {
 					keyShit();
 				} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
@@ -2705,7 +2705,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote)
+				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote && daNote.noteType != 'Hurt Note')
 				{
 					opponentNoteHit(daNote);
 				}
@@ -3974,8 +3974,6 @@ function pauseState()
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
 
-		//trace(dad.animation.curAnim.name);
-
 		if(note.noteType == 'Hey!' && dad.animOffsets.exists('hey'))
 		{
 			dad.playAnim('hey', true);
@@ -4001,7 +3999,7 @@ function pauseState()
 				char = gf;
 			}      
 
-            if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false)
+            if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote)
 			{
                 if (!dad.stunned)
                     {
@@ -4115,11 +4113,14 @@ function pauseState()
 
 			if (!note.isSustainNote)
 			{
-                                if(combo >= maxCombo)
-                                maxCombo += 1;
+                if(combo >= maxCombo)
+                	maxCombo += 1;
+
 				combo += 1;
 				popUpScore(note);
-				if(combo > 9999) combo = 9999;
+
+				if(combo > 9999)
+					combo = 9999;
 			}
 			health += note.hitHealth * healthGain;
 
@@ -4139,11 +4140,11 @@ function pauseState()
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
 
-						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true)
+						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote)
 							{
 								if (!boyfriend.stunned)
 								{
-									 cammoveoffest = 30;
+									cammoveoffest = 30;
 									   
 									switch(Std.int(Math.abs(note.noteData)))
 									{
@@ -4241,7 +4242,6 @@ function pauseState()
 				notes.remove(note, true);
 				note.destroy();
 			}
-		}
 	}
 
 	function spawnNoteSplashOnNote(note:Note)
