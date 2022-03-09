@@ -12,6 +12,7 @@ using StringTools;
 
 class DiscordClient
 {
+        public static var isInitialized:Bool = false;
 	public function new()
 	{
 		DiscordRpc.start({
@@ -62,6 +63,7 @@ class DiscordClient
 			new DiscordClient();
 		});
 		trace("Discord Client initialized");
+                isInitialized = true;
 	}
 
 	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?smallImageText:String, ?hasStartTimestamp : Bool, ?endTimestamp: Float)

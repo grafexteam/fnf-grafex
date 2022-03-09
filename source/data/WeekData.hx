@@ -20,6 +20,7 @@ typedef WeekFile =
 	var weekName:String;
 	var freeplayColor:Array<Int>;
 	var startUnlocked:Bool;
+	var hiddenUntilUnlocked:Bool;
 	var hideStoryMode:Bool;
 	var hideFreeplay:Bool;
 	var difficulties:String;
@@ -39,9 +40,13 @@ class WeekData {
 	public var weekName:String;
 	public var freeplayColor:Array<Int>;
 	public var startUnlocked:Bool;
+	public var hiddenUntilUnlocked:Bool;
 	public var hideStoryMode:Bool;
 	public var hideFreeplay:Bool;
 	public var difficulties:String;
+
+	public var fileName:String;
+
 
 	public static function createWeekFile():WeekFile {
 		var weekFile:WeekFile = {
@@ -53,6 +58,7 @@ class WeekData {
 			weekName: 'Custom Week',
 			freeplayColor: [146, 113, 253],
 			startUnlocked: true,
+			hiddenUntilUnlocked: false,
 			hideStoryMode: false,
 			hideFreeplay: false,
 			difficulties: ''
@@ -61,7 +67,7 @@ class WeekData {
 	}
 
 	// HELP: Is there any way to convert a WeekFile to WeekData without having to put all variables there manually? I'm kind of a noob in haxe lmao
-	public function new(weekFile:WeekFile) {
+	public function new(weekFile:WeekFile, fileName:String) {
 		songs = weekFile.songs;
 		weekCharacters = weekFile.weekCharacters;
 		weekBackground = weekFile.weekBackground;
@@ -70,9 +76,12 @@ class WeekData {
 		weekName = weekFile.weekName;
 		freeplayColor = weekFile.freeplayColor;
 		startUnlocked = weekFile.startUnlocked;
+		hiddenUntilUnlocked = weekFile.hiddenUntilUnlocked;
 		hideStoryMode = weekFile.hideStoryMode;
 		hideFreeplay = weekFile.hideFreeplay;
 		difficulties = weekFile.difficulties;
+
+		this.fileName = fileName;
 	}
 
 	public static function reloadWeekFiles(isStoryMode:Null<Bool> = false)
@@ -129,7 +138,7 @@ class WeekData {
 				if(!weeksLoaded.exists(sexList[i])) {
 					var week:WeekFile = getWeekFile(fileToCheck);
 					if(week != null) {
-						var weekFile:WeekData = new WeekData(week);
+						var weekFile:WeekData = new WeekData(week, sexList[i]);
 
 						#if MODS_ALLOWED
 						if(j >= originalLength) {
@@ -180,7 +189,7 @@ class WeekData {
 			var week:WeekFile = getWeekFile(path);
 			if(week != null)
 			{
-				var weekFile:WeekData = new WeekData(week);
+				var weekFile:WeekData = new WeekData(week, weekToCheck);
 				if(i >= originalLength)
 				{
 					#if MODS_ALLOWED
