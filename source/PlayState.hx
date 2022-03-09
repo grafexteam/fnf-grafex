@@ -3143,7 +3143,7 @@ function pauseState()
 					}
 
 			case 'Camera Follow Pos':
-				isEventWorking = true;
+				isEventWorking = false;
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 0;
@@ -3154,6 +3154,7 @@ function pauseState()
 					camFollow.x = val1;
 					camFollow.y = val2;
 					isCameraOnForcedPos = true;
+                                        isEventWorking = true;
 				}
                                
 			case 'Alt Idle Animation':
