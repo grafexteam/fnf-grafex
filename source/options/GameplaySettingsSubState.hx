@@ -40,12 +40,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
-              /* var option:Option = new Option('Dont Move Camera on dad hit',
+              var option:Option = new Option('Dont Move Camera on dad hit',
 			'If unchecked, camera will move.',
 			'cameramove',
 			'bool',
 			false);
-		addOption(option);*/
+		addOption(option);
 
 		var option:Option = new Option('HitSounds', //Name
 			'If checked, your hear sound effect on pressing notes.', //Description
