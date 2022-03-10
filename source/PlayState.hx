@@ -4909,15 +4909,18 @@ public static var othersCodeName:String = 'otherAchievements';
 				});
 
  		} // Yeah? There was such a thing? Lmao - Xale
-        public static function randString(Length:Int)
-	{
-		var string:String = '';
-		var data:String = 'qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM';
 
-		for (i in 0...Length)
+	
+
+    public static function randString(Length:Int)
 		{
-			string += data.charAt(FlxG.random.int(0, data.length - 1));
+			var string:String = '';
+			var data:String = 'qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM';
+
+			for (i in 0...Length)
+			{
+				string += data.charAt(FlxG.random.int(0, data.length - 1));
+			}
+			return string;
 		}
-		return string;
-	}
 }
