@@ -132,6 +132,7 @@ class PlayState extends MusicBeatState
 
 	public static var curStage:String = '';
 	public static var isPixelStage:Bool = false;
+        public static var NotesCanMoveCam:Bool = true;
 	public static var SONG:SwagSong = null;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
@@ -444,12 +445,14 @@ class PlayState extends MusicBeatState
 				camera_boyfriend: [0, 0],
 				camera_opponent: [0, 0],
 				camera_girlfriend: [0, 0],
-				camera_speed: 1
+				camera_speed: 1,
+                                cameramovefromnotes: true
 			};
 		}
 
 		defaultCamZoom = stageData.defaultZoom;
 		isPixelStage = stageData.isPixelStage;
+                NotesCanMoveCam = stageData.cameramovefromnotes;
 		BF_X = stageData.boyfriend[0];
 		BF_Y = stageData.boyfriend[1];
 		GF_X = stageData.girlfriend[0];
@@ -4058,8 +4061,7 @@ function pauseState()
 				        char = gf;
 			}      
 		 }
-
-         if (!PlayState.isPixelStage)
+    if (PlayState.NotesCanMoveCam)
             if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote && !isEventWorking)
 			{
                 if (!dad.stunned)
@@ -4206,7 +4208,7 @@ function pauseState()
 					{
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
-                                            if (!PlayState.isPixelStage)
+                                    if (PlayState.NotesCanMoveCam)
 						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote && !isEventWorking)
 							{
 								if (!boyfriend.stunned)
