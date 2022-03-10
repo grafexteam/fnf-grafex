@@ -346,8 +346,13 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+               if(ClientPrefs.greenscreenmode) {
+			camHUD.bgColor = new FlxColor(0xFF00FF00);
+		} else {
+			camHUD.bgColor.alpha = 0;
+		}
 		camOther.bgColor.alpha = 0;
-        camGame.bgColor.alpha = 0;
+                camGame.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);

@@ -8,6 +8,7 @@ import Controls;
 
 class ClientPrefs {
 	//WHAT ADDED
+    public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
     public static var cameramove:Bool = false;
     public static var hsvol:Float = 1;
@@ -96,6 +97,7 @@ class ClientPrefs {
 	public static function saveSettings() {
                 FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.showjud = showjud;
+        FlxG.save.data.greenscreenmode = greenscreenmode;
         FlxG.save.data.hitsound = hitsound;
         FlxG.save.data.cameramove = cameramove;
         FlxG.save.data.hliconbop = hliconbop;
@@ -164,14 +166,18 @@ class ClientPrefs {
 			cameramove = FlxG.save.data.cameramove;
 		}
 
-			if(FlxG.save.data.hitsound == null) {
+		if(FlxG.save.data.hitsound == null) {
 				hitsound = false;
 		}
-
+             if(FlxG.save.data.greenscreenmode == null) {
+				greenscreenmode = false;
+		}
             if(FlxG.save.data.hitsound != null) {
 				hitsound = FlxG.save.data.hitsound;
 		}
-
+          if(FlxG.save.data.greenscreenmode != null) {
+				greenscreenmode = FlxG.save.data.greenscreenmode;
+		}
 
             if(FlxG.save.data.downScroll != null) {
 				downScroll = FlxG.save.data.downScroll;
