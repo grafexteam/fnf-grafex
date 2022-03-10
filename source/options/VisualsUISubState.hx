@@ -41,16 +41,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option); 
 
-                var option:Option = new Option('Note Skin:',
-			"Funny notes dropping down, how should they look like?",
-			'noteSkin',
-			'string',
-			'Default',
-			['Default', 'Future', 'Chip', 'Grafex']);
-		option.showNotes = true;
-		option.onChange = onChangeNoteSkin;
-		addOption(option);
-
 		var option:Option = new Option('Note Splashes',
 			"If unchecked, hitting \"Sick!\" notes won't show particles.",
 			'noteSplashes',
@@ -156,11 +146,6 @@ class VisualsUISubState extends BaseOptionsMenu
 	}
 
 	#if !mobile
-	function onChangeNoteSkin()
-	{
-		updateNotes();
-	}
-
 function onChangeFPSCounter()
 	{
 		if(Main.fpsVar != null)
