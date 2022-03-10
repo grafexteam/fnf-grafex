@@ -4059,6 +4059,7 @@ function pauseState()
 			}      
 		 }
 
+         if (!PlayState.isPixelStage)
             if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote && !isEventWorking)
 			{
                 if (!dad.stunned)
@@ -4205,7 +4206,7 @@ function pauseState()
 					{
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
-
+                                            if (!PlayState.isPixelStage)
 						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote && !isEventWorking)
 							{
 								if (!boyfriend.stunned)
