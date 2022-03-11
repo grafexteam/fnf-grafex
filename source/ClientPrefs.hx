@@ -8,10 +8,12 @@ import Controls;
 
 class ClientPrefs {
 	//WHAT ADDED
+    public static var playmisssounds:Bool = true;
     public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
     public static var cameramove:Bool = false;
     public static var hsvol:Float = 1;
+    public static var instantRespawn:Bool = false;
     public static var hliconbop:String = 'Grafex';
     public static var underdelayalpha:Float = 0.1;
     public static var underdelayonoff:Bool = true;
@@ -97,6 +99,8 @@ class ClientPrefs {
 	public static function saveSettings() {
                 FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.showjud = showjud;
+        FlxG.save.data.instantRespawn = instantRespawn;
+        FlxG.save.data.playmisssounds = playmisssounds;
         FlxG.save.data.greenscreenmode = greenscreenmode;
         FlxG.save.data.hitsound = hitsound;
         FlxG.save.data.cameramove = cameramove;
@@ -171,6 +175,16 @@ class ClientPrefs {
 		}
              if(FlxG.save.data.greenscreenmode == null) {
 				greenscreenmode = false;
+		}
+            if(FlxG.save.data.playmisssounds == null) {
+				playmisssounds = true;
+		}
+            if(FlxG.save.data.playmisssounds != null) {
+				playmisssounds = FlxG.save.data.playmisssounds;
+		}
+
+           if(FlxG.save.data.instantRespawn != null) {
+			instantRespawn = FlxG.save.data.instantRespawn;
 		}
             if(FlxG.save.data.hitsound != null) {
 				hitsound = FlxG.save.data.hitsound;

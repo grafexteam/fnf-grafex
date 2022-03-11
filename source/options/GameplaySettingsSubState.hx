@@ -47,6 +47,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+                var option:Option = new Option('MissSounds',
+			'If checked, you will hear miss sound on miss.',
+			'playmisssounds',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('HitSounds', //Name
 			'If checked, your hear sound effect on pressing notes.', //Description
 			'hitsound', //Save data variable name
