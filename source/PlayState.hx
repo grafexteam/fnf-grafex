@@ -407,7 +407,7 @@ class PlayState extends MusicBeatState
 		curStage = PlayState.SONG.stage;
 
         displaySongName = StringTools.replace(songName, '-', ' ');
-		Application.current.window.title = Main.appTitle + ' // ' + CoolUtil.getArtist(SONG.song.toLowerCase()) + ' - ' + StringTools.replace(SONG.song, '-', ' ');
+		Application.current.window.title = Main.appTitle + ' // ' + /* CoolUtil.getArtist(SONG.song.toLowerCase()) + ' - ' + */ StringTools.replace(SONG.song, '-', ' ');   //i should rewrite getArtist in future - PurSnake
 
 		if(PlayState.SONG.stage == null || PlayState.SONG.stage.length < 1) {
 			switch (songName)
@@ -4104,61 +4104,31 @@ function pauseState()
 				        char = gf;
 			}      
 		 }
+  if(ClientPrefs.shouldcameramove)
     if (PlayState.NotesCanMoveCam)
             if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote && !isEventWorking)
 			{
                 if (!dad.stunned)
                     {
                     	cammoveoffest = 40;
-                        
 						switch(Std.int(Math.abs(note.noteData)))
 						{
 							case 2:
 								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			        	        camFollow.x += dad.cameraPosition[0];
 			        	        camFollow.y += dad.cameraPosition[1] - cammoveoffest;
-						
-                    	        if(ClientPrefs.cameramove && dad.animation.curAnim.name != 'singUP')
-								{ 
-									camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	            camFollow.x += dad.cameraPosition[0];
-			        	            camFollow.y += dad.cameraPosition[1];                       
-								}
 							case 3:							
-								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+						camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			        	    	camFollow.x += dad.cameraPosition[0] + cammoveoffest;
 			        	    	camFollow.y += dad.cameraPosition[1];
-							
-                    	        if(ClientPrefs.cameramove && dad.animation.curAnim.name != 'singRIGHT')
-									{
-										camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	        		camFollow.x += dad.cameraPosition[0];
-			        	        		camFollow.y += dad.cameraPosition[1];
-			        	            }
-								
 							case 1:
 								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			        	        camFollow.x += dad.cameraPosition[0];
 			        	        camFollow.y += dad.cameraPosition[1] + cammoveoffest;
-								
-                    	        if(ClientPrefs.cameramove && dad.animation.curAnim.name != 'singDOWN')
-								{
-									camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	            camFollow.x += dad.cameraPosition[0];
-			        	            camFollow.y += dad.cameraPosition[1];
-			        	    	}
-														 
 							case 0:
 								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			        	        camFollow.x += dad.cameraPosition[0] - cammoveoffest;
 			        	        camFollow.y += dad.cameraPosition[1];
-														 
-                    	   		if(ClientPrefs.cameramove && dad.animation.curAnim.name != 'singLEFT')
-								{
-									camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	    	    camFollow.x += dad.cameraPosition[0];
-			        	    	    camFollow.y += dad.cameraPosition[1];
-			        	    	}
 						}                   
 					}
 			} 
@@ -4251,60 +4221,31 @@ function pauseState()
 					{
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
+                                 if(ClientPrefs.shouldcameramove)
                                     if (PlayState.NotesCanMoveCam)
 						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote && !isEventWorking)
 							{
 								if (!boyfriend.stunned)
 								{
 									cammoveoffest = 30;
-									   
 									switch(Std.int(Math.abs(note.noteData)))
 									{
 										case 2:
 											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 											camFollow.x += boyfriend.cameraPosition[0];
 											camFollow.y += boyfriend.cameraPosition[1] - cammoveoffest;
-									
-											if(ClientPrefs.cameramove)
-												{ 
-													camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-													camFollow.x += boyfriend.cameraPosition[0];
-													camFollow.y += boyfriend.cameraPosition[1];								
-												}
 										case 3:							
 											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 											camFollow.x += boyfriend.cameraPosition[0] + cammoveoffest;
 											camFollow.y += boyfriend.cameraPosition[1];
-											if(ClientPrefs.cameramove)
-											{
-												camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-												camFollow.x += boyfriend.cameraPosition[0];
-												camFollow.y += boyfriend.cameraPosition[1];
-											}
-																 
 										case 1:
 											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 											camFollow.x += boyfriend.cameraPosition[0];
-											camFollow.y += boyfriend.cameraPosition[1] + cammoveoffest;
-														 
-											if(ClientPrefs.cameramove)
-											{
-												camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-												camFollow.x += boyfriend.cameraPosition[0];
-												camFollow.y += boyfriend.cameraPosition[1];
-											}
-																	 
+											camFollow.y += boyfriend.cameraPosition[1] + cammoveoffest;						 
 										case 0:
 											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
 											camFollow.x += boyfriend.cameraPosition[0] - cammoveoffest;
-											camFollow.y += boyfriend.cameraPosition[1];
-																 
-											if(ClientPrefs.cameramove)
-											{
-												camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-												camFollow.x += boyfriend.cameraPosition[0];
-												camFollow.y += boyfriend.cameraPosition[1];
-											}
+											camFollow.y += boyfriend.cameraPosition[1];					
 									}                        
 								}
 							}

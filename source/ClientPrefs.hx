@@ -11,7 +11,7 @@ class ClientPrefs {
     public static var playmisssounds:Bool = true;
     public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
-    public static var cameramove:Bool = false;
+    public static var shouldcameramove:Bool = true;
     public static var hsvol:Float = 1;
     public static var instantRespawn:Bool = false;
     public static var hliconbop:String = 'Grafex';
@@ -103,7 +103,7 @@ class ClientPrefs {
         FlxG.save.data.playmisssounds = playmisssounds;
         FlxG.save.data.greenscreenmode = greenscreenmode;
         FlxG.save.data.hitsound = hitsound;
-        FlxG.save.data.cameramove = cameramove;
+        FlxG.save.data.shouldcameramove = shouldcameramove;
         FlxG.save.data.hliconbop = hliconbop;
         FlxG.save.data.noteSkin = noteSkin;
         FlxG.save.data.downScroll = downScroll;
@@ -159,15 +159,15 @@ class ClientPrefs {
                if(FlxG.save.data.showjud != null) {
 			showjud = FlxG.save.data.showjud;
 		}
-                if(FlxG.save.data.cameramove == null) {
-			cameramove = false;
+                if(FlxG.save.data.shouldcameramove == null) {
+			shouldcameramove = true;
 		}
                if(FlxG.save.data.autoPause != null) {
 			autoPause = FlxG.save.data.autoPause;
 			FlxG.autoPause = autoPause;
 		}
-               if(FlxG.save.data.cameramove != null) {
-			cameramove = FlxG.save.data.cameramove;
+               if(FlxG.save.data.shouldcameramove != null) {
+			shouldcameramove = FlxG.save.data.shouldcameramove;
 		}
 
 		if(FlxG.save.data.hitsound == null) {
