@@ -25,6 +25,7 @@ class PauseSubState extends MusicBeatSubstate
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
+        var pausebg:FlxSprite;
 	var practiceText:FlxText;
         var skipTimeText:FlxText;
 	var skipTimeTracker:Alphabet;
@@ -71,6 +72,25 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
+
+                if (!ClientPrefs.lowQuality)
+		{
+			pausebg = new FlxSprite().loadGraphic(Paths.image('pausemenubg'));
+			pausebg.color = 0xFF1E1E1E;
+			pausebg.scrollFactor.set();
+			pausebg.updateHitbox();
+			pausebg.screenCenter();
+			pausebg.antialiasing = ClientPrefs.globalAntialiasing;
+			add(pausebg);
+			pausebg.x += 200;
+			pausebg.y -= 200;
+			pausebg.alpha = 0;
+			FlxTween.tween(pausebg, {
+				x: 0,
+				y: 0,
+				alpha: 1
+			}, 1, {ease: FlxEase.quadOut});
+                }
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
