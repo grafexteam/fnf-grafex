@@ -3611,7 +3611,7 @@ function pauseState()
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
 
-	public var showCombo:Bool = true;
+	//public var showCombo:Bool = true;
 	public var showRating:Bool = true;
 
 	private function popUpScore(note:Note = null):Void
@@ -3708,14 +3708,16 @@ function pauseState()
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.cameras = [camHUD];
 		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
+		comboSpr.x = coolText.x - 135;
+                comboSpr.y += 130;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
-		comboSpr.visible = (!ClientPrefs.hideHud && showCombo);
-		comboSpr.x += ClientPrefs.comboOffset[0];
-		comboSpr.y -= ClientPrefs.comboOffset[1];
+		comboSpr.visible = (!ClientPrefs.hideHud && ClientPrefs.showCombo);
+		comboSpr.x += ClientPrefs.comboOffset[2];
+		comboSpr.y -= ClientPrefs.comboOffset[3];
 
-
+               if (combo >= 35 || combo == 0)
+				insert(members.indexOf(strumLineNotes), comboSpr);
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		insert(members.indexOf(strumLineNotes), rating);

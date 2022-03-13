@@ -20,6 +20,7 @@ class ClientPrefs {
     public static var noteSkin:String = 'Default';
     public static var autoPause:Bool = true;
     public static var showjud:Bool = true;
+    public static var showCombo:Bool = true;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -99,6 +100,7 @@ class ClientPrefs {
 	public static function saveSettings() {
                 FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.showjud = showjud;
+        FlxG.save.data.showCombo = showCombo;
         FlxG.save.data.instantRespawn = instantRespawn;
         FlxG.save.data.playmisssounds = playmisssounds;
         FlxG.save.data.greenscreenmode = greenscreenmode;
@@ -158,6 +160,13 @@ class ClientPrefs {
 		}
                if(FlxG.save.data.showjud != null) {
 			showjud = FlxG.save.data.showjud;
+		}
+
+               if(FlxG.save.data.showCombo == null) {
+			showCombo = true;
+		}
+               if(FlxG.save.data.showCombo != null) {
+			showCombo = FlxG.save.data.showCombo;
 		}
                 if(FlxG.save.data.shouldcameramove == null) {
 			shouldcameramove = true;

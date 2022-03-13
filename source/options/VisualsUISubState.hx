@@ -39,6 +39,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'showjud',
 			'bool',
 			true);
+		addOption(option);
+
+                var option:Option = new Option('Show ComboSprite',
+			'If checked, shows Combo Sprite, when combo > 35.',
+			'showCombo',
+			'bool',
+			true);
 		addOption(option); 
 
 		var option:Option = new Option('Note Splashes',
