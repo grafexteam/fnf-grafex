@@ -6,5 +6,3 @@ mall
 mallEvil
 school
 schoolEvil
-tankStage
-tankStage2
