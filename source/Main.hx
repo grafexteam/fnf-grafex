@@ -5,7 +5,7 @@ import flixel.FlxGame;
 import flixel.FlxState;
 import openfl.Assets;
 import openfl.Lib;
-import openfl.display.FPS;
+//import openfl.display.FPS; Not in use - PurSnake
 import openfl.display.Sprite;
 import openfl.events.Event;
 import lime.app.Application;
@@ -21,8 +21,8 @@ class Main extends Sprite
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-	public static var fpsVar:FPS;
-        public static var memoryCounter:MemoryCounter;
+	//public static var fpsVar:FPS; Not in use - PurSnake
+        //public static var memoryCounter:MemoryCounter; Not in use - PurSnake
 	public static var appTitle:String = 'Friday Night Funkin: Grafex Mod';
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
@@ -79,17 +79,7 @@ class Main extends Sprite
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
-		fpsVar = new FPS(10, 3, 0xFFFFFF);
-		addChild(fpsVar);
-		if(fpsVar != null) {
-			fpsVar.visible = ClientPrefs.showFPS;
-		}
-                
-		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
-		addChild(memoryCounter);
-                if(memoryCounter != null) {
-			memoryCounter.visible = ClientPrefs.showMEM;
-		}
+                addChild(new FPSMem(10, 3, 0xFFFFFF));
 		#end
 
 

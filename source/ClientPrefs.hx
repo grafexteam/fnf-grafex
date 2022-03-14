@@ -210,15 +210,15 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.showFPS != null) {
 			showFPS = FlxG.save.data.showFPS;
-			if(Main.fpsVar != null) {
-				Main.fpsVar.visible = showFPS;
-			}
+			
+			FPSMem.showFPS = showFPS;
+			
 		}
                if(FlxG.save.data.showMEM != null) {
 			showMEM = FlxG.save.data.showMEM;
-			if(Main.memoryCounter != null) {
-				Main.memoryCounter.visible = showMEM;
-			}
+			
+			FPSMem.showMem = showMEM;
+			
 		}
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
