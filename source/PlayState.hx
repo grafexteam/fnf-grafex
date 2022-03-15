@@ -151,7 +151,7 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
-
+        public static var currentPState:PlayState;
 
 	private var strumLine:FlxSprite;
 
@@ -316,7 +316,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		instance = this;
-                currentPState=this;
+                currentPState = this;
 
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));

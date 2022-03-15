@@ -34,6 +34,8 @@ class OptionsState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
+        public static var startSong = true;
+
 	function openSelectedSubstate(label:String) {
 		switch(label) {
 			case 'Note Colors':
@@ -61,6 +63,11 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
+		if(startSong)
+			FlxG.sound.playMusic(Paths.music('optionsSong'));
+		else
+			startSong = true;
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -68,6 +75,15 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
+                
+              /*  var vin:FlxSprite = new FlxSprite().loadGraphic(Paths.image('vin'));
+		vin.setGraphicSize(Std.int(vin.width * 1.2));
+		vin.updateHitbox();
+		vin.screenCenter();
+		vin.antialiasing = ClientPrefs.globalAntialiasing;
+		add(vin); */
+                
+                
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -109,6 +125,7 @@ class OptionsState extends MusicBeatState
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
+                        FlxG.sound.music.stop();
 		}
 
 		if (controls.ACCEPT) {
@@ -138,6 +155,6 @@ class OptionsState extends MusicBeatState
 				selectorRight.y = item.y;
 			}
 		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('scrollMenu'), 0.5);
 	}
 }
