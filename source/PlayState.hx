@@ -316,6 +316,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		instance = this;
+                currentPState=this;
 
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
@@ -4388,6 +4389,8 @@ function pauseState()
 		if (startedMoving)
 		{
 			phillyTrain.x -= 400;
+
+                        PlayState.currentPState.camGame.shake(.0025,.1,null,true,X);
 
 			if (phillyTrain.x < -2000 && !trainFinishing)
 			{
