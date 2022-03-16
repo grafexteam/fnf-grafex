@@ -3508,6 +3508,8 @@ function pauseState()
 				if (storyPlaylist.length <= 0)
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+                                        FlxG.sound.music.time = 9400;
+				        Conductor.changeBPM(102);
 
 					cancelMusicFadeTween();
 					CustomFadeTransition.nextCamera = camOther;
@@ -3590,6 +3592,8 @@ function pauseState()
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
+                                FlxG.sound.music.time = 9400;
+				Conductor.changeBPM(102);
 			}
 			transitioning = true;
 		}
