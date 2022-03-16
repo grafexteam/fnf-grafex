@@ -173,10 +173,11 @@ class TitleState extends MusicBeatState
                 bgMenu.velocity.set(70, 70); //thats it :D- snake
 		add(bgMenu);
            
-		bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
+		bgFlash = new FlxSprite().loadGraphic(Paths.image('bgFlash'));
 		bgFlash.visible = true;
 		bgFlash.alpha = 0;
-		bgFlash.scale.set(1, 1);
+		bgFlash.scale.set(2, 2);
+                bgFlash.screenCenter();
 		bgFlash.updateHitbox();
 		bgFlash.antialiasing = true;
 		add(bgFlash);
@@ -466,7 +467,7 @@ class TitleState extends MusicBeatState
 		if (!skippedIntro)
 		{
 			remove(ngSpr);
-            bgFlash.alpha = 0.25;
+            bgFlash.alpha = 1;
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;

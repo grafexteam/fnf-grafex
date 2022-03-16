@@ -151,7 +151,7 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
-
+        public static var currentPState:PlayState;
 
 	private var strumLine:FlxSprite;
 
@@ -316,6 +316,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		instance = this;
+                currentPState = this;
 
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
@@ -3507,6 +3508,8 @@ function pauseState()
 				if (storyPlaylist.length <= 0)
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+                                        FlxG.sound.music.time = 9400;
+				        Conductor.changeBPM(102);
 
 					cancelMusicFadeTween();
 					CustomFadeTransition.nextCamera = camOther;
@@ -3589,6 +3592,8 @@ function pauseState()
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
+                                FlxG.sound.music.time = 9400;
+				Conductor.changeBPM(102);
 			}
 			transitioning = true;
 		}
@@ -4388,6 +4393,8 @@ function pauseState()
 		if (startedMoving)
 		{
 			phillyTrain.x -= 400;
+
+                        PlayState.currentPState.camGame.shake(.0025,.1,null,true,X);
 
 			if (phillyTrain.x < -2000 && !trainFinishing)
 			{

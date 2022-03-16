@@ -74,8 +74,12 @@ class MainMenuState extends MusicBeatState
 
                 FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-                Conductor.changeBPM(102);
-
+                if (!FlxG.sound.music.playing)
+		        {	
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+                                FlxG.sound.music.time = 9400;
+				Conductor.changeBPM(102);
+			}
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
 
@@ -314,6 +318,10 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
 										MusicBeatState.switchState(new options.OptionsState());
+                                                                                FreeplayState.destroyFreeplayVocals();
+                                                                                FlxG.sound.music.stop();
+                                                                                FlxG.sound.music == null;
+                                                                                
 								}
 							});
 						}
