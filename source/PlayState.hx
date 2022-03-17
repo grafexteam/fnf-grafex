@@ -151,7 +151,7 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
-        public static var currentPState:PlayState;
+    public static var currentPState:PlayState;
 
 	private var strumLine:FlxSprite;
 
@@ -349,7 +349,7 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
-               if(ClientPrefs.greenscreenmode) {
+        if(ClientPrefs.greenscreenmode) {
 			camHUD.bgColor = new FlxColor(0xFF00FF00);
 		} else {
 			camHUD.bgColor.alpha = 0;
@@ -1142,7 +1142,9 @@ class PlayState extends MusicBeatState
         scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
-		scoreTxt.borderSize = 1.25;
+		scoreTxt.borderSize = 1.5;
+		scoreTxt.borderQuality = 2;
+		scoreTxt.color = FlxColor.WHITE;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
@@ -1730,7 +1732,7 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		var ret:Dynamic = callOnLuas('onStartCountdown', []);
 		if(ret != FunkinLua.Function_Stop) {
-if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
+        if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
 			generateStaticArrows(0);
 			generateStaticArrows(1);
@@ -1749,7 +1751,6 @@ if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
 		    laneunderlay.screenCenter(Y);
 		    laneunderlayOpponent.screenCenter(Y);
-
 
             startedCountdown = true;
 			Conductor.songPosition = 0;
@@ -1886,6 +1887,7 @@ if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 				// generateSong('fresh');
 			}, 5);
 		}
+            
 	}
 
         public function clearNotesBefore(time:Float)
@@ -2606,17 +2608,20 @@ if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 						iconP1.animation.curAnim.curFrame = 1;
 						iconP2.animation.curAnim.curFrame = 2;
 						shakeFromLosing(iconP1);
+						scoreTxt.color = FlxColor.RED;
 					}
 				else if (healthBar.percent > 20 && healthBar.percent < 80)
 					{
 						iconP1.animation.curAnim.curFrame = 0;
 						iconP2.animation.curAnim.curFrame = 0;
+						scoreTxt.color = FlxColor.WHITE;
 					}
 				else if (healthBar.percent > 80)
 					{
 						iconP1.animation.curAnim.curFrame = 2;
 						iconP2.animation.curAnim.curFrame = 1;
 						shakeFromLosing(iconP2);
+						scoreTxt.color = FlxColor.GREEN;
 					}
 			}
 
@@ -4616,16 +4621,16 @@ function pauseState()
                                                                 iconbop = 1.1;
                                                                 iconP1.scale.x = 1;
 								iconP2.scale.y = 1; 
-								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
-								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 							}
 						if (curBeat % 2 == 1)
 							{
 								iconbop = 1.2;
 								iconP1.scale.x = 1;
 								iconP2.scale.y = 1;
-								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
-								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, 0.25, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 							}
 				          }
 		
@@ -4633,7 +4638,7 @@ function pauseState()
 					{
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;
-						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});               
+						FlxTween.tween(scoreTxt.scale, {x: 1.25, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});               
 					}
 			
 		
@@ -4890,7 +4895,7 @@ public static var othersCodeName:String = 'otherAchievements';
 			}); // ARE YOU JOKING RN?! TIMERS?! TODO: REWRITE THIS SHIT - Xale | Yep - Snake
 		}
 		
-	function redFlash() // HaxeFlixel documentaion be like - Snake
+	function redFlash() // HaxeFlixel documentaion be like - PurSnake
 		{
 			FlxTween.color(iconP1, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
             FlxTween.color(iconP2, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
@@ -4900,6 +4905,8 @@ public static var othersCodeName:String = 'otherAchievements';
             FlxTween.color(healthBarWN, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
 
 			isHealthCheckingEnabled = false;
+
+			scoreTxt.color = FlxColor.RED;
 
 			iconP1.animation.curAnim.curFrame = 1;
 			iconP2.animation.curAnim.curFrame = 2; 
@@ -4924,4 +4931,5 @@ public static var othersCodeName:String = 'otherAchievements';
 			}
 			return string;
 		}
+		
 }

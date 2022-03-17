@@ -387,6 +387,7 @@ class ModsMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		FlxG.mouse.visible = true;
+                FlxG.mouse.useSystemCursor = true;
 
 		super.create();
 	}

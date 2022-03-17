@@ -80,6 +80,8 @@ class MainMenuState extends MusicBeatState
                                 FlxG.sound.music.time = 9400;
 				Conductor.changeBPM(102);
 			}
+                FlxG.mouse.visible = true;
+                FlxG.mouse.useSystemCursor = true;
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
 
@@ -209,6 +211,7 @@ class MainMenuState extends MusicBeatState
 	var selectedSomethin:Bool = false;
 	var clickCount:Int = 0;
 	var colorEntry:FlxColor;
+        var oldPos = FlxG.mouse.getScreenPosition();
 	
 	override function update(elapsed:Float)
 	{		
@@ -235,7 +238,7 @@ class MainMenuState extends MusicBeatState
 		if(selectedSomethin)
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
-					 
+					 FlxG.mouse.visible = false;
                                          movingBG.velocity.x -= 40;
 				});
 			
@@ -244,6 +247,28 @@ class MainMenuState extends MusicBeatState
 			bgClick();	
 
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
+
+
+
+                 if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y) && !selectedSomethin){
+			oldPos = FlxG.mouse.getScreenPosition();
+			for (i in 0...menuItems.length) {
+				// if (FlxG.mouse.overlaps(menuItems.members[i])) {
+				var pos = FlxG.mouse.getPositionInCameraView(FlxG.camera);
+				if (pos.y > i / menuItems.length * FlxG.height && pos.y < (i + 1) / menuItems.length * FlxG.height && curSelected != i) {
+					curSelected = i;
+					changeItem();
+					break;
+				}
+			}
+		}
+		if (FlxG.mouse.pressed && !selectedSomethin
+			#if MOBILE_UI
+			&& !backButton.hovering
+			#end
+			)
+			select();
+
 
 		if (!selectedSomethin)
 		{
@@ -263,70 +288,12 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
+                                FlxG.mouse.visible = false;
 			}
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
-				{
-					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
-				}
-				else
-				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-                                        FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
-					menuItems.forEach(function(spr:FlxSprite)
-					{
-						if (curSelected == spr.ID)
-							{
-								FlxTween.tween(spr, {x : 700}, 1.5, {
-									ease: FlxEase.quadOut,
-								});					
-							}
-                            if (curSelected != spr.ID)
-							{
-								FlxTween.tween(spr, {alpha: 0}, 0.4, {
-									ease: FlxEase.quadOut,
-									
-								});
-								FlxTween.tween(spr, {x : -500}, 0.55, {
-									ease: FlxEase.quadOut,
-									onComplete: function(twn:FlxTween)
-									{
-										spr.kill();
-									}
-								});					
-							}
-						else
-						{
-							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-							{
-								var daChoice:String = optionShit[curSelected];
-
-								switch (daChoice)
-								{
-									case 'story_mode':
-										MusicBeatState.switchState(new StoryMenuState());
-									case 'freeplay':
-										MusicBeatState.switchState(new FreeplayState());
-									#if MODS_ALLOWED
-									case 'mods':
-										MusicBeatState.switchState(new ModsMenuState());
-									#end
-									case 'credits':
-										MusicBeatState.switchState(new CreditsState());
-									case 'options':
-										MusicBeatState.switchState(new options.OptionsState());
-                                                                                FreeplayState.destroyFreeplayVocals();
-                                                                                FlxG.sound.music.stop();
-                                                                                FlxG.sound.music == null;
-                                                                                
-								}
-							});
-						}
-					});
-				}
+				select();
 			}
 			#if desktop
 			else if (FlxG.keys.anyJustPressed(debugKeys))
@@ -457,6 +424,70 @@ class MainMenuState extends MusicBeatState
         	}
 
 			tipText.text = tipValue;
-		}		
+		}	
+
+         function select() {
+
+                                if (optionShit[curSelected] == 'donate')
+				{
+					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
+				}
+				else
+				{
+					selectedSomethin = true;
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+                                        FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+					menuItems.forEach(function(spr:FlxSprite)
+					{
+						if (curSelected == spr.ID)
+							{
+								FlxTween.tween(spr, {x : 700}, 1.5, {
+									ease: FlxEase.quadOut,
+								});					
+							}
+                               if (curSelected != spr.ID)
+							{
+								FlxTween.tween(spr, {alpha: 0}, 0.4, {
+									ease: FlxEase.quadOut,
+									
+								});
+								FlxTween.tween(spr, {x : -500}, 0.55, {
+									ease: FlxEase.quadOut,
+									onComplete: function(twn:FlxTween)
+									{
+										spr.kill();
+									}
+								});					
+							}
+						else
+						{
+							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+							{
+								var daChoice:String = optionShit[curSelected];
+
+								switch (daChoice)
+								{
+									case 'story_mode':
+										MusicBeatState.switchState(new StoryMenuState());
+									case 'freeplay':
+										MusicBeatState.switchState(new FreeplayState());
+									#if MODS_ALLOWED
+									case 'mods':
+										MusicBeatState.switchState(new ModsMenuState());
+									#end
+									case 'credits':
+										MusicBeatState.switchState(new CreditsState());
+									case 'options':
+										MusicBeatState.switchState(new options.OptionsState());
+                                                                                FreeplayState.destroyFreeplayVocals();
+                                                                                FlxG.sound.music.stop();
+                                                                                FlxG.sound.music == null;
+                                                                                
+								}
+							});
+						}
+					});
+				}
+         }	
 
 }
