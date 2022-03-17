@@ -2608,7 +2608,7 @@ class PlayState extends MusicBeatState
 						iconP1.animation.curAnim.curFrame = 1;
 						iconP2.animation.curAnim.curFrame = 2;
 						shakeFromLosing(iconP1);
-						scoreTxt.color = FlxColor.RED;
+						scoreTxt.color = FlxColor.PINK;
 					}
 				else if (healthBar.percent > 20 && healthBar.percent < 80)
 					{
@@ -2621,7 +2621,7 @@ class PlayState extends MusicBeatState
 						iconP1.animation.curAnim.curFrame = 2;
 						iconP2.animation.curAnim.curFrame = 1;
 						shakeFromLosing(iconP2);
-						scoreTxt.color = FlxColor.GREEN;
+						scoreTxt.color = FlxColor.CYAN;
 					}
 			}
 
