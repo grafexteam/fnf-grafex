@@ -1144,7 +1144,6 @@ class PlayState extends MusicBeatState
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.5;
 		scoreTxt.borderQuality = 2;
-		scoreTxt.color = FlxColor.WHITE;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
@@ -2608,20 +2607,17 @@ class PlayState extends MusicBeatState
 						iconP1.animation.curAnim.curFrame = 1;
 						iconP2.animation.curAnim.curFrame = 2;
 						shakeFromLosing(iconP1);
-						scoreTxt.color = FlxColor.PINK;
 					}
 				else if (healthBar.percent > 20 && healthBar.percent < 80)
 					{
 						iconP1.animation.curAnim.curFrame = 0;
 						iconP2.animation.curAnim.curFrame = 0;
-						scoreTxt.color = FlxColor.WHITE;
 					}
 				else if (healthBar.percent > 80)
 					{
 						iconP1.animation.curAnim.curFrame = 2;
 						iconP2.animation.curAnim.curFrame = 1;
 						shakeFromLosing(iconP2);
-						scoreTxt.color = FlxColor.CYAN;
 					}
 			}
 
@@ -4905,8 +4901,6 @@ public static var othersCodeName:String = 'otherAchievements';
             FlxTween.color(healthBarWN, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
 
 			isHealthCheckingEnabled = false;
-
-			scoreTxt.color = FlxColor.RED;
 
 			iconP1.animation.curAnim.curFrame = 1;
 			iconP2.animation.curAnim.curFrame = 2; 
