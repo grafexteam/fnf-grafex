@@ -1165,7 +1165,7 @@ class PlayState extends MusicBeatState
 		healthThing.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		healthThing.scrollFactor.set();
 		healthThing.visible = !ClientPrefs.hideHud;
-        #if debug //for debug lol - Snake || I think it will be better if we add this to main game - Xale
+        #if debug //for debug lol - PurSnake || I think it will be better if we add this to main game - Xale
         add(healthThing);
         #end*/
                 
@@ -1328,6 +1328,13 @@ class PlayState extends MusicBeatState
 
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
+
+
+                for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt]) {
+			        if (elem != null) {
+			              elem.alpha = ClientPrefs.healthBarAlpha - 1;
+                                }  
+                }
 		
 		super.create();
 	}
@@ -1799,7 +1806,6 @@ class PlayState extends MusicBeatState
 					bottomBoppers.dance(true);
 					santa.dance(true);
 				}
-
 				switch (swagCounter)
 				{
 					case 0:
@@ -1847,7 +1853,7 @@ class PlayState extends MusicBeatState
 							}
 						});
 						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
-					case 3:
+                                             case 3:
 						countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 						countdownGo.scrollFactor.set();
 
@@ -1870,8 +1876,16 @@ class PlayState extends MusicBeatState
 							}
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
+
+
+                              for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt]) {
+			        if (elem != null) {
+			              FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+                   }  
+         }
 					case 4:
-				}
+ 
+                            }
 
 				notes.forEachAlive(function(note:Note) {
 					note.copyAlpha = false;
@@ -4300,7 +4314,7 @@ function pauseState()
 			if (!note.isSustainNote)
 			{
                   if(ClientPrefs.hitsound)
-				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - snake
+				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -4620,14 +4634,14 @@ function pauseState()
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 							}
-						if (curBeat % 2 == 1)
+				                if (curBeat % 2 == 1)
 							{
 								iconbop = 1.2;
 								iconP1.scale.x = 1;
 								iconP2.scale.y = 1;
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-							}
+							} 
 				          }
 		
 				if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
@@ -4888,7 +4902,7 @@ public static var othersCodeName:String = 'otherAchievements';
 				healthBarBG.y -= (1 * intensity);
 				healthBarHigh.y -= (1 * intensity);
                 healthBarWN.y -= (1 * intensity);
-			}); // ARE YOU JOKING RN?! TIMERS?! TODO: REWRITE THIS SHIT - Xale | Yep - Snake
+			}); // ARE YOU JOKING RN?! TIMERS?! TODO: REWRITE THIS SHIT - Xale | Yep - PurSnake
 		}
 		
 	function redFlash() // HaxeFlixel documentaion be like - PurSnake

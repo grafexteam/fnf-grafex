@@ -239,7 +239,7 @@ class MainMenuState extends MusicBeatState
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
 					 FlxG.mouse.visible = false;
-                                         movingBG.velocity.x -= 40;
+                                         movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
 				});
 			
 
