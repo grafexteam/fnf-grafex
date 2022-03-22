@@ -123,6 +123,8 @@ class PlayState extends MusicBeatState
 	public var GF_X:Float = 400;
 	public var GF_Y:Float = 130;
 
+        var gfPixel:FlxSprite;
+
 	public var songSpeedTween:FlxTween;
 	public var songSpeed(default, set):Float = 1;
 	
@@ -138,6 +140,8 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+
+        public var pxgfdanced:Bool = false;
 
 	public var vocals:FlxSound;
 
@@ -427,6 +431,8 @@ class PlayState extends MusicBeatState
 					curStage = 'school';
 				case 'thorns':
 					curStage = 'schoolEvil';
+                                case 'test':
+                                        curStage = 'stagePixel';
 				default:
 					curStage = 'stage';
 			}
@@ -754,6 +760,41 @@ class PlayState extends MusicBeatState
 					bg.antialiasing = false;
 					add(bg);
 				}
+
+                                case 'stagePixel':
+					{
+						defaultCamZoom = 0.9;
+						curStage = 'stagePixel';
+						var bgPixel:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
+						bgPixel.antialiasing = true;
+						bgPixel.scrollFactor.set(0.9, 0.9);
+						bgPixel.active = false;
+						add(bgPixel);
+
+						var stageFrontpixel:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront'));
+						stageFrontpixel.setGraphicSize(Std.int(stageFrontpixel.width * 1.1));
+						stageFrontpixel.updateHitbox();
+						stageFrontpixel.antialiasing = true;
+						stageFrontpixel.scrollFactor.set(0.9, 0.9);
+						stageFrontpixel.active = false;
+						add(stageFrontpixel);
+
+						var stageCurtainspixel:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
+						stageCurtainspixel.setGraphicSize(Std.int(stageCurtainspixel.width * 0.9));
+						stageCurtainspixel.updateHitbox();
+						stageCurtainspixel.antialiasing = true;
+						stageCurtainspixel.scrollFactor.set(1.3, 1.3);
+						stageCurtainspixel.active = false;
+						add(stageCurtainspixel);
+
+						gfPixel = new FlxSprite(200, 430);
+						gfPixel.frames = Paths.getSparrowAtlas('characters/gfPixel');
+						gfPixel.animation.addByIndices('danceLeft', 'GF IDLE', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+						gfPixel.animation.addByIndices('danceRight', 'GF IDLE', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+						gfPixel.setGraphicSize(Std.int(gfPixel.width * PlayState.daPixelZoom));
+						gfPixel.antialiasing = false;
+						add(gfPixel);
+					}
 		}
 
 		if(isPixelStage) {
@@ -1797,6 +1838,16 @@ class PlayState extends MusicBeatState
 					introAlts = introAssets.get('pixel');
 					antialias = false;
 				}
+
+           if (curSong == 'Test')
+		{
+                                pxgfdanced = !pxgfdanced;
+
+				if (pxgfdanced)
+					gfPixel.animation.play('danceRight');
+				else
+					gfPixel.animation.play('danceLeft');
+		}
 
 				// head bopping for bg characters on Mall
 				if(curStage == 'mall') {
@@ -4691,6 +4742,16 @@ function pauseState()
 
 				if (FlxG.random.bool(10) && fastCarCanDrive)
 					fastCarDrive();
+
+                        case 'stagePixel':
+				{
+                                pxgfdanced = !pxgfdanced;
+
+				if (pxgfdanced)
+					gfPixel.animation.play('danceRight');
+				else
+					gfPixel.animation.play('danceLeft');
+				}
 			case "philly":
 				if (!trainMoving)
 					trainCooldown += 1;

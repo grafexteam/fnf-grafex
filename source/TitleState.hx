@@ -114,6 +114,15 @@ class TitleState extends MusicBeatState
 
 		Highscore.load();
 
+                bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
+		bgFlash.visible = true;
+		bgFlash.alpha = 0;
+		bgFlash.scale.set(2, 2);
+		bgFlash.updateHitbox();
+		bgFlash.antialiasing = true;
+		add(bgFlash);
+
+
 		if (FlxG.save.data.weekCompleted != null)
 		{
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
@@ -150,8 +159,8 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
-    var bgFlash:FlxSprite;
     var bgMenu:FlxBackdrop;
+        var bgFlash:FlxSprite;
 
 	function startIntro()
 	{
@@ -172,15 +181,6 @@ class TitleState extends MusicBeatState
 		//bgMenu.scale.set(2, 2);
                 bgMenu.velocity.set(70, 70); //thats it :D- snake
 		add(bgMenu);
-           
-		bgFlash = new FlxSprite().loadGraphic(Paths.image('bgFlash'));
-		bgFlash.visible = true;
-		bgFlash.alpha = 0;
-		bgFlash.scale.set(2, 2);
-                bgFlash.screenCenter();
-		bgFlash.updateHitbox();
-		bgFlash.antialiasing = true;
-		add(bgFlash);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
@@ -411,6 +411,7 @@ class TitleState extends MusicBeatState
                 if(curBeat % 2 == 0)
                 FlxG.camera.zoom += 0.025;
 
+                bgFlash.alpha = 0.25;
 
                 FlxG.log.advanced(curBeat);
 
@@ -467,10 +468,10 @@ class TitleState extends MusicBeatState
 		if (!skippedIntro)
 		{
 			remove(ngSpr);
-            bgFlash.alpha = 1;
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;
+                        bgFlash.alpha = 0.25;
                         FlxG.sound.music.time = 9400;
 		}
 	}
