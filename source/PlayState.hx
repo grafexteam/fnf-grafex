@@ -183,6 +183,7 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:AttachedSprite;
     public var healthBarHigh:AttachedSprite;
 	public var healthBar:FlxBar;
+     public var healthStrips:FlxSprite;
     public var healthBarWN:FlxBar;
 	var songPercent:Float = 0;
 
@@ -1140,9 +1141,22 @@ class PlayState extends MusicBeatState
         healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
-                healthBarWN.visible = !ClientPrefs.hideHud;
+        healthBarWN.visible = !ClientPrefs.hideHud;
 		add(healthBarWN);
-              
+
+        healthStrips = new FlxSprite().loadGraphic(Paths.image('strips'));
+ 	    healthStrips.y = FlxG.height * 0.90;
+ 	    healthStrips.screenCenter(X);
+ 	    healthStrips.scrollFactor.set();
+ 	    healthStrips.visible = !ClientPrefs.hideHud;
+        healthStrips.color = FlxColor.BLACK;
+ 	    healthStrips.blend = MULTIPLY;
+ 	    healthStrips.x = healthBarBG.x-1.9;
+	    healthStrips.alpha = ClientPrefs.healthBarAlpha;
+
+ 	    add(healthStrips);
+ 	    if(ClientPrefs.downScroll) healthStrips.y = 0.11 * FlxG.height;
+
         healthBarHigh = new AttachedSprite('healthBarHigh');
 		healthBarHigh.y = healthBarBG.y;
 		healthBarHigh.screenCenter(X);
@@ -1151,7 +1165,7 @@ class PlayState extends MusicBeatState
 		healthBarHigh.xAdd = -4;
 		healthBarHigh.yAdd = -4;
         add(healthBarHigh);
- 
+
 		if (PlayState.isPixelStage)
 			healthBarHigh.visible = false;
         else
@@ -1242,6 +1256,7 @@ class PlayState extends MusicBeatState
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
         healthBarWN.cameras = [camHUD];
+        healthStrips.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
@@ -1371,10 +1386,15 @@ class PlayState extends MusicBeatState
 		callOnLuas('onCreatePost', []);
 
 
-                for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt]) {
+                for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
 			        if (elem != null) {
 			              elem.alpha = ClientPrefs.healthBarAlpha - 1;
                                 }  
+                }
+				for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			        if (delem != null) {
+			              delem.y -= 500;
+				    }  
                 }
 		
 		super.create();
@@ -1929,13 +1949,17 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
 
 
-                              for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt]) {
-			        if (elem != null) {
-			              FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
-                   }  
-         }
+                for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
+			    if (elem != null) {
+			        FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+                }  }
+
+				for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			        if (delem != null) {
+						FlxTween.tween(delem, {y: delem.y + 500}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+				    }  
+                }
 					case 4:
- 
                             }
 
 				notes.forEachAlive(function(note:Note) {
@@ -2649,7 +2673,7 @@ class PlayState extends MusicBeatState
 				var iconOffset:Int = 26;
 
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		                iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
                 
             case 'Classic':
                 iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.50)));
@@ -4907,73 +4931,48 @@ public static var othersCodeName:String = 'otherAchievements';
         healthBarWN.updateBar();
 	}
 
-	public function healthBarShake(intensity:Float) // WHAT IS THIS DUDE - Xale
+	public function healthBarShake(intensity:Float) // Litle rewrite - PurSnake
 		{
 			redFlash();
-			new FlxTimer().start(0.01, function(tmr:FlxTimer)
-			{
-				iconP1.y += (10 * intensity);
-				iconP2.y += (10 * intensity);
-				healthBar.y += (10 * intensity);
-                healthBarHigh.y += (10 * intensity);
-				healthBarBG.y += (10 * intensity);
-                healthBarWN.y += (10 * intensity);		
-			});
-			new FlxTimer().start(0.05, function(tmr:FlxTimer)
-			{
-				iconP1.y -= (15 * intensity);
-				iconP2.y -= (15 * intensity);
-				healthBar.y -= (15 * intensity);
-				healthBarBG.y -= (15 * intensity);
-                healthBarHigh.y -= (15 * intensity);
-				healthBarWN.y -= (15 * intensity);
-			});
-			new FlxTimer().start(0.10, function(tmr:FlxTimer)
-			{
-				iconP1.y += (8 * intensity);
-				iconP2.y += (8 * intensity);
-				healthBar.y += (8 * intensity);
-				healthBarBG.y += (8 * intensity);
-				healthBarHigh.y += (8 * intensity);
-                healthBarWN.y += (8 * intensity);
-			});
-			new FlxTimer().start(0.15, function(tmr:FlxTimer)
-			{
-				iconP1.y -= (5 * intensity);
-				iconP2.y -= (5 * intensity);
-				healthBar.y -= (5 * intensity);
-				healthBarBG.y -= (5 * intensity);
-                healthBarHigh.y -= (5 * intensity);
-                healthBarWN.y -= (5 * intensity);
-			});
-			new FlxTimer().start(0.20, function(tmr:FlxTimer)
-			{
-				iconP1.y += (3 * intensity);
-				iconP2.y += (3 * intensity);
-				healthBar.y += (3 * intensity);
-				healthBarBG.y += (3 * intensity);
-                healthBarHigh.y += (3 * intensity);
-                healthBarWN.y += (3 * intensity);
-			});
-			new FlxTimer().start(0.25, function(tmr:FlxTimer)
-			{
-				iconP1.y -= (1 * intensity);
-				iconP2.y -= (1 * intensity);
-				healthBar.y -= (1 * intensity);
-				healthBarBG.y -= (1 * intensity);
-				healthBarHigh.y -= (1 * intensity);
-                healthBarWN.y -= (1 * intensity);
-			}); // ARE YOU JOKING RN?! TIMERS?! TODO: REWRITE THIS SHIT - Xale | Yep - PurSnake
+
+			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			    if (helem != null) {
+			        new FlxTimer().start(0.01, function(tmr:FlxTimer)
+						{
+							helem.y += (10 * intensity);
+								
+						});
+						new FlxTimer().start(0.05, function(tmr:FlxTimer)
+						{
+							helem.y -= (15 * intensity);
+						});
+						new FlxTimer().start(0.10, function(tmr:FlxTimer)
+						{
+							helem.y += (8 * intensity);
+						});
+						new FlxTimer().start(0.15, function(tmr:FlxTimer)
+						{
+							helem.y -= (5 * intensity);
+						});
+						new FlxTimer().start(0.20, function(tmr:FlxTimer)
+						{
+							helem.y += (3 * intensity);
+						});
+						new FlxTimer().start(0.25, function(tmr:FlxTimer)
+						{
+							helem.y -= (1 * intensity);
+						});
+
+                }  }
+
 		}
 		
-	function redFlash() // HaxeFlixel documentaion be like - PurSnake
+	function redFlash() // HaxeFlixel documentaion be like - PurSnake || Rewrited - PurSnake
 		{
-			FlxTween.color(iconP1, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            FlxTween.color(iconP2, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            FlxTween.color(healthBar, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            FlxTween.color(healthBarBG, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            FlxTween.color(healthBarHigh, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-            FlxTween.color(healthBarWN, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
+			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			    if (helem != null) {
+			        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
+                }  }
 
 			isHealthCheckingEnabled = false;
 
