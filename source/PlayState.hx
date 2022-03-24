@@ -1393,7 +1393,7 @@ class PlayState extends MusicBeatState
                 }
 				for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
 			        if (delem != null) {
-			              delem.y -= 500;
+                                (ClientPrefs.downScroll ?  delem.y -= 500 :  delem.y += 500);
 				    }  
                 }
 		
@@ -1956,7 +1956,8 @@ class PlayState extends MusicBeatState
 
 				for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
 			        if (delem != null) {
-						FlxTween.tween(delem, {y: delem.y + 500}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+						FlxTween.tween(delem, {y: (ClientPrefs.downScroll ?  delem.y + 490 :  delem.y - 510)}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+
 				    }  
                 }
 					case 4:
