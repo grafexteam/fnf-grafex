@@ -43,6 +43,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
+import flixel.system.scaleModes.RatioScaleMode;
 import haxe.Json;
 import lime.utils.Assets;
 import openfl.display.BlendMode;
@@ -183,7 +184,7 @@ class PlayState extends MusicBeatState
 	private var healthBarBG:AttachedSprite;
     public var healthBarHigh:AttachedSprite;
 	public var healthBar:FlxBar;
-     public var healthStrips:FlxSprite;
+    public var healthStrips:FlxSprite;
     public var healthBarWN:FlxBar;
 	var songPercent:Float = 0;
 
@@ -380,6 +381,14 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
+                /*
+                var iconPath = Paths.image('icon.png');
+		trace(iconPath);
+		if (Assets.exists(iconPath)) {
+			lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
+			iconChanged = true;
+		} 
+                */  //Maybe - PurSnake
 		#if desktop
 		storyDifficultyText = CoolUtil.difficulties[storyDifficulty];
 
@@ -4389,7 +4398,7 @@ function pauseState()
 
 			if (!note.isSustainNote)
 			{
-                  if(ClientPrefs.hitsound)
+                if(ClientPrefs.hitsound)
 				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
 				note.kill();
 				notes.remove(note, true);
