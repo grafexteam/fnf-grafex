@@ -21,6 +21,7 @@ class ClientPrefs {
     public static var autoPause:Bool = true;
     public static var showjud:Bool = true;
     public static var showCombo:Bool = true;
+    public static var blurNotes:Bool = true;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -101,6 +102,7 @@ class ClientPrefs {
                 FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.showjud = showjud;
         FlxG.save.data.showCombo = showCombo;
+        FlxG.save.data.blurNotes = blurNotes;
         FlxG.save.data.instantRespawn = instantRespawn;
         FlxG.save.data.playmisssounds = playmisssounds;
         FlxG.save.data.greenscreenmode = greenscreenmode;
@@ -167,6 +169,12 @@ class ClientPrefs {
 		}
                if(FlxG.save.data.showCombo != null) {
 			showCombo = FlxG.save.data.showCombo;
+		}
+        if(FlxG.save.data.blurNotes == null) {
+			blurNotes = true;
+		}
+               if(FlxG.save.data.blurNotes != null) {
+			blurNotes = FlxG.save.data.blurNotes;
 		}
                 if(FlxG.save.data.shouldcameramove == null) {
 			shouldcameramove = true;

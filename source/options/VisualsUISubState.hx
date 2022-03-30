@@ -48,6 +48,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option); 
 
+                var option:Option = new Option('Blur Notes',
+			"If checked, funny notes will blured.",
+			'blurNotes',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Note Splashes',
 			"If unchecked, hitting \"Sick!\" notes won't show particles.",
 			'noteSplashes',

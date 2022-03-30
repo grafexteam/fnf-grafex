@@ -62,6 +62,13 @@ import DialogueBoxPsych;
 import Shaders;
 import MainMenuState;
 
+import openfl.filters.ShaderFilter;
+import openfl.Lib;
+
+import openfl.filters.BitmapFilter;
+import openfl.filters.BlurFilter;
+import openfl.filters.ColorMatrixFilter;
+
 #if sys
 import sys.FileSystem;
 #end
@@ -103,6 +110,10 @@ class PlayState extends MusicBeatState
     public var cammoveoffest:Float = 40;
     public var bfcamoffsetx:Float = 0;
     public var bfcamoffsety:Float = 0;
+
+	var filtershud:Array<BitmapFilter> = [];
+	var filtersgame:Array<BitmapFilter> = [];
+	var filtersnotes:Array<BitmapFilter> = [];
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -219,6 +230,12 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
+	public var camNOTES:FlxCamera;
+        public var camSus:FlxCamera; // GET OUT OF MY HEAD!!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - PurSnake
+        public var camNOTEHUD:FlxCamera;
+
+        var BlurNotes:BlurFilter;
+
 	public var cameraSpeed:Float = 1;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
@@ -363,7 +380,19 @@ class PlayState extends MusicBeatState
 		camOther.bgColor.alpha = 0;
                 camGame.bgColor.alpha = 0;
 
+		camSus = new FlxCamera();
+		camSus.bgColor.alpha = 0;
+
+                camNOTES = new FlxCamera();
+		camNOTES.bgColor.alpha = 0;
+
+                camNOTEHUD = new FlxCamera();
+		camNOTEHUD.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
+                FlxG.cameras.add(camNOTEHUD);
+                FlxG.cameras.add(camSus);
+		FlxG.cameras.add(camNOTES);
 		FlxG.cameras.add(camHUD);
 		FlxG.cameras.add(camOther);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
@@ -371,6 +400,28 @@ class PlayState extends MusicBeatState
 		FlxCamera.defaultCameras = [camGame];
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
+
+                BlurNotes = new BlurFilter(1, 2, 15);
+
+                if(ClientPrefs.blurNotes) filtersnotes.push(BlurNotes); // blur :D - PurSnake
+
+                trace(filtershud);
+		trace(filtersgame);
+		trace(filtersnotes);
+               
+
+
+
+                camGame.setFilters(filtersgame);
+                camNOTEHUD.setFilters(filtershud);
+                camHUD.setFilters(filtershud);
+                camSus.setFilters(filtersnotes); 
+                camNOTES.setFilters(filtersnotes); 
+ camGame.filtersEnabled = true;
+ camHUD.filtersEnabled = true;
+ camNOTEHUD.filtersEnabled = true;
+                camSus.filtersEnabled = true;
+                camNOTES.filtersEnabled = true;
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1259,9 +1310,9 @@ class PlayState extends MusicBeatState
 		loseVin.alpha = 0.4;
 		add(loseVin);
 
-		strumLineNotes.cameras = [camHUD];
-		grpNoteSplashes.cameras = [camHUD];
-		notes.cameras = [camHUD];
+		strumLineNotes.cameras = [camNOTEHUD];
+		grpNoteSplashes.cameras = [camNOTEHUD];
+		notes.cameras = [camNOTES];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
         healthBarWN.cameras = [camHUD];
@@ -1510,7 +1561,7 @@ class PlayState extends MusicBeatState
 		}
 		#end
 	}
-    public function addShaderToCamera(cam:String, effect:ShaderEffect)
+   /* public function addShaderToCamera(cam:String, effect:ShaderEffect)
 	{ // STOLEN FROM ANDROMEDA
 
 		switch (cam.toLowerCase())
@@ -1604,7 +1655,7 @@ class PlayState extends MusicBeatState
 				var newCamEffects:Array<BitmapFilter> = [];
 				camGame.setFilters(newCamEffects);
 		}
-	}
+	} */  Its all bullshit - PurSnake
 	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
@@ -2784,6 +2835,9 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+                        camNOTES.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+			//camSus.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+			camNOTEHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -2815,7 +2869,7 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
-            if (!inCutscene) {
+                   if (!inCutscene) {
 				if(!cpuControlled) {
 					keyShit();
 				} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
@@ -2835,6 +2889,9 @@ class PlayState extends MusicBeatState
 				var strumY:Float = 0;
 				var strumAngle:Float = 0;
 				var strumAlpha:Float = 0;
+                                if (daNote.isSustainNote)
+					daNote.cameras = [camSus];
+   
 				if(daNote.mustPress) {
 					strumX = playerStrums.members[daNote.noteData].x;
 					strumY = playerStrums.members[daNote.noteData].y;
@@ -4979,7 +5036,7 @@ public static var othersCodeName:String = 'otherAchievements';
 		
 	function redFlash() // HaxeFlixel documentaion be like - PurSnake || Rewrited - PurSnake
 		{
-			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh]) {
 			    if (helem != null) {
 			        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
                 }  }
