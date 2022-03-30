@@ -2560,6 +2560,18 @@ class PlayState extends MusicBeatState
         camNOTES.visible = camHUD.visible;
         camNOTEHUD.visible = camHUD.visible;
 
+        camSus.x = camHUD.x;
+        camNOTES.x = camHUD.x;
+        camNOTEHUD.x = camHUD.x;
+
+        camSus.y = camHUD.y;
+        camNOTES.y = camHUD.y;
+        camNOTEHUD.y = camHUD.y;
+
+        camSus.alpha = camHUD.alpha;
+        camNOTES.alpha = camHUD.alpha;
+        camNOTEHUD.alpha = camHUD.alpha;
+
         if(FlxG.keys.justPressed.F11)
         {
            FlxG.fullscreen = !FlxG.fullscreen;
