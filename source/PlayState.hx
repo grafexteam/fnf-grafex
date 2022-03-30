@@ -1655,7 +1655,7 @@ class PlayState extends MusicBeatState
 				var newCamEffects:Array<BitmapFilter> = [];
 				camGame.setFilters(newCamEffects);
 		}
-	} */  Its all bullshit - PurSnake
+	} */ // Its all bullshit - PurSnake
 	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
