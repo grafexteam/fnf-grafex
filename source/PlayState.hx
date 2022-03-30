@@ -2552,6 +2552,14 @@ class PlayState extends MusicBeatState
 
 		maxHealthProb = health * 100;
 
+        camSus.zoom = camHUD.zoom;
+        camNOTES.zoom = camHUD.zoom;
+        camNOTEHUD.zoom = camHUD.zoom;
+
+ camSus.visible = camHUD.visible;
+        camNOTES.visible = camHUD.visible;
+        camNOTEHUD.visible = camHUD.visible;
+
         if(FlxG.keys.justPressed.F11)
         {
            FlxG.fullscreen = !FlxG.fullscreen;
