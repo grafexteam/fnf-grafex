@@ -104,9 +104,7 @@ class PlayState extends MusicBeatState
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 
 	public var shader_chromatic_abberation:ChromaticAberrationEffect;
-	public var camGameShaders:Array<ShaderEffect> = [];
-	public var camHUDShaders:Array<ShaderEffect> = [];
-	public var camOtherShaders:Array<ShaderEffect> = [];
+
     public var cammoveoffest:Float = 40;
     public var bfcamoffsetx:Float = 0;
     public var bfcamoffsety:Float = 0;
@@ -2552,25 +2550,15 @@ class PlayState extends MusicBeatState
 
 		maxHealthProb = health * 100;
 
-        camSus.zoom = camHUD.zoom;
-        camNOTES.zoom = camHUD.zoom;
-        camNOTEHUD.zoom = camHUD.zoom;
-
- camSus.visible = camHUD.visible;
-        camNOTES.visible = camHUD.visible;
-        camNOTEHUD.visible = camHUD.visible;
-
-        camSus.x = camHUD.x;
-        camNOTES.x = camHUD.x;
-        camNOTEHUD.x = camHUD.x;
-
-        camSus.y = camHUD.y;
-        camNOTES.y = camHUD.y;
-        camNOTEHUD.y = camHUD.y;
-
-        camSus.alpha = camHUD.alpha;
-        camNOTES.alpha = camHUD.alpha;
-        camNOTEHUD.alpha = camHUD.alpha;
+       for (hudcam in [camSus, camNOTES, camNOTEHUD]) {
+        if (hudcam != null) {
+		hudcam.zoom = camHUD.zoom;
+                hudcam.visible = camHUD.visible;
+                hudcam.x = camHUD.x;
+                hudcam.y = camHUD.y;
+                hudcam.alpha = camHUD.alpha;
+		}  
+            }
 
         if(FlxG.keys.justPressed.F11)
         {
