@@ -80,7 +80,7 @@ class MainMenuState extends MusicBeatState
                                 FlxG.sound.music.time = 9400;
 				Conductor.changeBPM(102);
 			}
-                FlxG.mouse.visible = true;
+                FlxG.mouse.visible = false;
                 FlxG.mouse.useSystemCursor = true;
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		camGame = new FlxCamera();
@@ -238,8 +238,8 @@ class MainMenuState extends MusicBeatState
 		if(selectedSomethin)
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
-					 FlxG.mouse.visible = false;
-                                         movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
+					FlxG.mouse.visible = false;
+                    movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
 				});
 			
 
@@ -250,7 +250,7 @@ class MainMenuState extends MusicBeatState
 
 
 
-                 if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y) && !selectedSomethin){
+        /*if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y) && !selectedSomethin){
 			oldPos = FlxG.mouse.getScreenPosition();
 			for (i in 0...menuItems.length) {
 				// if (FlxG.mouse.overlaps(menuItems.members[i])) {
@@ -260,14 +260,8 @@ class MainMenuState extends MusicBeatState
 					changeItem();
 					break;
 				}
-			}
-		}
-		if (FlxG.mouse.pressed && !selectedSomethin
-			#if MOBILE_UI
-			&& !backButton.hovering
-			#end
-			)
-			select();
+			} shit - PurSnake
+		}*/
 
 
 		if (!selectedSomethin)
@@ -305,7 +299,6 @@ class MainMenuState extends MusicBeatState
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
-		FlxG.watch.addQuick("stepShit", curStep);
 
 		super.update(elapsed);
 	}
@@ -318,7 +311,7 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 		{
 			super.beatHit();
-                        boxMain.animation.play('idle');
+            boxMain.animation.play('idle');
             if(curBeat % 2 == 0)
 			bgClick();		
 		} // no Epilepsy - PurSnake
@@ -401,7 +394,7 @@ class MainMenuState extends MusicBeatState
 
 	function resetTipText()
 		{
-			switch(FlxG.random.int(1, 9))
+			switch(FlxG.random.int(1, 13))
         	{
         		case 1:
         		    tipValue = "Also try Terraria";
@@ -421,12 +414,20 @@ class MainMenuState extends MusicBeatState
         		    tipValue = "Week 7 not included.";
         		case 9:
         		    tipValue = "Nanomachines, son.";
+				case 10:
+					tipValue = "Whitty da bomb.";
+				case 11:
+					tipValue = "Hex - copy TV head.";
+				case 12:
+					tipValue = "FNFOnline menu style like.";
+				case 13:
+					tipValue = "No clowns.";
         	}
 
 			tipText.text = tipValue;
 		}	
 
-         function select() {
+        function select() {
 
                                 if (optionShit[curSelected] == 'donate')
 				{
@@ -445,7 +446,7 @@ class MainMenuState extends MusicBeatState
 									ease: FlxEase.quadOut,
 								});					
 							}
-                               if (curSelected != spr.ID)
+                        if (curSelected != spr.ID)
 							{
 								FlxTween.tween(spr, {alpha: 0}, 0.4, {
 									ease: FlxEase.quadOut,

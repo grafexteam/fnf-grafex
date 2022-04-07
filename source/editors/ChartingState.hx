@@ -1235,7 +1235,7 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		if (FlxG.save.data.chart_noAutoScroll == null) FlxG.save.data.chart_noAutoScroll = false;
 		disableAutoScrolling.checked = FlxG.save.data.chart_noAutoScroll;
 
-		instVolume = new FlxUINumericStepper(metronomeStepper.x, 270, 0.1, 1, 0, 1, 1);
+		instVolume = new FlxUINumericStepper(metronomeStepper.x, 290, 0.1, 1, 0, 1, 1);
 		instVolume.value = FlxG.sound.music.volume;
 		instVolume.name = 'inst_volume';
 		blockPressWhileTypingOnStepper.push(instVolume);
@@ -1244,6 +1244,23 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		voicesVolume.value = vocals.volume;
 		voicesVolume.name = 'voices_volume';
 		blockPressWhileTypingOnStepper.push(voicesVolume);
+
+		var shiftTrack = new FlxText(10, 140, 'Shift Chart Position');
+
+		var shiftNoteDialLabel = new FlxText(10, 150, 'Shift Note FWD by (Section)');
+		var stepperShiftNoteDial:FlxUINumericStepper = new FlxUINumericStepper(10, 165, 1, 0, -1000, 1000, 0);
+		stepperShiftNoteDial.name = 'song_shiftnote';
+		var shiftNoteDialLabel2 = new FlxText(10, 180, 'Shift Note FWD by (Step)');
+		var stepperShiftNoteDialstep:FlxUINumericStepper = new FlxUINumericStepper(10, 195, 1, 0, -1000, 1000, 0);
+		stepperShiftNoteDialstep.name = 'song_shiftnotems';
+		var shiftNoteDialLabel3 = new FlxText(10, 210, 'Shift Note FWD by (ms)');
+		var stepperShiftNoteDialms:FlxUINumericStepper = new FlxUINumericStepper(10, 225, 1, 0, -1000, 1000, 2);
+		stepperShiftNoteDialms.name = 'song_shiftnotems';
+
+		var shiftNoteButton:FlxButton = new FlxButton(8, 240, "Shift", function()
+		{
+			shiftNotes(Std.int(stepperShiftNoteDial.value),Std.int(stepperShiftNoteDialstep.value),Std.int(stepperShiftNoteDialms.value));
+		});
 
 		tab_group_chart.add(new FlxText(metronomeStepper.x, metronomeStepper.y - 15, 0, 'BPM:'));
 		tab_group_chart.add(new FlxText(metronomeOffsetStepper.x, metronomeOffsetStepper.y - 15, 0, 'Offset (ms):'));
@@ -1260,6 +1277,14 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		tab_group_chart.add(instVolume);
 		tab_group_chart.add(voicesVolume);
 		tab_group_chart.add(check_mute_inst);
+		tab_group_chart.add(shiftNoteDialLabel);
+		tab_group_chart.add(stepperShiftNoteDial);
+        tab_group_chart.add(shiftNoteDialLabel2);
+        tab_group_chart.add(stepperShiftNoteDialstep);
+        tab_group_chart.add(shiftNoteDialLabel3);
+        tab_group_chart.add(stepperShiftNoteDialms);
+        tab_group_chart.add(shiftNoteButton);
+		tab_group_chart.add(shiftTrack);
 		tab_group_chart.add(check_mute_vocals);
 		tab_group_chart.add(check_vortex);
 		tab_group_chart.add(playSoundBf);
@@ -1920,7 +1945,7 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 								soundToPlay = 'GF_' + Std.string(data + 1);
 							}
 							
-							FlxG.sound.play(Paths.sound(soundToPlay)).pan = note.noteData < 4? -0.3 : 0.3; //would be coolio
+							FlxG.sound.play(Paths.sound(soundToPlay),0.7).pan = note.noteData < 4? -0.3 : 0.3; //would be coolio
 							playedSound[data] = true;
 						}
 					
@@ -2486,6 +2511,22 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		_song.notes.push(sec);
 	}
 
+	private function newSection(lengthInSteps:Int = 16,mustHitSection:Bool = false,altAnim:Bool = true):SwagSection
+		{
+			var sec:SwagSection = {
+				lengthInSteps: lengthInSteps,
+				bpm: _song.bpm,
+				changeBPM: false,
+				mustHitSection: mustHitSection,
+				gfSection: false,
+				sectionNotes: [],
+				typeOfSection: 0,
+				altAnim: altAnim
+			};
+
+			return sec;
+		}
+
 	function selectNote(note:Note):Void
 	{
 		var noteDataToCheck:Int = note.noteData;
@@ -2587,6 +2628,54 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 
 		updateGrid();
 	}
+
+	function shiftNotes(measure:Int=0,step:Int=0,ms:Int = 0):Void
+		{
+			var newSong = [];
+			
+			var millisecadd = (((measure*4)+step/4)*(60000/_song.bpm))+ms;
+			var totaladdsection = Std.int((millisecadd/(60000/_song.bpm)/4));
+			trace(millisecadd,totaladdsection);
+			if(millisecadd > 0)
+				{
+					for(i in 0...totaladdsection)
+						{
+							newSong.unshift(newSection());
+						}
+				}
+			for (daSection1 in 0..._song.notes.length)
+				{
+					newSong.push(newSection(16,_song.notes[daSection1].mustHitSection,_song.notes[daSection1].altAnim));
+				}
+	
+			for (daSection in 0...(_song.notes.length))
+			{
+				var aimtosetsection = daSection+Std.int((totaladdsection));
+				if(aimtosetsection<0) aimtosetsection = 0;
+				newSong[aimtosetsection].mustHitSection = _song.notes[daSection].mustHitSection;
+				newSong[aimtosetsection].altAnim = _song.notes[daSection].altAnim;
+				//trace("section "+daSection);
+				for(daNote in 0...(_song.notes[daSection].sectionNotes.length))
+					{	
+						var newtiming = _song.notes[daSection].sectionNotes[daNote][0]+millisecadd;
+						if(newtiming<0)
+						{
+							newtiming = 0;
+						}
+						var futureSection = Math.floor(newtiming/4/(60000/_song.bpm));
+						_song.notes[daSection].sectionNotes[daNote][0] = newtiming;
+						newSong[futureSection].sectionNotes.push(_song.notes[daSection].sectionNotes[daNote]);
+	
+						//newSong.notes[daSection].sectionNotes.remove(_song.notes[daSection].sectionNotes[daNote]);
+					}
+	
+			}
+			//trace("DONE BITCH");
+			_song.notes = newSong;
+			updateGrid();
+			updateSectionUI();
+			updateNoteUI();
+		}
 
 	private function addNote(strum:Null<Float> = null, data:Null<Int> = null, type:Null<Int> = null):Void
 	{
