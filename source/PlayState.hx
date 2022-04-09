@@ -3368,6 +3368,23 @@ function pauseState()
                                         isEventWorking = true;
 				}
                                
+                       case 'Set Cam Zoom':
+                                var val1:Float = Std.parseFloat(value1);
+				var val2:Float = Std.parseFloat(value2);
+				if(Math.isNaN(val1)) val1 = 1;
+				if(Math.isNaN(val2)) val2 = 1;
+                                if (value2 == null)
+                                defaultCamZoom = val1; 
+                                else
+                                {
+                                FlxTween.tween(camGame, {zoom: val1}, val2, {ease: FlxEase.sineInOut, onComplete:
+					function (twn:FlxTween)
+					{
+						defaultCamZoom = camGame.zoom;
+					} 
+                                        });
+                                }
+
 			case 'Alt Idle Animation':
 				var char:Character = dad;
 				switch(value1.toLowerCase()) {
