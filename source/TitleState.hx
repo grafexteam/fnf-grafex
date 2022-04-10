@@ -58,6 +58,7 @@ class TitleState extends MusicBeatState
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
 	public static var initialized:Bool = false;
+        public static var fromMainMenu:Bool = false;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -173,7 +174,9 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+                if(!fromMainMenu)
 		Conductor.changeBPM(102);
+
 		persistentUpdate = true;
 
 		//bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
@@ -472,6 +475,7 @@ class TitleState extends MusicBeatState
 			remove(credGroup);
 			skippedIntro = true;
                         bgFlash.alpha = 0.25;
+                         if(!fromMainMenu)
                         FlxG.sound.music.time = 9400;
 		}
 	}

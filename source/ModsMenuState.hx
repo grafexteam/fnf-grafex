@@ -65,7 +65,8 @@ class ModsMenuState extends MusicBeatState
 
 	override function create()
 	{
-		Paths.destroyLoadedImages();
+		Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
 		WeekData.setDirectoryFromWeek();
 
 		#if desktop
@@ -125,7 +126,7 @@ class ModsMenuState extends MusicBeatState
 			{
 				if(!Paths.ignoreModFolders.contains(folder))
 				{
-					addToModsList([folder, true]);//i like it false by default. 
+					addToModsList([folder, true]);
 				}
 			}
 		}
