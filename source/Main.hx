@@ -23,7 +23,7 @@ class Main extends Sprite
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	//public static var fpsVar:FPS; Not in use - PurSnake
         //public static var memoryCounter:MemoryCounter; Not in use - PurSnake
-	public static var appTitle:String = 'Friday Night Funkin: Grafex Mod';
+	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
