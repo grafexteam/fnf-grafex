@@ -12,16 +12,19 @@ class ClientPrefs {
     public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
     public static var shouldcameramove:Bool = true;
-    public static var hsvol:Float = 1;
+    public static var hsvol:Float = 0.2;
     public static var instantRespawn:Bool = false;
     public static var hliconbop:String = 'Grafex';
+    public static var hliconbopNum:Int = 0;
     public static var underdelayalpha:Float = 0.1;
     public static var underdelayonoff:Bool = true;
     public static var noteSkin:String = 'Default';
+    public static var noteSkinNum:Int = 0;
     public static var autoPause:Bool = true;
     public static var showjud:Bool = true;
     public static var showCombo:Bool = true;
     public static var blurNotes:Bool = true;
+	public static var visibleHealthbar:Bool = true;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -42,6 +45,7 @@ class ClientPrefs {
 	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
+        public static var timeBarTypeNum:Int = 0;
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
@@ -99,7 +103,8 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
-                FlxG.save.data.autoPause = autoPause;
+        FlxG.save.data.autoPause = autoPause;
+		FlxG.save.data.visibleHealthbar = visibleHealthbar;
 		FlxG.save.data.showjud = showjud;
         FlxG.save.data.showCombo = showCombo;
         FlxG.save.data.blurNotes = blurNotes;
@@ -109,7 +114,9 @@ class ClientPrefs {
         FlxG.save.data.hitsound = hitsound;
         FlxG.save.data.shouldcameramove = shouldcameramove;
         FlxG.save.data.hliconbop = hliconbop;
+        FlxG.save.data.hliconbopNum = hliconbopNum;
         FlxG.save.data.noteSkin = noteSkin;
+        FlxG.save.data.noteSkinNum = noteSkinNum;
         FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
@@ -127,6 +134,7 @@ class ClientPrefs {
 		FlxG.save.data.imagesPersist = imagesPersist;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.timeBarType = timeBarType;
+FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.noReset = noReset;
         FlxG.save.data.underdelayalpha = underdelayalpha;
@@ -157,40 +165,53 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
-                if(FlxG.save.data.showjud == null) {
+                if(FlxG.save.data.noteSkinNum != null) {
+			noteSkinNum = FlxG.save.data.noteSkinNum;
+		}
+    if(FlxG.save.data.noteSkinNum == null) {
+			noteSkinNum = 0;
+		}
+        if(FlxG.save.data.visibleHealthbar == null) {
+			visibleHealthbar = true;
+		}
+        if(FlxG.save.data.visibleHealthbar!= null) {
+			visibleHealthbar = FlxG.save.data.visibleHealthbar;
+		}
+
+		if(FlxG.save.data.showjud == null) {
 			showjud = true;
 		}
-               if(FlxG.save.data.showjud != null) {
+        if(FlxG.save.data.showjud != null) {
 			showjud = FlxG.save.data.showjud;
 		}
 
-               if(FlxG.save.data.showCombo == null) {
+        if(FlxG.save.data.showCombo == null) {
 			showCombo = true;
 		}
-               if(FlxG.save.data.showCombo != null) {
+        if(FlxG.save.data.showCombo != null) {
 			showCombo = FlxG.save.data.showCombo;
 		}
         if(FlxG.save.data.blurNotes == null) {
 			blurNotes = true;
 		}
-               if(FlxG.save.data.blurNotes != null) {
+        if(FlxG.save.data.blurNotes != null) {
 			blurNotes = FlxG.save.data.blurNotes;
 		}
                 if(FlxG.save.data.shouldcameramove == null) {
 			shouldcameramove = true;
 		}
-               if(FlxG.save.data.autoPause != null) {
+        if(FlxG.save.data.autoPause != null) {
 			autoPause = FlxG.save.data.autoPause;
 			FlxG.autoPause = autoPause;
 		}
-               if(FlxG.save.data.shouldcameramove != null) {
+        if(FlxG.save.data.shouldcameramove != null) {
 			shouldcameramove = FlxG.save.data.shouldcameramove;
 		}
 
 		if(FlxG.save.data.hitsound == null) {
 				hitsound = false;
 		}
-             if(FlxG.save.data.greenscreenmode == null) {
+        if(FlxG.save.data.greenscreenmode == null) {
 				greenscreenmode = false;
 		}
             if(FlxG.save.data.playmisssounds == null) {
@@ -200,13 +221,13 @@ class ClientPrefs {
 				playmisssounds = FlxG.save.data.playmisssounds;
 		}
 
-           if(FlxG.save.data.instantRespawn != null) {
+        if(FlxG.save.data.instantRespawn != null) {
 			instantRespawn = FlxG.save.data.instantRespawn;
 		}
             if(FlxG.save.data.hitsound != null) {
 				hitsound = FlxG.save.data.hitsound;
 		}
-          if(FlxG.save.data.greenscreenmode != null) {
+        if(FlxG.save.data.greenscreenmode != null) {
 				greenscreenmode = FlxG.save.data.greenscreenmode;
 		}
 
@@ -222,7 +243,7 @@ class ClientPrefs {
 			FPSMem.showFPS = showFPS;
 			
 		}
-               if(FlxG.save.data.showMEM != null) {
+        if(FlxG.save.data.showMEM != null) {
 			showMEM = FlxG.save.data.showMEM;
 			
 			FPSMem.showMem = showMEM;
@@ -272,8 +293,22 @@ class ClientPrefs {
 		if(FlxG.save.data.hliconbop != null) {
 			hliconbop = FlxG.save.data.hliconbop;
 		}
+		if(FlxG.save.data.hliconbopNum != null) {
+			hliconbopNum = FlxG.save.data.hliconbopNum;
+		}
+		if(FlxG.save.data.hliconbopNum == null) {
+			hliconbopNum = 0;
+		}
                 if(FlxG.save.data.timeBarType != null) {
 			timeBarType = FlxG.save.data.timeBarType;
+		}
+
+ if(FlxG.save.data.timeBarTypeNum != null) {
+			timeBarTypeNum = FlxG.save.data.timeBarTypeNum;
+		}
+
+ if(FlxG.save.data.timeBarTypeNum == null) {
+			timeBarTypeNum = 0;
 		}
 		if(FlxG.save.data.scoreZoom != null) {
 			scoreZoom = FlxG.save.data.scoreZoom;

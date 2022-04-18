@@ -1,4 +1,4 @@
-package options;
+package;
 
 #if desktop
 import Discord.DiscordClient;
@@ -42,9 +42,8 @@ class NotesSubState extends MusicBeatSubstate
 	var hsbText:Alphabet;
 
 	var posX = 230;
-	public function new() {
-		super();
-		
+	override function create() {
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -180,7 +179,10 @@ class NotesSubState extends MusicBeatSubstate
 
 		if (controls.BACK || (changingNote && controls.ACCEPT)) {
 			if(!changingNote) {
-				close();
+				FlxG.switchState(new OptionsDirect());
+				ClientPrefs.saveSettings();
+				ControlsSubState.fromcontrols = true;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 			} else {
 				changeSelection();
 			}

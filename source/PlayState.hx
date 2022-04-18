@@ -1238,6 +1238,15 @@ class PlayState extends MusicBeatState
 		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
+
+
+                if(!ClientPrefs.hideHud)
+		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			if (helem != null) {
+				helem.visible = ClientPrefs.visibleHealthbar;
+			}  
+		}
+
 		reloadHealthBarColors();
             
         songTxt = new FlxText(12, healthBarBG.y + 50, 0, SONG.song + " (" + storyDifficultyText + ")", 18);
@@ -1246,7 +1255,7 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-           songTxt.visible = !ClientPrefs.hideHud;
+        songTxt.visible = !ClientPrefs.hideHud;
 		add(songTxt); 
 
  
@@ -1266,7 +1275,9 @@ class PlayState extends MusicBeatState
 		judgementCounter.cameras = [camHUD];
 		judgementCounter.screenCenter(Y);
 		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
-        judgementCounter.visible = ClientPrefs.showjud;
+       if(ClientPrefs.showjud) 
+       judgementCounter.visible = !ClientPrefs.hideHud;
+
 		add(judgementCounter);
  
         /*healthThing = new FlxText(20,judgementCounter.y + 95, 0,'100%', 20);
@@ -1317,8 +1328,8 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
-        laneunderlay.cameras = [camHUD];
-		laneunderlayOpponent.cameras = [camHUD];
+        laneunderlay.cameras = [camSus];
+		laneunderlayOpponent.cameras = [camSus];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
@@ -2419,7 +2430,19 @@ class PlayState extends MusicBeatState
 
 	override function closeSubState()
 	{
-		if (paused)
+		if (PauseSubState.goToOptions)
+			{
+				trace("pause thingyt");
+				if (PauseSubState.goBack)
+				{
+					PauseSubState.goToOptions = false;
+					PauseSubState.goBack = false;
+					openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				}
+				else
+					openSubState(new OptionsMenu(true));
+			}
+		else if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong)
 			{
@@ -4459,7 +4482,7 @@ function pauseState()
 
 			if (!note.isSustainNote)
 			{
-                if(ClientPrefs.hitsound)
+            
 				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
 				note.kill();
 				notes.remove(note, true);
@@ -5071,7 +5094,7 @@ function pauseState()
 		
 	function showhphud()
 		{
-			for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
+			for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
 			    if (elem != null) {
 			        FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
                 }  }
@@ -5086,7 +5109,7 @@ function pauseState()
 	function hidehphud()
 		{
 
-			for (elem in [healthBar, iconP1, iconP2, scoreTxt, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
+			for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
 				if (elem != null) {
 					elem.alpha = ClientPrefs.healthBarAlpha - 1;
 							}  

@@ -112,7 +112,7 @@ class MainMenuState extends MusicBeatState
 		movingBG = new FlxBackdrop(Paths.image('menuDesat'), 10, 0, true, true);
 		movingBG.scrollFactor.set(0,0);
 		movingBG.color = 0xfffde871;
-                movingBG.velocity.x = -90;
+        movingBG.velocity.x = -90;
 		add(movingBG);
 
 		menuBox = new FlxSprite(-125, -100);
@@ -480,10 +480,12 @@ class MainMenuState extends MusicBeatState
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
-										MusicBeatState.switchState(new options.OptionsState());
-                                                                                FreeplayState.destroyFreeplayVocals();
-                                                                                FlxG.sound.music.stop();
-                                                                                FlxG.sound.music == null;
+										//MusicBeatState.switchState(new options.OptionsState());
+										MusicBeatState.switchState(new OptionsDirect());
+
+                                        FreeplayState.destroyFreeplayVocals();
+                                        FlxG.sound.music.stop();
+                                        FlxG.sound.music == null;
                                                                                 
 								}
 							});
