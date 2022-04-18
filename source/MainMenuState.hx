@@ -42,11 +42,6 @@ class MainMenuState extends MusicBeatState
 	public var menuBox:FlxSprite;
 
 	var boxMain:FlxSprite;
-	public var tipText:FlxText;
-	var tipValue:String = "";       
-	var tipBackground:FlxSprite;
-	var tipTextMargin:Float = 10;
-	var tipTextScrolling:Bool = false;
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
@@ -165,47 +160,10 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		
-		switch(FlxG.random.int(1, 9))
-        	{
-        		case 1:
-        		    tipValue = "Also try Terraria";
-        		case 2:
-        		    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-        		case 3:
-        		    tipValue = "Nothing to see here -_-";
-        		case 4:
-        			tipValue = "Xale was here UwU";
-        		case 5:
-        		    tipValue = "Snake was here ._.";
-        		case 6:
-        		    tipValue = "Check your options)";
-        		case 7:
-        		    tipValue = "Are you ok?";
-        		case 8:
-        		    tipValue = "Week 7 not included.";
-        		case 9:
-        		    tipValue = "Nanomachines, son.";
-        	}
-
-        tipBackground = new FlxSprite();
-		tipBackground.scrollFactor.set();
-		tipBackground.alpha = 0.7;
-		add(tipBackground);
-
-        tipText = new FlxText(0, 0, 0, tipValue);
-		tipText.scrollFactor.set();
-		tipText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT);
-		tipText.updateHitbox();
-
-        add(tipText);
-
-		tipBackground.makeGraphic(FlxG.width, Std.int((tipTextMargin * 2) + tipText.height), FlxColor.BLACK);
 
 		changeItem();
 
 		super.create();
-        tipTextStartScrolling();
 	}
 
 	var selectedSomethin:Bool = false;
@@ -225,44 +183,14 @@ class MainMenuState extends MusicBeatState
 
         if(FlxG.keys.justPressed.F11)
     		FlxG.fullscreen = !FlxG.fullscreen;
-		
-        if (tipTextScrolling)
-		{
-			tipText.x -= elapsed * 130;
-			if (tipText.x < -tipText.width)
-			{	 
-                tipTextScrolling = false;
-				tipTextStartScrolling();
-			}
-		}
 		if(selectedSomethin)
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
 					FlxG.mouse.visible = false;
                     movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
 				});
-			
-
-		if(FlxG.keys.anyJustPressed(arrowLeftKeys) || FlxG.keys.anyJustPressed(arrowRightKeys))
-			bgClick();	
 
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-
-
-
-        /*if ((FlxG.mouse.getScreenPosition().x != oldPos.x || FlxG.mouse.getScreenPosition().y != oldPos.y) && !selectedSomethin){
-			oldPos = FlxG.mouse.getScreenPosition();
-			for (i in 0...menuItems.length) {
-				// if (FlxG.mouse.overlaps(menuItems.members[i])) {
-				var pos = FlxG.mouse.getPositionInCameraView(FlxG.camera);
-				if (pos.y > i / menuItems.length * FlxG.height && pos.y < (i + 1) / menuItems.length * FlxG.height && curSelected != i) {
-					curSelected = i;
-					changeItem();
-					break;
-				}
-			} shit - PurSnake
-		}*/
-
 
 		if (!selectedSomethin)
 		{
@@ -375,62 +303,10 @@ class MainMenuState extends MusicBeatState
 			clickCount++;	
 		}
 
-	function tipTextStartScrolling()
+
+        function select()
 		{
-			resetTipText();
-
-			tipText.x = tipTextMargin;
-			tipText.y = -tipText.height;
-	
-			new FlxTimer().start(1.0, function(timer:FlxTimer)
-			{
-				FlxTween.tween(tipText, {y: tipTextMargin}, 0.3);
-				
-				new FlxTimer().start(4.5, function(timer:FlxTimer)
-				{
-					tipTextScrolling = true;
-				});
-			});
-		}
-
-	function resetTipText()
-		{
-			switch(FlxG.random.int(1, 13))
-        	{
-        		case 1:
-        		    tipValue = "Also try Terraria";
-        		case 2:
-        		    tipValue = "Welcome to Friday Night Funkin Grafex Engine! Thank you for playing!";
-        		case 3:
-        		    tipValue = "Nothing to see here -_-";
-        		case 4:
-        			tipValue = "Xale was here UwU";
-        		case 5:
-        		    tipValue = "Snake was here ._.";
-        		case 6:
-        		    tipValue = "Check your options)";
-        		case 7:
-        		    tipValue = "Are you ok?";
-        		case 8:
-        		    tipValue = "Week 7 not included.";
-        		case 9:
-        		    tipValue = "Nanomachines, son.";
-				case 10:
-					tipValue = "Whitty da bomb.";
-				case 11:
-					tipValue = "Hex - copy TV head.";
-				case 12:
-					tipValue = "FNFOnline menu style like.";
-				case 13:
-					tipValue = "No clowns.";
-        	}
-
-			tipText.text = tipValue;
-		}	
-
-        function select() {
-
-                                if (optionShit[curSelected] == 'donate')
+                if (optionShit[curSelected] == 'donate')
 				{
 					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
 				}
@@ -492,6 +368,6 @@ class MainMenuState extends MusicBeatState
 						}
 					});
 				}
-         }	
+        }	
 
 }
