@@ -161,7 +161,7 @@ class TitleState extends MusicBeatState
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
     var bgMenu:FlxBackdrop;
-        var bgFlash:FlxSprite;
+    var bgFlash:FlxSprite;
 
 	function startIntro()
 	{
