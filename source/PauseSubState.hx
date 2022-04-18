@@ -19,8 +19,13 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
+	public static var goToOptions:Bool = false;
+	public static var goBack:Bool = false;
+
+        public static var playingPause:Bool = false;
+
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Options', 'Change Difficulty', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -61,11 +66,24 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		difficultyChoices.push('BACK');
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+           if (!playingPause)
+		{
+			playingPause = true;
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic.volume = 0;
+			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+			pauseMusic.ID = 9000;
 
-		FlxG.sound.list.add(pauseMusic);
+			FlxG.sound.list.add(pauseMusic);
+		}
+		else
+		{
+			for (i in FlxG.sound.list)
+			{
+				if (i.ID == 9000) // jankiest static variable
+					pauseMusic = i;
+			}
+		}
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -235,6 +253,9 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+				case "Options":
+					goToOptions = true;
+					close();
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
@@ -307,8 +328,11 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function destroy()
 	{
-		pauseMusic.destroy();
-
+		if (!goToOptions)
+			{
+	         pauseMusic.destroy();
+                 playingPause = false;
+			}
 		super.destroy();
 	}
 

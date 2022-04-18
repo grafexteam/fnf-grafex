@@ -1,4 +1,4 @@
-package options;
+package;
 
 #if desktop
 import Discord.DiscordClient;
@@ -30,6 +30,7 @@ using StringTools;
 class ControlsSubState extends MusicBeatSubstate {
 	private static var curSelected:Int = -1;
 	private static var curAlt:Bool = false;
+	public static var fromcontrols:Bool = false;
 
 	private static var defaultKey:String = 'Reset to Default Keys';
 	private var bindLength:Int = 0;
@@ -68,8 +69,7 @@ class ControlsSubState extends MusicBeatSubstate {
 	var rebindingKey:Bool = false;
 	var nextAccept:Int = 5;
 
-	public function new() {
-		super();
+	override function create() {
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
@@ -130,7 +130,9 @@ class ControlsSubState extends MusicBeatSubstate {
 
 			if (controls.BACK) {
 				ClientPrefs.reloadControls();
-				close();
+				FlxG.switchState(new OptionsDirect());
+				ClientPrefs.saveSettings();
+				ControlsSubState.fromcontrols = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
 
