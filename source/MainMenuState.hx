@@ -210,8 +210,8 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
-                                FlxG.mouse.visible = false;
-                                TitleState.fromMainMenu = true;
+                FlxG.mouse.visible = false;
+                TitleState.fromMainMenu = true;
 			}
 
 			if (controls.ACCEPT)
@@ -314,7 +314,7 @@ class MainMenuState extends MusicBeatState
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-                                        FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                    FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
 					menuItems.forEach(function(spr:FlxSprite)
 					{
 						if (curSelected == spr.ID)
