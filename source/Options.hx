@@ -1339,7 +1339,9 @@ class FPSOption extends Option
 
 	public override function left():Bool
 	{
-		FPSMem.showFPS = !FPSMem.showFPS;
+		
+ClientPrefs.showFPS = !ClientPrefs.showFPS;
+FPSMem.showFPS = ClientPrefs.showFPS;
 		display = updateDisplay();
 		return true;
 	}
@@ -1366,7 +1368,9 @@ class MEMOption extends Option
 
 	public override function left():Bool
 	{
-		FPSMem.showMem = !FPSMem.showMem;
+
+                ClientPrefs.showMEM = !ClientPrefs.showMEM;
+                FPSMem.showMem =  ClientPrefs.showMEM;
 		display = updateDisplay();
 		return true;
 	}
