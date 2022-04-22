@@ -230,6 +230,31 @@ class MainMenuState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 
 		super.update(elapsed);
+
+            var elapsedTime:Float = elapsed*6;
+        menuItems.forEach(function(spr:FlxSprite)
+        {
+            if (spr.ID == curSelected)
+            {
+                var scaledX = FlxMath.remapToRange((spr.ID * 30) + 40, 0,1,0,1.3);
+                var xPosition:Float = (scaledX * 1.5) + (FlxG.height * 0.48);
+                spr.x = FlxMath.lerp(spr.x, (xPosition * Math.cos(0.7)), elapsedTime);
+                FlxTween.tween(spr.scale, {x: 0.8, y: 0.8}, 0.1, {
+						startDelay: 0.1,
+						ease: FlxEase.circInOut
+					}); 
+            }
+            else
+            {
+                var scaledX = FlxMath.remapToRange((spr.ID * 30) + 20, 0,1,0,1.3);
+                var xPosition:Float = (scaledX * 1) + (FlxG.height * 0.48);
+                spr.x = FlxMath.lerp(spr.x, (xPosition * Math.cos(1.5)), elapsedTime);
+                FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
+						ease: FlxEase.circInOut
+					});
+            }
+        });
+
 	}
 
 	override function stepHit()
@@ -261,29 +286,13 @@ class MainMenuState extends MusicBeatState
 					spr.animation.play('selected');
 					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 					FlxG.log.add(spr.frameWidth);
-					FlxTween.tween(spr, {x: 150}, 0.1, {
-						ease: FlxEase.circInOut
-					});
-				
-					FlxTween.tween(spr.scale, {x: 0.8, y: 0.8}, 0.1, {
-						startDelay: 0.1,
-						ease: FlxEase.circInOut
-					});
 				}
 	
 				if (spr.ID != curSelected)
 				{
-					spr.animation.play('idle');
-					FlxTween.tween(spr, {x: -50}, 0.1, {
-						startDelay: 0.1,
-						ease: FlxEase.circInOut
-					});
-									
-					FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
-						ease: FlxEase.circInOut
-					});			
-				}
-			});
+					spr.animation.play('idle');			
+				} 
+			}); 
 	}
 
 	function bgClick()
