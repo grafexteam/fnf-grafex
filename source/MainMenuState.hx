@@ -41,6 +41,8 @@ class MainMenuState extends MusicBeatState
 	public var movingBG:FlxBackdrop;
 	public var menuBox:FlxSprite;
 
+        public static var firstStart:Bool = true;
+
 	var boxMain:FlxSprite;
 	var optionShit:Array<String> = [
 		'story_mode',
@@ -57,6 +59,8 @@ class MainMenuState extends MusicBeatState
 
 	var arrowLeftKeys:Array<FlxKey>;
 	var arrowRightKeys:Array<FlxKey>;
+
+        public static var finishedFunnyMove:Bool = false;
         
     override function create()
 	{
@@ -136,7 +140,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 			{
 				var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-				var menuItem:FlxSprite = new FlxSprite(50, (i * 140)  + offset);
+				var menuItem:FlxSprite = new FlxSprite(FlxG.width * -1.5, (i * 140)  + offset);
 				menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
 				menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 				menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -148,7 +152,19 @@ class MainMenuState extends MusicBeatState
 				menuItem.scrollFactor.set(0, yScroll);
 				menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 				menuItem.updateHitbox();
+                                if (firstStart)
+				FlxTween.tween(menuItem, {x: 50}, 1 + (i * 0.25), {
+					ease: FlxEase.expoInOut,
+					onComplete: function(flxTween:FlxTween)
+					{
+						finishedFunnyMove = true;
+						changeItem();
+					}
+				});
+			else
+				menuItem.x= 50;
 			}
+                firstStart = false;
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
@@ -272,16 +288,19 @@ class MainMenuState extends MusicBeatState
 
     function changeItem(huh:Int = 0)
 	{
-		curSelected += huh;
+		if (finishedFunnyMove)
+		{
+			curSelected += huh;
 
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
+			if (curSelected >= menuItems.length)
+				curSelected = 0;
+			if (curSelected < 0)
+				curSelected = menuItems.length - 1;
+		}
 
 		menuItems.forEach(function(spr:FlxSprite)
 			{
-				if (spr.ID == curSelected)
+				if (spr.ID == curSelected && finishedFunnyMove)
 				{
 					spr.animation.play('selected');
 					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
@@ -323,7 +342,7 @@ class MainMenuState extends MusicBeatState
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-                    FlxTween.tween(menuBox, {x:  -650}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                    FlxTween.tween(menuBox, {x:  -700}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
 					menuItems.forEach(function(spr:FlxSprite)
 					{
 						if (curSelected == spr.ID)
