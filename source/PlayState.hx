@@ -1277,20 +1277,11 @@ class PlayState extends MusicBeatState
 		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
        if(ClientPrefs.showjud) 
        judgementCounter.visible = !ClientPrefs.hideHud;
+       else
+       judgementCounter.visible = false;
 
 		add(judgementCounter);
- 
-        /*healthThing = new FlxText(20,judgementCounter.y + 95, 0,'100%', 20);
-        healthThing.borderSize = 2;
-		healthThing.borderQuality = 2;
-		healthThing.cameras = [camHUD];
-		healthThing.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
-		healthThing.scrollFactor.set();
-		healthThing.visible = !ClientPrefs.hideHud;
-        #if debug //for debug lol - PurSnake || I think it will be better if we add this to main game - Xale
-        add(healthThing);
-        #end*/
-                
+
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "", 32);
 		botplayTxt.text = "BOTPLAY";
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1437,6 +1428,7 @@ class PlayState extends MusicBeatState
 		CoolUtil.precacheSound('missnote2');
 		CoolUtil.precacheSound('missnote3');
 		CoolUtil.precacheMusic('breakfast');
+    CoolUtil.precacheSound('note_click');
 
 		#if desktop
 		// Updating Discord Rich Presence.
