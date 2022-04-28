@@ -400,7 +400,7 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-                BlurNotes = new BlurFilter(1, 2, 15);
+                BlurNotes = new BlurFilter(0, 2, 15);
 
                 if(ClientPrefs.blurNotes) filtersnotes.push(BlurNotes); // blur :D - PurSnake
 
@@ -2754,24 +2754,36 @@ class PlayState extends MusicBeatState
 			health = 2;
 		if(isHealthCheckingEnabled)
 			{
-				if (healthBar.percent < 20)
-					{
-						iconP1.animation.curAnim.curFrame = 1;
-						iconP2.animation.curAnim.curFrame = 2;
-						shakeFromLosing(iconP1);
-					}
-				else if (healthBar.percent > 20 && healthBar.percent < 80)
-					{
-						iconP1.animation.curAnim.curFrame = 0;
-						iconP2.animation.curAnim.curFrame = 0;
-					}
-				else if (healthBar.percent > 80)
-					{
-						iconP1.animation.curAnim.curFrame = 2;
-						iconP2.animation.curAnim.curFrame = 1;
-						shakeFromLosing(iconP2);
-					}
+			if (iconP1.animation.frames == 3) {
+			if (healthBar.percent < 20) {
+				iconP1.animation.curAnim.curFrame = 1;
+                                shakeFromLosing(iconP1); }
+			else if (healthBar.percent > 80)
+				iconP1.animation.curAnim.curFrame = 2;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		} else {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+		if (iconP2.animation.frames == 3) {
+			if (healthBar.percent > 80) {
+                                shakeFromLosing(iconP2);
+				iconP2.animation.curAnim.curFrame = 1; }
+			else if (healthBar.percent < 20)
+				iconP2.animation.curAnim.curFrame = 2;
+			else 
+				iconP2.animation.curAnim.curFrame = 0;
+		} else {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else 
+				iconP2.animation.curAnim.curFrame = 0;
+		}	
 			}
+
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
@@ -5061,6 +5073,7 @@ function pauseState()
 			isHealthCheckingEnabled = false;
 
 			iconP1.animation.curAnim.curFrame = 1;
+if (iconP2.animation.frames == 3)
 			iconP2.animation.curAnim.curFrame = 2; 
 
 			new FlxTimer().start(1, function(tmr:FlxTimer)

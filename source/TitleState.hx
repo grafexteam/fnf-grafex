@@ -282,6 +282,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+           var TryExitGame:Bool = FlxG.keys.justPressed.ESCAPE || controls.BACK;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -333,28 +334,12 @@ class TitleState extends MusicBeatState
 					
 					closedState = true;
 				});
-			}
-			else if(easterEggEnabled)
+                        }
+                        if (TryExitGame)
 			{
-				var finalKey:FlxKey = FlxG.keys.firstJustPressed();
-				if(finalKey != FlxKey.NONE) {
-					lastKeysPressed.push(finalKey); //Convert int to FlxKey
-					if(lastKeysPressed.length > easterEggKeyCombination.length)
-					{
-						lastKeysPressed.shift();
-					}
-					
-					if(lastKeysPressed.length == easterEggKeyCombination.length)
-					{
-						var isDifferent:Bool = false;
-						for (i in 0...lastKeysPressed.length) {
-							if(lastKeysPressed[i] != easterEggKeyCombination[i]) {
-								isDifferent = true;
-								break;
-							}
-						}
-					}
-				}
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.switchState(new ExitThatStupGameState());
+                                closedState = true;
 			}
 		}
 
