@@ -43,9 +43,9 @@ class ExitThatStupGameState extends MusicBeatState
                 System.exit(0); //fuck it - PurSnake
 			case 'No':
                 FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new TitleState());
+				MusicBeatState.switchState(new MainMenuState());
                         default:
-                             MusicBeatState.switchState(new TitleState()); //no reasong why - PurSnake
+                             MusicBeatState.switchState(new MainMenuState()); //no reasons why - PurSnake
 		}
 	}
 
