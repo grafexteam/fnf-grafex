@@ -1041,7 +1041,7 @@ class PlayState extends MusicBeatState
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
-                timeTxt.borderSize = 2;
+        timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
 
@@ -1059,6 +1059,7 @@ class PlayState extends MusicBeatState
 		laneunderlay.scrollFactor.set();
         laneunderlay.alpha = ClientPrefs.underdelayalpha - 1;
         laneunderlay.visible = ClientPrefs.underdelayonoff;
+		if(!ClientPrefs.hideOpponenStrums)
         if(!ClientPrefs.middleScroll) 
         	{
         	  add(laneunderlayOpponent);
@@ -1859,7 +1860,7 @@ class PlayState extends MusicBeatState
 			for (i in 0...opponentStrums.length) {
 				setOnLuas('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
 				setOnLuas('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
-				//if(ClientPrefs.middleScroll) opponentStrums.members[i].visible = false;
+                //opponentStrums.members[i].visible = !ClientPrefs.hideOpponenStrums;
 			}
 
 			laneunderlay.x = playerStrums.members[0].x - 25;
@@ -2006,8 +2007,13 @@ class PlayState extends MusicBeatState
 				notes.forEachAlive(function(note:Note) {
 					note.copyAlpha = false;
 					note.alpha = note.multAlpha;
-					if(ClientPrefs.middleScroll && !note.mustPress) {
+					if(ClientPrefs.middleScroll && !note.mustPress) 
+				    {
 						note.alpha *= 0.5;
+					}
+					if(ClientPrefs.hideOpponenStrums) 
+					{
+						note.alpha = 0; 
 					}
 				});
 				callOnLuas('onCountdownTick', [swagCounter]);
@@ -2344,6 +2350,7 @@ class PlayState extends MusicBeatState
 			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1 && ClientPrefs.middleScroll) targetAlpha = 0.35;
+			if (player < 1 && ClientPrefs.hideOpponenStrums) targetAlpha = 0;
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			if (!isStoryMode && !skipArrowStartTween)
@@ -2363,7 +2370,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				if(ClientPrefs.middleScroll)
+	    	    if(ClientPrefs.middleScroll)
 				{
 					babyArrow.x += 310;
 					if(i > 1) { //Up and Right

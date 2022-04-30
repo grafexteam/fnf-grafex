@@ -339,13 +339,14 @@ class ChartingState extends MusicBeatState
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
 		\nQ/E - Decrease/Increase Note Sustain Length
+		\nHold 'C' and scroll mouse wheel to Decrease/Increase Note Sustain Length
 		\nSpace - Stop/Resume song";
 
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
 			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height + 8, 0, tipTextArray[i], 16);
-			tipText.y += i * 14;
-			tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+			tipText.y += i * 12;
+			tipText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			//tipText.borderSize = 2;
 			tipText.scrollFactor.set();
 			add(tipText);
@@ -1642,11 +1643,17 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
 				if (FlxG.keys.justPressed.E)
 				{
-					changeNoteSustain(Conductor.stepCrochet);
+					changeNoteSustain(Conductor.stepCrochet / 2);
 				}
 				if (FlxG.keys.justPressed.Q)
 				{
-					changeNoteSustain(-Conductor.stepCrochet);
+					changeNoteSustain(-Conductor.stepCrochet / 2);
+				}
+				if (FlxG.keys.pressed.C && FlxG.mouse.wheel < 0) {
+					changeNoteSustain(Conductor.stepCrochet / 4);
+				}
+				if (FlxG.keys.pressed.C && FlxG.mouse.wheel > 0) {
+					changeNoteSustain(-Conductor.stepCrochet / 4);
 				}
 			}
 			
@@ -1712,7 +1719,7 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 					resetSection();
 			}
 
-			if (FlxG.mouse.wheel != 0)
+			if (FlxG.mouse.wheel != 0 && !FlxG.keys.pressed.C)
 			{
 				FlxG.sound.music.pause();
 				FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);

@@ -15,7 +15,8 @@ class OptionsHelpers
 	public static var noteskinArray = ["Default", "Chip", "Future", "Grafex"];
         public static var IconsBopArray = ['Grafex', 'Classic', 'Modern'];
         public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Disabled'];
-
+        public static var ColorBlindArray = ['None', 'Deuteranopia', 'Protanopia', 'Tritanopia'];
+//
 	public static function getNoteskinByID(id:Int)
 	{
 		return noteskinArray[id];
@@ -24,7 +25,7 @@ class OptionsHelpers
         {
         ClientPrefs.noteSkin = getNoteskinByID(id);
         }
-
+//
         public static function getIconBopByID(id:Int)
 	{
 		return IconsBopArray[id];
@@ -33,7 +34,7 @@ class OptionsHelpers
         {
         ClientPrefs.hliconbop = getIconBopByID(id);
         }
-
+//
         public static function getTimeBarByID(id:Int)
 	{
 		return TimeBarArray[id];
@@ -42,5 +43,13 @@ class OptionsHelpers
         {
         ClientPrefs.timeBarType = getTimeBarByID(id);
         }
-
+//
+        public static function getColorBlindByID(id:Int)
+        {
+                        return ColorBlindArray[id];
+        }
+        static public function ChangeColorBlind(id:Int)
+        {
+                ClientPrefs.ColorBlindType = getColorBlindByID(id);
+        }
 }

@@ -14,6 +14,7 @@ import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import haxe.Json;
+import ColorblindFilters;
 import openfl.display.Bitmap;
 import data.WeekData;
 import openfl.display.BitmapData;
@@ -165,6 +166,7 @@ class TitleState extends MusicBeatState
 
 	function startIntro()
 	{
+		ColorblindFilters.applyFiltersOnGame();
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {
@@ -368,6 +370,8 @@ class TitleState extends MusicBeatState
 				credGroup.add(money);
 				textGroup.add(money);
 			}
+			money.y -= 350;
+			FlxTween.tween(money, {y: money.y + 350}, 0.5, {ease: FlxEase.expoOut, startDelay: 0.0});
 		}
 	}
 
@@ -379,6 +383,8 @@ class TitleState extends MusicBeatState
 			coolText.y += (textGroup.length * 60) + 200 + offset;
 			credGroup.add(coolText);
 			textGroup.add(coolText);
+			coolText.y += 750;
+		    FlxTween.tween(coolText, {y: coolText.y - 750}, 0.5, {ease: FlxEase.expoOut, startDelay: 0.0});
 		}
 	}
 
@@ -420,7 +426,8 @@ class TitleState extends MusicBeatState
 			switch (curBeat)
 			{
 				case 1:
-					createCoolText(['Graphex Engine mod by'], 45);
+					createCoolText([''], 45);
+					addMoreText('Graphex Engine mod by', 45);
 				case 3:
 					addMoreText('XaleTheCat', 45);
 					addMoreText('PurSnake', 45);					

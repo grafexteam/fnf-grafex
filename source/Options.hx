@@ -1610,7 +1610,7 @@ class ScrollSpeedOption extends Option
 	}
 }*/
 
-class NPSDisplayOption extends Option
+class HideOppStrumsOption extends Option
 {
 	public function new(desc:String)
 	{
@@ -1620,7 +1620,7 @@ class NPSDisplayOption extends Option
 
 	public override function left():Bool
 	{
-		FlxG.save.data.npsDisplay = !FlxG.save.data.npsDisplay;
+		ClientPrefs.hideOpponenStrums = !ClientPrefs.hideOpponenStrums;
 		display = updateDisplay();
 		return true;
 	}
@@ -1633,7 +1633,7 @@ class NPSDisplayOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "NPS Display: < " + (!FlxG.save.data.npsDisplay ? "off" : "on") + " >";
+		return "Opponent Strums: < " + (!ClientPrefs.hideOpponenStrums ? "Shown" : "Hiden") + " >";
 	}
 }
 
@@ -2019,6 +2019,41 @@ class NoteskinOption extends Option
 	}
 }
 
+class ColorBlindOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.ColorBlindTypeNum--;
+		if (ClientPrefs.ColorBlindTypeNum < 0)
+		ClientPrefs.ColorBlindTypeNum = OptionsHelpers.ColorBlindArray.length - 1;
+        OptionsHelpers.ChangeColorBlind(ClientPrefs.ColorBlindTypeNum);
+		ColorblindFilters.applyFiltersOnGame();
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		ClientPrefs.ColorBlindTypeNum++;
+		if (ClientPrefs.ColorBlindTypeNum > OptionsHelpers.ColorBlindArray.length - 1)
+			ClientPrefs.ColorBlindTypeNum = OptionsHelpers.ColorBlindArray.length - 4;
+                  OptionsHelpers.ChangeColorBlind(ClientPrefs.ColorBlindTypeNum);
+				  ColorblindFilters.applyFiltersOnGame();
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function getValue():String
+	{
+		return "Color Blindness Type: < " + OptionsHelpers.getColorBlindByID(ClientPrefs.ColorBlindTypeNum) + " >";
+	}
+}
 class IconBop extends Option
 {
 	public function new(desc:String)

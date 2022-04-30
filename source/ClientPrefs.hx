@@ -25,6 +25,9 @@ class ClientPrefs {
     public static var showCombo:Bool = true;
     public static var blurNotes:Bool = true;
 	public static var visibleHealthbar:Bool = true;
+	public static var ColorBlindType:String = 'None';
+	public static var ColorBlindTypeNum:Int = 0;
+	public static var hideOpponenStrums:Bool = false;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -126,7 +129,7 @@ class ClientPrefs {
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
-
+		FlxG.save.data.ColorBlindType = ColorBlindType;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -139,7 +142,7 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 		FlxG.save.data.noReset = noReset;
         FlxG.save.data.underdelayalpha = underdelayalpha;
         FlxG.save.data.underdelayonoff = underdelayonoff;
-
+		FlxG.save.data.hideOpponenStrums = hideOpponenStrums;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
         FlxG.save.data.hsvol = hsvol;
 		FlxG.save.data.comboOffset = comboOffset;
@@ -162,6 +165,23 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 	}
 
 	public static function loadPrefs() {
+		if(FlxG.save.data.ColorBlindType != null) {
+			ColorBlindType = FlxG.save.data.ColorBlindType;
+		}
+		if(FlxG.save.data.ColorBlindType == null) {
+			ColorBlindType = 'None';
+		}
+
+		if(FlxG.save.data.hideOpponenStrums != null) {
+			hideOpponenStrums = FlxG.save.data.hideOpponenStrums;
+		}
+		if(FlxG.save.data.hideOpponenStrums == null) {
+			hideOpponenStrums = false;
+		}
+
+
+
+
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
