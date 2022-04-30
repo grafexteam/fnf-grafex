@@ -206,8 +206,12 @@ class CreditsState extends MusicBeatState
 				}
 	
 				if(controls.ACCEPT) {
-					CoolUtil.browserLoad(creditsStuff[curSelected][3]);
-				}
+	if (creditsStuff[curSelected][3] == '') {
+		FlxG.sound.play(Paths.sound('cancelMenu'));
+	}else{
+		CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+	}
+}
 				if (controls.BACK)
 				{
 					if(colorTween != null) {
