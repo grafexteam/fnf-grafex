@@ -419,8 +419,6 @@ class PlayState extends MusicBeatState
                 camSus.filtersEnabled = true;
                 camNOTES.filtersEnabled = true;
 
-                camSus.alpha = ClientPrefs.sustainNotesAlpha;
-
 		persistentUpdate = true;
 		persistentDraw = true;
 
@@ -2553,7 +2551,7 @@ class PlayState extends MusicBeatState
 
 		maxHealthProb = health * 100;
 
-        for (hudcam in [camNOTES, camNOTEHUD]) {
+        for (hudcam in [camSus, camNOTES, camNOTEHUD]) {
         if (hudcam != null) {
 		hudcam.zoom = camHUD.zoom;
                 hudcam.visible = camHUD.visible;
@@ -2562,11 +2560,6 @@ class PlayState extends MusicBeatState
                 hudcam.alpha = camHUD.alpha;
 		}  
             }
-        	camSus.zoom = camHUD.zoom;
-                camSus.visible = camHUD.visible;
-                camSus.x = camHUD.x;
-                camSus.y = camHUD.y;
-                camSus.alpha = camHUD.alpha - (1 - ClientPrefs.sustainNotesAlpha);
 
         if(FlxG.keys.justPressed.F11)
         {
