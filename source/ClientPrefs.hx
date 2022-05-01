@@ -28,6 +28,7 @@ class ClientPrefs {
 	public static var ColorBlindType:String = 'None';
 	public static var ColorBlindTypeNum:Int = 0;
 	public static var hideOpponenStrums:Bool = false;
+        public static var sustainNotesAlpha:Float = 1;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -138,6 +139,7 @@ class ClientPrefs {
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.timeBarType = timeBarType;
 FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
+FlxG.save.data.sustainNotesAlpha = sustainNotesAlpha;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.noReset = noReset;
         FlxG.save.data.underdelayalpha = underdelayalpha;
@@ -344,6 +346,15 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 		}
                 if(FlxG.save.data.healthBarAlpha != null) {
 			healthBarAlpha = FlxG.save.data.healthBarAlpha;
+		}
+                if(FlxG.save.data.healthBarAlpha == null) {
+			healthBarAlpha = 1;
+		}
+                if(FlxG.save.data.sustainNotesAlpha != null) {
+			sustainNotesAlpha = FlxG.save.data.sustainNotesAlpha;
+		}
+                if(FlxG.save.data.sustainNotesAlpha != null) {
+			sustainNotesAlpha = FlxG.save.data.sustainNotesAlpha;
 		}
                 if(FlxG.save.data.hsvol != null) {
 			hsvol = FlxG.save.data.hsvol;

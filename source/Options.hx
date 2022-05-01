@@ -2204,6 +2204,48 @@ class HealthBarAlpha extends Option
 	
 }
 
+class SustainNotesAlpha extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		if (OptionsMenu.isInPause)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+		acceptValues = true;
+	}
+
+	override function right():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.sustainNotesAlpha += 0.1;
+
+		if (ClientPrefs.sustainNotesAlpha > 1)
+			ClientPrefs.sustainNotesAlpha = 1;
+		return true;
+	}
+
+	override function left():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.sustainNotesAlpha -= 0.1;
+
+		if (ClientPrefs.sustainNotesAlpha < 0.1)
+			ClientPrefs.sustainNotesAlpha = 0.1;
+
+		return true;
+	}
+
+	private override function updateDisplay():String
+		{
+			return "Hold Notes Transparceny: < " + HelperFunctions.truncateFloat(ClientPrefs.sustainNotesAlpha, 1) + " >";
+		}
+	
+}
+
 class HitSoundOption extends Option
 {
 	public function new(desc:String)
