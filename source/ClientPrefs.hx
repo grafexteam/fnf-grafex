@@ -28,6 +28,8 @@ class ClientPrefs {
 	public static var ColorBlindType:String = 'None';
 	public static var ColorBlindTypeNum:Int = 0;
 	public static var hideOpponenStrums:Bool = false;
+	public static var chartautosaveInterval:Int = 5;
+	public static var chartautosave:Bool = true;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -120,6 +122,8 @@ class ClientPrefs {
         FlxG.save.data.hliconbopNum = hliconbopNum;
         FlxG.save.data.noteSkin = noteSkin;
         FlxG.save.data.noteSkinNum = noteSkinNum;
+		FlxG.save.data.chartautosaveInterval = chartautosaveInterval;
+		FlxG.save.data.chartautosave = chartautosave;
         FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
@@ -179,8 +183,12 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 			hideOpponenStrums = false;
 		}
 
-
-
+		if(FlxG.save.data.chartautosaveInterval != null) {
+			chartautosaveInterval = FlxG.save.data.chartautosaveInterval;
+		}
+		if(FlxG.save.data.chartautosave != null) {
+			chartautosave = FlxG.save.data.chartautosave;
+		}
 
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;

@@ -882,6 +882,67 @@ class BlurNotes extends Option
 	}
 }
 
+class AutoSave extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+
+		ClientPrefs.chartautosave = !ClientPrefs.chartautosave;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Chart AutoSave: < " + (ClientPrefs.chartautosave ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+class AutoSaveInt extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.chartautosaveInterval--;
+		if (ClientPrefs.chartautosaveInterval < 1)
+		ClientPrefs.chartautosaveInterval = 1;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		ClientPrefs.chartautosaveInterval++;
+		if (ClientPrefs.chartautosaveInterval > 15)
+			ClientPrefs.chartautosaveInterval = 15;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function getValue():String
+	{
+		return "Chart AutoSave Interval: < " + ClientPrefs.chartautosaveInterval + " Minures >";
+	}
+}
+
 
 class NoReset extends Option
 {
@@ -1521,7 +1582,7 @@ class FPSCapOption extends Option
                         onChangeFramerate();
 		}
 		else
-			ClientPrefs.framerate = ClientPrefs.framerate + 10;
+			ClientPrefs.framerate = ClientPrefs.framerate + 5;
 		    onChangeFramerate();
 
 		return true;
@@ -1534,7 +1595,7 @@ class FPSCapOption extends Option
 		else if (ClientPrefs.framerate < 60)
 			ClientPrefs.framerate = Application.current.window.displayMode.refreshRate;
 		else
-			ClientPrefs.framerate = ClientPrefs.framerate - 10;
+			ClientPrefs.framerate = ClientPrefs.framerate - 5;
 			onChangeFramerate();
 		return true;
 	}

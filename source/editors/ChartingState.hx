@@ -33,6 +33,7 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
@@ -41,6 +42,7 @@ import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import openfl.Lib;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.media.AudioBuffer;
 import haxe.io.Bytes;
@@ -110,6 +112,8 @@ class ChartingState extends MusicBeatState
 	var curSong:String = 'Dadbattle';
 	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
+
+	var ChartAuSaveInText:FlxText;
 
 	var highlight:FlxSprite;
 
@@ -181,7 +185,7 @@ class ChartingState extends MusicBeatState
 	var gridLayer:FlxTypedGroup<FlxSprite>;
 	//public var quants:Array<Float> = [4,2,1];
 	/**/
-	 
+
 	public var quants:Array<Float> = [
 	4,// quarter
 	2,//half
@@ -196,6 +200,10 @@ class ChartingState extends MusicBeatState
 	override function create()
 	{
 		Application.current.window.title = Main.appTitle + ' // ' + 'Chart Editor';
+
+		if(ClientPrefs.chartautosave) {
+			Lib.setInterval(autosaveSong, ClientPrefs.chartautosaveInterval * 60 * 1000); // <arubz> * 60 * 1000
+		}
 
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
@@ -352,6 +360,13 @@ class ChartingState extends MusicBeatState
 			add(tipText);
 		}
 		add(UI_box);
+
+		ChartAuSaveInText = new FlxText(10, FlxG.height - 90, 0, "Chart AutoSave", 16);
+		ChartAuSaveInText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ChartAuSaveInText.scrollFactor.set();
+		ChartAuSaveInText.alpha = 0;
+		ChartAuSaveInText.antialiasing = ClientPrefs.globalAntialiasing;
+		add(ChartAuSaveInText);
 
 		addSongUI();
 		addSectionUI();
@@ -2795,6 +2810,14 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		FlxG.save.data.autosave = Json.stringify({
 			"song": _song
 		});
+
+		trace('Chart saved!');
+		FlxTween.tween(ChartAuSaveInText, {alpha: 1}, 1, {ease: FlxEase.backInOut, type: ONESHOT});
+
+		new FlxTimer().start(3, function(tmr:FlxTimer) {
+			FlxTween.tween(ChartAuSaveInText, {alpha: 0}, 1, {ease: FlxEase.backInOut, type: ONESHOT});
+		});
+
 		FlxG.save.flush();
 	}
 

@@ -173,8 +173,10 @@ new NoteskinOption("Change your current noteskin"),
 				new Imagepersist("images loaded will stay in memory until the game is closed."),
 				new GreenScreenMode("Makes screen green."),
         		]),
-			new OptionCata(935, 40, "Saves", [
-				new ResetSettings("Reset some your settings. This is irreversible!")
+			new OptionCata(935, 40, "Extra", [
+				//new ResetSettings("Reset some your settings. This is irreversible!")
+				new AutoSave("Turn AutoSaves your chating in Charting state."),
+				new AutoSaveInt("Change Chart AutoSave Interval."),
 			]),
 			new OptionCata(-1, 125, "Editing Keybinds", [/* nothing here lol - PurSnake*/], true),
 
