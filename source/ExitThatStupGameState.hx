@@ -44,6 +44,7 @@ class ExitThatStupGameState extends MusicBeatState
 			case 'No':
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
+                    CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
                         default:
                              MusicBeatState.switchState(new MainMenuState()); //no reasons why - PurSnake
 		}

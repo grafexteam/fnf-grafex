@@ -323,7 +323,7 @@ class PlayState extends MusicBeatState
 	public static var instance:PlayState;
 	public var luaArray:Array<FunkinLua> = [];
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
-	public var introSoundsSuffix:String = '';
+	public static var introSoundsSuffix:String = '';
 
 	// Debug buttons
 	private var debugKeysChart:Array<FlxKey>;
@@ -1837,7 +1837,7 @@ class PlayState extends MusicBeatState
 	public var countdownReady:FlxSprite;
 	public var countdownSet:FlxSprite;
 	public var countdownGo:FlxSprite;
-        public static var startOnTime:Float = 0;
+    public static var startOnTime:Float = 0;
 
 	public function startCountdown():Void
 	{
@@ -1877,7 +1877,7 @@ class PlayState extends MusicBeatState
 
 			var swagCounter:Int = 0;
 
-                        if (skipCountdown || startOnTime > 0) {
+                if (skipCountdown || startOnTime > 0) {
 				clearNotesBefore(startOnTime);
 				setSongTime(startOnTime - 500);
 				return;
@@ -4211,9 +4211,9 @@ function pauseState()
 
 			songMisses++;
         	healthBarShake(0.75);
-              if(ClientPrefs.playmisssounds)
-        	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07);
-			vocals.volume = 0;
+            if(ClientPrefs.playmisssounds)
+        	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07); {
+			vocals.volume = 0; }
 			if(!practiceMode) songScore -= 10;
 
 			totalPlayed++;
@@ -4224,6 +4224,7 @@ function pauseState()
 				char = gf;
 			}
 
+			if(ClientPrefs.playmissanims)
 			if(char != null && char.hasMissAnimations)
 			{
 				var daAlt = '';
@@ -4264,12 +4265,15 @@ function pauseState()
 			totalPlayed++;
 			RecalculateRating();
             healthBarShake(0.5);
-                    if(ClientPrefs.playmisssounds)
+            if(ClientPrefs.playmisssounds)
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.3, 0.4));
 
+
+            if(ClientPrefs.playmissanims)
 			if(boyfriend.hasMissAnimations)
-				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
-			
+		boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
+
+			 if(ClientPrefs.playmisssounds)
 			vocals.volume = 0;
 		}
 	}

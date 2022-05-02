@@ -9,6 +9,8 @@ import Controls;
 class ClientPrefs {
 	//WHAT ADDED
     public static var playmisssounds:Bool = true;
+	public static var playmissanims:Bool = true;
+	public static var countdownpause:Bool = true;
     public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
     public static var shouldcameramove:Bool = true;
@@ -30,6 +32,7 @@ class ClientPrefs {
 	public static var hideOpponenStrums:Bool = false;
 	public static var chartautosaveInterval:Int = 5;
 	public static var chartautosave:Bool = true;
+    public static var skipTitleState:Bool = false;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -113,6 +116,7 @@ class ClientPrefs {
 		FlxG.save.data.showjud = showjud;
         FlxG.save.data.showCombo = showCombo;
         FlxG.save.data.blurNotes = blurNotes;
+		FlxG.save.data.playmissanims = playmissanims;
         FlxG.save.data.instantRespawn = instantRespawn;
         FlxG.save.data.playmisssounds = playmisssounds;
         FlxG.save.data.greenscreenmode = greenscreenmode;
@@ -123,9 +127,11 @@ class ClientPrefs {
         FlxG.save.data.noteSkin = noteSkin;
         FlxG.save.data.noteSkinNum = noteSkinNum;
 		FlxG.save.data.chartautosaveInterval = chartautosaveInterval;
+        FlxG.save.data.skipTitleState = skipTitleState;
 		FlxG.save.data.chartautosave = chartautosave;
         FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
+		FlxG.save.data.countdownpause = countdownpause;
 		FlxG.save.data.showFPS = showFPS;
         FlxG.save.data.showMEM = showMEM;
 		FlxG.save.data.flashing = flashing;
@@ -189,6 +195,30 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 		if(FlxG.save.data.chartautosave != null) {
 			chartautosave = FlxG.save.data.chartautosave;
 		}
+
+        if(FlxG.save.data.skipTitleState != null) {
+			skipTitleState = FlxG.save.data.skipTitleState;
+		}
+
+        if(FlxG.save.data.skipTitleState == null) {
+			skipTitleState = false;
+		}
+		if(FlxG.save.data.playmissanims != null) {
+			playmissanims = FlxG.save.data.playmissanims;
+		}
+
+		
+        if(FlxG.save.data.playmissanims == null) {
+	        playmissanims = true;
+		}
+
+	    if(FlxG.save.data.countdownpauses != null) {
+			countdownpause = FlxG.save.data.countdownpause;
+		}	
+        if(FlxG.save.data.countdownpause == null) {
+	            countdownpause = true;
+		        }
+
 
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;

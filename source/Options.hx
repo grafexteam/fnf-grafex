@@ -763,6 +763,67 @@ class GhostTapOption extends Option
 	}
 }
 
+class SkipTitleOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.skipTitleState = !ClientPrefs.skipTitleState;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "TitleState Skipping: < " + (ClientPrefs.skipTitleState ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+class KESustainsOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+         if (OptionsMenu.isInPause)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+                if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.keSustains = !ClientPrefs.keSustains;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Kade Engine Sustains System: < " + (ClientPrefs.keSustains ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+
+
 class ScoreZoom extends Option
 {
 	public function new(desc:String)
@@ -1277,16 +1338,11 @@ class MissSoundsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
 			description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.playmisssounds = !ClientPrefs.playmisssounds;
 		display = updateDisplay();
 		return true;
@@ -1301,6 +1357,60 @@ class MissSoundsOption extends Option
 	private override function updateDisplay():String
 	{
 		return "Miss Sounds: < " + (!ClientPrefs.playmisssounds ? "off" : "on") + " >";
+	}
+}
+
+class MissAnimsOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.playmissanims = !ClientPrefs.playmissanims;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Miss Animations: < " + (!ClientPrefs.playmissanims ? "off" : "on") + " >";
+	}
+}
+
+class PauseCountDownOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.countdownpause = !ClientPrefs.countdownpause;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "AfterPause CountDown: < " + (!ClientPrefs.countdownpause ? "Disabled" : "Enabled") + " >";
 	}
 }
 

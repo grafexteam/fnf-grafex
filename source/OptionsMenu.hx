@@ -144,11 +144,12 @@ class OptionsMenu extends FlxSubState
 				new Shouldcameramove("Moves camera on opponent/player note hits."),
 			]),
 			new OptionCata(345, 40, "Appearance", [
-new NoteskinOption("Change your current noteskin"),
+                new NoteskinOption("Change your current noteskin"),
                 new IconBop("Change icon bopping type"),
 				new MiddleScrollOption("Put your lane in the center or on the right."), 
 				new HideOppStrumsOption("Shows/Hides opponent strums on screen.(RESTART SONG)"),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
+				new MissAnimsOption("Toggle miss animations playing when you don't hit a note."),
                 new ShowSplashes("Show particles on SICK hit."),
 				new HealthBarOption("Toggles health bar visibility"),
 				new JudgementCounter("Show your judgements that you've gotten in the song"),
@@ -177,6 +178,8 @@ new NoteskinOption("Change your current noteskin"),
 				//new ResetSettings("Reset some your settings. This is irreversible!")
 				new AutoSave("Turn AutoSaves your chating in Charting state."),
 				new AutoSaveInt("Change Chart AutoSave Interval."),
+                new SkipTitleOption("Skips TitleState."),
+			    new PauseCountDownOption("Toggle countdown after pressing 'Resume' in Pause Menu."),
 			]),
 			new OptionCata(-1, 125, "Editing Keybinds", [/* nothing here lol - PurSnake*/], true),
 
@@ -370,6 +373,11 @@ public static function openNotesState()
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if(FlxG.keys.justPressed.F11)
+			{
+			FlxG.fullscreen = !FlxG.fullscreen;
+			}
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 

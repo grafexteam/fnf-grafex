@@ -60,6 +60,7 @@ class TitleState extends MusicBeatState
 
 	public static var initialized:Bool = false;
         public static var fromMainMenu:Bool = false;
+        public static var skipped:Bool = false;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -313,6 +314,49 @@ class TitleState extends MusicBeatState
 
 		if (!transitioning && skippedIntro)
 		{
+
+                      if(skipped == false) {
+				if(ClientPrefs.skipTitleState) {
+					if (titleText != null)
+						titleText.animation.play('press');
+
+					//FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+                                        var SkipBlack:FlxSprite;  
+                                        SkipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                                        add(SkipBlack);
+					transitioning = true;
+					// FlxG.sound.music.stop();
+					
+					// CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
+					
+                FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
+				FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        	FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+				FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
+                FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+
+					var skippedText:FlxText = new FlxText(450, 300, "SKIPPED...", 80);
+					skippedText.setFormat("VCR OSD Mono", 80, FlxColor.WHITE, CENTER);
+					add(skippedText);
+
+					new FlxTimer().start(3, function(tmr:FlxTimer) {
+						skippedText.destroy();
+					});
+
+					skipped = true; // true
+
+					new FlxTimer().start(1, function(tmr:FlxTimer)
+					{
+
+						MusicBeatState.switchState(new MainMenuState());
+						closedState = true;
+					});
+					
+				}
+			}
 			if(pressedEnter)
 			{
 				if(titleText != null) titleText.animation.play('press');
@@ -329,6 +373,7 @@ class TitleState extends MusicBeatState
                 FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
 				transitioning = true;
+                                skipped = true; // true
 
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
