@@ -234,6 +234,8 @@ class PlayState extends MusicBeatState
 
         var BlurNotes:BlurFilter;
 
+        var wiggleShit:WiggleEffect = new WiggleEffect();
+
 	public var cameraSpeed:Float = 1;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
@@ -269,7 +271,6 @@ class PlayState extends MusicBeatState
 	var heyTimer:Float;
 
 	var bgGirls:BackgroundGirls;
-	var wiggleShit:WiggleEffect = new WiggleEffect();
 	var bgGhouls:BGSprite;
 
 	public var songScore:Int = 0;
@@ -854,7 +855,7 @@ class PlayState extends MusicBeatState
 					}
 		}
 
-		if(isPixelStage) {
+		if(PlayState.isPixelStage) {
 			introSoundsSuffix = '-pixel';
 		}
 
@@ -895,27 +896,27 @@ class PlayState extends MusicBeatState
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('scripts/')];
 
-                #if MODS_ALLOWED
-		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
+		#if MODS_ALLOWED
+		foldersToCheck.insert(0, Paths.mods('scripts/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
+			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/'));
 		#end
 
 		for (folder in foldersToCheck)
-		{
-			if(FileSystem.exists(folder))
 			{
-				for (file in FileSystem.readDirectory(folder))
+				if(FileSystem.exists(folder))
 				{
-					if(file.endsWith('.lua') && !filesPushed.contains(file))
+					for (file in FileSystem.readDirectory(folder))
 					{
-						luaArray.push(new FunkinLua(folder + file));
-						filesPushed.push(file);
+						if(file.endsWith('.lua') && !filesPushed.contains(file))
+						{
+							luaArray.push(new FunkinLua(folder + file));
+							filesPushed.push(file);
+						}
 					}
 				}
 			}
-		}
-		#end
+			#end
 		
 
 		// STAGE SCRIPTS
@@ -1338,6 +1339,13 @@ class PlayState extends MusicBeatState
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('data/' + Paths.formatToSongPath(SONG.song) + '/')];
 
+		#if MODS_ALLOWED
+		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
+		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
+			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
+		#end
+
+
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
@@ -1705,7 +1713,7 @@ class PlayState extends MusicBeatState
 	}
 
 	var dialogueCount:Int = 0;
-	public var psychDialogue:DialogueBoxPsych;
+	public var psychDialogue:DialogueBoxPsych; //Powered by 'Psych Engine' - PurSnake
 	//You don't have to add a song, just saying. You can just do "startDialogue(dialogueJson);" and it should work
 	public function startDialogue(dialogueFile:DialogueFile, ?song:String = null):Void
 	{
@@ -1904,7 +1912,7 @@ class PlayState extends MusicBeatState
 
 				var introAlts:Array<String> = introAssets.get('default');
 				var antialias:Bool = ClientPrefs.globalAntialiasing;
-				if(isPixelStage) {
+				if(PlayState.isPixelStage) {
 					introAlts = introAssets.get('pixel');
 					antialias = false;
 				}
@@ -5137,5 +5145,14 @@ if (iconP2.animation.frames == 3)
 			}
 
 		}
+           /////////////// Future things - PurSnake
+           /* 
+                        var dadTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); 
+			insert(members.indexOf(dadGroup) - 1, dadTrail);
+			var bfTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069); 
+			insert(members.indexOf(boyfriendGroup) - 1, bfTrail);
+		var gfTrail = new FlxTrail(gf, null, 4, 24, 0.3, 0.069); 
+		insert(members.indexOf(gfGroup) - 1, gfTrail);
+           */		
 }
 
