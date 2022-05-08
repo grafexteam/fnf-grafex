@@ -33,6 +33,8 @@ class ClientPrefs {
 	public static var chartautosaveInterval:Int = 5;
 	public static var chartautosave:Bool = true;
     public static var skipTitleState:Bool = false;
+public static var micedUpSus:Bool = true;
+public static var SusTransper:Float = 1;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -130,6 +132,9 @@ class ClientPrefs {
         FlxG.save.data.skipTitleState = skipTitleState;
 		FlxG.save.data.chartautosave = chartautosave;
         FlxG.save.data.downScroll = downScroll;
+ FlxG.save.data.SusTransper = SusTransper;
+
+ FlxG.save.data.micedUpSus = micedUpSus;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.countdownpause = countdownpause;
 		FlxG.save.data.showFPS = showFPS;
@@ -175,6 +180,23 @@ FlxG.save.data.timeBarTypeNum = timeBarTypeNum;
 	}
 
 	public static function loadPrefs() {
+
+if(FlxG.save.data.SusTransper != null) {
+			SusTransper = FlxG.save.data.SusTransper;
+		}
+		if(FlxG.save.data.SusTransper == null) {
+			SusTransper = 1;
+		}
+
+
+if(FlxG.save.data.micedUpSus != null) {
+			micedUpSus = FlxG.save.data.micedUpSus;
+		}
+		if(FlxG.save.data.ColorBlindType == null) {
+			micedUpSus = true;
+		}
+
+
 		if(FlxG.save.data.ColorBlindType != null) {
 			ColorBlindType = FlxG.save.data.ColorBlindType;
 		}

@@ -884,6 +884,39 @@ class HideHud extends Option
 	}
 }
 
+class MicedUpSusOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+              if (OptionsMenu.isInPause)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+
+	}
+
+	public override function left():Bool
+	{
+              	if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.micedUpSus = !ClientPrefs.micedUpSus;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "MicedUp Sustains Filter: < " + (ClientPrefs.micedUpSus ? "Enabled" : "Disabled") + " >";
+	}
+}
+
 class ShowCombo extends Option
 {
 	public function new(desc:String)
@@ -1702,7 +1735,7 @@ class FPSCapOption extends Option
 	{
 		if (ClientPrefs.framerate > 290)
 			ClientPrefs.framerate = 290;
-		else if (ClientPrefs.framerate < 60)
+		else if (ClientPrefs.framerate <= 60)
 			ClientPrefs.framerate = Application.current.window.displayMode.refreshRate;
 		else
 			ClientPrefs.framerate = ClientPrefs.framerate - 5;
@@ -2371,6 +2404,48 @@ class HealthBarAlpha extends Option
 	private override function updateDisplay():String
 		{
 			return "Healthbar Transparceny: < " + HelperFunctions.truncateFloat(ClientPrefs.healthBarAlpha, 1) + " >";
+		}
+	
+}
+
+class SustainsAlpha extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		if (OptionsMenu.isInPause)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+		acceptValues = true;
+	}
+
+	override function right():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.SusTransper += 0.1;
+
+		if (ClientPrefs.SusTransper > 1)
+			ClientPrefs.SusTransper = 1;
+		return true;
+	}
+
+	override function left():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.SusTransper -= 0.1;
+
+		if (ClientPrefs.SusTransper < 0)
+			ClientPrefs.SusTransper = 0;
+
+		return true;
+	}
+
+	private override function updateDisplay():String
+		{
+			return "Sustain Notes Transparceny: < " + HelperFunctions.truncateFloat(ClientPrefs.SusTransper, 1) + " >";
 		}
 	
 }

@@ -77,7 +77,7 @@ class CharacterEditorState extends MusicBeatState
 
 	var cameraFollowPointer:FlxSprite;
 	var healthBarBG:FlxSprite;
-        var healthBarBG2:FlxSprite;
+    var healthBarBG2:FlxSprite;
 
 // The begining mouse location that all drag movements are in reference of
 	private var mouseLocation:FlxPoint;
@@ -416,9 +416,9 @@ class CharacterEditorState extends MusicBeatState
 				161
 			],
             "healthbar_colors2": [
-				100,
-				 50,
-				250
+				161,
+				161,
+				161
 			],
 			"camera_position": [
 				0,
@@ -487,7 +487,7 @@ class CharacterEditorState extends MusicBeatState
 				character.originalFlipX = parsedJson.flip_x;
 				character.healthIcon = parsedJson.healthicon;
 				character.healthColorArray = parsedJson.healthbar_colors;
-                                character.healthColorArray2 = parsedJson.healthbar_colors2;
+                character.healthColorArray2 = parsedJson.healthbar_colors2;
 				character.setPosition(character.positionArray[0] + OFFSET_X + 100, character.positionArray[1]);
 			}
 
@@ -841,7 +841,6 @@ class CharacterEditorState extends MusicBeatState
 			{
 				char.healthColorArray[0] = Math.round(healthColorStepperR.value);
 				healthBarBG.color = FlxColor.fromRGB(char.healthColorArray[0], char.healthColorArray[1], char.healthColorArray[2]);
-                               
 			}
 			else if(sender == healthColorStepperG)
 			{
@@ -853,24 +852,23 @@ class CharacterEditorState extends MusicBeatState
 			{
 				char.healthColorArray[2] = Math.round(healthColorStepperB.value);
 				healthBarBG.color = FlxColor.fromRGB(char.healthColorArray[0], char.healthColorArray[1], char.healthColorArray[2]);
-                               
 			}
 		       else if(sender == healthColorStepper2R)
 			{
 				
-                                char.healthColorArray2[0] = Math.round(healthColorStepper2R.value);
+                char.healthColorArray2[0] = Math.round(healthColorStepper2R.value);
 				healthBarBG2.color = FlxColor.fromRGB(char.healthColorArray2[0], char.healthColorArray2[1], char.healthColorArray2[2]);
 			}
 			else if(sender == healthColorStepper2G)
 			{
 				
-                                char.healthColorArray2[1] = Math.round(healthColorStepper2G.value);
+                char.healthColorArray2[1] = Math.round(healthColorStepper2G.value);
 				healthBarBG2.color = FlxColor.fromRGB(char.healthColorArray2[0], char.healthColorArray2[1], char.healthColorArray2[2]);
 			}
 			else if(sender == healthColorStepper2B)
 			{
 
-                                char.healthColorArray2[2] = Math.round(healthColorStepper2B.value);
+                char.healthColorArray2[2] = Math.round(healthColorStepper2B.value);
 				healthBarBG2.color = FlxColor.fromRGB(char.healthColorArray2[0], char.healthColorArray2[1], char.healthColorArray2[2]);
 			}
                }
@@ -1122,7 +1120,7 @@ class CharacterEditorState extends MusicBeatState
 		healthColorStepperG.value = char.healthColorArray[1];
 		healthColorStepperB.value = char.healthColorArray[2];
 		healthBarBG.color = FlxColor.fromRGB(char.healthColorArray[0], char.healthColorArray[1], char.healthColorArray[2]);
-                healthColorStepper2R.value = char.healthColorArray2[0];
+        healthColorStepper2R.value = char.healthColorArray2[0];
 		healthColorStepper2G.value = char.healthColorArray2[1];
 		healthColorStepper2B.value = char.healthColorArray2[2];
 		healthBarBG2.color = FlxColor.fromRGB(char.healthColorArray2[0], char.healthColorArray2[1], char.healthColorArray2[2]);
@@ -1249,8 +1247,6 @@ class CharacterEditorState extends MusicBeatState
 				}
 
 				
-				
-                              
 				var mouseLoc = FlxG.mouse.getPosition();
 				// Refer to 1210
 				try
@@ -1395,7 +1391,7 @@ class CharacterEditorState extends MusicBeatState
 			"flip_x": char.originalFlipX,
 			"no_antialiasing": char.noAntialiasing,
 			"healthbar_colors": char.healthColorArray,
-                        "healthbar_colors2": char.healthColorArray2,
+            "healthbar_colors2": char.healthColorArray2,
 		};
 
 		var data:String = Json.stringify(json, "\t");

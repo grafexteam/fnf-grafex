@@ -112,6 +112,7 @@ class PlayState extends MusicBeatState
 	var filtershud:Array<BitmapFilter> = [];
 	var filtersgame:Array<BitmapFilter> = [];
 	var filtersnotes:Array<BitmapFilter> = [];
+        var filterSUSnotes:Array<BitmapFilter> = [];
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -226,6 +227,7 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
+	public var camUnderHUDBeforeGame:FlxCamera;  // For some shit like UnderDelayLanes  and becouse noone care- PurSnake
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var camNOTES:FlxCamera;
@@ -235,6 +237,7 @@ class PlayState extends MusicBeatState
         var BlurNotes:BlurFilter;
 
         var wiggleShit:WiggleEffect = new WiggleEffect();
+var susWiggle:ShaderFilter;
 
 	public var cameraSpeed:Float = 1;
 
@@ -370,8 +373,14 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+                camUnderHUDBeforeGame = new FlxCamera();
+		if(ClientPrefs.greenscreenmode) {
+			camUnderHUDBeforeGame.bgColor = new FlxColor(0xFF00FF00);
+		} else {
+			camUnderHUDBeforeGame.bgColor.alpha = 0;
+		}
 		camOther = new FlxCamera();
-		camHUD.bgColor.alpha = 0;
+		camOther.bgColor.alpha = 0;
 		
 		camOther.bgColor.alpha = 0;
         camGame.bgColor.alpha = 0;
@@ -383,15 +392,13 @@ class PlayState extends MusicBeatState
 		camNOTES.bgColor.alpha = 0;
 
         camNOTEHUD = new FlxCamera();
-		if(ClientPrefs.greenscreenmode) {
-			camNOTEHUD.bgColor = new FlxColor(0xFF00FF00);
-		} else {
-			camNOTEHUD.bgColor.alpha = 0;
-		}
+        camNOTEHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+FlxG.cameras.add(camUnderHUDBeforeGame); // Here
         FlxG.cameras.add(camNOTEHUD);
         FlxG.cameras.add(camSus);
+               // camSus.alpha = ClientPrefs.SusTransper; Not now - PurSnake
 		FlxG.cameras.add(camNOTES);
 		FlxG.cameras.add(camHUD);
 		FlxG.cameras.add(camOther);
@@ -403,7 +410,8 @@ class PlayState extends MusicBeatState
 
                 BlurNotes = new BlurFilter(0, 2, 15);
 
-                if(ClientPrefs.blurNotes) filtersnotes.push(BlurNotes); // blur :D - PurSnake
+                if(ClientPrefs.blurNotes) { filtersnotes.push(BlurNotes); // blur :D - PurSnake
+filterSUSnotes.push(BlurNotes); }
 
                 trace(filtershud);
 		        trace(filtersgame);
@@ -412,7 +420,7 @@ class PlayState extends MusicBeatState
                 camGame.setFilters(filtersgame);
                 camNOTEHUD.setFilters(filtershud);
                 camHUD.setFilters(filtershud);
-                camSus.setFilters(filtersnotes); 
+                camSus.setFilters(filterSUSnotes); 
                 camNOTES.setFilters(filtersnotes); 
                 camGame.filtersEnabled = true;
                 camHUD.filtersEnabled = true; 
@@ -1091,15 +1099,27 @@ class PlayState extends MusicBeatState
 		timeBarBG.sprTracker = timeBar;
 
 
-        strumLineNotes = new FlxTypedGroup<StrumNote>();
+// le wiggle
+		wiggleShit.waveAmplitude = 0.07;
+		wiggleShit.effectType = WiggleEffect.WiggleEffectType.DREAMY;
+		wiggleShit.waveFrequency = 0;
+		wiggleShit.waveSpeed = 1.8; // fasto
+		wiggleShit.shader.uTime.value = [(strumLine.y - Note.swagWidth * 4) / FlxG.height]; // from 4mbr0s3 2
+		susWiggle = new ShaderFilter(wiggleShit.shader);
+		// le wiggle 2
+		var wiggleShit2:WiggleEffect = new WiggleEffect();
+		wiggleShit2.waveAmplitude = 0.10;
+		wiggleShit2.effectType = WiggleEffect.WiggleEffectType.HEAT_WAVE_VERTICAL;
+		wiggleShit2.waveFrequency = 0;
+		wiggleShit2.waveSpeed = 1.8; // fasto
+		wiggleShit2.shader.uTime.value = [(strumLine.y - Note.swagWidth * 4) / FlxG.height]; // from 4mbr0s3 2
+		var susWiggle2 = new ShaderFilter(wiggleShit2.shader);
+                if(ClientPrefs.micedUpSus)
+		filterSUSnotes.push(susWiggle); // only enable it for snake notes
+
+                strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
 		add(grpNoteSplashes);
-
-		if(ClientPrefs.timeBarType == 'Song Name')
-		{
-			timeTxt.size = 24;
-			timeTxt.y += 3;
-		}
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
@@ -1321,8 +1341,8 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
-        laneunderlay.cameras = [camSus];
-		laneunderlayOpponent.cameras = [camSus];
+        laneunderlay.cameras = [camUnderHUDBeforeGame];
+		laneunderlayOpponent.cameras = [camUnderHUDBeforeGame];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
@@ -2557,9 +2577,14 @@ class PlayState extends MusicBeatState
 	{
         super.update(elapsed);
 
+wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 60));
+		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 60));
+
+		wiggleShit.update(elapsed);
+
 		maxHealthProb = health * 100;
 
-        for (hudcam in [camSus, camNOTES, camNOTEHUD]) {
+        for (hudcam in [camSus, camNOTES, camNOTEHUD, camUnderHUDBeforeGame]) {
         if (hudcam != null) {
 		hudcam.zoom = camHUD.zoom;
                 hudcam.visible = camHUD.visible;
@@ -2867,6 +2892,7 @@ class PlayState extends MusicBeatState
             camNOTES.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			camSus.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			camNOTEHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+                        camUnderHUDBeforeGame.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -3766,7 +3792,7 @@ function pauseState()
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
 
-					if(winterHorrorlandNext)
+				if(winterHorrorlandNext)
 				{
 					new FlxTimer().start(1.5, function(tmr:FlxTimer)
 					{
@@ -4750,6 +4776,10 @@ function pauseState()
 	override function beatHit()
 	{
 		super.beatHit();
+
+
+		wiggleShit.waveAmplitude = 0.035;
+		wiggleShit.waveFrequency = 10;
 
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
