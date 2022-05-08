@@ -152,7 +152,7 @@ class OptionsMenu extends FlxSubState
 				new MissAnimsOption("Toggle miss animations playing when you don't hit a note."),
                 new ShowSplashes("Show particles on SICK hit."),
                 new MicedUpSusOption("Enables filter like in MicedUp Engine."),
-                new SustainsAlpha("Change Sustain Notes Alpha."),
+               // new SustainsAlpha("Change Sustain Notes Alpha."),
 				new HealthBarOption("Toggles health bar visibility"),
 				new JudgementCounter("Show your judgements that you've gotten in the song"),
 				new LaneUnderlayOption("How transparent your lane is, higher = more visible."),
