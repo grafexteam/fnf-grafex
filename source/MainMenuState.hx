@@ -167,7 +167,7 @@ class MainMenuState extends MusicBeatState
                 firstStart = false;
 
 		FlxG.camera.follow(camFollowPos, null, 1);
-
+		
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Grafex Engine v" + data.EngineData.grafexEngineVersion #if debug + " Debug Prebuild" #end, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -385,7 +385,7 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
 										//MusicBeatState.switchState(new options.OptionsState());
-										MusicBeatState.switchState(new OptionsDirect());
+										MusicBeatState.switchState(new options.OptionsDirect());
 
                                         FreeplayState.destroyFreeplayVocals();
                                         FlxG.sound.music.stop();

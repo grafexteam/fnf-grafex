@@ -536,9 +536,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 			});
 			FlxG.sound.play(Paths.sound('introGo' + PlayState.introSoundsSuffix), 0.6);
-
-		case 3:
-			close();
+                        close();
 				}
 					swagCounter += 1;
 				}, 4);

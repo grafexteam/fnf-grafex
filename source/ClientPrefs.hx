@@ -33,8 +33,10 @@ class ClientPrefs {
 	public static var chartautosaveInterval:Int = 5;
 	public static var chartautosave:Bool = true;
     public static var skipTitleState:Bool = false;
-public static var micedUpSus:Bool = true;
-public static var SusTransper:Float = 1;
+    public static var micedUpSus:Bool = true;
+    public static var SusTransper:Float = 1;
+	public static var ratingSystem:String = 'Grafex';
+	public static var ratingSystemNum:Int = 0;
 
         //WHAT WAS
     public static var downScroll:Bool = false;
@@ -55,7 +57,7 @@ public static var SusTransper:Float = 1;
 	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
-        public static var timeBarTypeNum:Int = 0;
+    public static var timeBarTypeNum:Int = 0;
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
@@ -132,7 +134,10 @@ public static var SusTransper:Float = 1;
         FlxG.save.data.skipTitleState = skipTitleState;
 		FlxG.save.data.chartautosave = chartautosave;
         FlxG.save.data.downScroll = downScroll;
+		FlxG.save.data.ratingSystem = ratingSystem;
+		FlxG.save.data.ratingSystemNum = ratingSystemNum;
  FlxG.save.data.SusTransper = SusTransper;
+
 
  FlxG.save.data.micedUpSus = micedUpSus;
 		FlxG.save.data.middleScroll = middleScroll;
@@ -145,6 +150,7 @@ public static var SusTransper:Float = 1;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.ColorBlindType = ColorBlindType;
+
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -210,6 +216,25 @@ if(FlxG.save.data.micedUpSus != null) {
 		if(FlxG.save.data.hideOpponenStrums == null) {
 			hideOpponenStrums = false;
 		}
+
+
+		if(FlxG.save.data.ratingSystem != null) {
+			ratingSystem = FlxG.save.data.ratingSystem;
+		}
+		if(FlxG.save.data.ratingSystem == null) {
+			ratingSystem = "Grafex";
+		}
+
+		if(FlxG.save.data.ratingSystemNum != null) {
+			ratingSystemNum = FlxG.save.data.ratingSystemNum;
+		}
+		if(FlxG.save.data.ratingSystemNum == null) {
+			ratingSystemNum = 0;
+		}
+
+
+	
+
 
 		if(FlxG.save.data.chartautosaveInterval != null) {
 			chartautosaveInterval = FlxG.save.data.chartautosaveInterval;

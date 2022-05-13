@@ -12,6 +12,7 @@ import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxGame;
+import data.RatingsData;
 import VideoState;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -82,19 +83,6 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
     public var shaderUpdates:Array<Float->Void> = [];
-
-	public static var ratingStuff:Array<Dynamic> = [
-		['You Suck!', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1" - ShadowMario
-	];
 	
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -138,6 +126,7 @@ class PlayState extends MusicBeatState
 
 	public var songSpeedTween:FlxTween;
 	public var songSpeed(default, set):Float = 1;
+public var noteKillOffset:Float = 350;
 	
 	public var boyfriendGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
@@ -395,13 +384,13 @@ var susWiggle:ShaderFilter;
         camNOTEHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camOther);
 FlxG.cameras.add(camUnderHUDBeforeGame); // Here
         FlxG.cameras.add(camNOTEHUD);
         FlxG.cameras.add(camSus);
                // camSus.alpha = ClientPrefs.SusTransper; Not now - PurSnake
 		FlxG.cameras.add(camNOTES);
 		FlxG.cameras.add(camHUD);
-		FlxG.cameras.add(camOther);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxCamera.defaultCameras = [camGame];
@@ -1457,7 +1446,8 @@ filterSUSnotes.push(BlurNotes); }
 		CoolUtil.precacheSound('missnote2');
 		CoolUtil.precacheSound('missnote3');
 		CoolUtil.precacheMusic('breakfast');
-    CoolUtil.precacheSound('note_click');
+        CoolUtil.precacheSound('note_click');
+        FlxG.sound.play(Paths.sound('note_click'), 0);
 
 		#if desktop
 		// Updating Discord Rich Presence.
@@ -1501,6 +1491,7 @@ filterSUSnotes.push(BlurNotes); }
 			}
 		}
 		songSpeed = value;
+noteKillOffset = 350 / songSpeed;
 		return value;
 	}
 
@@ -2467,7 +2458,7 @@ filterSUSnotes.push(BlurNotes); }
 					openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
 				else
-					openSubState(new OptionsMenu(true));
+					openSubState(new options.OptionsMenu(true));
 			}
 		else if (paused)
 		{
@@ -2922,7 +2913,7 @@ wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (Cl
 			}
 		}
 
-		if (generatedMusic)
+			if (generatedMusic)
 		{
                    if (!inCutscene) {
 				if(!cpuControlled) {
@@ -3570,10 +3561,12 @@ function pauseState()
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
 
-	function moveCameraSection(?id:Int = 0):Void {
-		if(SONG.notes[id] == null) return;
+        function moveCameraSection(?id:Int = 0):Void
+	{
+		if (SONG.notes[id] == null)
+			return;
 
-		if (gf != null && SONG.notes[id].gfSection)
+		if (SONG.notes[id].gfSection)
 		{
 			camFollow.set(gf.getMidpoint().x, gf.getMidpoint().y);
 			camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
@@ -3583,12 +3576,12 @@ function pauseState()
 			return;
 		}
 
-		if (!SONG.notes[id].mustHitSection)
+		if (!SONG.notes[id].mustHitSection && camFocus != 'dad')
 		{
 			moveCamera(true);
 			callOnLuas('onMoveCamera', ['dad']);
 		}
-		else
+		else if (SONG.notes[id].mustHitSection && camFocus != 'bf')
 		{
 			moveCamera(false);
 			callOnLuas('onMoveCamera', ['boyfriend']);
@@ -3598,27 +3591,30 @@ function pauseState()
 	var cameraTwn:FlxTween;
 	public function moveCamera(isDad:Bool)
 	{
+getCamOffsets();
 		if(isDad)
 		{
+			camFocus = 'dad';
+
 			camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
-			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
+			camFollow.x = dadPos[0] + opponentCameraOffset[0];
+			camFollow.y = dadPos[1] + opponentCameraOffset[1];
 			tweenCamIn();
 		}
 		else
 		{
-			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-			
-			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
-			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+			camFocus = 'bf';
 
-			bfcamoffsetx = boyfriendCameraOffset[0];   
-			bfcamoffsety = boyfriendCameraOffset[1]; 
+			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+			camFollow.x = bfPos[0] - boyfriendCameraOffset[0];
+			camFollow.y = bfPos[1] + boyfriendCameraOffset[1];
+
+			//bfcamoffsetx = boyfriendCameraOffset[0];   
+			//bfcamoffsety = boyfriendCameraOffset[1]; 
 
 			setOnLuas('bfcamoffsetx', bfcamoffsetx);
-            setOnLuas('bfcamoffsety', bfcamoffsety);
+                        setOnLuas('bfcamoffsety', bfcamoffsety);
 
-       
 			if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
 			{
 				cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
@@ -4268,6 +4264,10 @@ function pauseState()
 				char.playAnim(animToPlay, true);
 			}
 
+			if (camFocus == 'bf' && ClientPrefs.shouldcameramove)
+				triggerCamMovement(Math.abs(daNote.noteData % 4));
+
+
 			callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
 		}
 
@@ -4342,42 +4342,16 @@ function pauseState()
 				if(gf != null)
 					{
 				        char = gf;
-			}      
-		 }
-  if(ClientPrefs.shouldcameramove)
-    if (PlayState.NotesCanMoveCam)
-            if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote && !isEventWorking)
-			{
-                if (!dad.stunned)
-                    {
-                    	cammoveoffest = 40;
-						switch(Std.int(Math.abs(note.noteData)))
-						{
-							case 2:
-								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	        camFollow.x += dad.cameraPosition[0];
-			        	        camFollow.y += dad.cameraPosition[1] - cammoveoffest;
-							case 3:							
-						camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	    	camFollow.x += dad.cameraPosition[0] + cammoveoffest;
-			        	    	camFollow.y += dad.cameraPosition[1];
-							case 1:
-								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	        camFollow.x += dad.cameraPosition[0];
-			        	        camFollow.y += dad.cameraPosition[1] + cammoveoffest;
-							case 0:
-								camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			        	        camFollow.x += dad.cameraPosition[0] - cammoveoffest;
-			        	        camFollow.y += dad.cameraPosition[1];
-						}                   
-					}
-			} 
-
+			                }      
+		        }
 			if(char != null)
 				{
 					char.playAnim(animToPlay, true);
 					char.holdTimer = 0;
+
 				}
+			if (camFocus == 'dad' && ClientPrefs.shouldcameramove)
+				triggerCamMovement(Math.abs(note.noteData % 4));
 		}
 
 		if (SONG.needsVoices)
@@ -4461,34 +4435,6 @@ function pauseState()
 					{
 						boyfriend.playAnim(animToPlay + daAlt, true);
 						boyfriend.holdTimer = 0;
-                                if(ClientPrefs.shouldcameramove)
-                                    if (PlayState.NotesCanMoveCam)
-						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote && !isEventWorking)
-							{
-								if (!boyfriend.stunned)
-								{
-									cammoveoffest = 30;
-									switch(Std.int(Math.abs(note.noteData)))
-									{
-										case 2:
-											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-											camFollow.x += boyfriend.cameraPosition[0];
-											camFollow.y += boyfriend.cameraPosition[1] - cammoveoffest;
-										case 3:							
-											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-											camFollow.x += boyfriend.cameraPosition[0] + cammoveoffest;
-											camFollow.y += boyfriend.cameraPosition[1];
-										case 1:
-											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-											camFollow.x += boyfriend.cameraPosition[0];
-											camFollow.y += boyfriend.cameraPosition[1] + cammoveoffest;						 
-										case 0:
-											camFollow.set(boyfriend.getMidpoint().x - 100 + bfcamoffsetx, boyfriend.getMidpoint().y - 100 + bfcamoffsety);
-											camFollow.x += boyfriend.cameraPosition[0] - cammoveoffest;
-											camFollow.y += boyfriend.cameraPosition[1];					
-									}                        
-								}
-							}
 					}
 				}
 				if(note.noteType == 'Hey!') {
@@ -4527,6 +4473,8 @@ function pauseState()
 			var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 			var leData:Int = Math.round(Math.abs(note.noteData));
 			var leType:String = note.noteType;
+			if (camFocus == 'bf' && ClientPrefs.shouldcameramove)
+				triggerCamMovement(Math.abs(note.noteData % 4));
 			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 
 			if (!note.isSustainNote)
@@ -5018,21 +4966,44 @@ function pauseState()
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
 				// Rating Name
-				if(ratingPercent >= 1)
-				{
-					ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
-				}
-				else
-				{
-					for (i in 0...ratingStuff.length-1)
+
+				var ratings:Array<Dynamic> = RatingsData.grafexAnalogRatings;
+			    switch (ClientPrefs.ratingSystem)
+			    {
+				case "Psych":
+					ratings = RatingsData.psychRatings;
+				// GO CHECK FOREVER ENGINE OUT!! https://github.com/Yoshubs/Forever-Engine-Legacy
+				case "Forever":
+					ratings = RatingsData.foreverRatings;
+				// ALSO TRY ANDROMEDA!! https://github.com/nebulazorua/andromeda-engine
+				case "Andromeda":
+					ratings = RatingsData.andromedaRatings;
+				case "Kade":
+					ratings = RatingsData.accurateRatings;
+				case 'Mania':
+					ratings = RatingsData.maniaRatings;
+				case 'Grafex':
+					ratings = RatingsData.grafexAnalogRatings;
+				default:
+					ratings = RatingsData.grafexAnalogRatings;
+			    }
+
+				if (ratingPercent >= 1)
 					{
-						if(ratingPercent < ratingStuff[i][1])
+						var dummyRating = ratings[ratings.length - 1][0];
+						ratingName = dummyRating;
+					}
+				else
+					{
+						for (i in 0...ratings.length - 1)
 						{
-							ratingName = ratingStuff[i][0];
-							break;
+							if (ratingPercent < ratings[i][1])
+							{
+								ratingName = ratings[i][0];
+								break;
+							}
 						}
 					}
-				}
 			}
 
 			// Rating FC
@@ -5183,6 +5154,63 @@ if (iconP2.animation.frames == 3)
 			insert(members.indexOf(boyfriendGroup) - 1, bfTrail);
 		var gfTrail = new FlxTrail(gf, null, 4, 24, 0.3, 0.069); 
 		insert(members.indexOf(gfGroup) - 1, gfTrail);
-           */		
+           */
+		   
+		   var camFocus:String = "";
+		   var daFunneOffsetMultiplier:Float = 35;
+		   var dadPos:Array<Float> = [0, 0];
+		   var bfPos:Array<Float> = [0, 0];
+
+		function triggerCamMovement(num:Float = 0)
+			{
+                        setOnLuas('OffsetMultiplier', daFunneOffsetMultiplier);
+                        if (PlayState.NotesCanMoveCam)
+                        if (!isEventWorking)
+				if (camFocus == 'bf')
+				{
+					switch (num)
+					{
+						case 2:
+							camFollow.y = bfPos[1] - daFunneOffsetMultiplier;
+							camFollow.x = bfPos[0];
+						case 3:
+							camFollow.x = bfPos[0] + daFunneOffsetMultiplier;
+							camFollow.y = bfPos[1];
+						case 1:
+							camFollow.y = bfPos[1] + daFunneOffsetMultiplier;
+							camFollow.x = bfPos[0];
+						case 0:
+							camFollow.x = bfPos[0] - daFunneOffsetMultiplier;
+							camFollow.y = bfPos[1];
+					}
+				}
+				else
+				{
+					switch (num)
+					{
+						case 2:
+							camFollow.y = dadPos[1] - daFunneOffsetMultiplier;
+							camFollow.x = dadPos[0];
+						case 3:
+							camFollow.x = dadPos[0] + daFunneOffsetMultiplier;
+							camFollow.y = dadPos[1];
+						case 1:
+							camFollow.y = dadPos[1] + daFunneOffsetMultiplier;
+							camFollow.x = dadPos[0];
+						case 0:
+							camFollow.x = dadPos[0] - daFunneOffsetMultiplier;
+							camFollow.y = dadPos[1];
+					}
+				}
+			}
+
+		function getCamOffsets()
+				{
+					dadPos[0] = dad.getMidpoint().x + 150 + dad.cameraPosition[0];
+					dadPos[1] = dad.getMidpoint().y - 100 + dad.cameraPosition[1];
+
+					bfPos[0] = boyfriend.getMidpoint().x - 100 - boyfriend.cameraPosition[0];
+					bfPos[1] = boyfriend.getMidpoint().y - 100 + boyfriend.cameraPosition[1];
+				}
 }
 
