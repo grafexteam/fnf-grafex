@@ -175,6 +175,7 @@ public var noteKillOffset:Float = 350;
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
+        private var displayedHealth:Float = 1;
 	public var combo:Int = 0;
 	public var maxCombo:Int = 0;
     var judgementCounter:FlxText;
@@ -1198,14 +1199,14 @@ filterSUSnotes.push(BlurNotes); }
 		add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'health', 0, 2);
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'displayedHealth', 0, 2);
 		healthBar.scrollFactor.set();// y 10  heigh 14
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
-        healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'health', 0, 2);
+        healthBarWN = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 14), this, 'displayedHealth', 0, 2);
 		healthBarWN.scrollFactor.set();
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
         healthBarWN.visible = !ClientPrefs.hideHud;
@@ -2568,8 +2569,10 @@ noteKillOffset = 350 / songSpeed;
 	{
         super.update(elapsed);
 
-wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 60));
-		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 60));
+        displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
+
+        wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 60));
+ 		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 60));
 
 		wiggleShit.update(elapsed);
 
