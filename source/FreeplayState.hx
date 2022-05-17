@@ -422,10 +422,10 @@ public static function destroyFreeplayVocals() {
 	{
 		curDifficulty += change;
 
-		if (curDifficulty < 0)
-			curDifficulty = CoolUtil.difficulties.length-1;
-		if (curDifficulty >= CoolUtil.difficulties.length)
+		if (curDifficulty <= 0)
 			curDifficulty = 0;
+		if (curDifficulty >= CoolUtil.difficulties.length - 1)
+			curDifficulty = CoolUtil.difficulties.length - 1;
 
 		lastDifficultyName = CoolUtil.difficulties[curDifficulty];
 
@@ -435,7 +435,13 @@ public static function destroyFreeplayVocals() {
 		#end
 
 		PlayState.storyDifficulty = curDifficulty;
-		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+                if (curDifficulty <= 0)
+                diffText.text = '' + CoolUtil.difficultyString() + ' >';
+                else if (curDifficulty >= CoolUtil.difficulties.length - 1)  
+		diffText.text = '< ' + CoolUtil.difficultyString() + ''; 
+                else
+                diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+
 		positionHighscore();
 	}
 
