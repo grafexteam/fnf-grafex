@@ -385,12 +385,12 @@ var susWiggle:ShaderFilter;
         camNOTEHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camOther);
 FlxG.cameras.add(camUnderHUDBeforeGame); // Here
         FlxG.cameras.add(camNOTEHUD);
         FlxG.cameras.add(camSus);
                // camSus.alpha = ClientPrefs.SusTransper; Not now - PurSnake
 		FlxG.cameras.add(camNOTES);
+                FlxG.cameras.add(camOther);
 		FlxG.cameras.add(camHUD);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
@@ -3159,7 +3159,7 @@ function pauseState()
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")\nDeathAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \nDeathScore:  " + songScore + "\n ", iconRPC, SONG.player2);
 				#end
 				isDead = true;
 				return true;
