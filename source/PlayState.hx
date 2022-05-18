@@ -385,12 +385,12 @@ var susWiggle:ShaderFilter;
         camNOTEHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camOther);
 FlxG.cameras.add(camUnderHUDBeforeGame); // Here
         FlxG.cameras.add(camNOTEHUD);
         FlxG.cameras.add(camSus);
                // camSus.alpha = ClientPrefs.SusTransper; Not now - PurSnake
 		FlxG.cameras.add(camNOTES);
-                FlxG.cameras.add(camOther);
 		FlxG.cameras.add(camHUD);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
@@ -2139,7 +2139,7 @@ noteKillOffset = 350 / songSpeed;
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2, true, songLength);
+                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength);
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
@@ -2501,7 +2501,7 @@ noteKillOffset = 350 / songSpeed;
 			#if desktop
 			if (startTimer != null && startTimer.finished)
 			{
-                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+                                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
@@ -2520,11 +2520,11 @@ noteKillOffset = 350 / songSpeed;
 		{
 			if (Conductor.songPosition > 0.0)
 			{
-                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+                DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2);
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 			}
 		}
 		#end
@@ -2537,7 +2537,7 @@ noteKillOffset = 350 / songSpeed;
 		#if desktop
 		if (health > 0 && !paused)
 		{
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2);
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 		}
 		#end
 
@@ -2733,7 +2733,6 @@ noteKillOffset = 350 / songSpeed;
 		{
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
 			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
-DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
         }
 
 		if(botplayTxt.visible) {
@@ -3111,7 +3110,7 @@ function pauseState()
 			//}
 
 			#if desktop
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconP2.getCharacter());
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			#end
 		}
 	}
@@ -3160,7 +3159,7 @@ function pauseState()
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")\nDeathAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \nDeathScore:  " + songScore + "\n ", iconRPC, SONG.player2);
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, SONG.player2);
 				#end
 				isDead = true;
 				return true;
@@ -4235,7 +4234,6 @@ getCamOffsets();
 				}
 			});
 			combo = 0;
-                        DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")\nAccuracy: " + Highscore.floorDecimal(ratingPercent * 100, 2) + " \n Score:  " + songScore + "\n ", iconRPC, SONG.player2, true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 
 			health -= daNote.missHealth * healthLoss;
 			if(instakillOnMiss)
