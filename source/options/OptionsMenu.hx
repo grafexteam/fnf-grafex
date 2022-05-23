@@ -161,7 +161,7 @@ class OptionsMenu extends FlxSubState
                 new ShowCombo("Combo sprite appearance."),
                 new ScoreZoom("Zoom score on 2'nd beat."),
                 new HealthBarAlpha("Healthbar Transparceny."),
-                new BlurNotes("Make notes a bit 'blurred'."),
+                new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."),
 			    new TimeBarType("Change the song's current position bar."),
 			]),
 			new OptionCata(640, 40, "Misc", [

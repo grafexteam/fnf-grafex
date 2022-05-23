@@ -60,14 +60,7 @@ class Alphabet extends FlxSpriteGroup
 
 		if (text != "")
 		{
-			if (typed)
-			{
-				startTypedText(typingSpeed);
-			}
-			else
-			{
-				addText();
-			}
+			typed ? startTypedText(typingSpeed) : addText();
 		} else {
 			finishedText = true;
 		}
@@ -99,13 +92,9 @@ class Alphabet extends FlxSpriteGroup
 			typingSpeed = newTypingSpeed;
 		}
 
-		if (text != "") {
-			if (typed)
-			{
-				startTypedText(typingSpeed);
-			} else {
-				addText();
-			}
+		if (text != "")
+		{
+			typed ? startTypedText(typingSpeed) : addText();
 		} else {
 			finishedText = true;
 		}

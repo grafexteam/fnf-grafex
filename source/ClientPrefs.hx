@@ -25,7 +25,7 @@ class ClientPrefs {
     public static var autoPause:Bool = true;
     public static var showjud:Bool = true;
     public static var showCombo:Bool = true;
-    public static var blurNotes:Bool = true;
+    public static var blurNotes:Bool = false;
 	public static var visibleHealthbar:Bool = true;
 	public static var ColorBlindType:String = 'None';
 	public static var ColorBlindTypeNum:Int = 0;
@@ -198,7 +198,7 @@ if(FlxG.save.data.SusTransper != null) {
 if(FlxG.save.data.micedUpSus != null) {
 			micedUpSus = FlxG.save.data.micedUpSus;
 		}
-		if(FlxG.save.data.ColorBlindType == null) {
+		if(FlxG.save.data.micedUpSus == null) {
 			micedUpSus = true;
 		}
 
@@ -297,7 +297,7 @@ if(FlxG.save.data.micedUpSus != null) {
 			showCombo = FlxG.save.data.showCombo;
 		}
         if(FlxG.save.data.blurNotes == null) {
-			blurNotes = true;
+			blurNotes = false;
 		}
         if(FlxG.save.data.blurNotes != null) {
 			blurNotes = FlxG.save.data.blurNotes;

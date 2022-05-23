@@ -79,6 +79,7 @@ class Note extends FlxSprite
 	public var noAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
+public var multSpeed:Float = 1; 
 
         public static var holdArrowScales:Map<String, Float> = [
 		'Future'	=> 0.565,
@@ -109,6 +110,7 @@ class Note extends FlxSprite
 				case 'Hurt Note':
 					ignoreNote = mustPress;
 					reloadNote('HURT','','', true);
+                                        multSpeed = 3;
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
