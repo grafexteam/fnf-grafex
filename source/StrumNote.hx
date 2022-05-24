@@ -11,7 +11,9 @@ class StrumNote extends FlxSprite
 	private var colorSwap:ColorSwap;
 	public var resetAnim:Float = 0;
 	private var noteData:Int = 0;
-	public var direction:Float = 30;//plan on doing scroll directions soon -bb
+public var direction:Float = 90;//plan on doing scroll directions soon -bb
+	public var downScroll:Bool = ClientPrefs.downScroll;//plan on doing scroll directions soon -bb
+	public var sustainReduce:Bool = true;
 
 	private var player:Int;
 
@@ -44,6 +46,16 @@ class StrumNote extends FlxSprite
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 		noteData = leData;
+
+if (PlayState.swapStrumLines) {
+			if (player == 1) {
+				player = 0;
+			} else if (player == 0) {
+				player = 1;
+			}
+		}
+
+
 		this.player = player;
 		this.noteData = leData;
 		super(x, y);

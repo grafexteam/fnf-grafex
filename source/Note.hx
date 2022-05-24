@@ -110,7 +110,7 @@ public var multSpeed:Float = 1;
 				case 'Hurt Note':
 					ignoreNote = mustPress;
 					reloadNote('HURT','','', true);
-                                        multSpeed = 3;
+                                        multSpeed = 1.1;
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;

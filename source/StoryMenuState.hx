@@ -294,8 +294,9 @@ class StoryMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
+
 				var bf:MenuCharacter = grpWeekCharacters.members[1];
-				if(bf.character != '' && bf.hasConfirmAnimation) grpWeekCharacters.members[0].animation.play('confirm');
+				if(bf.character != '' && bf.hasConfirmAnimation) grpWeekCharacters.members[1].animation.play('confirm');
 				stopspamming = true;
 			}
 
@@ -322,12 +323,12 @@ class StoryMenuState extends MusicBeatState
 			var video:MP4Handler = new MP4Handler();
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				if(sys.FileSystem.exists(Paths.video(PlayState.SONG.song.toLowerCase() + 'Cutscene'))) {
+				/*if(sys.FileSystem.exists(Paths.video(PlayState.SONG.song.toLowerCase() + 'Cutscene'))) {
 					video.playMP4(Paths.video(PlayState.SONG.song.toLowerCase() + 'Cutscene'), new PlayState());
 					trace('File found');		
 					FreeplayState.destroyFreeplayVocals();
 				}
-				else
+				else*/
 					LoadingState.loadAndSwitchState(new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});

@@ -1,10 +1,10 @@
 {
-	"confirm_anim": "M Dad Idle",
 	"idle_anim": "M Pico Idle",
+	"image": "Menu_Pico",
 	"position": [
-		10,
-		-88
+		0,
+		-120
 	],
-	"scale": 1.5,
-	"image": "Menu_Pico"
+	"scale": 1,
+	"confirm_anim": "M Dad Idle"
 }
