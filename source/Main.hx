@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.tweens.FlxTween;
 import openfl.Assets;
 import openfl.Lib;
 //import openfl.display.FPS; Not in use - PurSnake
@@ -25,6 +26,10 @@ class Main extends Sprite
         //public static var memoryCounter:MemoryCounter; Not in use - PurSnake
 	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
+final normalFps:Int = ClientPrefs.framerate;
+	final lowFps:Int = 20;
+var focusMusicTween:FlxTween;
+
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
@@ -45,6 +50,35 @@ class Main extends Sprite
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
+Application.current.window.onFocusOut.add(onWindowFocusOut);
+		Application.current.window.onFocusIn.add(onWindowFocusIn);
+	}
+
+
+	function onWindowFocusOut()
+	{
+		trace("Game unfocused");
+
+		// Lower global volume when unfocused
+		if (focusMusicTween != null)
+			focusMusicTween.cancel();
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 0.3}, 0.5);
+
+		// Conserve power by lowering draw framerate when unfocuced
+		FlxG.drawFramerate = lowFps;
+	}
+
+	function onWindowFocusIn()
+	{
+		trace("Game focused");
+
+		// Normal global volume when focused
+		if (focusMusicTween != null)
+			focusMusicTween.cancel();
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 1.0}, 0.5);
+
+		// Bring framerate back when focused
+		FlxG.drawFramerate = normalFps;
 	}
 
 	private function init(?E:Event):Void
