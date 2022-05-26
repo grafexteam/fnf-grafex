@@ -62,10 +62,10 @@ Application.current.window.onFocusOut.add(onWindowFocusOut);
 		// Lower global volume when unfocused
 		if (focusMusicTween != null)
 			focusMusicTween.cancel();
-		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 0.3}, 0.5);
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume:  FlxG.sound.volume * 0.2}, 0.5);
 
 		// Conserve power by lowering draw framerate when unfocuced
-		FlxG.drawFramerate = lowFps;
+		FlxG.drawFramerate = 20;
 	}
 
 	function onWindowFocusIn()
@@ -75,10 +75,12 @@ Application.current.window.onFocusOut.add(onWindowFocusOut);
 		// Normal global volume when focused
 		if (focusMusicTween != null)
 			focusMusicTween.cancel();
-		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 1.0}, 0.5);
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
 
 		// Bring framerate back when focused
-		FlxG.drawFramerate = normalFps;
+		
+		FlxG.drawFramerate = ClientPrefs.framerate;
+		FlxG.updateFramerate = ClientPrefs.framerate;
 	}
 
 	private function init(?E:Event):Void

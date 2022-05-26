@@ -449,6 +449,12 @@ PlayState.cancelMusicFadeTween();
 
 	function startCountdown():Void
 		{
+ 
+        var introSuffix:String = '';
+
+        if(PlayState.isPixelStage)
+        introSuffix = '-pixel'; 
+
 
 			var swagCounter = 0;
 			// I HAD TO DO IT HERE THE WHOLE TIME IMA KMS
@@ -461,7 +467,7 @@ PlayState.cancelMusicFadeTween();
 					practiceText.visible = false;
 					pausebg.visible = false;
 
-					FlxG.sound.play(Paths.sound('intro3' + PlayState.introSoundsSuffix), 0.6);
+					FlxG.sound.play(Paths.sound('intro3' + introSuffix), 0.6);
 
 	var StartTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 				{
@@ -501,7 +507,7 @@ PlayState.cancelMusicFadeTween();
 					countdownReady.destroy();
 				}
 			});
-			FlxG.sound.play(Paths.sound('intro2' + PlayState.introSoundsSuffix), 0.6);
+			FlxG.sound.play(Paths.sound('intro2' + introSuffix), 0.6);
 		case 1:
 			countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 			countdownSet.scrollFactor.set();
@@ -522,7 +528,7 @@ PlayState.cancelMusicFadeTween();
 					countdownSet.destroy();
 				}
 			});
-			FlxG.sound.play(Paths.sound('intro1' + PlayState.introSoundsSuffix), 0.6);
+			FlxG.sound.play(Paths.sound('intro1' + introSuffix), 0.6);
 		case 2:
 			countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 			countdownGo.scrollFactor.set();
@@ -545,7 +551,7 @@ PlayState.cancelMusicFadeTween();
 					countdownGo.destroy();
 				}
 			});
-			FlxG.sound.play(Paths.sound('introGo' + PlayState.introSoundsSuffix), 0.6);
+			FlxG.sound.play(Paths.sound('introGo' + introSuffix), 0.6);
                         close();
 				}
 					swagCounter += 1;

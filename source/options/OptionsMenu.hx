@@ -432,7 +432,7 @@ public static function openNotesState()
 				descText.text = "Please select a category";
 				if (right)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 					selectedCat.optionObjects.members[selectedOptionIndex].text = selectedOption.getValue();
 					selectedCatIndex++;
 
@@ -445,7 +445,7 @@ public static function openNotesState()
 				}
 				else if (left)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 					selectedCat.optionObjects.members[selectedOptionIndex].text = selectedOption.getValue();
 					selectedCatIndex--;
 
@@ -459,7 +459,7 @@ public static function openNotesState()
 
 				if (accept)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 					selectedOptionIndex = 0;
 					isInCat = false;
 					selectOption(selectedCat.options[0]);
@@ -488,7 +488,7 @@ public static function openNotesState()
 					{
 						if (escape && selectedOption.waitingType)
 						{
-							FlxG.sound.play(Paths.sound('scrollMenu'));
+							FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 							selectedOption.waitingType = false;
 							var object = selectedCat.optionObjects.members[selectedOptionIndex];
 							object.text = "> " + selectedOption.getValue();
@@ -523,7 +523,7 @@ public static function openNotesState()
 					{
 						if (selectedOption.acceptType)
 							selectedOption.waitingType = false;
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						selectedCat.optionObjects.members[selectedOptionIndex].text = selectedOption.getValue();
 						selectedOptionIndex++;
 
@@ -556,7 +556,7 @@ public static function openNotesState()
 					{
 						if (selectedOption.acceptType)
 							selectedOption.waitingType = false;
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						selectedCat.optionObjects.members[selectedOptionIndex].text = selectedOption.getValue();
 						selectedOptionIndex--;
 
@@ -596,7 +596,7 @@ public static function openNotesState()
 
 					if (right)
 					{
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						var object = selectedCat.optionObjects.members[selectedOptionIndex];
 						selectedOption.right();
 
@@ -607,7 +607,7 @@ public static function openNotesState()
 					}
 					else if (left)
 					{
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						var object = selectedCat.optionObjects.members[selectedOptionIndex];
 						selectedOption.left();
 
@@ -619,7 +619,7 @@ public static function openNotesState()
 
 					if (escape)
 					{
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 
 						if (selectedCatIndex >= 4)
 							selectedCatIndex = 0;
@@ -658,7 +658,7 @@ public static function openNotesState()
             FlxG.log.add("wtf we actually did something wrong, but we dont crash bois.\n" + e);
 			selectedCatIndex = 0;
 			selectedOptionIndex = 0;
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 			if (selectedCat != null)
 			{
 				for (i in 0...selectedCat.options.length)

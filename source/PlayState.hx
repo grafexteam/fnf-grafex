@@ -334,7 +334,7 @@ var tankWatchtower:BGSprite;
 	public static var instance:PlayState;
 	public var luaArray:Array<FunkinLua> = [];
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
-	public static var introSoundsSuffix:String = '';
+	public var introSoundsSuffix:String = '';
 
 	// Debug buttons
 	private var debugKeysChart:Array<FlxKey>;

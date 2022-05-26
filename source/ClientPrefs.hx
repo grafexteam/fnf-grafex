@@ -22,7 +22,7 @@ class ClientPrefs {
     public static var underdelayonoff:Bool = true;
     public static var noteSkin:String = 'Default';
     public static var noteSkinNum:Int = 0;
-    public static var autoPause:Bool = true;
+    public static var autoPause:Bool = false;
     public static var showjud:Bool = true;
     public static var showCombo:Bool = true;
     public static var blurNotes:Bool = false;
@@ -307,6 +307,11 @@ if(FlxG.save.data.micedUpSus != null) {
 		}
         if(FlxG.save.data.autoPause != null) {
 			autoPause = FlxG.save.data.autoPause;
+			FlxG.autoPause = autoPause;
+		}
+
+ if(FlxG.save.data.autoPause == null) {
+			autoPause = false;
 			FlxG.autoPause = autoPause;
 		}
         if(FlxG.save.data.shouldcameramove != null) {

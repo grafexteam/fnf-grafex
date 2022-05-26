@@ -156,6 +156,10 @@ class StageEditorState extends MusicBeatState
         charactersOnStage = ['bf', 'gf', 'dad'];
         charactersObjects = [bf, gf, dad];
 
+   for (i in charactersObjects) {
+            i.updateHitbox(); //dflsdflsdkfdslfkslfk hitboxes i hate them so much
+        }
+
 		add(UI_box);
 
         selectedObj = bf;
@@ -172,6 +176,11 @@ class StageEditorState extends MusicBeatState
 		guideButton.cameras = [camMenu];
 
         add(guideButton);
+
+ #if desktop
+        // Updating Discord Rich Presence
+        DiscordClient.changePresence("In Stage Editor", "Making a stage...");
+        #end
 
         super.create();
     }
@@ -195,8 +204,10 @@ class StageEditorState extends MusicBeatState
                 sprite.x = 0;
                 sprite.y = 0;
                 bgLayer.add(sprite);
+    sprite.updateHitbox();
                 spritesLayer.push(objectName);
                 selectedObj = sprite;
+  selectedObj.updateHitbox();
                 reloadSpritesDropdown();
             }
         });
@@ -219,6 +230,7 @@ class StageEditorState extends MusicBeatState
             selectedObj = bgLayer.members[Std.parseInt(sprite)];
             spritesDropDown.selectedLabel = "";
             selectedObjName = Std.parseInt(sprite);
+  selectedObj.updateHitbox();
             updateCoords();
             updateSize();
 		});
@@ -228,6 +240,7 @@ class StageEditorState extends MusicBeatState
             selectedObj = charactersObjects[Std.parseInt(character)];
             reloadCharacterDropDown();
             charDropDown.selectedLabel = charactersOnStage[Std.parseInt(character)];
+ selectedObj.updateHitbox();
             updateCoords();
             updateSize();
 		});
@@ -321,6 +334,7 @@ tab_group.add(new FlxText(stepper_Zoom.x, stepper_Zoom.y - 15, 0, 'Default Zoom:
         } else {
             objCoords.text = 'Object Coords: [' + selectedObj.x + '; ' + selectedObj.y + ']';
         }
+ selectedObj.updateHitbox();
     }      
 
     function updateSize() {
@@ -496,7 +510,7 @@ tab_group.add(new FlxText(stepper_Zoom.x, stepper_Zoom.y - 15, 0, 'Default Zoom:
                     selectedObj.scale.y += 1;
                     updateSize();
                 }
-            } else if (FlxG.keys.justPressed.P) {
+             } else if (FlxG.keys.justPressed.P && selectedObj != bf && selectedObj != gf && selectedObj != dad) {
                 if (!FlxG.keys.pressed.SHIFT) {
                     selectedObj.scale.x -= 0.1;
                     selectedObj.scale.y -= 0.1;

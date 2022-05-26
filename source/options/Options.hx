@@ -2501,19 +2501,19 @@ class HitSoundOption extends Option
 	override function right():Bool
 	{
 		ClientPrefs.hsvol += 0.1;
-
 		if (ClientPrefs.hsvol > 1)
 			ClientPrefs.hsvol = 1;
+                FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol);
 		return true;
+
 	}
 
 	override function left():Bool
 	{
 		ClientPrefs.hsvol -= 0.1;
-
 		if (ClientPrefs.hsvol < 0)
 			ClientPrefs.hsvol = 0;
-
+                FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol);
 		return true;
 	}
 }
