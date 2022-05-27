@@ -45,6 +45,7 @@ class Paths
 		'songs',
 		'music',
 		'sounds',
+                'shaders',
 		'videos',
 		'images',
 		'stages',
@@ -189,6 +190,15 @@ public static function clearUnusedMemory() {
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
+	}
+
+inline static public function shaderFragment(key:String, ?library:String)
+	{
+		return getPath('shaders/$key.frag', TEXT, library);
+	}
+	inline static public function shaderVertex(key:String, ?library:String)
+	{
+		return getPath('shaders/$key.vert', TEXT, library);
 	}
 
 	inline static public function lua(key:String, ?library:String)
@@ -401,6 +411,15 @@ public static function clearUnusedMemory() {
 
 	inline static public function modsTxt(key:String) {
 		return modFolders('images/' + key + '.txt');
+	}
+
+inline static public function modsShaderFragment(key:String, ?library:String)
+	{
+		return modFolders('shaders/'+key+'.frag');
+	}
+	inline static public function modsShaderVertex(key:String, ?library:String)
+	{
+		return modFolders('shaders/'+key+'.vert');
 	}
 
 	static public function modFolders(key:String) {

@@ -172,8 +172,6 @@ class TitleState extends MusicBeatState
 		{
 			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-
-				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			}
 		}
 
@@ -468,34 +466,37 @@ class TitleState extends MusicBeatState
 
 		if(!closedState) {
 			sickBeats++;
-			switch (curBeat)
+			switch (sickBeats)
 			{
 				case 1:
-					createCoolText([''], 45);
-					addMoreText('Graphex Engine mod by', 45);
-				case 3:
+                                        FlxG.sound.music.stop();
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					FlxG.sound.music.fadeIn(4, 0, 0.7);
+				case 2:
+					createCoolText(['Graphex Engine by'], 45);
+				case 4:
 					addMoreText('XaleTheCat', 45);
 					addMoreText('PurSnake', 45);					
-				case 5:
+				case 6:
                     deleteCoolText();
 					createCoolText(['Forked', 'from'], 15);
-				case 7:
-					addMoreText('Psych Engine', 45);			
 				case 8:
-					deleteCoolText();
+					addMoreText('Psych Engine', 45);			
 				case 9:
-					createCoolText([curWacky[0]]);
-				case 11:
-					addMoreText(curWacky[1]);
-				case 12:
 					deleteCoolText();
+				case 10:
+					createCoolText([curWacky[0]]);
+				case 12:
+					addMoreText(curWacky[1]);
 				case 13:
-					addMoreText('Friday');
+					deleteCoolText();
 				case 14:
-					addMoreText('Night');
+					addMoreText('Friday');
 				case 15:
-					addMoreText('Funkin');
+					addMoreText('Night');
 				case 16:
+					addMoreText('Funkin');
+				case 17:
 					skipIntro();
 			}
 		}
