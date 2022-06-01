@@ -437,12 +437,19 @@ public static function destroyFreeplayVocals() {
 		#end
 
 		PlayState.storyDifficulty = curDifficulty;
-                if (curDifficulty <= 0)
+                if((CoolUtil.difficulties.length - 1 ) > 0) {
+		if (curDifficulty <= 0)
                 diffText.text = '' + CoolUtil.difficultyString() + ' >';
                 else if (curDifficulty >= CoolUtil.difficulties.length - 1)  
 		diffText.text = '< ' + CoolUtil.difficultyString() + ''; 
                 else
                 diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+                }
+                else
+                {
+                diffText.text = CoolUtil.difficultyString();
+                }
+
 
 		positionHighscore();
 	}
