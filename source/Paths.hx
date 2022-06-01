@@ -12,7 +12,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
 import flixel.FlxSprite;
-#if MODS_ALLOWED
+#if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
@@ -468,9 +468,7 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 		#else
 			{
 			var folder:String = '';
-			#if html5
 			if(path == 'songs') folder = 'songs:';
-			#end
 			currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(folder + getPath('$path/$key.$SOUND_EXT', SOUND, library)));
 		}
 		#end

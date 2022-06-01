@@ -941,7 +941,12 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		}
 
 		#if LUA_ALLOWED // Im fukked up with this
-		var directories:Array<String> = [Paths.mods('custom_notetypes/'), Paths.mods(Paths.currentModDirectory + '/custom_notetypes/')];
+		var directories:Array<String> = [];
+
+		#if MODS_ALLOWED
+		directories.push(Paths.mods('custom_notetypes/'));
+		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_notetypes/'));
+		#end
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
 			if(FileSystem.exists(directory)) {
@@ -994,7 +999,12 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		tab_group_event.name = 'Events';
                 #if LUA_ALLOWED
 		var eventPushedMap:Map<String, Bool> = new Map<String, Bool>();
-		var directories:Array<String> = [Paths.mods('custom_events/'), Paths.mods(Paths.currentModDirectory + '/custom_events/')];
+		var directories:Array<String> = [];
+
+		#if MODS_ALLOWED
+		directories.push(Paths.mods('custom_events/'));
+		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_events/'));
+		#end
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
 			if(FileSystem.exists(directory)) {
@@ -2181,8 +2191,7 @@ function reloadGridLayer() {
 		[[min...], [max...]]  right
 	]
 	*/
-	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1,
-		?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
+	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1, ?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
 	{
 		#if (lime_cffi && !macro)
 		if (buffer == null || buffer.data == null) return [[[0], [0]], [[0], [0]]];
@@ -2290,6 +2299,8 @@ function reloadGridLayer() {
 		}
 		
 		return array;
+		#else
+		return [[[0], [0]], [[0], [0]]];
 		#end
 	}
 	function changeNoteSustain(value:Float):Void

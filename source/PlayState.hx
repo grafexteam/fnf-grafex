@@ -1210,6 +1210,7 @@ if(gfVersion == 'pico-speaker')
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
+                        #if MODS_ALLOWED
 			var luaToLoad:String = Paths.modFolders('custom_notetypes/' + notetype + '.lua');
 			if(FileSystem.exists(luaToLoad))
 			{
@@ -1223,9 +1224,17 @@ if(gfVersion == 'pico-speaker')
 					luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
+                        #elseif sys
+			var luaToLoad:String = Paths.getPreloadPath('custom_notetypes/' + notetype + '.lua');
+			if(OpenFlAssets.exists(luaToLoad))
+			{
+				luaArray.push(new FunkinLua(luaToLoad));
+			}
+			#end
 		}
 		for (event in eventPushedMap.keys())
 		{
+                        #if MODS_ALLOWED
 			var luaToLoad:String = Paths.modFolders('custom_events/' + event + '.lua');
 			if(FileSystem.exists(luaToLoad))
 			{
@@ -1239,6 +1248,13 @@ if(gfVersion == 'pico-speaker')
 					luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
+                        #elseif sys
+			var luaToLoad:String = Paths.getPreloadPath('custom_events/' + event + '.lua');
+			if(OpenFlAssets.exists(luaToLoad))
+			{
+				luaArray.push(new FunkinLua(luaToLoad));
+			}
+			#end
 		}
 		#end
 		noteTypeMap.clear();
@@ -1579,22 +1595,9 @@ Paths.clearUnusedMemory();
 		if(generatedMusic)
 		{
 			var ratio:Float = value / songSpeed; //funny word huh
-			for (note in notes)
-			{
-				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-				{
-					note.scale.y *= ratio;
-					note.updateHitbox();
-				}
-			}
-			for (note in unspawnNotes)
-			{
-				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-				{
-					note.scale.y *= ratio;
-					note.updateHitbox();
-				}
-			}
+			for (note in notes) note.resizeByRatio(ratio);
+			for (note in unspawnNotes) note.resizeByRatio(ratio);
+			
 		}
 		songSpeed = value;
 noteKillOffset = 350 / songSpeed;
@@ -1656,6 +1659,7 @@ noteKillOffset = 350 / songSpeed;
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		var luaFile:String = 'characters/' + name + '.lua';
+                #if MODS_ALLOWED
 		if(FileSystem.exists(Paths.modFolders(luaFile))) {
 			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
@@ -1665,6 +1669,12 @@ noteKillOffset = 350 / songSpeed;
 				doPush = true;
 			}
 		}
+                #else
+		luaFile = Paths.getPreloadPath(luaFile);
+		if(Assets.exists(luaFile)) {
+			doPush = true;
+		}
+		#end
 		
 		if(doPush)
 		{
@@ -2591,7 +2601,7 @@ switch(curStage)
 
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		var file:String = Paths.json(songName + '/events');
-		#if sys
+		#if MODS_ALLOWED
 		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
@@ -2982,6 +2992,7 @@ switch(curStage)
 	}
 
 	public var paused:Bool = false;
+        public var canReset:Bool = true;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
@@ -3329,7 +3340,7 @@ case 'tank':
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!ClientPrefs.noReset && controls.RESET && !inCutscene && startedCountdown && !endingSong)
+		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -4685,6 +4696,9 @@ allNotesMs += noteDiff;
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
+          
+                if(ClientPrefs.ghostTapping) return; //fuck it
+
 		if (!boyfriend.stunned)
 		{
 			health -= 0.05 * healthLoss;
@@ -4693,8 +4707,6 @@ allNotesMs += noteDiff;
 				vocals.volume = 0;
 				doDeathCheck(true);
 			}
-
-			if(ClientPrefs.ghostTapping) return;
 
 			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
 			{
@@ -5543,8 +5555,13 @@ if (iconP2.animation.frames == 3)
 		
 	function showhphud()
 		{
-			for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
+			for (elem in [timeBarBG, timeBar, judgementCounter, songTxt]) {
 			    if (elem != null) {
+			        FlxTween.tween(elem, {alpha: 1}, Conductor.crochet / 250, {ease: FlxEase.circOut});
+                }  }
+
+                        for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+                                if (elem != null) {
 			        FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
                 }  }
 
@@ -5552,8 +5569,7 @@ if (iconP2.animation.frames == 3)
 			        if (delem != null) {
 						FlxTween.tween(delem, {y: (ClientPrefs.downScroll ?  delem.y + 490 :  delem.y - 510)}, Conductor.crochet / 250, {ease: FlxEase.circOut});
 
-				    }  
-                }
+				    }  }
 		}
 	function hidehphud()
 		{
