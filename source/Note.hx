@@ -18,6 +18,8 @@ typedef EventNote = {
 }
 class Note extends FlxSprite
 { 
+
+public var extraData:Map<String,Dynamic> = [];
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
@@ -29,6 +31,13 @@ class Note extends FlxSprite
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
+
+public var nextNote:Note;
+
+	public var spawned:Bool = false;
+
+	public var tail:Array<Note> = []; // for sustains
+	public var parent:Note;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -77,6 +86,7 @@ class Note extends FlxSprite
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
+public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 public var multSpeed(default, set):Float = 1;
@@ -139,6 +149,7 @@ private function set_multSpeed(value:Float):Float {
 					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;
+                                        noMissAnimation = true;
 				case 'GF Sing':
 					gfNote = true;
 			}
@@ -196,6 +207,9 @@ private function set_multSpeed(value:Float):Float {
 		}
 
 		// trace(prevNote);
+
+if(prevNote!=null)
+			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)
 		{

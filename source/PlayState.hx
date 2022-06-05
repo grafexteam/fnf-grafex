@@ -65,6 +65,7 @@ import FunkinLua;
 import DialogueBoxPsych;
 import Shaders;
 import MainMenuState;
+import Conductor.Rating;
 
 import openfl.filters.ShaderFilter;
 import openfl.Lib;
@@ -93,6 +94,7 @@ class PlayState extends MusicBeatState
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
 	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
+public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
 	public var shader_chromatic_abberation:ChromaticAberrationEffect;
 
@@ -143,6 +145,8 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+
+public var spawnTime:Float = 3000;
 
     public var pxgfdanced:Bool = false;
 
@@ -196,7 +200,8 @@ class PlayState extends MusicBeatState
 
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
-	
+
+public var ratingsData:Array<Rating> = [];	
 	public var sicks:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
@@ -362,6 +367,26 @@ class PlayState extends MusicBeatState
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_up')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
 		];
+
+ratingsData.push(new Rating('sick')); //default rating
+
+		var rating:Rating = new Rating('good');
+		rating.ratingMod = 0.7;
+		rating.score = 200;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+
+		var rating:Rating = new Rating('bad');
+		rating.ratingMod = 0.4;
+		rating.score = 100;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+
+		var rating:Rating = new Rating('shit');
+		rating.ratingMod = 0;
+		rating.score = 50;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
 
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
@@ -976,6 +1001,8 @@ class PlayState extends MusicBeatState
 		foldersToCheck.insert(0, Paths.mods('scripts/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/'));
+for(mod in Paths.getGlobalMods())
+			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
 		#end
 
 		for (folder in foldersToCheck)
@@ -1460,7 +1487,9 @@ class PlayState extends MusicBeatState
 		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
-		#end
+		for(mod in Paths.getGlobalMods())
+			foldersToCheck.insert(0, Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) + '/' ));
+#end
 
 
 		for (folder in foldersToCheck)
@@ -1786,6 +1815,13 @@ noteKillOffset = 350 / songSpeed;
 				camGame.setFilters(newCamEffects);
 		}
 	} */ // Its all bullshit - PurSnake
+
+public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
+		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);
+		return null;
+	}
 	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
@@ -2313,10 +2349,17 @@ function tankIntro()
 
 			var swagCounter:Int = 0;
 
-                if (skipCountdown || startOnTime > 0) {
+             
+			if(startOnTime < 0) startOnTime = 0;
+
+			if (startOnTime > 0) {
 				clearNotesBefore(startOnTime);
-				setSongTime(startOnTime - 500);
+				setSongTime(startOnTime - 350);
 				return;
+			}
+			else if (skipCountdown)
+			{
+				setSongTime(0);
 			}
 
 			startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
@@ -2433,11 +2476,8 @@ function tankIntro()
 							}
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
-
 						showhphud();
-////////////////////////
-
-					case 4:
+		    case 4:
                             }
 
 				notes.forEachAlive(function(note:Note) {
@@ -2466,12 +2506,14 @@ function tankIntro()
 		var i:Int = unspawnNotes.length - 1;
 		while (i >= 0) {
 			var daNote:Note = unspawnNotes[i];
-			if(daNote.strumTime - 500 < time)
+			if(daNote.strumTime - 350 < time)
 			{
 				daNote.active = false;
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
+
+if(modchartObjects.exists('note${daNote.ID}'))modchartObjects.remove('note${daNote.ID}');
 				daNote.kill();
 				unspawnNotes.remove(daNote);
 				daNote.destroy();
@@ -2482,12 +2524,13 @@ function tankIntro()
 		i = notes.length - 1;
 		while (i >= 0) {
 			var daNote:Note = notes.members[i];
-			if(daNote.strumTime - 500 < time)
+			if(daNote.strumTime - 350 < time)
 			{
 				daNote.active = false;
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
+if(modchartObjects.exists('note${daNote.ID}'))modchartObjects.remove('note${daNote.ID}');
 				daNote.kill();
 				notes.remove(daNote, true);
 				daNote.destroy();
@@ -2509,6 +2552,7 @@ function tankIntro()
 		vocals.time = time;
 		vocals.play();
 		Conductor.songPosition = time;
+songTime = time;
 	}
 
 	function startNextDialogue() {
@@ -2664,6 +2708,8 @@ switch(curStage)
 				var susLength:Float = swagNote.sustainLength;
 
 				susLength = susLength / Conductor.stepCrochet;
+swagNote.ID = unspawnNotes.length;
+				modchartObjects.set('note${swagNote.ID}', swagNote);
 				unspawnNotes.push(swagNote);
 
 				var floorSus:Int = Math.floor(susLength);
@@ -2676,7 +2722,11 @@ switch(curStage)
 						sustainNote.mustPress = gottaHitNote;
 						sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
 						sustainNote.noteType = swagNote.noteType;
+sustainNote.ID = unspawnNotes.length;
+						modchartObjects.set('note${sustainNote.ID}', sustainNote);
 						sustainNote.scrollFactor.set();
+swagNote.tail.push(sustainNote);
+						sustainNote.parent = swagNote;
 						unspawnNotes.push(sustainNote);
 
 						if (sustainNote.mustPress)
@@ -2832,10 +2882,12 @@ switch(curStage)
 
 			if (player == 1)
 			{
+modchartObjects.set("playerStrum" + i, babyArrow);
 				playerStrums.add(babyArrow);
 			}
 			else
 			{
+modchartObjects.set("opponentStrum" + i, babyArrow);
 	    	    if(ClientPrefs.middleScroll)
 				{
 					babyArrow.x += 310;
@@ -3005,6 +3057,10 @@ switch(curStage)
 	override public function update(elapsed:Float)
 	{
         super.update(elapsed);
+
+
+		setOnLuas('curDecStep', curDecStep);
+		setOnLuas('curDecBeat', curDecBeat);
 
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
@@ -3355,13 +3411,15 @@ case 'tank':
 		var roundedSpeed:Float = FlxMath.roundDecimal(songSpeed, 2);
 		if (unspawnNotes[0] != null)
 		{
-			var time:Float = 1500;
+			var time:Float = spawnTime;//shit be werid on 4:3
 			if(roundedSpeed < 1) time /= roundedSpeed;
 
 			while (unspawnNotes.length > 0 && unspawnNotes[0].strumTime - Conductor.songPosition < time)
 			{
 				var dunceNote:Note = unspawnNotes[0];
 				notes.insert(0, dunceNote);
+dunceNote.spawned=true;
+				callOnLuas('onSpawnNote', [notes.members.indexOf(dunceNote), dunceNote.noteData, dunceNote.noteType, dunceNote.isSustainNote, dunceNote.ID]);
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
@@ -3501,6 +3559,7 @@ case 'tank':
 					daNote.active = false;
 					daNote.visible = false;
 
+if(modchartObjects.exists('note${daNote.ID}'))modchartObjects.remove('note${daNote.ID}');
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
@@ -4255,6 +4314,7 @@ getCamOffsets();
 			daNote.active = false;
 			daNote.visible = false;
 
+if(modchartObjects.exists('note${daNote.ID}'))modchartObjects.remove('note${daNote.ID}');
 			daNote.kill();
 			notes.remove(daNote, true);
 			daNote.destroy();
@@ -4290,31 +4350,15 @@ allNotesMs += noteDiff;
 		var score:Int = 350;
 
 		//tryna do MS based judgment due to popular demand
-		var daRating:String = Conductor.judgeNote(note, noteDiff);
+		var daRating:Rating = Conductor.judgeNote(note, noteDiff);
+		var ratingNum:Int = 0;
 
-		switch (daRating)
-		{
-			case "shit": // shit
-				totalNotesHit += 0;
-				note.ratingMod = 0;
-				if(!note.ratingDisabled) shits++;
-			case "bad": // bad
-				totalNotesHit += 0.5;
-				note.ratingMod = 0.5;
-				if(!note.ratingDisabled) bads++;
-			case "good": // good
-				totalNotesHit += 0.75;
-				note.ratingMod = 0.75;
-				if(!note.ratingDisabled) goods++;
-			case "sick": // sick
-				totalNotesHit += 1;
-				note.ratingMod = 1;
-				if(!note.ratingDisabled) sicks++;
-		}
+                totalNotesHit += daRating.ratingMod;
+		note.ratingMod = daRating.ratingMod;
+		if(!note.ratingDisabled) daRating.increase();
+		note.rating = daRating.name;
 
-            note.rating = daRating;
-
-		if(daRating == 'sick' && !note.noteSplashDisabled)
+		if(daRating.noteSplash && !note.noteSplashDisabled)
 		{
 			spawnNoteSplashOnNote(note);
 		}
@@ -4332,14 +4376,6 @@ allNotesMs += noteDiff;
 			
 		}
 
-		/* if (combo > 60)
-				daRating = 'sick';
-			else if (combo > 12)
-				daRating = 'good'
-			else if (combo > 4)
-				daRating = 'bad';
-		 */
-
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
 
@@ -4349,7 +4385,7 @@ allNotesMs += noteDiff;
 			pixelShitPart2 = '-pixel';
 		}
 
-		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
+		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating.image + pixelShitPart2));
 		rating.cameras = [camNOTEHUD];
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
@@ -4509,6 +4545,7 @@ allNotesMs += noteDiff;
 					{
 						for (doubleNote in pressNotes) {
 							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+if(modchartObjects.exists('note${doubleNote.ID}'))modchartObjects.remove('note${doubleNote.ID}');
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
@@ -4524,9 +4561,13 @@ allNotesMs += noteDiff;
 
 					}
 				}
-				else if (canMiss) {
-					noteMissPress(key);
-					callOnLuas('noteMissPress', [key]);
+				else{
+					callOnLuas('onGhostTap', [key]);
+					if (canMiss) {
+						noteMissPress(key);
+						callOnLuas('noteMissPress', [key]);
+					}
+
 				}
 
 				// I dunno what you need this for but here you go
@@ -4652,7 +4693,8 @@ allNotesMs += noteDiff;
 			notes.forEachAlive(function(note:Note)
 			{
 				if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1) {
-					note.kill();
+				if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
+                                        note.kill();
 					notes.remove(note, true);
 					note.destroy();
 				}
@@ -4682,7 +4724,7 @@ allNotesMs += noteDiff;
 			}
 
 			if(ClientPrefs.playmissanims)
-			if(char != null && char.hasMissAnimations)
+			if(char != null && !daNote.noMissAnimation && char.hasMissAnimations)
 			{
 				var daAlt = '';
 				if(daNote.noteType == 'Alt Animation') daAlt = '-alt';
@@ -4695,7 +4737,7 @@ allNotesMs += noteDiff;
 				triggerCamMovement(Math.abs(daNote.noteData % 4));
 
 
-			callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
+			callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote, daNote.ID]);
 		}
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
@@ -4738,6 +4780,7 @@ allNotesMs += noteDiff;
 			 if(ClientPrefs.playmisssounds)
 			vocals.volume = 0;
 		}
+callOnLuas('noteMissPress', [direction]);
 	}
 
 	private function opponentNoteHit(note:Note):Void
@@ -4792,10 +4835,11 @@ allNotesMs += noteDiff;
 		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)) % 4, time);
 		note.hitByOpponent = true;
 
-		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
+		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, note.ID]);
 
 		if (!note.isSustainNote)
 		{
+if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
@@ -4815,17 +4859,21 @@ allNotesMs += noteDiff;
 					spawnNoteSplashOnNote(note);
 				}
 
-				switch(note.noteType) {
-					case 'Hurt Note': //Hurt note
-						if(boyfriend.animation.getByName('hurt') != null) {
-							boyfriend.playAnim('hurt', true);
-							boyfriend.specialAnim = true;
-						}
+				if(!note.noMissAnimation)
+				{
+					switch(note.noteType) {
+						case 'Hurt Note': //Hurt note
+							if(boyfriend.animation.getByName('hurt') != null) {
+								boyfriend.playAnim('hurt', true);
+								boyfriend.specialAnim = true;
+							}
+					}
 				}
 		
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
 				{
+	if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 					note.kill();
 					notes.remove(note, true);
 					note.destroy();
@@ -4903,12 +4951,13 @@ allNotesMs += noteDiff;
 			var leType:String = note.noteType;
 			if (camFocus == 'bf' && ClientPrefs.shouldcameramove)
 				triggerCamMovement(Math.abs(note.noteData % 4));
-			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
+			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus, note.ID]);
 
 			if (!note.isSustainNote)
 			{
             
 				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
+if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -5346,11 +5395,17 @@ case 'tank':
 	}
 
 	public var closeLuas:Array<FunkinLua> = [];
-	public function callOnLuas(event:String, args:Array<Dynamic>):Dynamic {
+	public function callOnLuas(event:String, args:Array<Dynamic>, ignoreStops=false, ?exclusions:Array<String>):Dynamic {
 		var returnVal:Dynamic = FunkinLua.Function_Continue;
+if(exclusions==null)exclusions=[];
 		#if LUA_ALLOWED
 		for (i in 0...luaArray.length) {
+if(exclusions.contains(luaArray[i].scriptName)){
+				continue;
+			}
 			var ret:Dynamic = luaArray[i].call(event, args);
+if(ret==FunkinLua.Function_StopLua && !ignoreStops)break;
+			if(ret==FunkinLua.Function_StopLua && ignoreStops)ret=FunkinLua.Function_Continue;
 			if(ret != FunkinLua.Function_Continue) {
 				returnVal = ret;
 			}

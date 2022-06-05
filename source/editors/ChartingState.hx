@@ -196,15 +196,29 @@ class ChartingState extends MusicBeatState
 	//public var quants:Array<Float> = [4,2,1];
 	/**/
 
-	public var quants:Array<Float> = [
+	/*public var quants:Array<Float> = [
 	4,// quarter
 	2,//half
 	4/3,
 	1,
-	4/8];//eight
-	
-	
-	public static var curQuant = 0;
+	4/8];//eight*/
+
+        public static var quantization:Int = 16;
+public static var curQuant = 3;
+public var quantizations:Array<Int> = [
+		4,
+		8,
+		12,
+		16,
+		20,
+		24,
+		32,
+		48,
+		64,
+		96,
+		192
+	];
+
 	var text:String = "";
 	public static var vortex:Bool = false;
 	override function create()
@@ -229,7 +243,6 @@ class ChartingState extends MusicBeatState
 				splashSkin: 'noteSplashes',//idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
-				player3: null,
 				gfVersion: 'gf',
 				speed: 1,
 				stage: 'stage',
@@ -348,7 +361,9 @@ reloadGridLayer();
 
 		text =
 		"W/S or Mouse Wheel - Change Conductor's strum time
-		\nA or Left/D or Right - Go to the previous/next section
+		\nA/D - Go to the previous/next section
+		\nLeft/Right - Change beat snap
+                \nUp/Down - Change Conductor's strum time with snapping
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
 		\nZ/X - Zoom in/out
@@ -362,8 +377,8 @@ reloadGridLayer();
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
 			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height + 8, 0, tipTextArray[i], 16);
-			tipText.y += i * 12;
-			tipText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+			tipText.y += i * 10;
+			tipText.setFormat(Paths.font("vcr.ttf"), 12, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			//tipText.borderSize = 2;
 			tipText.scrollFactor.set();
 			add(tipText);
@@ -490,7 +505,7 @@ reloadGridLayer();
 		clear_notes.color = FlxColor.RED;
 		clear_notes.label.color = FlxColor.WHITE;
 
-		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 339, 1);
+		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 400, 3);
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
@@ -504,7 +519,9 @@ reloadGridLayer();
 		
 #if MODS_ALLOWED
 		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Paths.currentModDirectory + '/characters/'), Paths.getPreloadPath('characters/')];
-		#else
+		for(mod in Paths.getGlobalMods())
+			directories.push(Paths.mods(mod + '/characters/'));
+#else
 		var directories:Array<String> = [Paths.getPreloadPath('characters/')];
 		#end
 
@@ -540,15 +557,15 @@ reloadGridLayer();
 		player1DropDown.selectedLabel = _song.player1;
 		blockPressWhileScrolling.push(player1DropDown);
 
-		var player3DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
+		var gfVersionDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.gfVersion = characters[Std.parseInt(character)];
 			updateHeads();
 		});
-		player3DropDown.selectedLabel = _song.gfVersion;
-		blockPressWhileScrolling.push(player3DropDown);
+		gfVersionDropDown.selectedLabel = _song.gfVersion;
+		blockPressWhileScrolling.push(gfVersionDropDown);
 
-		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player3DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
+		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.player2 = characters[Std.parseInt(character)];
 			updateHeads();
@@ -557,8 +574,10 @@ reloadGridLayer();
 		blockPressWhileScrolling.push(player2DropDown);
 
 		#if MODS_ALLOWED
-		var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.currentModDirectory + '/stages/'), Paths.getPreloadPath('stages/')];
-		#else
+var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.currentModDirectory + '/stages/'), Paths.getPreloadPath('stages/')];
+		for(mod in Paths.getGlobalMods())
+			directories.push(Paths.mods(mod + '/stages/'));
+#else
 		var directories:Array<String> = [Paths.getPreloadPath('stages/')];
 		#end
 
@@ -602,7 +621,7 @@ reloadGridLayer();
 
 	        CoolUtil.difficulties = CoolUtil.defaultDifficulties.copy();
 
-		var difficultyDropDown = new FlxUIDropDownMenuCustom(stageDropDown.x, player3DropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(CoolUtil.difficulties, true), function(difficulty:String)
+		var difficultyDropDown = new FlxUIDropDownMenuCustom(stageDropDown.x, gfVersionDropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(CoolUtil.difficulties, true), function(difficulty:String)
 		{
 			if (PlayState.storyDifficulty != Std.parseInt(difficulty)) {
 				PlayState.storyDifficulty = Std.parseInt(difficulty);
@@ -650,14 +669,14 @@ reloadGridLayer();
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
-		tab_group_song.add(new FlxText(player3DropDown.x, player3DropDown.y - 15, 0, 'Girlfriend:'));
+		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
                 tab_group_song.add(new FlxText(difficultyDropDown.x, difficultyDropDown.y - 15, 0, 'Difficulty:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_song.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		tab_group_song.add(player2DropDown);
-		tab_group_song.add(player3DropDown);
+		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
                 tab_group_song.add(difficultyDropDown);
 		tab_group_song.add(stageDropDown);
@@ -922,7 +941,7 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		var tab_group_note = new FlxUI(null, UI_box);
 		tab_group_note.name = 'Note';
 
-		stepperSusLength = new FlxUINumericStepper(10, 25, Conductor.stepCrochet / 2, 0, 0, Conductor.stepCrochet * 32);
+		stepperSusLength = new FlxUINumericStepper(10, 25, Conductor.stepCrochet / 2, 0, 0, Conductor.stepCrochet * 64);
 		stepperSusLength.value = 0;
 		stepperSusLength.name = 'note_susLength';
 		blockPressWhileTypingOnStepper.push(stepperSusLength);
@@ -946,6 +965,8 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		#if MODS_ALLOWED
 		directories.push(Paths.mods('custom_notetypes/'));
 		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_notetypes/'));
+for(mod in Paths.getGlobalMods())
+			directories.push(Paths.mods(mod + '/custom_notetypes/'));
 		#end
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
@@ -1004,6 +1025,8 @@ var duetButton:FlxButton = new FlxButton(10, 320, "Duet Notes", function()
 		#if MODS_ALLOWED
 		directories.push(Paths.mods('custom_events/'));
 		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_events/'));
+for(mod in Paths.getGlobalMods())
+			directories.push(Paths.mods(mod + '/custom_events/'));
 		#end
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
@@ -1612,8 +1635,13 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 			dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
-			else
-				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+			else{
+				var time = getStrumTime(FlxG.mouse.y);
+				var beat = Conductor.getBeat(time + sectionStartTime());
+				var snap = 4/quantization;
+				var y = getYfromStrum(Conductor.beatToSeconds(Math.floor(beat / snap) * snap) - sectionStartTime());
+				dummyArrow.y = y;
+			}
 		}else{
 			dummyArrow.visible = false;
 		}
@@ -1791,6 +1819,24 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 					vocals.time = FlxG.sound.music.time;
 				}
 			}
+if(!vortex){
+				if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN  )
+				{
+					FlxG.sound.music.pause();
+					updateCurStep();
+					var time:Float = FlxG.sound.music.time;
+					var beat:Float = curDecBeat;
+					var snap:Float = 4/quantization;
+					if (FlxG.keys.pressed.UP)
+					{
+						var fuck:Float = CoolUtil.quantize(beat, snap) - snap; //(Math.floor((beat+snap) / snap) * snap);
+						FlxG.sound.music.time = Conductor.beatToSeconds(fuck);
+					}else{
+						var fuck:Float = CoolUtil.quantize(beat, snap) + snap; //(Math.floor((beat+snap) / snap) * snap);
+						FlxG.sound.music.time = Conductor.beatToSeconds(fuck);
+					}
+				}
+			}
 			
 			var style = currentType;
 			
@@ -1799,6 +1845,25 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 			}
 			
 			var conductorTime = Conductor.songPosition; //+ sectionStartTime();Conductor.songPosition / Conductor.stepCrochet;
+
+if(!blockInput){
+				if(FlxG.keys.justPressed.RIGHT){
+					curQuant++;
+					if(curQuant>quantizations.length-1)
+						curQuant = 0;
+
+					quantization = quantizations[curQuant];
+				}
+
+				if(FlxG.keys.justPressed.LEFT){
+					curQuant--;
+					if(curQuant<0)
+						curQuant = quantizations.length-1;
+
+					quantization = quantizations[curQuant];
+				}
+				quant.animation.play('q', true, false, curQuant);
+			}
 			
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
 			if(vortex && !blockInput){
@@ -1815,28 +1880,6 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 			}
 			
 			
-				var datimess = [];
-				
-				var daTime:Float = (Conductor.stepCrochet*quants[curQuant]);//WHY DID I ROUND BEFORE THIS IS A FLOAT???
-				var cuquant = Std.int(32/quants[curQuant]);
-				for (i in 0...cuquant){
-					datimess.push(sectionStartTime() + daTime * i);
-				}
-			
-			if (FlxG.keys.justPressed.LEFT)
-			{
-				--curQuant;
-				if (curQuant < 0) curQuant = 0;
-				
-				daquantspot *=  Std.int(32/quants[curQuant]);
-			}
-			if (FlxG.keys.justPressed.RIGHT)
-			{
-				curQuant ++;
-				if (curQuant > quants.length-1) curQuant = quants.length-1;
-				daquantspot *=  Std.int(32/quants[curQuant]);
-			}
-			quant.animation.play('q', true, false, curQuant);
 			var feces:Float;
 			if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN  )
 			{
@@ -1847,36 +1890,18 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 				//FlxG.sound.music.time = (Math.round(curStep/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;
 				
 					//(Math.floor((curStep+quants[curQuant]*1.5/(quants[curQuant]/2))/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;//snap into quantization
-				if (FlxG.keys.pressed.UP)
+				var time:Float = FlxG.sound.music.time;
+				var beat:Float = curDecBeat;
+				var snap:Float = 4/quantization;
+                                if (FlxG.keys.pressed.UP)
 				{
-					
-					//var tosnapto = 0.00;
-					var foundaspot = false;
-					var i = datimess.length-1;//backwards for loop 
-					while (i > -1){
-						if (Math.ceil(FlxG.sound.music.time) >= Math.ceil(datimess[i]) && !foundaspot){
-							foundaspot = true;
-							FlxG.sound.music.time = datimess[i];
-						}
-						--i;
-					}
-					//FlxG.sound.music.time = tosnapto;
-					//FlxG.sound.music.time -= daTime;
-					 feces = FlxG.sound.music.time - daTime;
-				}
-				else{
-					
-					var foundaspot = false;
-					for (i in datimess){
-						if (Math.floor(FlxG.sound.music.time) <= Math.floor(i) && !foundaspot){
-							foundaspot = true;
-							FlxG.sound.music.time = i;
-						}
-					}
-					
-					
-					//FlxG.sound.music.time += daTime;
-					 feces = FlxG.sound.music.time+ daTime;
+				var fuck:Float = CoolUtil.quantize(beat, snap) - snap;
+					trace(fuck);
+					feces = Conductor.beatToSeconds(fuck);
+				}else{
+					var fuck:Float = CoolUtil.quantize(beat, snap) + snap; //(Math.floor((beat+snap) / snap) * snap);
+					trace(fuck);
+					feces = Conductor.beatToSeconds(fuck);
 				}
 				FlxTween.tween(FlxG.sound.music, {time:feces}, 0.1, {ease:FlxEase.circOut});
 				if(vocals != null) {
@@ -1899,7 +1924,7 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 
 					if(controlArray.contains(true))
 					{
-						
+
 						for (i in 0...controlArray.length)
 						{
 							if(controlArray[i])
@@ -1915,9 +1940,9 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 			if (FlxG.keys.pressed.SHIFT)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.RIGHT && !vortex|| FlxG.keys.justPressed.D)
+			if (FlxG.keys.justPressed.D)
 				changeSection(curSection + shiftThing);
-			if (FlxG.keys.justPressed.LEFT && !vortex|| FlxG.keys.justPressed.A) {
+			if (FlxG.keys.justPressed.A) {
 				if(curSection <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
@@ -1957,7 +1982,8 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 		Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) +
 		"\nSection: " + curSection +
 		"\n\nBeat: " + curBeat +
-		"\n\nStep: " + curStep;
+		"\n\nStep: " + curStep +
+		"\n\nBeat Snap: 1/" + quantization;
 
 		var playedSound:Array<Bool> = [false, false, false, false]; //Prevents ouchy GF sex sounds
 		curRenderedNotes.forEachAlive(function(note:Note) {
@@ -3026,7 +3052,6 @@ function reloadGridLayer() {
 
 			player1: _song.player1,
 			player2: _song.player2,
-			player3: null,
 			gfVersion: _song.gfVersion,
 			stage: _song.stage,
 			validScore: false

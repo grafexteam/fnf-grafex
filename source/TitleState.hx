@@ -87,6 +87,8 @@ class TitleState extends MusicBeatState
         Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
+		Paths.pushGlobalMods();
+
 		Application.current.window.title = Main.appTitle;
                 WeekData.loadTheFirstEnabledMod();
 
