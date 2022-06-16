@@ -84,10 +84,12 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-        Paths.clearStoredMemory();
+                Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
+		#if LUA_ALLOWED
 		Paths.pushGlobalMods();
+		#end
 
 		Application.current.window.title = Main.appTitle;
                 WeekData.loadTheFirstEnabledMod();

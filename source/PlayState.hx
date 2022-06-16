@@ -245,6 +245,10 @@ public var ratingsData:Array<Rating> = [];
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
 
+	var dadbattleBlack:BGSprite;
+	var dadbattleLight:BGSprite;
+	var dadbattleSmokes:FlxSpriteGroup;
+
 	var halloweenBG:BGSprite;
 	var halloweenWhite:BGSprite;
 
@@ -368,7 +372,7 @@ public var ratingsData:Array<Rating> = [];
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
 		];
 
-ratingsData.push(new Rating('sick')); //default rating
+                ratingsData.push(new Rating('sick')); //default rating
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
@@ -634,8 +638,8 @@ ratingsData.push(new Rating('sick')); //default rating
 				}
 				add(halloweenBG);
 
-				halloweenWhite = new BGSprite(null, -FlxG.width, -FlxG.height, 0, 0);
-				halloweenWhite.makeGraphic(Std.int(FlxG.width * 3), Std.int(FlxG.height * 4), FlxColor.WHITE);
+				halloweenWhite = new BGSprite(null, -800, -400, 0, 0);
+				halloweenWhite.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.WHITE);
 				halloweenWhite.alpha = 0;
 				halloweenWhite.blend = ADD;
 
@@ -1123,11 +1127,11 @@ for(mod in Paths.getGlobalMods())
 		{
 			case 'limo':
 				resetFastCar();
-				insert(members.indexOf(gfGroup) - 1, fastCar);
+				addBehindGF(fastCar);
 			
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
-				insert(members.indexOf(dadGroup) - 1, evilTrail);
+				addBehindDad(evilTrail);
 		}
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
@@ -1451,7 +1455,7 @@ for(mod in Paths.getGlobalMods())
 		loseVin.updateHitbox();
 		loseVin.screenCenter();
 		loseVin.visible = true;
-		loseVin.alpha = 0.4;
+		loseVin.alpha = 0.275;
 		add(loseVin);
 
 		strumLineNotes.cameras = [camNOTEHUD];
@@ -1638,7 +1642,7 @@ noteKillOffset = 350 / songSpeed;
 		return value;
 	}
 
-	public function addTextToDebug(text:String) {
+	public function addTextToDebug(text:String, color:FlxColor) {
 		#if LUA_ALLOWED
 		luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
 			spr.y += 20;
@@ -1649,7 +1653,7 @@ noteKillOffset = 350 / songSpeed;
 			blah.destroy();
 			luaDebugGroup.remove(blah);
 		}
-		luaDebugGroup.insert(0, new DebugLuaText(text, luaDebugGroup));
+		luaDebugGroup.insert(0, new DebugLuaText(text, luaDebugGroup, color));
 		#end
 	}
 
@@ -2016,7 +2020,7 @@ function tankIntro()
 		var tankman:FlxSprite = new FlxSprite(-20, 320);
 		tankman.frames = Paths.getSparrowAtlas('cutscenes/' + songName);
 		tankman.antialiasing = ClientPrefs.globalAntialiasing;
-		insert(members.indexOf(dadGroup) + 1, tankman);
+		addBehindDad(tankman);
 
 		var gfDance:FlxSprite = new FlxSprite(gf.x - 107, gf.y + 140);
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
@@ -2159,17 +2163,17 @@ function tankIntro()
 				gfDance.frames = Paths.getSparrowAtlas('characters/gfTankmen');
 				gfDance.animation.addByPrefix('dance', 'GF Dancing at Gunpoint', 24, true);
 				gfDance.animation.play('dance', true);
-				insert(members.indexOf(gfGroup) + 1, gfDance);
+				addBehindGF(gfDance);
 
 				gfCutscene.frames = Paths.getSparrowAtlas('cutscenes/stressGF');
 				gfCutscene.animation.addByPrefix('dieBitch', 'GF STARTS TO TURN PART 1', 24, false);
 				gfCutscene.animation.addByPrefix('getRektLmao', 'GF STARTS TO TURN PART 2', 24, false);
-				insert(members.indexOf(gfGroup) + 1, gfCutscene);
+				addBehindGF(gfCutscene);
 				gfCutscene.alpha = 0.00001;
 
 				picoCutscene.frames = AtlasFrameMaker.construct('cutscenes/stressPico');
 				picoCutscene.animation.addByPrefix('anim', 'Pico Badass', 24, false);
-				insert(members.indexOf(gfGroup) + 1, picoCutscene);
+				addBehindGF(picoCutscene);
 				picoCutscene.alpha = 0.00001;
 
 
@@ -2177,7 +2181,7 @@ function tankIntro()
 				boyfriendCutscene.animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				boyfriendCutscene.animation.play('idle', true);
 				boyfriendCutscene.animation.curAnim.finish();
-				insert(members.indexOf(boyfriendGroup) + 1, boyfriendCutscene);
+				addBehindBF(boyfriendCutscene);
 
 				var cutsceneSnd:FlxSound = new FlxSound().loadEmbedded(Paths.sound('stressCutscene'));
 				FlxG.sound.list.add(cutsceneSnd);
@@ -2501,6 +2505,20 @@ function tankIntro()
             
 	}
 
+public function addBehindGF(obj:FlxObject)
+	{
+		insert(members.indexOf(gfGroup), obj);
+	}
+	public function addBehindBF(obj:FlxObject)
+	{
+		insert(members.indexOf(boyfriendGroup), obj);
+	}
+	public function addBehindDad (obj:FlxObject)
+	{
+		insert(members.indexOf(dadGroup), obj);
+	}
+
+
         public function clearNotesBefore(time:Float)
 	{
 		var i:Int = unspawnNotes.length - 1;
@@ -2807,6 +2825,42 @@ swagNote.tail.push(sustainNote);
 
 				var newCharacter:String = event.value2;
 				addCharacterToList(newCharacter, charType);
+
+case 'Dadbattle Spotlight':
+				dadbattleBlack = new BGSprite(null, -800, -400, 0, 0);
+				dadbattleBlack.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+				dadbattleBlack.alpha = 0.25;
+				dadbattleBlack.visible = false;
+				add(dadbattleBlack);
+
+				dadbattleLight = new BGSprite('spotlight', 400, -400);
+				dadbattleLight.alpha = 0.375;
+				dadbattleLight.blend = ADD;
+				dadbattleLight.visible = false;
+
+				dadbattleSmokes = new FlxSpriteGroup();
+				dadbattleSmokes.alpha = 0.7;
+				dadbattleSmokes.blend = ADD;
+				dadbattleSmokes.visible = false;
+				add(dadbattleLight);
+				add(dadbattleSmokes);
+
+				var offsetX = 200;
+				var smoke:BGSprite = new BGSprite('smoke', -1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
+				smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
+				smoke.updateHitbox();
+				smoke.velocity.x = FlxG.random.float(15, 22);
+				smoke.active = true;
+				dadbattleSmokes.add(smoke);
+				var smoke:BGSprite = new BGSprite('smoke', 1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
+				smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
+				smoke.updateHitbox();
+				smoke.velocity.x = FlxG.random.float(-15, -22);
+				smoke.active = true;
+				smoke.flipX = true;
+				dadbattleSmokes.add(smoke);
+
+
 		case 'Philly Glow':
 				blammedLightsBlack = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
 				blammedLightsBlack.visible = false;
@@ -3394,7 +3448,7 @@ case 'tank':
             camNOTES.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 			camSus.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 			camNOTEHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
-                        camUnderHUDBeforeGame.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
+            camUnderHUDBeforeGame.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -3703,6 +3757,41 @@ function pauseState()
 
 	public function triggerEventNote(eventName:String, value1:String, value2:String) {
 		switch(eventName) {
+
+case 'Dadbattle Spotlight':
+				var val:Null<Int> = Std.parseInt(value1);
+				if(val == null) val = 0;
+
+				switch(Std.parseInt(value1))
+				{
+					case 1, 2, 3: //enable and target dad
+						if(val == 1) //enable
+						{
+							dadbattleBlack.visible = true;
+							dadbattleLight.visible = true;
+							dadbattleSmokes.visible = true;
+							defaultCamZoom += 0.12;
+						}
+
+						var who:Character = dad;
+						if(val > 2) who = boyfriend;
+						//2 only targets dad
+						dadbattleLight.alpha = 0;
+						new FlxTimer().start(0.12, function(tmr:FlxTimer) {
+							dadbattleLight.alpha = 0.375;
+						});
+						dadbattleLight.setPosition(who.getGraphicMidpoint().x - dadbattleLight.width / 2, who.y + who.height - dadbattleLight.height + 50);
+
+					default:
+						dadbattleBlack.visible = false;
+						dadbattleLight.visible = false;
+						defaultCamZoom -= 0.12;
+						FlxTween.tween(dadbattleSmokes, {alpha: 0}, 1, {onComplete: function(twn:FlxTween)
+						{
+							dadbattleSmokes.visible = false;
+						}});
+				}
+
 			case 'Hey!':
 				var value:Int = 2;
 				switch(value1.toLowerCase().trim()) {
@@ -4037,9 +4126,9 @@ function pauseState()
 case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1) {
-					Reflect.setProperty(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
+					FunkinLua.setVarInArray(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
 				} else {
-					Reflect.setProperty(this, value1, value2);
+					FunkinLua.setVarInArray(this, value1, value2);
 				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
@@ -4709,9 +4798,9 @@ if(modchartObjects.exists('note${doubleNote.ID}'))modchartObjects.remove('note${
 			}
 
 			songMisses++;
-        	healthBarShake(0.75);
-            if(ClientPrefs.playmisssounds)
-        	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07); {
+        	healthBarShake(0.85);
+            if(ClientPrefs.playmisssounds) {
+        	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07);
 			vocals.volume = 0; }
 			if(!practiceMode) songScore -= 10;
 
@@ -4768,7 +4857,7 @@ if(modchartObjects.exists('note${doubleNote.ID}'))modchartObjects.remove('note${
 
 			totalPlayed++;
 			RecalculateRating();
-            healthBarShake(0.5);
+            healthBarShake(0.65);
             if(ClientPrefs.playmisssounds)
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.3, 0.4));
 
@@ -5397,15 +5486,20 @@ case 'tank':
 	public var closeLuas:Array<FunkinLua> = [];
 	public function callOnLuas(event:String, args:Array<Dynamic>, ignoreStops=false, ?exclusions:Array<String>):Dynamic {
 		var returnVal:Dynamic = FunkinLua.Function_Continue;
-if(exclusions==null)exclusions=[];
+if(exclusions == null) exclusions = [];
 		#if LUA_ALLOWED
 		for (i in 0...luaArray.length) {
 if(exclusions.contains(luaArray[i].scriptName)){
 				continue;
 			}
 			var ret:Dynamic = luaArray[i].call(event, args);
-if(ret==FunkinLua.Function_StopLua && !ignoreStops)break;
-			if(ret==FunkinLua.Function_StopLua && ignoreStops)ret=FunkinLua.Function_Continue;
+if(ret == FunkinLua.Function_StopLua) {
+				if(ignoreStops)
+					ret = FunkinLua.Function_Continue;
+				else
+					break;
+			}
+
 			if(ret != FunkinLua.Function_Continue) {
 				returnVal = ret;
 			}
