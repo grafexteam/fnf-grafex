@@ -174,7 +174,7 @@ class OptionsMenu extends FlxSubState
                 new AutoPause("Stops game, when its unfocused"),
                 new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
                 new QualityLow("Turn off some object on stages"),
-				new Imagepersist("images loaded will stay in memory until the game is closed."),
+				new Imagepersist("Images loaded will stay in memory until the game is closed."),
 				new GreenScreenMode("Makes screen green."),
         		]),
 			new OptionCata(935, 40, "Extra", [
