@@ -329,7 +329,7 @@ class StoryMenuState extends MusicBeatState
 					FreeplayState.destroyFreeplayVocals();
 				}
 				else*/
-					LoadingState.loadAndSwitchState(new PlayState(), true);
+				LoadingState.loadAndSwitchState(new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});
 		} else {

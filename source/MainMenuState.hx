@@ -68,20 +68,22 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menu", null);
 		#end
-
-                WeekData.loadTheFirstEnabledMod();
-
-                FlxG.watch.addQuick("beatShit", curBeat);
+        WeekData.loadTheFirstEnabledMod()
+        FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-                if (!FlxG.sound.music.playing)
-		        {	
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
-                                FlxG.sound.music.time = 9400;
-				Conductor.changeBPM(102);
-			}
-                FlxG.mouse.visible = false;
-                FlxG.mouse.useSystemCursor = true;
+
+        if (!FlxG.sound.music.playing)
+		{	
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+        	FlxG.sound.music.time = 9400;
+			Conductor.changeBPM(102);
+		}
+
+        FlxG.mouse.visible = false;
+        FlxG.mouse.useSystemCursor = true;
+
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
+		
 		camGame = new FlxCamera();
 
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));	

@@ -3289,11 +3289,11 @@ case 'tank':
 
 		//healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
 
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Average: ?' + ' | Rating: ' + ratingName;
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nAverage: ${Math.round(averageMs)}ms \nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
 		if(ratingName != '?')	
 		{
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Average: ' + Math.round(averageMs) + 'ms' + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
 			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nAverage: ${Math.round(averageMs)}ms \nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
        }
 
