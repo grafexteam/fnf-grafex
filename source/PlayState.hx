@@ -94,7 +94,7 @@ class PlayState extends MusicBeatState
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
 	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
-public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
+	public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
 	public var shader_chromatic_abberation:ChromaticAberrationEffect;
 
@@ -146,7 +146,7 @@ public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>()
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
-public var spawnTime:Float = 3000;
+	public var spawnTime:Float = 3000;
 
     public var pxgfdanced:Bool = false;
 
@@ -201,7 +201,7 @@ public var spawnTime:Float = 3000;
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 
-public var ratingsData:Array<Rating> = [];	
+	public var ratingsData:Array<Rating> = [];	
 	public var sicks:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
@@ -372,7 +372,7 @@ public var ratingsData:Array<Rating> = [];
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
 		];
 
-                ratingsData.push(new Rating('sick')); //default rating
+ratingsData.push(new Rating('sick')); //default rating
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
