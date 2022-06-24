@@ -306,6 +306,7 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 
 	public var defaultCamZoom:Float = 1.05;
+	public var currentCamBeat:Float = 4;
 
     var loseVin:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -5351,7 +5352,7 @@ var tankX:Float = 400;
 				moveCameraSection(Std.int(curStep / 16));
 			}
 
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0)
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % currentCamBeat == 0)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
@@ -5376,8 +5377,8 @@ var tankX:Float = 400;
 					case 'Grafex':
 						if (curBeat % 2 == 0)
 							{   
-                                                                iconbop = 1.1;
-                                                                iconP1.scale.x = 1;
+                                iconbop = 1.1;
+                                iconP1.scale.x = 1;
 								iconP2.scale.y = 1; 
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
