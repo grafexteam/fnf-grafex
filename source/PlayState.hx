@@ -372,7 +372,7 @@ class PlayState extends MusicBeatState
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
 		];
 
-ratingsData.push(new Rating('sick')); //default rating
+		ratingsData.push(new Rating('sick')); //default rating
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
@@ -1390,22 +1390,24 @@ for(mod in Paths.getGlobalMods())
 		add(iconP2);
 
 
-                if(!ClientPrefs.hideHud)
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
-			if (helem != null) {
-				helem.visible = ClientPrefs.visibleHealthbar;
+        if(!ClientPrefs.hideHud)
+			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+				if (helem != null) {
+					helem.visible = ClientPrefs.visibleHealthbar;
 			}  
 		}
 
 		reloadHealthBarColors();
-            
+        
+		
         songTxt = new FlxText(12, healthBarBG.y + 50, 0, SONG.song + " (" + storyDifficultyText + ")", 18);
 		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
 		songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.1);
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-        songTxt.visible = !ClientPrefs.hideHud;
+		if(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay)
+			songTxt.visible = false;
 		add(songTxt); 
 
  
@@ -2010,7 +2012,7 @@ public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
 		});
 	}
 
-function tankIntro()
+	function tankIntro()
 	{
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		dadGroup.alpha = 0.00001;
@@ -3144,14 +3146,15 @@ modchartObjects.set("opponentStrum" + i, babyArrow);
 
 		switch (curStage)
 		{
-case 'tank':
-				moveTank(elapsed);
-                        case 'schoolEvil':
+			case 'tank':
+					moveTank(elapsed);
+        	case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
 				}
-                                Application.current.window.title = randString(FlxG.random.int(8, 16));
-                                songTxt.text = randString(FlxG.random.int(6, 14)); 
+                Application.current.window.title = randString(FlxG.random.int(8, 16));
+                songTxt.text = randString(FlxG.random.int(6, 14)); 
+
 			case 'philly':
 				if (trainMoving)
 				{

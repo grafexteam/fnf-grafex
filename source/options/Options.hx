@@ -2559,6 +2559,33 @@ class LaneUnderlayOption extends Option
 	}
 }
 
+class SongNameOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.skipTitleState = !ClientPrefs.skipTitleState;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "SongName Displayed: < " + (ClientPrefs.skipTitleState ? "Enabled" : "Disabled") + " >";
+	}
+}
+
 /*
 class DebugMode extends Option
 {
@@ -2663,7 +2690,7 @@ class ResetScoreOption extends Option
 	}
 } */
 
-class ResetSettings extends Option
+/*class ResetSettings extends Option
 {
 	var confirm:Bool = false;
 
@@ -2733,4 +2760,4 @@ class ResetSettings extends Option
 	{
 		return confirm ? "Confirm Settings Reset" : "Reset Settings";
 	}
-}
+}*/
