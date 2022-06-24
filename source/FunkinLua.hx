@@ -55,6 +55,7 @@ public var errorHandler:String->Void;
 	#end
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
+        public var closed:Bool = false;
 	var gonnaClose:Bool = false;
 
 	public var accessedProps:Map<String, Dynamic> = null;
@@ -1629,7 +1630,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			}
 		});
 
-Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
+                Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
 			return PlayState.instance.modchartSprites.exists(tag);
 		});
 		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String) {
@@ -1638,6 +1639,26 @@ Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
 		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String) {
 			return PlayState.instance.modchartSounds.exists(tag);
 		});
+
+	        Lua_helper.add_callback(lua, "setHealthBarColors", function(leftHex:String, rightHex:String) {
+			var left:FlxColor = Std.parseInt(leftHex);
+			if(!leftHex.startsWith('0x')) left = Std.parseInt('0xff' + leftHex);
+			var right:FlxColor = Std.parseInt(rightHex);
+			if(!rightHex.startsWith('0x')) right = Std.parseInt('0xff' + rightHex);
+
+			PlayState.instance.healthBar.createFilledBar(left, right);
+			PlayState.instance.healthBar.updateBar();
+		});
+		Lua_helper.add_callback(lua, "setTimeBarColors", function(leftHex:String, rightHex:String) {
+			var left:FlxColor = Std.parseInt(leftHex);
+			if(!leftHex.startsWith('0x')) left = Std.parseInt('0xff' + leftHex);
+			var right:FlxColor = Std.parseInt(rightHex);
+			if(!rightHex.startsWith('0x')) right = Std.parseInt('0xff' + rightHex);
+
+			PlayState.instance.timeBar.createFilledBar(right, left);
+			PlayState.instance.timeBar.updateBar();
+		});
+
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
 			/*if(PlayState.instance.modchartSprites.exists(obj)) {
@@ -1935,6 +1956,11 @@ Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
 			}
 			gonnaClose = true;
                         return true;
+		});
+
+	        Lua_helper.add_callback(lua, "close", function() {
+			closed = true;
+			return closed;
 		});
 
 		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
@@ -2532,6 +2558,8 @@ function getErrorMessage() {
 
 	public function call(func:String, args:Array<Dynamic>): Dynamic{
 		#if LUA_ALLOWED
+                if(closed) return Function_Continue;
+
 		try {
 			if(lua==null)return Function_Continue;
 			Lua.getglobal(lua, func);

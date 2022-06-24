@@ -95,7 +95,9 @@
 
 
 
-	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>	
+	<section if="MODS_ALLOWED">
+		<assets path='example_mods' rename='mods' embed='false'/>
+	</section>
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
 
 	<haxelib name="actuate" />
