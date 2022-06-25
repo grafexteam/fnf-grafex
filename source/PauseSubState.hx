@@ -172,20 +172,21 @@ class PauseSubState extends MusicBeatSubstate
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-                regenMenu();
+        regenMenu();
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
-        var holdTime:Float = 0;
+    var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
+
 		super.update(elapsed);
-                updateSkipTextStuff();
+        updateSkipTextStuff();
 
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
@@ -253,7 +254,7 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
 					PlayState.chartingMode = false;
-skipTimeTracker = null;
+                    skipTimeTracker = null;
 
 					if(skipTimeText != null)
 					{

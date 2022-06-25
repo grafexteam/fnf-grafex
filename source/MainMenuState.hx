@@ -60,7 +60,7 @@ class MainMenuState extends MusicBeatState
 	var arrowLeftKeys:Array<FlxKey>;
 	var arrowRightKeys:Array<FlxKey>;
 
-        public static var finishedFunnyMove:Bool = false;
+    public static var finishedFunnyMove:Bool = false;
         
     override function create()
 	{
@@ -174,7 +174,7 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v0.2.8", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -187,7 +187,7 @@ class MainMenuState extends MusicBeatState
 	var selectedSomethin:Bool = false;
 	var clickCount:Int = 0;
 	var colorEntry:FlxColor;
-        var oldPos = FlxG.mouse.getScreenPosition();
+    var oldPos = FlxG.mouse.getScreenPosition();
 	
 	override function update(elapsed:Float)
 	{		
@@ -195,7 +195,6 @@ class MainMenuState extends MusicBeatState
             Conductor.songPosition = FlxG.sound.music.time;
 
 		Conductor.songPosition = FlxG.sound.music.time; // this is such a bullshit, we messed with this around 2 hours - Xale
-
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
@@ -391,8 +390,7 @@ class MainMenuState extends MusicBeatState
 
                                         FreeplayState.destroyFreeplayVocals();
                                         FlxG.sound.music.stop();
-                                        FlxG.sound.music == null;
-                                                                                
+                                        FlxG.sound.music == null;                      
 								}
 							});
 						}

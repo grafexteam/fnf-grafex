@@ -147,6 +147,7 @@ class OptionsMenu extends FlxSubState
                 new NoteskinOption("Change your current noteskin"),
 				new AccTypeOption("Change your current accuracy type you want!"),
                 new IconBop("Change icon bopping type"),
+				new SongNameOption("Shows to you name of song your playing on HUD"),
 				new MiddleScrollOption("Put your lane in the center or on the right."), 
 				new HideOppStrumsOption("Shows/Hides opponent strums on screen.(RESTART SONG)"),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),

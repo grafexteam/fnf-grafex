@@ -2569,7 +2569,7 @@ class SongNameOption extends Option
 
 	public override function left():Bool
 	{
-		ClientPrefs.skipTitleState = !ClientPrefs.skipTitleState;
+		ClientPrefs.songNameDisplay = !ClientPrefs.songNameDisplay;
 		display = updateDisplay();
 		return true;
 	}
@@ -2582,7 +2582,7 @@ class SongNameOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "SongName Displayed: < " + (ClientPrefs.skipTitleState ? "Enabled" : "Disabled") + " >";
+		return "SongName Displayed: < " + (ClientPrefs.songNameDisplay ? "Enabled" : "Disabled") + " >";
 	}
 }
 
