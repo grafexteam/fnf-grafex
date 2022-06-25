@@ -88,7 +88,7 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-                Paths.clearStoredMemory();
+        Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
 		#if LUA_ALLOWED
@@ -96,9 +96,9 @@ class TitleState extends MusicBeatState
 		#end
 
 		Application.current.window.title = Main.appTitle;
-                WeekData.loadTheFirstEnabledMod();
+        WeekData.loadTheFirstEnabledMod();
 
-                FlxG.watch.addQuick("beatShit", curBeat);
+    	FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		
 		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
@@ -109,7 +109,7 @@ class TitleState extends MusicBeatState
 		FlxG.sound.volumeDownKeys = volumeDownKeys;
 		FlxG.sound.volumeUpKeys = volumeUpKeys;
 		FlxG.keys.preventDefaultKeys = [TAB];
-                FlxG.camera.zoom = 1;
+        FlxG.camera.zoom = 1;
 
 		PlayerSettings.init();
 
@@ -125,7 +125,7 @@ class TitleState extends MusicBeatState
 
 		Highscore.load();
 
-                bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
+        bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
 		bgFlash.visible = true;
 		bgFlash.alpha = 0;
 		bgFlash.scale.set(2, 2);
@@ -188,15 +188,15 @@ class TitleState extends MusicBeatState
 			}
 		}
 
-                if(!fromMainMenu)
-		Conductor.changeBPM(102);
+        if(!fromMainMenu)
+			Conductor.changeBPM(102);
 
 		persistentUpdate = true;
 
 		//bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
-                bgMenu = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
+        bgMenu = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
 		//bgMenu.scale.set(2, 2);
-                bgMenu.velocity.set(70, 70); //thats it :D- snake
+        bgMenu.velocity.set(70, 70); //thats it :D- snake
 		add(bgMenu);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
@@ -349,29 +349,28 @@ class TitleState extends MusicBeatState
 
 		if (!transitioning && skippedIntro)
 		{
-
-                if(skipped == false) {
+        	if(skipped == false) {
 				if(ClientPrefs.skipTitleState) {
 					if (titleText != null)
 						titleText.animation.play('press');
-
 					//FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                                        var SkipBlack:FlxSprite;  
-                                        SkipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-                                        add(SkipBlack);
+                    var SkipBlack:FlxSprite;  
+                    SkipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                    add(SkipBlack);
 					transitioning = true;
+
 					// FlxG.sound.music.stop();
 					
 					// CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
 					
-                FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
-                FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
-				FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
-				FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-	        	FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
-				FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
-                FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+                	FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
+                	FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
+					FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
+					FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        		FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+					FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+					FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
+                	FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
 
 					var skippedText:FlxText = new FlxText(450, 300, "SKIPPED...", 80);
 					skippedText.setFormat("VCR OSD Mono", 80, FlxColor.WHITE, CENTER);
@@ -432,11 +431,11 @@ class TitleState extends MusicBeatState
 					closedState = true;
 				});
                         }
-                        if (TryExitGame)
+            if (TryExitGame)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				FlxG.switchState(new ExitThatStupGameState());
-                                closedState = true;
+                closedState = true;
 			}
 		}
 
@@ -497,12 +496,11 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-                if(curBeat % 2 == 0)
-                FlxG.camera.zoom += 0.025;
+        if(curBeat % 2 == 0)
+        	FlxG.camera.zoom += 0.025
 
-                bgFlash.alpha = 0.25;
-
-                FlxG.log.advanced(curBeat);
+        bgFlash.alpha = 0.25
+        FlxG.log.advanced(curBeat);
 
 		if(logoBl != null) 
 			logoBl.animation.play('bump', true);
@@ -521,13 +519,13 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1:
-                                        FlxG.sound.music.stop();
+                    FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					createCoolText(['Grafex Engine by'], 45);
 				case 4:
-					addMoreText('XaleTheCat', 45);
+					addMoreText('AlterXale', 45);
 					addMoreText('PurSnake', 45);					
 				case 6:
                     deleteCoolText();
@@ -564,9 +562,9 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 			skippedIntro = true;
-                        bgFlash.alpha = 0.25;
-                         if(!fromMainMenu)
-                        FlxG.sound.music.time = 9400;
+            bgFlash.alpha = 0.25;
+            if(!fromMainMenu)
+            	FlxG.sound.music.time = 9400;
 		}
 	}
 }
