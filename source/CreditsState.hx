@@ -78,7 +78,7 @@ class CreditsState extends MusicBeatState
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Grafex Engine by'],
-		    ['XaleTheCat','xale','Developer of Grafex Engine','https://github.com/XaleTheCat','f7a300'],
+		    ['AlterXale','xale','Developer of Grafex Engine','https://github.com/XaleTheCat','f7a300'],
 		    ['PurSnake','snake','Developer of Grafex Engine','https://github.com/PurpleSSSnake', 'C549DB'],
 			['LenyaTheCat','lenya','Icon Artist','https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'C549DB'],
             [''],
