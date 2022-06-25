@@ -497,7 +497,7 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
         if(curBeat % 2 == 0)
-        	FlxG.camera.zoom += 0.025
+        	FlxG.camera.zoom += 0.025;
 
         bgFlash.alpha = 0.25;
         FlxG.log.advanced(curBeat);
