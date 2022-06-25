@@ -499,7 +499,7 @@ class TitleState extends MusicBeatState
         if(curBeat % 2 == 0)
         	FlxG.camera.zoom += 0.025
 
-        bgFlash.alpha = 0.25
+        bgFlash.alpha = 0.25;
         FlxG.log.advanced(curBeat);
 
 		if(logoBl != null) 
