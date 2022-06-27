@@ -1451,7 +1451,7 @@ class PlayState extends MusicBeatState
 		loseVin.updateHitbox();
 		loseVin.screenCenter();
 		loseVin.visible = true;
-		loseVin.alpha = 0.275;
+		loseVin.alpha = 0.2;
 		add(loseVin);
 
 		strumLineNotes.cameras = [camNOTEHUD];
