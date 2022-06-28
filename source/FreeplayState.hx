@@ -53,8 +53,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-Paths.clearStoredMemory();
-//Paths.clearUnusedMemory();
+		Paths.clearStoredMemory();
 		Application.current.window.title = Main.appTitle + ' - Freeplay Menu';
 		
 		PlayState.isStoryMode = false;

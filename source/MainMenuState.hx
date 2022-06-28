@@ -258,7 +258,7 @@ class MainMenuState extends MusicBeatState
                 spr.x = FlxMath.lerp(spr.x, (xPosition * Math.cos(0.7)), elapsedTime);
                 FlxTween.tween(spr.scale, {x: 0.8, y: 0.8}, 0.1, {
 						startDelay: 0.1,
-						ease: FlxEase.circInOut
+						ease: FlxEase.linear
 					}); 
             }
             else
@@ -267,8 +267,8 @@ class MainMenuState extends MusicBeatState
                 var xPosition:Float = (scaledX * 1) + (FlxG.height * 0.48);
                 spr.x = FlxMath.lerp(spr.x, (xPosition * Math.cos(1.5)), elapsedTime);
                 FlxTween.tween(spr.scale, {x: 0.5, y: 0.5}, 0.1, {
-						ease: FlxEase.circInOut
-					});
+						ease: FlxEase.linear
+				});
             }
         });
 
