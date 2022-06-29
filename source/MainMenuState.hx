@@ -154,7 +154,7 @@ class MainMenuState extends MusicBeatState
 				menuItem.scrollFactor.set(0, yScroll);
 				menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 				menuItem.updateHitbox();
-                                if (firstStart)
+                if (firstStart)
 				FlxTween.tween(menuItem, {x: 50}, 1 + (i * 0.25), {
 					ease: FlxEase.expoInOut,
 					onComplete: function(flxTween:FlxTween)
