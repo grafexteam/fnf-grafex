@@ -249,6 +249,13 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
+			if(FlxG.mouse.wheel != 0)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					changeWeek(-FlxG.mouse.wheel);
+					changeDifficulty();
+				}
+
 			if(FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
@@ -260,7 +267,7 @@ class StoryMenuState extends MusicBeatState
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
 				//FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			else if (controls.ACCEPT)
+			else if (controls.ACCEPT || FlxG.mouse.justPressed)
 			{
 				selectWeek();
 			}
