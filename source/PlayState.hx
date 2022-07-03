@@ -4162,8 +4162,8 @@ class PlayState extends MusicBeatState
 			camFocus = 'dad';
 
 			camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			camFollow.x = dadPos[0] + opponentCameraOffset[0];
-			camFollow.y = dadPos[1] + opponentCameraOffset[1];
+			camFollow.x = dadPos[0];
+			camFollow.y = dadPos[1];
 			tweenCamIn();
 		}
 		else
@@ -4171,8 +4171,8 @@ class PlayState extends MusicBeatState
 			camFocus = 'bf';
 
 			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-			camFollow.x = bfPos[0] - boyfriendCameraOffset[0];
-			camFollow.y = bfPos[1] + boyfriendCameraOffset[1];
+			camFollow.x = bfPos[0];
+			camFollow.y = bfPos[1];
 
 			//bfcamoffsetx = boyfriendCameraOffset[0];   
 			//bfcamoffsety = boyfriendCameraOffset[1]; 
@@ -5771,13 +5771,12 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-		function getCamOffsets()
-				{
-					dadPos[0] = dad.getMidpoint().x + 150 + dad.cameraPosition[0];
-					dadPos[1] = dad.getMidpoint().y - 100 + dad.cameraPosition[1];
-
-					bfPos[0] = boyfriend.getMidpoint().x - 100 - boyfriend.cameraPosition[0];
-					bfPos[1] = boyfriend.getMidpoint().y - 100 + boyfriend.cameraPosition[1];
-				}
+	function getCamOffsets() {
+		dadPos[0] = dad.getMidpoint().x + 150 + dad.cameraPosition[0] + opponentCameraOffset[0];
+		dadPos[1] = dad.getMidpoint().y - 100 + dad.cameraPosition[1] + opponentCameraOffset[1];
+	
+		bfPos[0] = boyfriend.getMidpoint().x - 100 - boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
+		bfPos[1] = boyfriend.getMidpoint().y - 100 + boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+	}
 }
 
