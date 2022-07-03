@@ -80,7 +80,7 @@ class MainMenuState extends MusicBeatState
 		}
 
         FlxG.mouse.visible = false;
-        FlxG.mouse.useSystemCursor = true;
+        //FlxG.mouse.useSystemCursor = true;
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		
@@ -154,7 +154,7 @@ class MainMenuState extends MusicBeatState
 				menuItem.scrollFactor.set(0, yScroll);
 				menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 				menuItem.updateHitbox();
-                                if (firstStart)
+                if (firstStart)
 				FlxTween.tween(menuItem, {x: 50}, 1 + (i * 0.25), {
 					ease: FlxEase.expoInOut,
 					onComplete: function(flxTween:FlxTween)
@@ -166,7 +166,7 @@ class MainMenuState extends MusicBeatState
 			else
 				menuItem.x= 50;
 			}
-                firstStart = false;
+            firstStart = false;
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 		
@@ -211,6 +211,12 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
+			if(FlxG.mouse.wheel != 0)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					changeItem(-FlxG.mouse.wheel);
+				}
+			
 			if (controls.UI_UP_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -231,7 +237,7 @@ class MainMenuState extends MusicBeatState
                 TitleState.fromMainMenu = true;
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || FlxG.mouse.justPressed)
 			{
 				select();
 			}

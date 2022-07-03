@@ -103,7 +103,7 @@ class FreeplayState extends MusicBeatState
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
-                bg.setGraphicSize(Std.int(bg.width * 1.1));
+        bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
 		add(bg);
@@ -247,14 +247,12 @@ class FreeplayState extends MusicBeatState
 	{
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
+
 		if(FlxG.keys.justPressed.F11)
-                {
-                FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                if (FlxG.sound.music.volume < 0.7)
-		{
+        	FlxG.fullscreen = !FlxG.fullscreen;
+
+        if (FlxG.sound.music.volume < 0.7)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
@@ -314,6 +312,13 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
+		if(FlxG.mouse.wheel != 0)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+				changeSelection(-shiftMult * FlxG.mouse.wheel, false);
+				changeDiff();
+			}
+
 		if (controls.UI_LEFT_P)
 			changeDiff(-1);
 		else if (controls.UI_RIGHT_P)
@@ -347,7 +352,7 @@ class FreeplayState extends MusicBeatState
 					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 				else
 					vocals = new FlxSound();
-	FlxG.sound.list.add(vocals);
+				FlxG.sound.list.add(vocals);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
 				vocals.play();
 				vocals.persist = true;
@@ -359,7 +364,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		else if (accepted)
+		else if (accepted || FlxG.mouse.justPressed)
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
@@ -411,7 +416,7 @@ class FreeplayState extends MusicBeatState
 		if (FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0)
 			FlxG.camera.zoom += 0.015;
 	}
-public static function destroyFreeplayVocals() {
+	public static function destroyFreeplayVocals() {
 		if(vocals != null) {
 			vocals.stop();
 			vocals.destroy();
