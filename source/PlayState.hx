@@ -4910,8 +4910,8 @@ class PlayState extends MusicBeatState
 			        }      
 		        }
 
-				if(healthDrain > 0 && health > 0.1) //Oh yeah, its HealthDrain - PurSnake
-					health -= healthDrain/100;
+				if(healthDrain > 0 && health > healthDrain/10 + 0.1) //Oh yeah, its HealthDrain - PurSnake
+					health -= healthDrain/10;
 				
 			if(char != null)
 				{
