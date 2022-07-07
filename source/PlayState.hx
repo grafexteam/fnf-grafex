@@ -78,6 +78,10 @@ import openfl.filters.ColorMatrixFilter;
 import sys.FileSystem;
 #end
 
+#if VIDEOS_ALLOWED
+import vlc.MP4Handler;
+#end
+
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -131,6 +135,7 @@ class PlayState extends MusicBeatState
 
 	public var songSpeedTween:FlxTween;
 	public var songSpeed(default, set):Float = 1;
+	public var songSpeedType:String = "multiplicative";
 	public var noteKillOffset:Float = 350;
 	
 	public var boyfriendGroup:FlxSpriteGroup;
@@ -1831,52 +1836,44 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String):Void {
+	public function startVideo(name:String)
+	{
 		#if VIDEOS_ALLOWED
-		var foundFile:Bool = false;
-		var fileName:String =  '';
+		inCutscene = true;
+
+		var filepath:String = Paths.video(name);
 		#if sys
-		if(FileSystem.exists(fileName)) {
-			foundFile = true;
-		}
+		if(!FileSystem.exists(filepath))
+		#else
+		if(!OpenFlAssets.exists(filepath))
 		#end
-
-		if(!foundFile) {
-			fileName = Paths.video(name);
-			#if sys
-			if(FileSystem.exists(fileName)) {
-			#else
-			if(OpenFlAssets.exists(fileName)) {
-			#end
-				foundFile = true;
-			}
-		}
-
-		if(foundFile) {
-			inCutscene = true;
-			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-			bg.scrollFactor.set();
-			bg.cameras = [camHUD];
-			add(bg);
-
-			(new FlxVideo(fileName)).finishCallback = function() {
-				remove(bg);
-				if(endingSong) {
-					endSong();
-				} else {
-					startCountdown();
-				}
-			}
+		{
+			FlxG.log.warn('Couldnt find video file: ' + name);
+			startAndEnd();
 			return;
-		} else {
-			FlxG.log.warn('Couldnt find video file: ' + fileName);
 		}
+
+		var video:MP4Handler = new MP4Handler();
+		video.playVideo(filepath);
+		video.finishCallback = function()
+		{
+			startAndEnd();
+			return;
+		}
+		#else
+		FlxG.log.warn('Platform not supported!');
+		startAndEnd();
+		return;
 		#end
-		if(endingSong) {
+	}
+
+		
+	function startAndEnd()
+	{
+		if(endingSong)
 			endSong();
-		} else {
+		else
 			startCountdown();
-		}
 	}
 
 	var dialogueCount:Int = 0;
@@ -2633,6 +2630,17 @@ class PlayState extends MusicBeatState
 	{
 		// FlxG.log.add(ChartParser.parse());
 		songSpeed = SONG.speed;
+		
+		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
+
+		switch(songSpeedType)
+		{
+			case "multiplicative":
+				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1);
+			case "constant":
+				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed', 1);
+		}
+
 		
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
@@ -4095,13 +4103,15 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 			
 			case 'Change Scroll Speed':
+				if (songSpeedType == "constant")
+					return;
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 1;
 				if(Math.isNaN(val2)) val2 = 0;
-
-				var newValue:Float = val1;
-
+	
+				var newValue:Float = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1) * val1;
+	
 				if(val2 <= 0)
 				{
 					songSpeed = newValue;
@@ -4115,6 +4125,7 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
+	
             case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1) {
@@ -4358,11 +4369,6 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					if(sys.FileSystem.exists(Paths.video(cutsceneFile))) {
-						video.playMP4(Paths.video(SONG.song.toLowerCase() + 'Cutscene'), new PlayState());
-						trace('File found');
-					}
-					else 
 						LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}
@@ -4863,6 +4869,8 @@ class PlayState extends MusicBeatState
 
 	private function opponentNoteHit(note:Note):Void
 	{
+        var healthDrain:Float = ClientPrefs.getGameplaySetting('healthdrainpercent', 0);
+
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
 
@@ -4893,6 +4901,10 @@ class PlayState extends MusicBeatState
 				        char = gf;
 			        }      
 		        }
+
+			if(healthDrain > 0 && health > 0.1) //Oh yeah, its HealthDrain - PurSnake
+				health -= healthDrain/100;
+
 			if(char != null)
 				{
 					char.playAnim(animToPlay, true);

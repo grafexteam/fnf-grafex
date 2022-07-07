@@ -64,16 +64,17 @@ class ClientPrefs {
 	public static var healthBarAlpha:Float = 1;
 	public static var controllerMode:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
-		'scrollspeed' => 0.0,
-		'songspeed' => 0.0,
+		'scrollspeed' => 1.0,
+		'scrolltype' => 'multiplicative', 
+		'songspeed' => 1.0,
 		'healthgain' => 1.0,
 		'healthloss' => 1.0,
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false,
-		'opponentplay' => false
+		'opponentplay' => false,
+		'healthdrainpercent' => 0
 	];
-
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var keSustains:Bool = false; //i was bored, okay?
 	
