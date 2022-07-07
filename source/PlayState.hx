@@ -78,10 +78,6 @@ import openfl.filters.ColorMatrixFilter;
 import sys.FileSystem;
 #end
 
-#if VIDEOS_ALLOWED
-import vlc.MP4Handler;
-#end
-
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -1836,44 +1832,52 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String)
-	{
+	public function startVideo(name:String):Void {
 		#if VIDEOS_ALLOWED
-		inCutscene = true;
-
-		var filepath:String = Paths.video(name);
+		var foundFile:Bool = false;
+		var fileName:String =  '';
 		#if sys
-		if(!FileSystem.exists(filepath))
-		#else
-		if(!OpenFlAssets.exists(filepath))
+		if(FileSystem.exists(fileName)) {
+			foundFile = true;
+		}
 		#end
-		{
-			FlxG.log.warn('Couldnt find video file: ' + name);
-			startAndEnd();
-			return;
+
+		if(!foundFile) {
+			fileName = Paths.video(name);
+			#if sys
+			if(FileSystem.exists(fileName)) {
+			#else
+			if(OpenFlAssets.exists(fileName)) {
+			#end
+				foundFile = true;
+			}
 		}
 
-		var video:MP4Handler = new MP4Handler();
-		video.playVideo(filepath);
-		video.finishCallback = function()
-		{
-			startAndEnd();
-			return;
-		}
-		#else
-		FlxG.log.warn('Platform not supported!');
-		startAndEnd();
-		return;
-		#end
-	}
+		if(foundFile) {
+			inCutscene = true;
+			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+			bg.scrollFactor.set();
+			bg.cameras = [camHUD];
+			add(bg);
 
-		
-	function startAndEnd()
-	{
-		if(endingSong)
+			(new FlxVideo(fileName)).finishCallback = function() {
+				remove(bg);
+				if(endingSong) {
+					endSong();
+				} else {
+					startCountdown();
+				}
+			}
+			return;
+		} else {
+			FlxG.log.warn('Couldnt find video file: ' + fileName);
+		}
+		#end
+		if(endingSong) {
 			endSong();
-		else
+		} else {
 			startCountdown();
+		}
 	}
 
 	var dialogueCount:Int = 0;
@@ -2630,7 +2634,7 @@ class PlayState extends MusicBeatState
 	{
 		// FlxG.log.add(ChartParser.parse());
 		songSpeed = SONG.speed;
-		
+
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
 
 		switch(songSpeedType)
@@ -4109,9 +4113,9 @@ class PlayState extends MusicBeatState
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 1;
 				if(Math.isNaN(val2)) val2 = 0;
-	
+
 				var newValue:Float = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1) * val1;
-	
+
 				if(val2 <= 0)
 				{
 					songSpeed = newValue;
@@ -4125,7 +4129,6 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
-	
             case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1) {
@@ -4369,6 +4372,11 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
+					if(sys.FileSystem.exists(Paths.video(cutsceneFile))) {
+						video.playMP4(Paths.video(SONG.song.toLowerCase() + 'Cutscene'), new PlayState());
+						trace('File found');
+					}
+					else 
 						LoadingState.loadAndSwitchState(new PlayState());
 				}
 			}
@@ -4869,7 +4877,7 @@ class PlayState extends MusicBeatState
 
 	private function opponentNoteHit(note:Note):Void
 	{
-        var healthDrain:Float = ClientPrefs.getGameplaySetting('healthdrainpercent', 0);
+		var healthDrain:Float = ClientPrefs.getGameplaySetting('healthdrainpercent', 0);
 
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
@@ -4902,9 +4910,9 @@ class PlayState extends MusicBeatState
 			        }      
 		        }
 
-			if(healthDrain > 0 && health > 0.1) //Oh yeah, its HealthDrain - PurSnake
-				health -= healthDrain/100;
-
+				if(healthDrain > 0 && health > 0.1) //Oh yeah, its HealthDrain - PurSnake
+					health -= healthDrain/100;
+				
 			if(char != null)
 				{
 					char.playAnim(animToPlay, true);
