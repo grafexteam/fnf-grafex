@@ -479,7 +479,7 @@ class HideHud extends Option
 
 	private override function updateDisplay():String
 	{
-		return "HUD: < " + (ClientPrefs.hideHud ? "Hided" : "Shown") + " >";
+		return "HUD: < " + (ClientPrefs.hideHud ? "Enabled" : "Disabled") + " >";
 	}
 }
 
