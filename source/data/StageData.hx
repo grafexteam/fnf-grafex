@@ -26,7 +26,7 @@ typedef StageFile = {
 	var camera_opponent:Array<Float>;
 	var camera_girlfriend:Array<Float>;
 	var camera_speed:Null<Float>;
-        var cameramovefromnotes:Bool;
+    var dynamic_camera:Bool;
 }
 
 class StageData {
@@ -52,9 +52,9 @@ class StageData {
 					stage = 'school';
 				case 'thorns':
 					stage = 'schoolEvil';
-                                case 'test':
-                                        stage = 'stagePixel';
-case 'ugh' | 'guns' | 'stress':
+                case 'test':
+                    stage = 'stagePixel';
+                case 'ugh' | 'guns' | 'stress':
 					stage = 'tank';
 				default:
 					stage = 'stage';

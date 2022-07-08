@@ -12,5 +12,5 @@
 	"camera_opponent": [0, 0],
 	"camera_girlfriend": [0, 0],
 	"camera_speed": 1,
-        "cameramovefromnotes": true
+    "dynamic_camera": true
 }

@@ -571,13 +571,13 @@ class PlayState extends MusicBeatState
 				camera_opponent: [0, 0],
 				camera_girlfriend: [0, 0],
 				camera_speed: 1,
-                                cameramovefromnotes: true
+                dynamic_camera: true
 			};
 		}
 
 		defaultCamZoom = stageData.defaultZoom;
 		isPixelStage = stageData.isPixelStage;
-        NotesCanMoveCam = stageData.cameramovefromnotes;
+        NotesCanMoveCam = stageData.dynamic_camera;
 		BF_X = stageData.boyfriend[0];
 		BF_Y = stageData.boyfriend[1];
 		GF_X = stageData.girlfriend[0];
@@ -4786,7 +4786,7 @@ class PlayState extends MusicBeatState
 			{
 				if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1) {
 				if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
-                                        note.kill();
+                    note.kill();
 					notes.remove(note, true);
 					note.destroy();
 				}
@@ -4910,8 +4910,8 @@ class PlayState extends MusicBeatState
 			        }      
 		        }
 
-				if(healthDrain > 0 && health > healthDrain/10 + 0.1) //Oh yeah, its HealthDrain - PurSnake
-					health -= healthDrain/10;
+			if(healthDrain > 0 && health > healthDrain/10 + 0.1) //Oh yeah, its HealthDrain - PurSnake
+				health -= healthDrain/10;
 				
 			if(char != null)
 				{
@@ -5750,9 +5750,9 @@ class PlayState extends MusicBeatState
 
 		function triggerCamMovement(num:Float = 0)
 			{
-                        setOnLuas('OffsetMultiplier', daFunneOffsetMultiplier);
-                        if (PlayState.NotesCanMoveCam)
-                        if (!isEventWorking)
+                setOnLuas('OffsetMultiplier', daFunneOffsetMultiplier);
+                if (PlayState.NotesCanMoveCam)
+                if (!isEventWorking)
 				if (camFocus == 'bf')
 				{
 					switch (num)
