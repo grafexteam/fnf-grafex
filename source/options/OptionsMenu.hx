@@ -134,7 +134,7 @@ class OptionsMenu extends FlxSubState
 				new HitSoundOption("Adds 'hitsound' on note hits."),
 				new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
 				new DownscrollOption("Toggle making the notes scroll down rather than up."),
-				new ResetButtonOption("Toggle pressing R to gameover."),
+				new NoReset("Toggle pressing R to gameover."),
 				new InstantRespawn("Toggle if you instantly respawn after dying."),
 				new CamZoomOption("Toggle the camera zoom in-game."),
                 new DFJKOption(),
