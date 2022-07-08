@@ -24,18 +24,21 @@ class PrelaunchingState extends MusicBeatState
 
     override function create()
     {
-        trace('huh');
-        txt.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
-        txt.borderColor = FlxColor.BLACK;
-        txt.borderSize = 3;
-        txt.borderStyle = FlxTextBorderStyle.OUTLINE;
-        txt.screenCenter();
-        add(txt);
-
+        //trace('huh');
+        
         //trace(versionRequest() == data.EngineData.grafexEngineVersion);
 
         if (versionRequest() == data.EngineData.grafexEngineVersion)
             MusicBeatState.switchState(new TitleState());
+        else
+        {
+            txt.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+            txt.borderColor = FlxColor.BLACK;
+            txt.borderSize = 3;
+            txt.borderStyle = FlxTextBorderStyle.OUTLINE;
+            txt.screenCenter();
+            add(txt);
+        }
     }
 
     override function update(elapsed:Float)
