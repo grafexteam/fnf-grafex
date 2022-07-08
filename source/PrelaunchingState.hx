@@ -32,6 +32,8 @@ class PrelaunchingState extends MusicBeatState
         txt.screenCenter();
         add(txt);
 
+        //trace(versionRequest() == data.EngineData.grafexEngineVersion);
+
         if (versionRequest() == data.EngineData.grafexEngineVersion)
             MusicBeatState.switchState(new TitleState());
     }
@@ -56,6 +58,8 @@ class PrelaunchingState extends MusicBeatState
 
     function versionRequest():String
     {
+        //trace(Http.requestUrl(link));
+        //trace(data.EngineData.grafexEngineVersion);
         return Http.requestUrl(link);
     }
 }
