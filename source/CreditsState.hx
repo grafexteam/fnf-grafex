@@ -78,7 +78,7 @@ class CreditsState extends MusicBeatState
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Grafex Engine by'],
-		    ['AlterXale','xale','Developer of Grafex Engine','https://github.com/XaleTheCat','f7a300'],
+		    ['JustXale','xale','Developer of Grafex Engine','https://github.com/JustXale','f7a300'],
 		    ['PurSnake','snake','Developer of Grafex Engine','https://github.com/PurpleSSSnake', 'C549DB'],
 			[''],
             ['With thanks to'],
@@ -165,12 +165,12 @@ class CreditsState extends MusicBeatState
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
-                if(FlxG.keys.justPressed.F11)
-                {
-                FlxG.fullscreen = !FlxG.fullscreen;
-                }
+        if(FlxG.keys.justPressed.F11)
+        {
+        	FlxG.fullscreen = !FlxG.fullscreen;
+        }
 		
-                if (FlxG.sound.music.volume < 0.7)
+        if(FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
@@ -209,13 +209,14 @@ class CreditsState extends MusicBeatState
 					}
 				}
 	
-	if(controls.ACCEPT) {
-	if (creditsStuff[curSelected][3] == '' || creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4) {
-		FlxG.sound.play(Paths.sound('cancelMenu'));
-	}else{
-		CoolUtil.browserLoad(creditsStuff[curSelected][3]);
-	}
-}
+				if(controls.ACCEPT) {
+					if (creditsStuff[curSelected][3] == '' || creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4) {
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+					}else{
+						CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+					}
+				}
+
 				if (controls.BACK)
 				{
 					if(colorTween != null) {
@@ -324,7 +325,8 @@ class CreditsState extends MusicBeatState
 	}
 	#end
 
-	function getCurrentBGColor() {
+	function getCurrentBGColor()
+	{
 		var bgColor:String = creditsStuff[curSelected][4];
 		if(!bgColor.startsWith('0x')) {
 			bgColor = '0xFF' + bgColor;

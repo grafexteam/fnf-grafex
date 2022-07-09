@@ -13,12 +13,12 @@ import Controls;
 
 class PrelaunchingState extends MusicBeatState
 {
-    public static var link:String = 'https://raw.githubusercontent.com/AlterXale/fnf-grafex/raw/versionCheck.txt'; // i hate github now
+    public static var link:String = 'https://raw.githubusercontent.com/JustXale/fnf-grafex/raw/versionCheck.txt'; // i hate github now
     var txt:FlxText = new FlxText(0, 0, FlxG.width,
         "You are playing
         \nthe outdated version of Grafex
         \nconsider updating
-        \n\nhttps://github.com/AlterXale/fnf-grafex
+        \n\nhttps://github.com/JustXale/fnf-grafex
         \n\nPress ENTER to open the page \nor ESCAPE to ignore this",
         32);
 
@@ -45,7 +45,7 @@ class PrelaunchingState extends MusicBeatState
     {
         if (FlxG.keys.justPressed.ENTER /*|| controls.ACCEPT*/)
             {
-                CoolUtil.browserLoad("https://github.com/AlterXale/fnf-grafex");
+                CoolUtil.browserLoad("https://github.com/JustXale/fnf-grafex");
             }
         if (FlxG.keys.justPressed.ESCAPE /*|| controls.BACK*/) // idk y the controls don't work, i'm stupid i know - Xale
         {
