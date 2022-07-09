@@ -29,7 +29,7 @@ import flash.system.System;
 
 using StringTools;
 
-class ExitThatStupGameState extends MusicBeatState
+class ExitGameState extends MusicBeatState
 {
 	var options:Array<String> = ['Yes', 'No'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -41,12 +41,14 @@ class ExitThatStupGameState extends MusicBeatState
 		switch(label) {
 			case 'Yes':
                 System.exit(0); //fuck it - PurSnake
+
 			case 'No':
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
-                    CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
-                        default:
-                             MusicBeatState.switchState(new MainMenuState()); //no reasons why - PurSnake
+                CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
+
+            default:
+                MusicBeatState.switchState(new MainMenuState()); //no reasons why - PurSnake
 		}
 	}
 
@@ -59,8 +61,8 @@ class ExitThatStupGameState extends MusicBeatState
 		#end
 
         var bg:FlxBackdrop;
-                bg = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
-	        bg.velocity.x = FlxG.random.float(-90, 90);
+        bg = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
+	    bg.velocity.x = FlxG.random.float(-90, 90);
 		bg.velocity.y = FlxG.random.float(-20, 20);
 		bg.updateHitbox();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;

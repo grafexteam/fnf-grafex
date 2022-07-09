@@ -156,6 +156,7 @@ class TitleState extends MusicBeatState
 				DiscordClient.shutdown();
 			});
 			#end
+
 			if (initialized)
 				startIntro();
 			else
@@ -315,7 +316,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
-           var TryExitGame:Bool = FlxG.keys.justPressed.ESCAPE || controls.BACK;
+        var tryExitGame:Bool = FlxG.keys.justPressed.ESCAPE || controls.BACK;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -431,10 +432,10 @@ class TitleState extends MusicBeatState
 					closedState = true;
 				});
                         }
-            if (TryExitGame)
+            if (tryExitGame)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxG.switchState(new ExitThatStupGameState());
+				FlxG.switchState(new ExitGameState());
                 closedState = true;
 			}
 		}
