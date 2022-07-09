@@ -119,7 +119,7 @@ class PlayState extends MusicBeatState
 	public var gfMap:Map<String, Character> = new Map<String, Character>();
 	#end
 
-    public var dadcammove:Bool = false;
+	public var dadcammove:Bool = false;
 	public var BF_X:Float = 770;
 	public var BF_Y:Float = 100;
 	public var DAD_X:Float = 100;
@@ -229,6 +229,7 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
+	public var camPAUSE:FlxCamera;
 	public var camUnderHUDBeforeGame:FlxCamera;  // For some shit like UnderDelayLanes  and becouse noone care- PurSnake
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
@@ -437,6 +438,9 @@ class PlayState extends MusicBeatState
         camNOTEHUD = new FlxCamera();
         camNOTEHUD.bgColor.alpha = 0;
 
+		camPAUSE = new FlxCamera();
+		camPAUSE.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camUnderHUDBeforeGame); // Here
         FlxG.cameras.add(camNOTEHUD);
@@ -445,6 +449,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camNOTES);
         FlxG.cameras.add(camOther);
 		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camPAUSE);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxCamera.defaultCameras = [camGame];
@@ -454,10 +459,10 @@ class PlayState extends MusicBeatState
         BlurNotes = new BlurFilter(0, 2, 15);
 
         if(ClientPrefs.blurNotes)
-			{
-				filtersnotes.push(BlurNotes); // blur :D - PurSnake
-				filterSUSnotes.push(BlurNotes);
-			}
+		{
+			filtersnotes.push(BlurNotes); // blur :D - PurSnake
+			filterSUSnotes.push(BlurNotes);
+		}
 
         trace(filtershud);
 		trace(filtersgame);
@@ -2705,13 +2710,11 @@ class PlayState extends MusicBeatState
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
 				var gottaHitNote:Bool = section.mustHitSection;
-                                   
-
 				if (songNotes[1] > 3)
 				{
 					gottaHitNote = !section.mustHitSection;
-				        dadcammove = true;
-                                }
+					dadcammove = true;
+				}
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -3283,7 +3286,7 @@ class PlayState extends MusicBeatState
 		if(!inCutscene) {
 			var lerpVal:Float = CoolUtil.boundTo(elapsed * 2.4 * cameraSpeed, 0, 1);
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-			if(!startingSong && !endingSong && boyfriend.animation.curAnim.name.startsWith('idle')) {
+			if(!startingSong && !endingSong && boyfriend.animation.curAnim != null && boyfriend.animation.curAnim.name.startsWith('idle')) {
 				boyfriendIdleTime += elapsed;
 				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
 					boyfriendIdled = true;
@@ -3491,7 +3494,7 @@ class PlayState extends MusicBeatState
 			if (!inCutscene) {
 				if(!cpuControlled) {
 					keyShit();
-				} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
+				} else if(boyfriend.animation.curAnim != null && boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
 					boyfriend.dance();
 					//boyfriend.animation.curAnim.finish();
 				}
@@ -3680,6 +3683,20 @@ class PlayState extends MusicBeatState
 			#end
 		}
 	}
+
+	public function openChangersMenu()
+	{
+		persistentUpdate = false;
+		persistentDraw = true;
+		paused = true;
+
+		if(FlxG.sound.music != null) {
+			FlxG.sound.music.pause();
+			vocals.pause();
+		}
+		openSubState(new GameplayChangersSubstate());
+	}
+
 	function openChartEditor()
 	{
 		persistentUpdate = false;
@@ -4758,11 +4775,10 @@ class PlayState extends MusicBeatState
 
 			if (controlHoldArray.contains(true) && !endingSong) {
 			}
-			else if (boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
-			{	
-
-				boyfriend.dance();
-                     }
+			else if (boyfriend.animation.curAnim != null && boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
+			{
+    			boyfriend.dance();
+            }
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
