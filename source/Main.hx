@@ -62,7 +62,7 @@ class Main extends Sprite
 			// Lower global volume when unfocused
 				if (focusMusicTween != null)
 					focusMusicTween.cancel();
-			focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
+			    focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
 	
 			// Conserve power by lowering draw framerate when unfocuced
 			FlxG.drawFramerate = lowFps;
