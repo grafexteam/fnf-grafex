@@ -1369,11 +1369,12 @@ class PlayState extends MusicBeatState
 		healthBarHigh.screenCenter(X);
 		healthBarHigh.scrollFactor.set();              
         healthBarHigh.alpha = ClientPrefs.healthBarAlpha;
+		healthBarHigh.blend = MULTIPLY;
 		healthBarHigh.xAdd = -4;
 		healthBarHigh.yAdd = -4;
         add(healthBarHigh);
 
-		if (PlayState.isPixelStage)
+		if (isPixelStage)
 			healthBarHigh.visible = false;
         else
             healthBarHigh.visible = !ClientPrefs.hideHud;	
@@ -3126,8 +3127,8 @@ class PlayState extends MusicBeatState
 
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
-        wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 60));
- 		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 60));
+        wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 75));
+ 		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 75));
 
 		wiggleShit.update(elapsed);
 
@@ -5329,7 +5330,6 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-
 
 		wiggleShit.waveAmplitude = 0.035;
 		wiggleShit.waveFrequency = 10;

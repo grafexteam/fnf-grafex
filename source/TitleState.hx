@@ -50,7 +50,11 @@ typedef TitleData =
 	gfx:Float,
 	gfy:Float,
 	backgroundSprite:String,
-	bpm:Int
+	bpm:Int,
+	logoBlTray:Bool,
+	backdropImage:String,
+	backdropImageVelocityX:Int,
+	backdropImageVelocityY:Int
 }
 
 class TitleState extends MusicBeatState
@@ -190,14 +194,16 @@ class TitleState extends MusicBeatState
 		}
 
         if(!fromMainMenu)
-			Conductor.changeBPM(102);
+			Conductor.changeBPM(titleJSON.bpm);
 
 		persistentUpdate = true;
 
 		//bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
-        bgMenu = new FlxBackdrop(Paths.image('titleBg'), 10, 0, true, true);
-		//bgMenu.scale.set(2, 2);
-        bgMenu.velocity.set(70, 70); //thats it :D- snake
+        bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
+		//bgMenu.color = getCurrentBGColor();
+		bgMenu.color = 0x950DCF;
+		bgMenu.alpha = 0.6;
+        bgMenu.velocity.set(titleJSON.backdropImageVelocityX, titleJSON.backdropImageVelocityY); //thats it :D- snake
 		add(bgMenu);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
@@ -220,9 +226,13 @@ class TitleState extends MusicBeatState
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
+		if(titleJSON.logoBlTray)
+		{
         logoBltrail = new FlxTrail(logoBl, 24, 0, 0.4, 0.02);
 		add(logoBltrail);
-        add(logoBl);
+		}
+ 
+		add(logoBl);
         logoBltrail.shader = swagShader.shader;
 		logoBl.shader = swagShader.shader;
        
@@ -491,6 +501,15 @@ class TitleState extends MusicBeatState
 			textGroup.remove(textGroup.members[0], true);
 		}
 	}
+
+	/*function getCurrentBGColor()
+	{
+		var bgColor:String = titleJSON.backdropImageColor;
+		if(!bgColor.startsWith('0x')) {
+			bgColor = '0xFF' + bgColor;
+		}
+		return Std.parseInt(bgColor);
+	}*/
 
 	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 	public static var closedState:Bool = false;
