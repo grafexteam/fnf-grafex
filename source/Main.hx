@@ -12,6 +12,18 @@ import lime.app.Application;
 import lime.ui.WindowAttributes;
 import MusicBeatState;
 
+// for crashing shit - Xale
+import lime.app.Application;
+import openfl.events.UncaughtErrorEvent;
+import haxe.CallStack;
+import haxe.io.Path;
+import Discord.DiscordClient;
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
+
+using StringTools;
+
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -24,15 +36,14 @@ class Main extends Sprite
 	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
 	final normalFps:Int = ClientPrefs.framerate;
-	final lowFps:Int = 1;
+	final lowFps:Int = 10;
 	var focusMusicTween:FlxTween;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
 	{
-		Lib.current.addChild(new Main());
-		
+		Lib.current.addChild(new Main());	
 	}
 
 	public function new()
@@ -41,13 +52,13 @@ class Main extends Sprite
 
 		if (stage != null)
 		{
-			init();
-			
+			init();	
 		}
 		else
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
+
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
 	}
@@ -69,23 +80,60 @@ class Main extends Sprite
 			}
 		}
 	
-		function onWindowFocusIn()
-		{
-			trace("Game focused");
-	
-			if(!ClientPrefs.autoPause)
-			{
-				// Normal global volume when focused
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
+	function onWindowFocusIn()
+	{
+		trace("Game focused");
 
-				// Bring framerate back when focused
-				FlxG.drawFramerate = ClientPrefs.framerate;
-				FlxG.updateFramerate = ClientPrefs.framerate;
-			}
+		if(!ClientPrefs.autoPause)
+		{
+			// Normal global volume when focused
+			if (focusMusicTween != null)
+				focusMusicTween.cancel();
+			focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
+			// Bring framerate back when focused
+			FlxG.drawFramerate = ClientPrefs.framerate;
+			FlxG.updateFramerate = ClientPrefs.framerate;
 		}
+	}
 	
+	function onCrash(e:UncaughtErrorEvent):Void
+		{
+			var errMsg:String = "";
+			var path:String;
+			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+			var dateNow:String = Date.now().toString();
+	
+			dateNow = dateNow.replace(" ", "_");
+			dateNow = dateNow.replace(":", "'");
+	
+			path = "./crash/" + "Grafex_" + dateNow + ".txt";
+	
+			for (stackItem in callStack)
+			{
+				switch (stackItem)
+				{
+					case FilePos(s, file, line, column):
+						errMsg += file + " (line " + line + ")\n";
+					default:
+						Sys.println(stackItem);
+				}
+			}
+	
+			errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/JustXale/fnf-grafex\n\n> Crash Handler written by: sqirra-rng";
+	
+			if (!FileSystem.exists("./crash/"))
+				FileSystem.createDirectory("./crash/");
+	
+			File.saveContent(path, errMsg + "\n");
+	
+			Sys.println(errMsg);
+			Sys.println("Crash dump saved in " + Path.normalize(path));
+	
+			Application.current.window.alert(errMsg, "Error!");
+			DiscordClient.shutdown();
+			Sys.exit(1);
+		}
+
 	private function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE))
@@ -121,6 +169,7 @@ class Main extends Sprite
         addChild(new FPSMem(10, 3, 0xFFFFFF));
 		#end
 
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
 		#if html5
 		//FlxG.autoPause = false;

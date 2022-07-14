@@ -106,7 +106,7 @@ class TitleState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 		
 		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		titleJSON = Json.parse(Assets.getText(path)); 
+		titleJSON = Json.parse(Assets.getText(path));
 		
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
