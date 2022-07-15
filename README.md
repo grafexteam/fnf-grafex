@@ -15,19 +15,23 @@ To install LuaJIT do this: `haxelib install linc_luajit` on a Command prompt/Pow
 ## Grafex Engine
 * JustXale - Programmer
 * PurSnake - Programmer
+* LenyaTheCat - Icons Artist
+* NotGeorg - Grafex Arrows Artist
 
-## Psych Engine
-* Shadow Mario - Coding
-* RiverOaken - Arts and Animations
+
+## Credits:
+* Shadow Mario - Programmer
+* RiverOaken - Artist
+* Yoshubs - Assistant Programmer
+
+### Special Thanks
 * bbpanzu - Ex-Programmer
-
-### Psych Engine Special Thanks
 * shubs - New Input System
-* SqirraRNG - Chart Editor's Sound Waveform base code
-* iFlicky - Delay/Combo Menu Song Composer + Dialogue Sounds
 * SqirraRNG - Crash Handler and Base code for Chart Editor's Waveform
 * KadeDev - Fixed some cool stuff on Chart Editor and other PRs
+* iFlicky - Composer of Psync and Tea Time, also made the Dialogue Sounds
 * PolybiusProxy - .MP4 Video Loader Library (hxCodec)
+* Keoiki - Note Splash Animations
 * Smokey - Sprite Atlas Support
 * Nebula the Zorua - LUA JIT Fork and some Lua reworks
 
