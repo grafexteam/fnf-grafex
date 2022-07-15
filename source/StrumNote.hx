@@ -47,7 +47,7 @@ public var direction:Float = 90;//plan on doing scroll directions soon -bb
 		shader = colorSwap.shader;
 		noteData = leData;
 
-if (PlayState.swapStrumLines) {
+        if (PlayState.swapStrumLines) {
 			if (player == 1) {
 				player = 0;
 			} else if (player == 0) {
