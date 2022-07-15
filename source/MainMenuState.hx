@@ -72,12 +72,13 @@ class MainMenuState extends MusicBeatState
         FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
-        if (!FlxG.sound.music.playing)
-		{	
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
-        	FlxG.sound.music.time = 9400;
-			Conductor.changeBPM(102);
-		}
+        if(FlxG.sound.music != null)
+			if (!FlxG.sound.music.playing)
+			{	
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+        		FlxG.sound.music.time = 9400;
+				Conductor.changeBPM(102);
+			}
 
         FlxG.mouse.visible = false;
         //FlxG.mouse.useSystemCursor = true;
@@ -187,14 +188,13 @@ class MainMenuState extends MusicBeatState
 	var selectedSomethin:Bool = false;
 	var clickCount:Int = 0;
 	var colorEntry:FlxColor;
-    var oldPos = FlxG.mouse.getScreenPosition();
 	
 	override function update(elapsed:Float)
 	{		
 		if (FlxG.sound.music != null)
             Conductor.songPosition = FlxG.sound.music.time;
 
-		Conductor.songPosition = FlxG.sound.music.time; // this is such a bullshit, we messed with this around 2 hours - Xale
+		//Conductor.songPosition = FlxG.sound.music.time; // this is such a bullshit, we messed with this around 2 hours - Xale
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 9, 0, 1);
 
