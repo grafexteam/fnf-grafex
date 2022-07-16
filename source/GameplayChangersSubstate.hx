@@ -110,7 +110,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	{
 		super();
 		
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite(-FlxG.width * 1.5, -FlxG.height * 1.5).makeGraphic(FlxG.width * 4, FlxG.height * 4, FlxColor.BLACK);
 		bg.alpha = 0.6;
 		add(bg);
 

@@ -14,7 +14,8 @@ typedef EventNote = {
 	strumTime:Float,
 	event:String,
 	value1:String,
-	value2:String
+	value2:String,
+	value3:String
 }
 class Note extends FlxSprite
 { 
@@ -47,6 +48,7 @@ class Note extends FlxSprite
 	public var eventLength:Int = 0;
 	public var eventVal1:String = '';
 	public var eventVal2:String = '';
+	public var eventVal3:String = '';
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;

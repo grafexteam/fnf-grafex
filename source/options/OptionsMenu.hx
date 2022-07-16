@@ -173,6 +173,7 @@ class OptionsMenu extends FlxSubState
 				#if desktop new FPSCapOption("Change your FPS Cap."),
 				#end
                 new AutoPause("Stops game, when its unfocused"),
+				new VintageOption("Adds 'vintage' on game screen."),
                 new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
                 new QualityLow("Turn off some object on stages"),
 				new Imagepersist("Images loaded will stay in memory until the game is closed."),

@@ -155,6 +155,7 @@ class ChartingState extends MusicBeatState
 
 	var value1InputText:FlxUIInputText;
 	var value2InputText:FlxUIInputText;
+	var value3InputText:FlxUIInputText;
 	var currentSongName:String;
 	
 	var zoomTxt:FlxText;
@@ -204,9 +205,9 @@ class ChartingState extends MusicBeatState
 	1,
 	4/8];//eight*/
 
-        public static var quantization:Int = 16;
-public static var curQuant = 3;
-public var quantizations:Array<Int> = [
+    public static var quantization:Int = 16;
+    public static var curQuant = 3;
+    public var quantizations:Array<Int> = [
 		4,
 		8,
 		12,
@@ -309,7 +310,7 @@ public var quantizations:Array<Int> = [
 
 		currentSongName = Paths.formatToSongPath(_song.song);
 		loadSong();
-reloadGridLayer();
+        reloadGridLayer();
 		Conductor.changeBPM(_song.bpm);
 		Conductor.mapBPMChanges(_song);
 
@@ -755,7 +756,7 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 					for (i in 0...event[1].length)
 					{
 						var eventToPush:Array<Dynamic> = event[1][i];
-						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2]]);
+						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2], eventToPush[3] ]);
 					}
 					notesCopied.push([strumTime, -1, copiedEventArray]);
 				}
@@ -782,7 +783,7 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 					for (i in 0...note[2].length)
 					{
 						var eventToPush:Array<Dynamic> = note[2][i];
-						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2]]);
+						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2], eventToPush[3]]);
 					}
 					_song.events.push([newStrumTime, copiedEventArray]);
 				}
@@ -860,7 +861,7 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 					for (i in 0...event[1].length)
 					{
 						var eventToPush:Array<Dynamic> = event[1][i];
-						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2]]);
+						copiedEventArray.push([eventToPush[0], eventToPush[1], eventToPush[2], eventToPush[3]]);
 					}
 					_song.events.push([strumTime, copiedEventArray]);
 				}
@@ -1019,14 +1020,14 @@ for(mod in Paths.getGlobalMods())
 	{
 		var tab_group_event = new FlxUI(null, UI_box);
 		tab_group_event.name = 'Events';
-                #if LUA_ALLOWED
+        #if LUA_ALLOWED
 		var eventPushedMap:Map<String, Bool> = new Map<String, Bool>();
 		var directories:Array<String> = [];
 
 		#if MODS_ALLOWED
 		directories.push(Paths.mods('custom_events/'));
 		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_events/'));
-for(mod in Paths.getGlobalMods())
+        for(mod in Paths.getGlobalMods())
 			directories.push(Paths.mods(mod + '/custom_events/'));
 		#end
 		for (i in 0...directories.length) {
@@ -1049,7 +1050,7 @@ for(mod in Paths.getGlobalMods())
 		#end
 
 		
-		descText = new FlxText(20, 200, 0, eventStuff[0][0]);
+		descText = new FlxText(20, 240, 0, eventStuff[0][0]);
 
 		var leEvents:Array<String> = [];
 		for (i in 0...eventStuff.length) {
@@ -1080,6 +1081,11 @@ for(mod in Paths.getGlobalMods())
 		tab_group_event.add(text);
 		value2InputText = new FlxUIInputText(20, 150, 100, "");
 		blockPressWhileTypingOn.push(value2InputText);
+
+		var text:FlxText = new FlxText(20, 170, 0, "Value 3:");
+		tab_group_event.add(text);
+		value3InputText = new FlxUIInputText(20, 190, 100, "");
+		blockPressWhileTypingOn.push(value3InputText);
 
 		// New event buttons
 		var removeButton:FlxButton = new FlxButton(eventDropDown.x + eventDropDown.width + 10, eventDropDown.y, '-', function()
@@ -1159,6 +1165,7 @@ for(mod in Paths.getGlobalMods())
 		tab_group_event.add(descText);
 		tab_group_event.add(value1InputText);
 		tab_group_event.add(value2InputText);
+		tab_group_event.add(value3InputText);
 		tab_group_event.add(eventDropDown);
 
 		UI_box.addGroup(tab_group_event);
@@ -1496,6 +1503,10 @@ FlxG.save.data.chart_waveformVoices = waveformUseVoices.checked;
 				}
 				else if(sender == value2InputText) {
 					curSelectedNote[1][curEventSelected][2] = value2InputText.text;
+					updateGrid();
+				}
+				else if(sender == value3InputText) {
+					curSelectedNote[1][curEventSelected][3] = value3InputText.text;
 					updateGrid();
 				}
 				else if(sender == strumTimeInputText) {
@@ -2515,6 +2526,7 @@ function reloadGridLayer() {
 				}
 				value1InputText.text = curSelectedNote[1][curEventSelected][1];
 				value2InputText.text = curSelectedNote[1][curEventSelected][2];
+				value3InputText.text = curSelectedNote[1][curEventSelected][3];
 			}
 			strumTimeInputText.text = '' + curSelectedNote[0];
 		}
@@ -2598,7 +2610,7 @@ function reloadGridLayer() {
 				
 				if(note.y < -150) note.y = -150;
 
-				var text:String = 'Event: ' + note.eventName + ' (' + Math.floor(note.strumTime) + ' ms)' + '\nValue 1: ' + note.eventVal1 + '\nValue 2: ' + note.eventVal2;
+				var text:String = 'Event: ' + note.eventName + ' (' + Math.floor(note.strumTime) + ' ms)' + '\nValue 1: ' + note.eventVal1 + '\nValue 2: ' + note.eventVal2  + '\nValue 3: ' + note.eventVal3;
 				if(note.eventLength > 1) text = note.eventLength + ' Events:\n' + note.eventName;
 
 				var daText:AttachedFlxText = new AttachedFlxText(0, 0, 400, text, 12);
@@ -2666,6 +2678,7 @@ function reloadGridLayer() {
 			{
 				note.eventVal1 = i[1][0][1];
 				note.eventVal2 = i[1][0][2];
+				note.eventVal3 = i[1][0][3];
 			}
 			note.noteData = -1;
 			daNoteInfo = -1;
@@ -2882,7 +2895,6 @@ function reloadGridLayer() {
 	
 						//newSong.notes[daSection].sectionNotes.remove(_song.notes[daSection].sectionNotes[daNote]);
 					}
-	
 			}
 			//trace("DONE BITCH");
 			_song.notes = newSong;
@@ -2910,7 +2922,8 @@ function reloadGridLayer() {
 			var event = eventStuff[Std.parseInt(eventDropDown.selectedId)][0];
 			var text1 = value1InputText.text;
 			var text2 = value2InputText.text;
-			_song.events.push([noteStrum, [[event, text1, text2]]]);
+			var text3 = value3InputText.text;
+			_song.events.push([noteStrum, [[event, text1, text2, text3]]]);
 			curSelectedNote = _song.events[_song.events.length - 1];
 			curEventSelected = 0;
 			changeEventSelected();
@@ -2942,31 +2955,7 @@ function reloadGridLayer() {
 		return FlxMath.remapToRange(strumTime, 0, 16 * Conductor.stepCrochet, gridBG.y, gridBG.y + (gridBG.height / gridMult) * leZoom);
 	}
 
-	/*
-		function calculateSectionLengths(?sec:SwagSection):Int
-		{
-			var daLength:Int = 0;
-
-			for (i in _song.notes)
-			{
-				var swagLength = i.lengthInSteps;
-
-				if (i.typeOfSection == Section.COPYCAT)
-					swagLength * 2;
-
-				daLength += swagLength;
-
-				if (sec != null && sec == i)
-				{
-					//trace('swag loop??');
-					break;
-				}
-			}
-
-			return daLength;
-	}*/
 	private var daSpacing:Float = 0.3;
-
 	function loadLevel():Void
 	{
 		//trace(_song.notes);

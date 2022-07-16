@@ -7,7 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
-	//WHAT ADDED
+	public static var vintageOnGame:Bool = true;
     public static var playmisssounds:Bool = true;
 	public static var playmissanims:Bool = true;
 	public static var countdownpause:Bool = true;
@@ -38,8 +38,6 @@ class ClientPrefs {
 	public static var ratingSystem:String = 'Grafex';
 	public static var ratingSystemNum:Int = 0;
 	public static var songNameDisplay:Bool = true;
-
-        //WHAT WAS
     public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var showFPS:Bool = true;
@@ -140,7 +138,7 @@ class ClientPrefs {
 		FlxG.save.data.ratingSystemNum = ratingSystemNum;
  		FlxG.save.data.SusTransper = SusTransper;
 		FlxG.save.data.songNameDisplay = songNameDisplay;
-
+		FlxG.save.data.vintageOnGame = vintageOnGame;
 
  		FlxG.save.data.micedUpSus = micedUpSus;
 		FlxG.save.data.middleScroll = middleScroll;
@@ -203,6 +201,14 @@ class ClientPrefs {
 
 		if(FlxG.save.data.micedUpSus == null) {
 			micedUpSus = true;
+		}
+
+		if(FlxG.save.data.vintageOnGame != null) {
+			vintageOnGame = FlxG.save.data.vintageOnGame;
+		}
+
+		if(FlxG.save.data.vintageOnGame == null) {
+			vintageOnGame = true;
 		}
 
 		if(FlxG.save.data.ColorBlindType != null) {

@@ -1819,178 +1819,29 @@ class SongNameOption extends Option
 	}
 }
 
-/*
-class DebugMode extends Option
+class VintageOption extends Option
 {
 	public function new(desc:String)
 	{
-		description = desc;
 		super();
+		description = desc;
 	}
 
-	public override function press():Bool
+	public override function left():Bool
 	{
-		FlxG.switchState(new AnimationDebug());
-		return false;
+		ClientPrefs.vintageOnGame = !ClientPrefs.vintageOnGame;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
 	}
 
 	private override function updateDisplay():String
 	{
-		return "Animation Debug";
+		return "Vintage: < " + (ClientPrefs.vintageOnGame ? "Enabled" : "Disabled") + " >";
 	}
 }
-
-
-class LockWeeksOption extends Option
-{
-	var confirm:Bool = false;
-
-	public function new(desc:String)
-	{
-		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
-	}
-
-	public override function press():Bool
-	{
-		if (OptionsMenu.isInPause)
-			return false;
-		if (!confirm)
-		{
-			confirm = true;
-			display = updateDisplay();
-			return true;
-		}
-		FlxG.save.data.weekUnlocked = 1;
-		StoryMenuState.weekUnlocked = [true, true];
-		confirm = false;
-		trace('Weeks Locked');
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return confirm ? "Confirm Story Reset" : "Reset Story Progress";
-	}
-} 
-
-class ResetScoreOption extends Option
-{
-	var confirm:Bool = false;
-
-	public function new(desc:String)
-	{
-		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
-	}
-
-	public override function press():Bool
-	{
-		if (OptionsMenu.isInPause)
-			return false;
-		if (!confirm)
-		{
-			confirm = true;
-			display = updateDisplay();
-			return true;
-		}
-		FlxG.save.data.songScores = null;
-		for (key in Highscore.songScores.keys())
-		{
-			Highscore.songScores[key] = 0;
-		}
-		FlxG.save.data.songCombos = null;
-		for (key in Highscore.songCombos.keys())
-		{
-			Highscore.songCombos[key] = '';
-		}
-		confirm = false;
-		trace('Highscores Wiped');
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return confirm ? "Confirm Score Reset" : "Reset Score";
-	}
-} */
-
-/*class ResetSettings extends Option
-{
-	var confirm:Bool = false;
-
-	public function new(desc:String)
-	{
-		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
-	}
-
-	public override function press():Bool
-	{
-		if (OptionsMenu.isInPause)
-			return false;
-		if (!confirm)
-		{
-			confirm = true;
-			display = updateDisplay();
-			return true;
-		}
-		FlxG.save.data.weekUnlocked = null;
-		FlxG.save.data.newInput = null;
-		FlxG.save.data.downscroll = null;
-		FlxG.save.data.antialiasing = null;
-		FlxG.save.data.missSounds = null;
-		FlxG.save.data.dfjk = null;
-		FlxG.save.data.accuracyDisplay = null;
-		FlxG.save.data.offset = null;
-		FlxG.save.data.songPosition = null;
-		FlxG.save.data.fps = null;
-		FlxG.save.data.changedHit = null;
-		FlxG.save.data.fpsRain = null;
-		FlxG.save.data.fpsCap = null;
-		FlxG.save.data.scrollSpeed = null;
-		FlxG.save.data.npsDisplay = null;
-		FlxG.save.data.frames = null;
-		FlxG.save.data.accuracyMod = null;
-		FlxG.save.data.watermark = null;
-		FlxG.save.data.ghost = null;
-		FlxG.save.data.distractions = null;
-		FlxG.save.data.colour = null;
-		FlxG.save.data.stepMania = null;
-		FlxG.save.data.flashing = null;
-		FlxG.save.data.resetButton = null;
-		FlxG.save.data.botplay = null;
-		FlxG.save.data.cpuStrums = null;
-		FlxG.save.data.strumline = null;
-		FlxG.save.data.customStrumLine = null;
-		FlxG.save.data.camzoom = null;
-		FlxG.save.data.scoreScreen = null;
-		FlxG.save.data.inputShow = null;
-		FlxG.save.data.optimize = null;
-		FlxG.save.data.cacheImages = null;
-		FlxG.save.data.editor = null;
-		FlxG.save.data.laneTransparency = 0;
-
-	    ClientPrefs.loadPrefs();
-		confirm = false;
-		trace('All settings have been reset');
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return confirm ? "Confirm Settings Reset" : "Reset Settings";
-	}
-}*/
