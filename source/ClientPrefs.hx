@@ -14,7 +14,7 @@ class ClientPrefs {
     public static var greenscreenmode:Bool = false;
     public static var hitsound:Bool = false;
     public static var shouldcameramove:Bool = true;
-    public static var hsvol:Float = 0.2;
+    public static var hsvol:Float = 0;
     public static var instantRespawn:Bool = false;
     public static var hliconbop:String = 'Grafex';
     public static var hliconbopNum:Int = 0;
@@ -219,6 +219,14 @@ class ClientPrefs {
 			ColorBlindType = 'None';
 		}
 
+		if(FlxG.save.data.ColorBlindTypeNum != null) {
+			ColorBlindTypeNum = FlxG.save.data.ColorBlindTypeNum;
+		}
+		
+		if(FlxG.save.data.ColorBlindTypeNum == null) {
+			ColorBlindTypeNum = 0;
+		}
+
 		if(FlxG.save.data.hideOpponenStrums != null) {
 			hideOpponenStrums = FlxG.save.data.hideOpponenStrums;
 		}
@@ -226,7 +234,6 @@ class ClientPrefs {
 		if(FlxG.save.data.hideOpponenStrums == null) {
 			hideOpponenStrums = false;
 		}
-
 
 		if(FlxG.save.data.ratingSystem != null) {
 			ratingSystem = FlxG.save.data.ratingSystem;
@@ -248,8 +255,16 @@ class ClientPrefs {
 			chartautosaveInterval = FlxG.save.data.chartautosaveInterval;
 		}
 
+		if(FlxG.save.data.chartautosaveInterval == null) {
+			chartautosaveInterval = 5;
+		}
+
 		if(FlxG.save.data.chartautosave != null) {
 			chartautosave = FlxG.save.data.chartautosave;
+		}
+
+		if(FlxG.save.data.chartautosave == null) {
+			chartautosave = true;
 		}
 
         if(FlxG.save.data.skipTitleState != null) {
@@ -262,7 +277,6 @@ class ClientPrefs {
 		if(FlxG.save.data.playmissanims != null) {
 			playmissanims = FlxG.save.data.playmissanims;
 		}
-
 		
         if(FlxG.save.data.playmissanims == null) {
 	        playmissanims = true;
@@ -278,7 +292,11 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
-               	
+
+		if(FlxG.save.data.noteSkin == null) {
+			noteSkin = 'Default';
+		}
+                 	
 		if(FlxG.save.data.noteSkinNum != null) {
 			noteSkinNum = FlxG.save.data.noteSkinNum;
 		}
@@ -369,9 +387,18 @@ class ClientPrefs {
 			downScroll = FlxG.save.data.downScroll;
 		}
 
+		if(FlxG.save.data.downScroll == null) {
+			downScroll = false;
+		}
+
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
 		}
+
+		if(FlxG.save.data.middleScroll == null) {
+			middleScroll = false;
+		}
+
 
 		if(FlxG.save.data.showFPS != null) {
 			showFPS = FlxG.save.data.showFPS;	
@@ -383,20 +410,46 @@ class ClientPrefs {
 			FPSMem.showMem = showMEM;		
 		}
 
+		if(FlxG.save.data.showFPS == null) {
+			showFPS = true;	
+			FPSMem.showFPS = showFPS;
+			
+		}
+        if(FlxG.save.data.showMEM == null) {
+			showMEM = true;
+			FPSMem.showMem = showMEM;		
+		}
+
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
+		}
+
+		if(FlxG.save.data.flashing == null) {
+			flashing = true;
 		}
 
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
 		}
 
+		if(FlxG.save.data.globalAntialiasing == null) {
+			globalAntialiasing = true;
+		}
+
 		if(FlxG.save.data.noteSplashes != null) {
 			noteSplashes = FlxG.save.data.noteSplashes;
 		}
 
+		if(FlxG.save.data.noteSplashes == null) {
+			noteSplashes = true;
+		}
+
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;
+		}
+
+		if(FlxG.save.data.lowQuality == null) {
+			lowQuality = false;
 		}
 
 		if(FlxG.save.data.framerate != null) {
@@ -410,13 +463,33 @@ class ClientPrefs {
 			}
 		}
 
+		if(FlxG.save.data.framerate == null) {
+			framerate = 60;
+			if(framerate > FlxG.drawFramerate) {
+				FlxG.updateFramerate = framerate;
+				FlxG.drawFramerate = framerate;
+			} else {
+				FlxG.drawFramerate = framerate;
+				FlxG.updateFramerate = framerate;
+			}
+		}
+
 		if(FlxG.save.data.camZooms != null) {
 			camZooms = FlxG.save.data.camZooms;
+		}
+
+		if(FlxG.save.data.camZooms == null) {
+			camZooms = true;
 		}
 
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
 		}
+
+		if(FlxG.save.data.hideHud == null) {
+			hideHud = false;
+		}
+
 
 		if(FlxG.save.data.noteOffset != null) {
 			noteOffset = FlxG.save.data.noteOffset;
@@ -431,12 +504,25 @@ class ClientPrefs {
 			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
 		}
 
+		if(FlxG.save.data.imagesPersist == null) {
+			imagesPersist = false;
+			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+		}
+
 		if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}
 
+		if(FlxG.save.data.ghostTapping == null) {
+			ghostTapping = true;
+		}
+
 		if(FlxG.save.data.hliconbop != null) {
 			hliconbop = FlxG.save.data.hliconbop;
+		}
+
+		if(FlxG.save.data.hliconbop == null) {
+			hliconbop = 'Grafex';
 		}
 
 		if(FlxG.save.data.hliconbopNum != null) {
@@ -451,6 +537,10 @@ class ClientPrefs {
 			timeBarType = FlxG.save.data.timeBarType;
 		}
 
+		if(FlxG.save.data.timeBarType == null) {
+			timeBarType = 'Time Left';
+		}
+
  		if(FlxG.save.data.timeBarTypeNum != null) {
 			timeBarTypeNum = FlxG.save.data.timeBarTypeNum;
 		}
@@ -463,12 +553,20 @@ class ClientPrefs {
 			scoreZoom = FlxG.save.data.scoreZoom;
 		}
 
+		if(FlxG.save.data.scoreZoom == null) {
+			scoreZoom = true;
+		}
+
 		if(FlxG.save.data.noReset != null) {
 			noReset = FlxG.save.data.noReset;
 		}
 
 		if(FlxG.save.data.underdelayalpha != null) {
 			underdelayalpha = FlxG.save.data.underdelayalpha;
+		}
+
+		if(FlxG.save.data.underdelayalpha == null) {
+			underdelayalpha = 0.2;
 		}
 
     	if(FlxG.save.data.underdelayonoff != null) {
@@ -482,6 +580,11 @@ class ClientPrefs {
     	if(FlxG.save.data.hsvol != null) {
 			hsvol = FlxG.save.data.hsvol;
 		}
+
+		if(FlxG.save.data.hsvol == null) {
+			hsvol = 0;
+		}
+
 		if(FlxG.save.data.comboOffset != null) {
 			comboOffset = FlxG.save.data.comboOffset;
 		}
@@ -520,9 +623,14 @@ class ClientPrefs {
 		}
 
 		if (FlxG.save.data.songNameDisplay != null)
-			{
-				songNameDisplay = FlxG.save.data.songNameDisplay;
-			}
+		{
+			songNameDisplay = FlxG.save.data.songNameDisplay;
+		}
+
+		if (FlxG.save.data.songNameDisplay == null)
+		{
+			songNameDisplay = true;
+		}
 		
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
@@ -534,8 +642,6 @@ class ClientPrefs {
 		{
 			FlxG.sound.muted = FlxG.save.data.mute; 
 		}
-
-		
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v2', 'xale');
