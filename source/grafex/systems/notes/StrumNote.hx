@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import grafex.states.editors.ChartingState;
 import grafex.effects.shaders.ColorSwap;
-import grafex.states.PlayState;image.pngimage.png
+import grafex.states.PlayState;
 
 using StringTools;
 
