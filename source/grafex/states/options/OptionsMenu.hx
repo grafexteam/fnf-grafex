@@ -7,7 +7,6 @@ import grafex.systems.statesystem.MusicBeatState;
 import grafex.states.substates.LoadingState;
 import grafex.systems.Paths;
 
-import flixel.FlxCamera;
 import flixel.FlxSubState;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
