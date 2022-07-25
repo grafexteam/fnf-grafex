@@ -154,7 +154,7 @@ class Utils
 		Paths.sound(sound, library);
 	}
 
-public static function precacheMusic(sound:String, ?library:String = null):Void {
+    public static function precacheMusic(sound:String, ?library:String = null):Void {
 	Paths.music(sound, library);
 	}
 	public static function browserLoad(site:String) {

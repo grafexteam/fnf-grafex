@@ -135,10 +135,6 @@ class PlayState extends MusicBeatState
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 	public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
-    public var cammoveoffest:Float = 40;
-    public var bfcamoffsetx:Float = 0;
-    public var bfcamoffsety:Float = 0;
-
 	var filtershud:Array<BitmapFilter> = [];
 	var filtersgame:Array<BitmapFilter> = [];
 	var filtersnotes:Array<BitmapFilter> = [];
@@ -1824,7 +1820,7 @@ class PlayState extends MusicBeatState
 
 		if(dialogueFile.dialogue.length > 0) {
 			inCutscene = true;
-                        precacheList.set('dialogue', 'sound');
+            precacheList.set('dialogue', 'sound');
 			precacheList.set('dialogueClose', 'sound');
 			psychDialogue = new DialogueBoxPsych(dialogueFile, song);
 			psychDialogue.scrollFactor.set();
@@ -5572,6 +5568,7 @@ class PlayState extends MusicBeatState
 		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh]) {
 		    if (helem != null) {
 		        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
+				FlxTween.tween(helem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 300, {ease: FlxEase.quadInOut, startDelay: 0.55});
             }  }
 		isHealthCheckingEnabled = false;
 		iconP1.animation.curAnim.curFrame = 1;
@@ -5663,7 +5660,25 @@ class PlayState extends MusicBeatState
 					camFollow.y = bfPos[1];
 			}
 		}
-		else
+		else if (camFocus == 'gf')
+		{
+			switch (num)
+			{
+				case 2:
+					camFollow.y = gfPos[1] - daFunneOffsetMultiplier;
+					camFollow.x = gfPos[0];
+				case 3:
+					camFollow.x = gfPos[0] + daFunneOffsetMultiplier;
+					camFollow.y = gfPos[1];
+				case 1:
+					camFollow.y = gfPos[1] + daFunneOffsetMultiplier;
+					camFollow.x = gfPos[0];
+				case 0:
+					camFollow.x = gfPos[0] - daFunneOffsetMultiplier;
+					camFollow.y = gfPos[1];
+			}
+		}
+		else if (camFocus == 'dad')
 		{
 			switch (num)
 			{
@@ -5690,6 +5705,9 @@ class PlayState extends MusicBeatState
 	
 		bfPos[0] = boyfriend.getMidpoint().x - 100 - boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 		bfPos[1] = boyfriend.getMidpoint().y - 100 + boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+
+		gfPos[0] = gf.getMidpoint().x + gf.cameraPosition[0] + girlfriendCameraOffset[0];
+		gfPos[1] = gf.getMidpoint().y + gf.cameraPosition[1] + girlfriendCameraOffset[1];
 	}
 
 	function eventCheck(event:Array<String>)
