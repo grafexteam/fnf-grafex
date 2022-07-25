@@ -1,11 +1,12 @@
 package grafex.states;
 
-import utils.FlxVideo;
+import grafex.Utils;
+
 import grafex.states.options.OptionsMenu;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
 import grafex.states.substates.PauseSubState;
-import grafex.Utils;
+
 
 import grafex.systems.statesystem.MusicBeatState;
 import grafex.systems.song.Section.SwagSection;
@@ -48,9 +49,6 @@ import grafex.states.editors.ChartingState;
 import grafex.states.editors.CharacterEditorState;
 import grafex.states.substates.GameOverSubstate;
 
-#if desktop
-import utils.Discord.DiscordClient;
-#end
 import lime.app.Application;
 import openfl.filters.BitmapFilter;
 import flixel.FlxBasic;
@@ -109,6 +107,14 @@ import openfl.filters.ColorMatrixFilter;
 
 #if sys
 import sys.FileSystem;
+#end
+
+#if VIDEOS_ALLOWED
+import utils.FlxVideo;
+#end
+
+#if desktop
+import utils.Discord.DiscordClient;
 #end
 
 using StringTools;
@@ -479,7 +485,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camPAUSE);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
-		FlxCamera.defaultCameras = [camGame];
+		//FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
