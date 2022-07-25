@@ -1,10 +1,12 @@
 package;
 
+import grafex.states.TitleState;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
+import utils.FPSMem;
 
 class ClientPrefs {
 	//WHAT ADDED
@@ -34,7 +36,7 @@ class ClientPrefs {
 	public static var chartautosave:Bool = true;
     public static var skipTitleState:Bool = false;
     public static var micedUpSus:Bool = true;
-    public static var SusTransper:Float = 1;
+    public static var susTransper:Float = 1;
 	public static var ratingSystem:String = 'Grafex';
 	public static var ratingSystemNum:Int = 0;
 	public static var songNameDisplay:Bool = true;
@@ -138,7 +140,7 @@ class ClientPrefs {
         FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.ratingSystem = ratingSystem;
 		FlxG.save.data.ratingSystemNum = ratingSystemNum;
- 		FlxG.save.data.SusTransper = SusTransper;
+ 		FlxG.save.data.susTransper = susTransper;
 		FlxG.save.data.songNameDisplay = songNameDisplay;
 
 
@@ -189,12 +191,12 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.SusTransper != null) {
-			SusTransper = FlxG.save.data.SusTransper;
+		if(FlxG.save.data.susTransper != null) {
+			susTransper = FlxG.save.data.susTransper;
 		}
 
-		if(FlxG.save.data.SusTransper == null) {
-			SusTransper = 1;
+		if(FlxG.save.data.susTransper == null) {
+			susTransper = 1;
 		}
 
 		if(FlxG.save.data.micedUpSus != null) {
@@ -220,7 +222,6 @@ class ClientPrefs {
 		if(FlxG.save.data.hideOpponenStrums == null) {
 			hideOpponenStrums = false;
 		}
-
 
 		if(FlxG.save.data.ratingSystem != null) {
 			ratingSystem = FlxG.save.data.ratingSystem;
@@ -253,11 +254,11 @@ class ClientPrefs {
         if(FlxG.save.data.skipTitleState == null) {
 			skipTitleState = false;
 		}
+
 		if(FlxG.save.data.playmissanims != null) {
 			playmissanims = FlxG.save.data.playmissanims;
 		}
 
-		
         if(FlxG.save.data.playmissanims == null) {
 	        playmissanims = true;
 		}
@@ -265,6 +266,7 @@ class ClientPrefs {
 	    if(FlxG.save.data.countdownpauses != null) {
 			countdownpause = FlxG.save.data.countdownpause;
 		}	
+
         if(FlxG.save.data.countdownpause == null) {
 	        countdownpause = true;
 		}
@@ -518,7 +520,6 @@ class ClientPrefs {
 				songNameDisplay = FlxG.save.data.songNameDisplay;
 			}
 		
-		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
 		{
 			FlxG.sound.volume = FlxG.save.data.volume;
@@ -527,9 +528,7 @@ class ClientPrefs {
 		if (FlxG.save.data.mute != null)
 		{
 			FlxG.sound.muted = FlxG.save.data.mute; 
-		}
-
-		
+		}	
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v2', 'xale');
@@ -543,7 +542,7 @@ class ClientPrefs {
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic):Dynamic {
-		return /*PlayState.isStoryMode ? defaultValue : */ (gameplaySettings.exists(name) ? gameplaySettings.get(name) : defaultValue);
+		return (gameplaySettings.exists(name) ? gameplaySettings.get(name) : defaultValue);
 	}
 
 	public static function reloadControls() {

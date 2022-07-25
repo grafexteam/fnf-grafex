@@ -10,17 +10,20 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import lime.app.Application;
 import lime.ui.WindowAttributes;
-import MusicBeatState;
+import grafex.systems.statesystem.MusicBeatState;
 
 // for crashing shit - Xale
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import haxe.io.Path;
-import Discord.DiscordClient;
+import utils.Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
+import grafex.states.substates.PrelaunchingState;
+import grafex.states.TitleState;
+import utils.FPSMem;
 
 using StringTools;
 
