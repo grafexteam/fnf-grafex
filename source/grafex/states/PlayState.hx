@@ -41,6 +41,7 @@ import grafex.cutscenes.DialogueBoxPsych;
 import grafex.cutscenes.DialogueBoxPsych.DialogueFile;
 import grafex.cutscenes.Cutscene.CutsceneFile;
 import grafex.cutscenes.DialogueBox;
+import grafex.cutscenes.CutsceneHandler;
 
 import grafex.states.MainMenuState;
 import grafex.states.editors.ChartingState;
