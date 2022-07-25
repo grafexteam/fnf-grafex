@@ -2918,7 +2918,7 @@ class PlayState extends MusicBeatState
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 			else
-				openSubState(new options.OptionsMenu(true));
+				openSubState(new OptionsMenu(true));
 		}
 		else if (paused)
 		{
@@ -5631,6 +5631,7 @@ class PlayState extends MusicBeatState
 	var daFunneOffsetMultiplier:Float = 20;
 	var dadPos:Array<Float> = [0, 0];
 	var bfPos:Array<Float> = [0, 0];
+	var gfPos:Array<Float> = [0, 0];
 	
 	function triggerCamMovement(num:Float = 0)
 	{

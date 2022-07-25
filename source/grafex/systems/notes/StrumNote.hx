@@ -2,8 +2,6 @@ package grafex.systems.notes;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import grafex.states.editors.ChartingState;
 import grafex.effects.shaders.ColorSwap;
 import grafex.states.PlayState;
 
