@@ -64,6 +64,7 @@ class Main extends Sprite
 
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 	}
 
 
@@ -171,8 +172,6 @@ class Main extends Sprite
 		#if !mobile
         addChild(new FPSMem(10, 3, 0xFFFFFF));
 		#end
-
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
 		#if html5
 		//FlxG.autoPause = false;

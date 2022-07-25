@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import grafex.states.editors.ChartingState;
 import grafex.effects.shaders.ColorSwap;
-import grafex.states.PlayState;
+import grafex.states.PlayState;image.pngimage.png
 
 using StringTools;
 
@@ -50,7 +50,7 @@ class StrumNote extends FlxSprite
 		shader = colorSwap.shader;
 		noteData = leData;
 
-		if (PlayState.swapStrumLines) {
+        if (PlayState.swapStrumLines) {
 			if (player == 1) {
 				player = 0;
 			} else if (player == 0) {

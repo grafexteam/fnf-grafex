@@ -1819,3 +1819,30 @@ class SongNameOption extends Option
 		return "SongName Displayed: < " + (ClientPrefs.songNameDisplay ? "Enabled" : "Disabled") + " >";
 	}
 }
+
+class VintageOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.vintageOnGame = !ClientPrefs.vintageOnGame;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Vintage: < " + (ClientPrefs.vintageOnGame ? "Enabled" : "Disabled") + " >";
+	}
+}

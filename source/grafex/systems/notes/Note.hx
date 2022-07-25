@@ -16,12 +16,13 @@ typedef EventNote = {
 	strumTime:Float,
 	event:String,
 	value1:String,
-	value2:String
+	value2:String,
+	value3:String
 }
 class Note extends FlxSprite
 { 
 
-public var extraData:Map<String,Dynamic> = [];
+    public var extraData:Map<String,Dynamic> = [];
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
@@ -34,7 +35,7 @@ public var extraData:Map<String,Dynamic> = [];
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
 
-public var nextNote:Note;
+    public var nextNote:Note;
 
 	public var spawned:Bool = false;
 
@@ -49,6 +50,7 @@ public var nextNote:Note;
 	public var eventLength:Int = 0;
 	public var eventVal1:String = '';
 	public var eventVal2:String = '';
+	public var eventVal3:String = '';
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
@@ -67,7 +69,7 @@ public var nextNote:Note;
 	public var noteSplashHue:Float = 0;
 	public var noteSplashSat:Float = 0;
 	public var noteSplashBrt:Float = 0;
-        public var deftype:Bool;      
+    public var deftype:Bool;      
 
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
@@ -88,15 +90,14 @@ public var nextNote:Note;
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
-public var noMissAnimation:Bool = false;
+    public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
-public var multSpeed(default, set):Float = 1;
+    public var multSpeed(default, set):Float = 1;
 
-private function set_multSpeed(value:Float):Float {
+    private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
-		trace('fuck cock');
 		return value;
 	}
 
@@ -108,8 +109,7 @@ private function set_multSpeed(value:Float):Float {
 			updateHitbox();
 		}
 	}
-
-        public static var holdArrowScales:Map<String, Float> = [
+    public static var holdArrowScales:Map<String, Float> = [
 		'Future'	=> 0.565,
 		'Chip'		=> 0.565
 	];
@@ -210,7 +210,7 @@ private function set_multSpeed(value:Float):Float {
 
 		// trace(prevNote);
 
-if(prevNote!=null)
+        if(prevNote!=null)
 			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)

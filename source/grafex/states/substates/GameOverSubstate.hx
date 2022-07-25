@@ -21,7 +21,8 @@ class GameOverSubstate extends MusicBeatSubstate
 	var camFollow:FlxPoint;
 	var camFollowPos:FlxObject;
 	var updateCamera:Bool = false;
-	var playingDeathSound:Bool = false;
+    var playingDeathSound:Bool = false;
+	var ableToCamBeat:Bool = false;
 
 	var stageSuffix:String = "";
 
@@ -81,11 +82,13 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
+		FlxG.camera.zoom = FlxMath.lerp(PlayState.defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+
 		if(FlxG.keys.justPressed.F11)
-                {
-                   FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                PlayState.instance.callOnLuas('onUpdate', [elapsed]);
+        {
+           FlxG.fullscreen = !FlxG.fullscreen;
+        }
+        PlayState.instance.callOnLuas('onUpdate', [elapsed]);
 		if(updateCamera) {
 			var lerpVal:Float = Utils.boundTo(elapsed * 0.6, 0, 1);
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
@@ -157,6 +160,13 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		super.beatHit();
 
+		if(ableToCamBeat)
+		{
+          if(FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0)
+			FlxG.camera.zoom += 0.025;
+		  if(FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 1)
+			FlxG.camera.zoom -= 0.025;
+		}
 		//FlxG.log.add('beat');
 	}
 
@@ -165,12 +175,14 @@ class GameOverSubstate extends MusicBeatSubstate
 	function coolStartDeath(?volume:Float = 1):Void
 	{
 		FlxG.sound.playMusic(Paths.music(loopSoundName), volume);
+		ableToCamBeat = true;
 	}
 
 	function endBullshit():Void
 	{
 		if (!isEnding)
 		{
+			ableToCamBeat = false;
 			isEnding = true;
 			boyfriend.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();

@@ -92,10 +92,6 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
-	var easterEggEnabled:Bool = true; //Disable this to hide the easter egg
-	var easterEggKeyCombination:Array<FlxKey> = [FlxKey.B, FlxKey.B]; //bb stands for bbpanzu cuz he wanted this lmao
-	var lastKeysPressed:Array<FlxKey> = [];
-
 	var mustUpdate:Bool = false;
 	
 	var titleJSON:TitleData;
@@ -210,10 +206,10 @@ class TitleState extends MusicBeatState
 
 		persistentUpdate = true;
 
-		//bgMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('titleBg'));
+		if(titleJSON.backdropImage == null)
+			titleJSON.backdropImage = 'titleBg';
         bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
-		//bgMenu.color = getCurrentBGColor();
-		bgMenu.color = 0x950DCF;
+		bgMenu.color = 0x7208A0;
 		bgMenu.alpha = 0.6;
         bgMenu.velocity.set(titleJSON.backdropImageVelocityX, titleJSON.backdropImageVelocityY); //thats it :D- snake
 		add(bgMenu);

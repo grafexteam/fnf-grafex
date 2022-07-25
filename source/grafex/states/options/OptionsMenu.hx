@@ -25,6 +25,8 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import flixel.util.FlxSave;
 
 class OptionCata extends FlxSprite
 {
@@ -106,6 +108,8 @@ class OptionsMenu extends FlxSubState
 
 	public static var isInPause = false;
 
+	var restoreSettingsText:FlxText;
+
 	public var shownStuff:FlxTypedGroup<FlxText>;
 
 	public static var visibleRange = [114, 640];
@@ -137,7 +141,7 @@ class OptionsMenu extends FlxSubState
 
 		options = [
 			new OptionCata(50, 40, "Gameplay", [
-				new OffsetThing("Change the note visual offset (how many milliseconds a note looks like it is offset in a chart)"),
+				//new OffsetThing("Change the note visual offset (how many milliseconds a note looks like it is offset in a chart)"),
 				new HitSoundOption("Adds 'hitsound' on note hits."),
 				new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
 				new DownscrollOption("Toggle making the notes scroll down rather than up."),
@@ -180,6 +184,7 @@ class OptionsMenu extends FlxSubState
 				#if desktop new FPSCapOption("Change your FPS Cap."),
 				#end
                 new AutoPause("Stops game, when its unfocused"),
+				new VintageOption("Adds 'vintage' on game screen."),
                 new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
                 new QualityLow("Turn off some object on stages"),
 				new Imagepersist("Images loaded will stay in memory until the game is closed."),
@@ -259,6 +264,13 @@ class OptionsMenu extends FlxSubState
 		switchCat(selectedCat);
 
 		selectedOption = selectedCat.options[0];
+
+		restoreSettingsText = new FlxText (62, 680, FlxG.width, 'Press DELETE to reset settings');
+		restoreSettingsText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		restoreSettingsText.scrollFactor.set();
+		restoreSettingsText.borderSize = 2;
+		restoreSettingsText.borderQuality = 3;
+		add(restoreSettingsText);
 
 		super.create();
 	}
@@ -347,7 +359,7 @@ class OptionsMenu extends FlxSubState
 
 		if (!isInCat)
 		{
-			object.text = "> " + option.getValue();
+			object.text = option.getValue();
 
 			descText.text = option.getDescription();
 		}
@@ -375,6 +387,13 @@ class OptionsMenu extends FlxSubState
 	{
 		super.update(elapsed);
 
+		for (c in options) {
+			c.titleObject.text = c.title;
+			for (o in 0...c.optionObjects.length) {
+				c.optionObjects.members[o].text = c.options[o].getValue();
+			}
+		}
+
 		if(FlxG.keys.justPressed.F11)
 			{
 			FlxG.fullscreen = !FlxG.fullscreen;
@@ -389,6 +408,7 @@ class OptionsMenu extends FlxSubState
 		var down = false;
 		var any = false;
 		var escape = false;
+		var reset = false;
 
 		accept = FlxG.keys.justPressed.ENTER || (gamepad != null ? gamepad.justPressed.A : false);
 		right = FlxG.keys.justPressed.RIGHT || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
@@ -398,6 +418,7 @@ class OptionsMenu extends FlxSubState
 
 		any = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		escape = FlxG.keys.justPressed.ESCAPE || (gamepad != null ? gamepad.justPressed.B : false);
+		reset = FlxG.keys.justPressed.DELETE;
 
 		if (selectedCat != null && !isInCat)
 		{
@@ -463,12 +484,33 @@ class OptionsMenu extends FlxSubState
 					selectOption(selectedCat.options[0]);
 				}
 
+				if(reset)
+				{
+					if (!isInPause)
+					{
+						resetOptions();
+						restoreSettingsText.text = 'Settings restored // Restarting game';
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
+						new FlxTimer().start(1.5, function(tmr:FlxTimer)
+						{
+							TitleState.initialized = false;
+                            TitleState.closedState = false;
+                            FlxG.sound.music.fadeOut(0.3);
+                            FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
+						});
+					}
+					else
+					{
+						restoreSettingsText.text = 'Unable in PauseMenu';
+					}
+				}
+
 				if (escape)
 				{
 					if (!isInPause) {
 					    ClientPrefs.saveSettings();
 						MusicBeatState.switchState(new MainMenuState());
-                                                FlxG.sound.music.stop();
+                        FlxG.sound.music.stop();
 						ControlsSubState.fromcontrols = false;
 					    }
 					else
@@ -489,7 +531,7 @@ class OptionsMenu extends FlxSubState
 							FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 							selectedOption.waitingType = false;
 							var object = selectedCat.optionObjects.members[selectedOptionIndex];
-							object.text = "> " + selectedOption.getValue();
+							object.text = selectedOption.getValue();
 							//Debug.logTrace("New text: " + object.text);
 							return;
 						}
@@ -497,7 +539,7 @@ class OptionsMenu extends FlxSubState
 						{
 							var object = selectedCat.optionObjects.members[selectedOptionIndex];
 							selectedOption.onType(gamepad == null ? FlxG.keys.getIsDown()[0].ID.toString() : gamepad.firstJustPressedID());
-							object.text = "> " + selectedOption.getValue();
+							object.text = selectedOption.getValue();
 						//	Debug.logTrace("New text: " + object.text);
 						}
 					}
@@ -513,7 +555,7 @@ class OptionsMenu extends FlxSubState
 						{
 							ClientPrefs.saveSettings();
 
-							object.text = "> " + selectedOption.getValue();
+							object.text = selectedOption.getValue();
 						}
 					}
 
@@ -600,7 +642,7 @@ class OptionsMenu extends FlxSubState
 
 						ClientPrefs.saveSettings();
 
-						object.text = "> " + selectedOption.getValue();
+						object.text = selectedOption.getValue();
 						//Debug.logTrace("New text: " + object.text);
 					}
 					else if (left)
@@ -611,8 +653,29 @@ class OptionsMenu extends FlxSubState
 
 						ClientPrefs.saveSettings();
 
-						object.text = "> " + selectedOption.getValue();
+						object.text = selectedOption.getValue();
 						//Debug.logTrace("New text: " + object.text);
+					}
+
+					if(reset)
+					{
+						if (!isInPause)
+						{
+							resetOptions();
+							restoreSettingsText.text = 'Settings restored // Restarting game';
+							FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
+							new FlxTimer().start(1.5, function(tmr:FlxTimer)
+							{
+								TitleState.initialized = false;
+                                TitleState.closedState = false;
+                                FlxG.sound.music.fadeOut(0.3);
+                                FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
+							});
+						}
+						else
+						{
+							restoreSettingsText.text = 'Unable in PauseMenu';
+						}
 					}
 
 					if (escape)
@@ -669,4 +732,71 @@ class OptionsMenu extends FlxSubState
 			}
 		}
 	}
+
+	public static function resetOptions()
+	{
+		FlxG.save.data.autoPause = null;
+		FlxG.save.data.visibleHealthbar = null;
+		FlxG.save.data.showjud = null;
+        FlxG.save.data.showCombo = null;
+        FlxG.save.data.blurNotes = null;
+		FlxG.save.data.playmissanims = null;
+        FlxG.save.data.instantRespawn = null;
+        FlxG.save.data.playmisssounds = null;
+        FlxG.save.data.greenscreenmode = null;
+        FlxG.save.data.hitsound = null;
+        FlxG.save.data.shouldcameramove = null;
+        FlxG.save.data.hliconbop = null;
+        FlxG.save.data.hliconbopNum = null;
+        FlxG.save.data.noteSkin = null;
+        FlxG.save.data.noteSkinNum = null;
+		FlxG.save.data.chartautosaveInterval = null;
+        FlxG.save.data.skipTitleState = null;
+		FlxG.save.data.chartautosave = null;
+        FlxG.save.data.downScroll = null;
+		FlxG.save.data.ratingSystem = null;
+		FlxG.save.data.ratingSystemNum = null;
+ 		FlxG.save.data.SusTransper = null;
+		FlxG.save.data.songNameDisplay = null;
+		FlxG.save.data.vintageOnGame = null;
+ 		FlxG.save.data.micedUpSus = null;
+		FlxG.save.data.middleScroll = null;
+		FlxG.save.data.countdownpause = null;
+		FlxG.save.data.showFPS = null;
+        FlxG.save.data.showMEM = null;
+		FlxG.save.data.flashing = null;
+		FlxG.save.data.globalAntialiasing = null;
+		FlxG.save.data.noteSplashes = null;
+		FlxG.save.data.lowQuality = null;
+		FlxG.save.data.framerate = null;
+		FlxG.save.data.ColorBlindType = null;
+		FlxG.save.data.camZooms = null;
+		FlxG.save.data.noteOffset = null;
+		FlxG.save.data.hideHud = null;
+		FlxG.save.data.arrowHSV = null;
+		FlxG.save.data.imagesPersist = null;
+		FlxG.save.data.ghostTapping = null;
+		FlxG.save.data.timeBarType = null;
+		FlxG.save.data.timeBarTypeNum = null;
+		FlxG.save.data.scoreZoom = null;
+		FlxG.save.data.noReset = null;
+        FlxG.save.data.underdelayalpha = null;
+        FlxG.save.data.underdelayonoff = null;
+		FlxG.save.data.hideOpponenStrums = null;
+		FlxG.save.data.healthBarAlpha = 1;
+        FlxG.save.data.hsvol = null;
+		FlxG.save.data.comboOffset = null;
+		FlxG.save.data.ratingOffset = null;
+		FlxG.save.data.sickWindow = null;
+		FlxG.save.data.goodWindow = null;
+		FlxG.save.data.badWindow = null;
+		FlxG.save.data.safeFrames = null;
+		FlxG.save.data.gameplaySettings = null;
+		FlxG.save.data.controllerMode = null;
+		FlxG.save.data.customControls = ClientPrefs.keyBinds;
+	
+        ClientPrefs.loadPrefs();
+
+	}
 }
+
