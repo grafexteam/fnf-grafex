@@ -269,7 +269,7 @@ class PlayState extends MusicBeatState
     public var camSus:FlxCamera; // GET OUT OF MY HEAD!!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - PurSnake
     public var camNOTEHUD:FlxCamera;
 
-    var BlurNotes:BlurFilter;
+    var blurNotes:BlurFilter;
 
     var wiggleShit:WiggleEffect = new WiggleEffect();
 	var susWiggle:ShaderFilter;
@@ -485,17 +485,13 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-        BlurNotes = new BlurFilter(0, 2, 15);
+        blurNotes = new BlurFilter(0, 2, 15);
 
         if(ClientPrefs.blurNotes)
 		{
-			filtersnotes.push(BlurNotes); // blur :D - PurSnake
-			filterSUSnotes.push(BlurNotes);
+			filtersnotes.push(blurNotes); // blur :D - PurSnake
+			filterSUSnotes.push(blurNotes);
 		}
-
-        trace(filtershud);
-		trace(filtersgame);
-		trace(filtersnotes);
 
         camGame.setFilters(filtersgame);
         camNOTEHUD.setFilters(filtershud);
@@ -3893,17 +3889,17 @@ class PlayState extends MusicBeatState
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 1;
 				if(Math.isNaN(val2)) val2 = 1;
-                 if (value2 == null)
-                 defaultCamZoom = val1; 
-                 else
-                 {
-                 FlxTween.tween(camGame, {zoom: val1}, val2, {ease: FlxEase.sineInOut, onComplete:
-					function (twn:FlxTween)
-					{
-						defaultCamZoom = camGame.zoom;
-					} 
+                if (value2 == null)
+                 	defaultCamZoom = val1; 
+                else
+                {
+                 	FlxTween.tween(camGame, {zoom: val1}, val2, {ease: FlxEase.sineInOut, onComplete:
+						function (twn:FlxTween)
+						{
+							defaultCamZoom = camGame.zoom;
+						} 
                     });
-                 }
+                }
 
 			case 'Alt Idle Animation':
 				var char:Character = dad;
