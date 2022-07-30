@@ -178,6 +178,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	var stageData:StageFile;
 
 	public var spawnTime:Float = 3000;
 
@@ -584,8 +585,7 @@ class PlayState extends MusicBeatState
 		}
 
 		SONG.stage = curStage;
-
-		var stageData:StageFile = StageData.getStageFile(curStage);
+		stageData = StageData.getStageFile(curStage);
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
 			stageData = {
 				directory: "",
@@ -4038,13 +4038,13 @@ class PlayState extends MusicBeatState
 					});
 				}
 
-            case 'Set Property':
-				var killMe:Array<String> = value1.split('.');
-				if(killMe.length > 1) {
-					FunkinLua.setVarInArray(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
-				} else {
-					FunkinLua.setVarInArray(this, value1, value2);
-				}
+				case 'Set Property':
+					var killMe:Array<String> = value1.split('.');
+					if(killMe.length > 1) {
+						FunkinLua.setVarInArray(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
+					} else {
+						FunkinLua.setVarInArray(this, value1, value2);
+					}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}
@@ -5702,8 +5702,12 @@ class PlayState extends MusicBeatState
 		bfPos[0] = boyfriend.getMidpoint().x - 100 - boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 		bfPos[1] = boyfriend.getMidpoint().y - 100 + boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
 
+
+        if (!stageData.hide_girlfriend) 
+		{	
 		gfPos[0] = gf.getMidpoint().x + gf.cameraPosition[0] + girlfriendCameraOffset[0];
 		gfPos[1] = gf.getMidpoint().y + gf.cameraPosition[1] + girlfriendCameraOffset[1];
+		}
 	}
 
 	function eventCheck(event:Array<String>)

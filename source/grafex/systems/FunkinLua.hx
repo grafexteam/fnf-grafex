@@ -2336,35 +2336,29 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 		#end
 	}
 
-public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
-	{
-		var shit:Array<String> = variable.split('[');
-		if(shit.length > 1)
+	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
 		{
-			var blah:Dynamic = Reflect.getProperty(instance, shit[0]);
-			for (i in 1...shit.length)
+			var shit:Array<String> = variable.split('[');
+			if(shit.length > 1)
 			{
-				var leNum:Dynamic = shit[i].substr(0, shit[i].length - 1);
-				if(i >= shit.length-1) //Last array
-					blah[leNum] = value;
-				else //Anything else
-					blah = blah[leNum];
+				var blah:Dynamic = Reflect.getProperty(instance, shit[0]);
+				for (i in 1...shit.length)
+				{
+					var leNum:Dynamic = shit[i].substr(0, shit[i].length - 1);
+					if(i >= shit.length-1) //Last array
+						blah[leNum] = value;
+					else //Anything else
+						blah = blah[leNum];
+				}
+				return blah;
 			}
-			return blah;
+			/*if(Std.isOfType(instance, Map))
+				instance.set(variable,value);
+			else*/
+	
+			Reflect.setProperty(instance, variable, value);
+			return true;
 		}
-		/*if(Std.isOfType(instance, Map))
-			instance.set(variable,value);
-		else*/
-		switch(Type.typeof(instance)){
-			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
-				instance.set(variable, value);
-			default:
-				Reflect.setProperty(instance, variable, value);
-		};
-
-
-		return true;
-	}
 	public static function getVarInArray(instance:Dynamic, variable:String):Any
 	{
 		var shit:Array<String> = variable.split('[');
@@ -2651,7 +2645,7 @@ function getErrorMessage() {
 		return Function_Continue;
 }
 
-	public static function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool=true):Dynamic
+public static function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool=true):Dynamic
 	{
 		var coverMeInPiss:Dynamic = getObjectDirectly(killMe[0], checkForTextsToo);
 		var end = killMe.length;
@@ -2662,6 +2656,7 @@ function getErrorMessage() {
 		}
 		return coverMeInPiss;
 	}
+
 
 	public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true):Dynamic
 	{

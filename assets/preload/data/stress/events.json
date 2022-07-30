@@ -15,8 +15,7 @@
 						"dad"
 					],
 					[
-						"Set Property",
-						"defaultCamZoom",
+						"Set Cam Zoom",
 						"1.08"
 					],
 					[
@@ -35,8 +34,7 @@
 						""
 					],
 					[
-						"Set Property",
-						"defaultCamZoom",
+						"Set Cam Zoom",
 						"0.9"
 					]
 				]
