@@ -4051,6 +4051,7 @@ class PlayState extends MusicBeatState
 
     function moveCameraSection(?id:Int = 0):Void
 	{
+                getCamOffsets();
 		if (SONG.notes[id] == null)
 			return;
 
@@ -4074,7 +4075,6 @@ class PlayState extends MusicBeatState
 	var cameraTwn:FlxTween;
 	public function moveCamera(isDad:Bool = true, isGf:Bool = false)
 	{
-        getCamOffsets();
 		if(isDad && !isGf)
 		{
 			camFocus = 'dad';
@@ -5199,6 +5199,7 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
+                getCamOffsets();
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
