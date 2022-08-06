@@ -369,6 +369,17 @@ inline static public function shaderFragment(key:String, ?library:String)
 		return null;
 	}
 
+	
+	inline static public function getCharacterIcon(key:String, ?library:String)
+	{
+		return getPath('icons/icon-' + key + '.png', IMAGE, library);
+	}
+
+	inline static public function getCharacterIconXml(key:String, ?library:String)
+	{
+		return getPath('icons/icon-' + key + '.xml', IMAGE, library);
+	}
+	
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
 	}

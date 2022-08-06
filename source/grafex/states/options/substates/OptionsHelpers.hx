@@ -14,7 +14,7 @@ using StringTools;
 class OptionsHelpers
 {
 	public static var noteskinArray = ["Default", "Chip", "Future", "Grafex"];
-    public static var IconsBopArray = ['Grafex', 'Classic', 'Modern'];
+    public static var IconsBopArray = ['Grafex',  'Modern', 'Classic'];
     public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Disabled'];
     public static var ColorBlindArray = ['None', 'Deuteranopia', 'Protanopia', 'Tritanopia'];
     public static var AccuracyTypeArray = ['Grafex', 'Kade', 'Mania', 'Andromeda', 'Forever', 'Psych'];

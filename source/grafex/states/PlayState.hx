@@ -259,6 +259,7 @@ class PlayState extends MusicBeatState
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
+	public var iconGroup:FlxTypedGroup<HealthIcon>;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -1399,16 +1400,19 @@ class PlayState extends MusicBeatState
             healthBarHigh.visible = !ClientPrefs.hideHud;	
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		iconP1.y = healthBarWN.y - 75;
+		iconP1.y = healthBar.y - (iconP1.height / 2);
 		iconP1.visible = !ClientPrefs.hideHud;
 		iconP1.alpha = ClientPrefs.healthBarAlpha;
-		add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
-		iconP2.y = healthBarWN.y - 75;
+		iconP2.y = healthBar.y - (iconP2.height / 2);
 		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
-		add(iconP2);
+
+		iconGroup = new FlxTypedGroup<HealthIcon>();
+		iconGroup.add(iconP1);
+		iconGroup.add(iconP2);
+		add(iconGroup);
 
 
         if(!ClientPrefs.hideHud)
@@ -3224,33 +3228,82 @@ class PlayState extends MusicBeatState
 			openChartEditor();
 		}
                 
+		var playerOffset:Int = 0;
+		var opponentOffset:Int = 0;
+
     	switch(ClientPrefs.hliconbop)
     	   {
     		case 'Grafex':	
-    		    var iconOffset:Int = 26;
+    		
+				var iconOffset:Int = 26;
     
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
-                
+				
              case 'Modern':		
-				var mult:Float = FlxMath.lerp(1, iconP1.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				iconP1.scale.set(mult, mult);
-				iconP1.updateHitbox();
 
-				var mult:Float = FlxMath.lerp(1, iconP2.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				iconP2.scale.set(mult, mult);
-				iconP2.updateHitbox();
 
-				var iconOffset:Int = 26;
+				for (s in members)
+				{
+					if (Std.isOfType(s, HealthIcon))
+					{
+						var icon = cast(s, HealthIcon);
+						icon.cameras = [camHUD];
+						remove(icon);
+						iconGroup.add(icon);
+					}
+				}
 
-				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+				iconGroup.forEach(function(icon:HealthIcon)
+					{
+						if (!icon.visible || !icon.auto)
+							return;
+						var decBeat = curDecBeat;
+						if (decBeat < 0)
+							decBeat = 1 + (decBeat % 1);
+						
+						var iconlerp = FlxMath.lerp(1.15, 1, FlxEase.cubeOut(decBeat % 1));
+						icon.scale.set(iconlerp, iconlerp);
+						icon.scale.set(iconlerp, iconlerp);
+		
+						var iconOffset:Int = 26;
+		
+						icon.offset.x = -75;
+						icon.offset.x = -75;
+					
+						if (icon.isPlayer)
+						{
+							icon.x = healthBar.x
+								+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset)
+								+ icon.offset.x
+								+ (icon.width * (icon.scale.x - 1) / 4)
+								+ (playerOffset * 85 * icon.scale.x);
+						}
+						else
+						{
+							icon.x = healthBar.x
+								+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01))
+								- (icon.width - iconOffset)
+								+ icon.offset.x
+								- (icon.width * (icon.scale.x - 1) / 2)
+								- (opponentOffset * 85 * icon.scale.x);
+						}
+					
+						icon.y = healthBar.y + (healthBar.height / 2) - (icon.height / 2);
+					});		
                 
             case 'Classic':
-                iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.50)));
-				iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
-				iconP1.updateHitbox();
-				iconP2.updateHitbox();
+
+				iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.75)));
+		        iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.75)));
+        
+		        iconP1.updateHitbox();
+		        iconP2.updateHitbox();
+        
+		        var iconOffset:Int = 26;
+        
+		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 		   }
 
         if (health > 2)
@@ -4051,7 +4104,6 @@ class PlayState extends MusicBeatState
 
     function moveCameraSection(?id:Int = 0):Void
 	{
-                getCamOffsets();
 		if (SONG.notes[id] == null)
 			return;
 
@@ -4075,6 +4127,7 @@ class PlayState extends MusicBeatState
 	var cameraTwn:FlxTween;
 	public function moveCamera(isDad:Bool = true, isGf:Bool = false)
 	{
+        getCamOffsets();
 		if(isDad && !isGf)
 		{
 			camFocus = 'dad';
@@ -5195,11 +5248,12 @@ class PlayState extends MusicBeatState
 			resyncVocals();
 		}
 
+		getCamOffsets();
+
 		if(curStep == lastStepHit) {
 			return;
 		}
 
-                getCamOffsets();
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
@@ -5265,20 +5319,21 @@ class PlayState extends MusicBeatState
 
             switch(ClientPrefs.hliconbop)
 				{
-					case 'Modern':
+					/*case 'Modern':
 						iconP1.scale.set(1.2, 1.2);
 						iconP2.scale.set(1.2, 1.2);
 		
 						iconP1.updateHitbox();
 						iconP2.updateHitbox();
-		
+		*/
 					case 'Classic':
-						iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-						iconP2.setGraphicSize(Std.int(iconP2.width + 30));
-		
-						iconP1.updateHitbox();
-						iconP2.updateHitbox();
-		
+						
+		                iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+		                iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+                
+		                iconP1.updateHitbox();
+		                iconP2.updateHitbox();
+		                
 					case 'Grafex':
 						if (curBeat % 2 == 0)
 							{   
@@ -5519,12 +5574,18 @@ class PlayState extends MusicBeatState
 	{
 		new FlxTimer().start(0.1, function(tmr:FlxTimer)
 		{
+			icon.offset.x += 2;
+			icon.offset.y += 2;
 			icon.setPosition(icon.x + 2, icon.y + 2);
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 			{
+				icon.offset.x -= 4;
+			    icon.offset.y -= 4;
 				icon.setPosition(icon.x - 4, icon.y - 4);
 				new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
+					icon.offset.x += 2;
+			        icon.offset.y += 2;
 					icon.setPosition(icon.x + 2, icon.y + 2);
 				});
 			});
