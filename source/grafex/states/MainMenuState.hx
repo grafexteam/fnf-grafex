@@ -257,7 +257,7 @@ class MainMenuState extends MusicBeatState
 
 		super.update(elapsed);
 
-            var elapsedTime:Float = elapsed*6;
+        var elapsedTime:Float = elapsed*6;
         menuItems.forEach(function(spr:FlxSprite)
         {
             if (spr.ID == curSelected)

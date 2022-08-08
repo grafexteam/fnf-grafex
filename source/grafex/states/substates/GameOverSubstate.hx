@@ -82,8 +82,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		FlxG.camera.zoom = FlxMath.lerp(PlayState.defaultCamZoom, FlxG.camera.zoom, Utils.boundTo(1 - (elapsed * 3.125), 0, 1));
-
 		if(FlxG.keys.justPressed.F11)
         {
            FlxG.fullscreen = !FlxG.fullscreen;
@@ -159,14 +157,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	override function beatHit()
 	{
 		super.beatHit();
-
-		if(ableToCamBeat)
-		{
-          if(FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0)
-			FlxG.camera.zoom += 0.025;
-		  if(FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 1)
-			FlxG.camera.zoom -= 0.025;
-		}
 		//FlxG.log.add('beat');
 	}
 

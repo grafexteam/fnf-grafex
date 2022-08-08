@@ -2,9 +2,11 @@ package grafex;
 
 import flixel.math.FlxMath;
 import grafex.systems.Paths;
+import grafex.systems.song.Song;
 import grafex.states.PlayState;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
+import lime.utils.Assets;
 
 #if sys
 import sys.io.File;
@@ -154,9 +156,63 @@ class Utils
 		Paths.sound(sound, library);
 	}
 
+	public static function checkExistingChart(song:String, poop:String)
+		{
+				if (FileSystem.exists('assets/data/' + song.toLowerCase() + '/' + poop.toLowerCase() + '.json'))
+				{
+					var json:Dynamic;
+		
+					try
+					{
+						json = Assets.getText(Paths.modsJson(song.toLowerCase() + '/' + poop.toLowerCase())).trim();
+					}
+					catch (e)
+					{
+						trace("dang! stupid hashlink cant handle an empty file!");
+						json = null;
+					}
+		
+					if (json == null)
+					{
+						trace('aw fuck its null');
+						createFakeSong(song);
+					}
+					else
+					{
+						trace('found file');
+						PlayState.SONG = Song.loadFromJson(poop, song);
+					}
+				}
+				else
+				{
+					trace('aw fuck its null');
+					createFakeSong(song);
+				}
+		}
+
     public static function precacheMusic(sound:String, ?library:String = null):Void {
 	Paths.music(sound, library);
 	}
+
+	public static function createFakeSong(name:String):Void
+	{
+		PlayState.SONG = {
+			song: name,
+			notes: [],
+			events: [],
+			bpm: 100,
+			needsVoices: true,
+			arrowSkin: '',
+	        splashSkin: 'noteSplashes',//idk it would crash if i didn't
+			player1: 'bf',
+			player2: 'dad',
+			gfVersion: 'gf',
+			stage: 'stage',
+			speed: 1,
+			validScore: false
+		};
+	}
+
 	public static function browserLoad(site:String) {
 		#if linux
 		Sys.command('/usr/bin/xdg-open', [site]);

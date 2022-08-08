@@ -338,7 +338,7 @@ class PlayState extends MusicBeatState
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
 
-	public static var defaultCamZoom:Float = 1.05;
+	public var defaultCamZoom:Float = 1.05;
 	public var currentCamBeat:Float = 4;
 
     var vintage:FlxSprite;
