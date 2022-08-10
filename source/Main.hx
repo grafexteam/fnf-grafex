@@ -4,13 +4,9 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.tweens.FlxTween;
-import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import lime.app.Application;
-import lime.ui.WindowAttributes;
-import grafex.systems.statesystem.MusicBeatState;
 
 // for crashing shit - Xale
 import lime.app.Application;
@@ -20,7 +16,6 @@ import haxe.io.Path;
 import utils.Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
-import sys.io.Process;
 import grafex.states.substates.PrelaunchingState;
 import grafex.states.TitleState;
 import utils.FPSMem;
@@ -152,6 +147,9 @@ class Main extends Sprite
 	{
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
+		//Lib.current.stage.alpha = 0;
+		//Lib.current.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+		//stage.alpha = 0;
 
 		if (zoom == -1)
 		{
