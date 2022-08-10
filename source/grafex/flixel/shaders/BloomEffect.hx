@@ -1,3 +1,8 @@
+package flixel.shaders;
+
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class BloomEffect extends Effect
 {
 	public var shader:BloomShader = new BloomShader();

@@ -1,3 +1,8 @@
+package flixel.shaders;
+
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class GreyscaleEffect extends Effect
 {
 	public var shader:GreyscaleShader = new GreyscaleShader();

@@ -1,3 +1,9 @@
+package flixel.shaders;
+
+import grafex.states.PlayState;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class GrainEffect extends Effect
 {
 	public var shader:Grain;

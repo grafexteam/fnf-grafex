@@ -1,3 +1,8 @@
+package flixel.shaders;
+
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class ThreeDEffect extends Effect
 {
 	public var shader:ThreeDShader = new ThreeDShader();

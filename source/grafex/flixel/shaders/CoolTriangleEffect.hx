@@ -1,3 +1,8 @@
+package flixel.shaders;
+
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 // Boing! by ThaeHan
 
 class FuckingTriangleEffect extends Effect

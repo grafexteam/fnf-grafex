@@ -1,3 +1,8 @@
+package flixel.shaders;
+
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class InvertColorsEffect extends Effect
 {
 	public var shader:InvertShader = new InvertShader();

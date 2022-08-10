@@ -1,3 +1,10 @@
+package flixel.shaders;
+
+import openfl.Lib;
+import grafex.states.PlayState;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.Effect;
+
 class VCRDistortionEffect extends Effect
 {
 	public var shader:VCRDistortionShader = new VCRDistortionShader();
