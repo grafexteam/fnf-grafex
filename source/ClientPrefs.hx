@@ -18,8 +18,8 @@ class ClientPrefs {
     public static var shouldcameramove:Bool = true;
     public static var hsvol:Float = 0;
     public static var instantRespawn:Bool = false;
-    public static var hliconbop:String = 'Grafex';
-    public static var hliconbopNum:Int = 0;
+    public static var hliconbop:String = 'Modern';
+    public static var hliconbopNum:Int = 1;
     public static var underdelayalpha:Float = 0.1;
     public static var underdelayonoff:Bool = true;
     public static var noteSkin:String = 'Default';
@@ -526,7 +526,7 @@ class ClientPrefs {
 		}
 
 		if(FlxG.save.data.hliconbop == null) {
-			hliconbop = 'Grafex';
+			hliconbop = 'Modern';
 		}
 
 		if(FlxG.save.data.hliconbopNum != null) {
@@ -534,7 +534,7 @@ class ClientPrefs {
 		}
 
 		if(FlxG.save.data.hliconbopNum == null) {
-			hliconbopNum = 0;
+			hliconbopNum = 1;
 		}
 
         if(FlxG.save.data.timeBarType != null) {

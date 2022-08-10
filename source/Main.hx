@@ -39,7 +39,7 @@ class Main extends Sprite
 	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
 	final normalFps:Int = ClientPrefs.framerate;
-	final lowFps:Int = 10;
+	final lowFps:Int = 20;
 	var focusMusicTween:FlxTween;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.

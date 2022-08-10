@@ -54,7 +54,7 @@ class FlxCamera extends FlxBasic
 	 * Used behind-the-scenes during the draw phase so that members use the same default
 	 * cameras as their parent.
 	 * 
-	 * PriВor to 4.9.0 it was useful to change this value, but that feature is deprecated.
+	 * Prior to 4.9.0 it was useful to change this value, but that feature is deprecated.
 	 * Instead use the `defaultDrawTarget` argument in `FlxG.cameras.add `.
 	 * or`FlxG.cameras.setDefaultDrawTarget` .
 	 * @see FlxG.cameras.setDefaultDrawTarget
@@ -1745,7 +1745,19 @@ class FlxCamera extends FlxBasic
 		updateFlashOffset();
 		setScale(scaleX, scaleY);
 	}
-
+	
+	/**
+	 * The size and position of this camera's screen
+	 * @since 4.11.0
+	 */
+	public function getViewRect(?rect:FlxRect)
+	{
+		if (rect == null)
+			rect = FlxRect.get();
+		
+		return rect.set(viewOffsetX, viewOffsetY, viewOffsetWidth - viewOffsetX, viewOffsetHeight - viewOffsetY);
+	}
+	
 	/**
 	 * Checks whether this camera contains a given point or rectangle, in
 	 * screen coordinates.
@@ -1753,7 +1765,22 @@ class FlxCamera extends FlxBasic
 	 */
 	public inline function containsPoint(point:FlxPoint, width:Float = 0, height:Float = 0):Bool
 	{
-		return (point.x + width > viewOffsetX) && (point.x < viewOffsetWidth) && (point.y + height > viewOffsetY) && (point.y < viewOffsetHeight);
+		var contained = (point.x + width > viewOffsetX) && (point.x < viewOffsetWidth)
+			&& (point.y + height > viewOffsetY) && (point.y < viewOffsetHeight);
+		point.putWeak();
+		return contained;
+	}
+	
+	/**
+	 * Checks whether this camera contains a given rectangle, in screen coordinates.
+	 * @since 4.11.0
+	 */
+	public inline function containsRect(rect:FlxRect):Bool
+	{
+		var contained = (rect.right > viewOffsetX) && (rect.x < viewOffsetWidth)
+			&& (rect.bottom > viewOffsetY) && (rect.y < viewOffsetHeight);
+		rect.putWeak();
+		return contained;
 	}
 
 	function set_followLerp(Value:Float):Float
