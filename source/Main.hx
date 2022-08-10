@@ -1,5 +1,6 @@
 package;
 
+import openfl.display.Stage;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -17,7 +18,9 @@ import utils.Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
 import grafex.states.substates.PrelaunchingState;
+#if debug
 import grafex.states.TitleState;
+#end
 import utils.FPSMem;
 
 using StringTools;
@@ -34,13 +37,13 @@ class Main extends Sprite
 	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
 	final normalFps:Int = ClientPrefs.framerate;
-	final lowFps:Int = 20;
+	final lowFps:Int = 10;
 	var focusMusicTween:FlxTween;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
-	{
+	{	
 		Lib.current.addChild(new Main());	
 	}
 
@@ -147,9 +150,6 @@ class Main extends Sprite
 	{
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
-		//Lib.current.stage.alpha = 0;
-		//Lib.current.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-		//stage.alpha = 0;
 
 		if (zoom == -1)
 		{
