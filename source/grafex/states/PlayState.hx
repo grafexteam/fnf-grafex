@@ -5629,7 +5629,9 @@ class PlayState extends MusicBeatState
 		        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
 				FlxTween.tween(helem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 300, {ease: FlxEase.quadInOut, startDelay: 0.55});
             }  }
+		if(isHealthCheckingEnabled)
 		isHealthCheckingEnabled = false;
+		
 		iconP1.animation.curAnim.curFrame = 1;
         if (iconP2.animation.frames == 3)
 		iconP2.animation.curAnim.curFrame = 2; 
