@@ -3231,12 +3231,11 @@ class PlayState extends MusicBeatState
                 
 		var playerOffset:Int = 0;
 		var opponentOffset:Int = 0;
+                var iconOffset:Int = 26;
 
     	switch(ClientPrefs.hliconbop)
     	   {
     		case 'Grafex':	
-    		
-				var iconOffset:Int = 26;
     
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
@@ -3266,9 +3265,7 @@ class PlayState extends MusicBeatState
 						var iconlerp = FlxMath.lerp(1.15, 1, FlxEase.cubeOut(decBeat % 1));
 						icon.scale.set(iconlerp, iconlerp);
 						icon.scale.set(iconlerp, iconlerp);
-		
-						var iconOffset:Int = 26;
-		
+
 						icon.offset.x = -75;
 						icon.offset.x = -75;
 					
@@ -3300,8 +3297,6 @@ class PlayState extends MusicBeatState
         
 		        iconP1.updateHitbox();
 		        iconP2.updateHitbox();
-        
-		        var iconOffset:Int = 26;
         
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
