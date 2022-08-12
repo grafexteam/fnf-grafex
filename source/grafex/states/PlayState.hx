@@ -5336,22 +5336,12 @@ class PlayState extends MusicBeatState
 		                iconP2.updateHitbox();
 		                
 					case 'Grafex':
-						if (curBeat % 2 == 0)
-							{   
-                                iconbop = 1.1;
-                                iconP1.scale.x = 1;
-								iconP2.scale.y = 1; 
-								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-							}
-				        if (curBeat % 2 == 1)
-							{
-								iconbop = 1.2;
+								iconbop = 1.15;
 								iconP1.scale.x = 1;
 								iconP2.scale.y = 1;
 								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-							} 
+							
 				}
 		
 				if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
