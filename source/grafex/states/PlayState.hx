@@ -3228,29 +3228,71 @@ class PlayState extends MusicBeatState
 		{
 			openChartEditor();
 		}
-
-		var iconOffset:Int = 26;
+                
+		var playerOffset:Int = 0;
+		var opponentOffset:Int = 0;
 
     	switch(ClientPrefs.hliconbop)
     	   {
     		case 'Grafex':	
+    		
+				var iconOffset:Int = 26;
     
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 				
              case 'Modern':		
 
-				var mult:Float = FlxMath.lerp(1, iconP1.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				iconP1.scale.set(mult, mult);
-				iconP1.updateHitbox();
+
+				for (s in members)
+				{
+					if (Std.isOfType(s, HealthIcon))
+					{
+						var icon = cast(s, HealthIcon);
+						icon.cameras = [camHUD];
+						remove(icon);
+						iconGroup.add(icon);
+					}
+				}
+
+				iconGroup.forEach(function(icon:HealthIcon)
+					{
+						if (!icon.visible || !icon.auto)
+							return;
+						var decBeat = curDecBeat;
+						if (decBeat < 0)
+							decBeat = 1 + (decBeat % 1);
+						
+						var iconlerp = FlxMath.lerp(1.15, 1, FlxEase.cubeOut(decBeat % 1));
+						icon.scale.set(iconlerp, iconlerp);
+						icon.scale.set(iconlerp, iconlerp);
 		
-				var mult:Float = FlxMath.lerp(1, iconP2.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				iconP2.scale.set(mult, mult);
-				iconP2.updateHitbox();
+						var iconOffset:Int = 26;
 		
-				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;		
-				
+						icon.offset.x = -75;
+						icon.offset.x = -75;
+					
+						if (icon.isPlayer)
+						{
+							icon.x = healthBar.x
+								+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset)
+								+ icon.offset.x
+								+ (icon.width * (icon.scale.x - 1) / 4)
+								+ (playerOffset * 85 * icon.scale.x);
+						}
+						else
+						{
+							icon.x = healthBar.x
+								+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01))
+								- (icon.width - iconOffset)
+								+ icon.offset.x
+								- (icon.width * (icon.scale.x - 1) / 2)
+								- (opponentOffset * 85 * icon.scale.x);
+						}
+					
+						icon.y = healthBar.y + (healthBar.height / 2) - (icon.height / 2);
+					});		
+                
             case 'Classic':
 
 				iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.75)));
@@ -3258,7 +3300,9 @@ class PlayState extends MusicBeatState
         
 		        iconP1.updateHitbox();
 		        iconP2.updateHitbox();
-                
+        
+		        var iconOffset:Int = 26;
+        
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 		   }
@@ -5276,13 +5320,13 @@ class PlayState extends MusicBeatState
 
             switch(ClientPrefs.hliconbop)
 				{
-					case 'Modern':
+					/*case 'Modern':
 						iconP1.scale.set(1.2, 1.2);
 						iconP2.scale.set(1.2, 1.2);
 		
 						iconP1.updateHitbox();
-		        		iconP2.updateHitbox();
-
+						iconP2.updateHitbox();
+		*/
 					case 'Classic':
 						
 		                iconP1.setGraphicSize(Std.int(iconP1.width + 30));
@@ -5292,12 +5336,22 @@ class PlayState extends MusicBeatState
 		                iconP2.updateHitbox();
 		                
 					case 'Grafex':
-	
-                        iconbop = 1.15;
-                        iconP1.scale.x = 1;
-						iconP2.scale.y = 1; 
-						FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-						FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+						if (curBeat % 2 == 0)
+							{   
+                                iconbop = 1.1;
+                                iconP1.scale.x = 1;
+								iconP2.scale.y = 1; 
+								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+							}
+				        if (curBeat % 2 == 1)
+							{
+								iconbop = 1.2;
+								iconP1.scale.x = 1;
+								iconP2.scale.y = 1;
+								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+							} 
 				}
 		
 				if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
