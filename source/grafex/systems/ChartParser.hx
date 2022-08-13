@@ -1,4 +1,4 @@
-package;
+package grafex.systems;
 
 import flixel.util.FlxStringUtil;
 
