@@ -1425,7 +1425,7 @@ class PlayState extends MusicBeatState
 
 		reloadHealthBarColors();
 		
-		songTxt = new FlxText(healthBar.x - 205, healthBarBG.y - 80, 1000, songName + " (" + storyDifficultyText + ")", 24);
+		songTxt = new FlxText(healthBar.x - 205, healthBarBG.y - 75, 1000, SONG.song + " (" + storyDifficultyText + ")", 24);
 		songTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER);
 		songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.1);
         songTxt.borderSize = 1.2;
