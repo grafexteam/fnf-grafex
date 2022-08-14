@@ -3,6 +3,8 @@ package grafex.states.substates;
 import grafex.systems.Paths;
 import grafex.systems.statesystem.MusicBeatState;
 import sys.Http;
+import sys.io.File;
+import sys.io.FileSystem;
 import grafex.data.EngineData;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -29,21 +31,20 @@ class PrelaunchingState extends MusicBeatState
 
     override function create()
     {
-        //trace('huh');
-        
-        //trace(versionRequest() == data.EngineData.grafexEngineVersion);
-
-        if (versionRequest() == EngineData.grafexEngineVersion)
-            MusicBeatState.switchState(new TitleState());
-        else
-        {
-            txt.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
-            txt.borderColor = FlxColor.BLACK;
-            txt.borderSize = 3;
-            txt.borderStyle = FlxTextBorderStyle.OUTLINE;
-            txt.screenCenter();
-            add(txt);
-        }
+        #if VERSION_CHECK
+        if(versionRequest() != null)
+            if (versionRequest() == EngineData.grafexEngineVersion)
+                MusicBeatState.switchState(new TitleState());
+            else
+            {
+                txt.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+                txt.borderColor = FlxColor.BLACK;
+                txt.borderSize = 3;
+                txt.borderStyle = FlxTextBorderStyle.OUTLINE;
+                txt.screenCenter();
+                add(txt);
+            }
+        else #end MusicBeatState.switchState(new TitleState());
     }
 
     override function update(elapsed:Float)
@@ -66,8 +67,22 @@ class PrelaunchingState extends MusicBeatState
 
     function versionRequest():String
     {
-        //trace(Http.requestUrl(link));
-        //trace(data.EngineData.grafexEngineVersion);
-        return Http.requestUrl(link);
+        function versionRequest():String
+            {
+                // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
+                try {
+                    trace('Current version is ' + Http.requestUrl(link));
+                    return Http.requestUrl(link);
+                } catch(e) {
+                    if(FileSystem.exists('localVersion.txt')) { // Trying to check for the local txt version - Xale
+                        trace('Current version is ' + File.getContent('localVersion.txt').trim().split('\n')[0]);
+                        return File.getContent('localVersion.txt').trim().split('\n')[0];      
+                    }
+                    else 
+                        return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
+                }
+                return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
+                - Xale
+            }
     }
 }
