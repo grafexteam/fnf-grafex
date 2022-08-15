@@ -82,7 +82,6 @@ class PrelaunchingState extends MusicBeatState
                         return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
                 }
                 return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
-                - Xale
             }
     }
 }
