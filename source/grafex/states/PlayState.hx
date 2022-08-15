@@ -1425,8 +1425,8 @@ class PlayState extends MusicBeatState
 
 		reloadHealthBarColors();
 		
-        songTxt = new FlxText(12, healthBarBG.y + 50, 0, SONG.song + " (" + storyDifficultyText + ")", 18);
-		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
+		songTxt = new FlxText(healthBar.x - 205, healthBarBG.y - 75, 1000, SONG.song + " (" + storyDifficultyText + ")", 24);
+		songTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER);
 		songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.1);
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
@@ -1436,12 +1436,12 @@ class PlayState extends MusicBeatState
 		add(songTxt); 
 
  
-        scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxText(healthBar.x - 205, healthBarBG.y + 35, 1000, "", 18);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);		
 		scoreTxt.scrollFactor.set();
-		scoreTxt.borderSize = 1.5;
+		scoreTxt.borderSize = 1.75;
 		scoreTxt.borderQuality = 2;
-		scoreTxt.visible = !ClientPrefs.hideHud;
+		scoreTxt.visible = (!ClientPrefs.hideHud && !cpuControlled);
 		add(scoreTxt);
 
         judgementCounter = new FlxText(20, 0, 0, "", 20);
@@ -5343,7 +5343,7 @@ class PlayState extends MusicBeatState
 					{
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;
-						FlxTween.tween(scoreTxt.scale, {x: 1.25, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});               
+						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.075}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});         
 					}
 			
 		
