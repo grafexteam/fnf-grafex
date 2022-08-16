@@ -1183,13 +1183,15 @@ class PlayState extends MusicBeatState
 		strumLine.scrollFactor.set();
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 39, 400, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
         timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
-		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
+		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 89;
+
+		if(ClientPrefs.middleScroll) timeTxt.x += FlxG.width / 3;
 
 		updateTime = showTime;
         laneunderlayOpponent = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
@@ -1211,14 +1213,15 @@ class PlayState extends MusicBeatState
 		add(laneunderlay);
 
 		timeBarBG = new AttachedSprite('timeBar');
-		timeBarBG.x = timeTxt.x;
-		timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
+		timeBarBG.x = timeTxt.x + 100;
+		timeBarBG.y = timeTxt.y + timeTxt.height;
 		timeBarBG.scrollFactor.set();
 		timeBarBG.alpha = 0;
 		timeBarBG.visible = showTime;
 		timeBarBG.color = FlxColor.BLACK;
 		timeBarBG.xAdd = -4;
 		timeBarBG.yAdd = -4;
+
 		add(timeBarBG);
 
 		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
@@ -1431,6 +1434,7 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
+		songTxt.screenCenter(X);
 		if(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay)
 			songTxt.visible = false;
 		add(songTxt); 
@@ -1444,18 +1448,20 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = (!ClientPrefs.hideHud && !cpuControlled);
 		add(scoreTxt);
 
-        judgementCounter = new FlxText(20, 0, 0, "", 20);
-		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        judgementCounter = new FlxText(20, 20, 10000, "", 18);
+		judgementCounter.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		judgementCounter.borderSize = 1.5;
 		judgementCounter.borderQuality = 2;
 		judgementCounter.scrollFactor.set();
 		judgementCounter.cameras = [camHUD];
-		judgementCounter.screenCenter(Y);
-		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nAverage: ${Math.round(averageMs)}ms \nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
+		judgementCounter.screenCenter(X);
+		judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms |  Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
         if(ClientPrefs.showjud) 
         judgementCounter.visible = !ClientPrefs.hideHud;
         else
         judgementCounter.visible = false;
+
+		if(ClientPrefs.downScroll) judgementCounter.y = FlxG.height - 30;
 
 		add(judgementCounter);
 
@@ -3207,11 +3213,11 @@ class PlayState extends MusicBeatState
 		//healthThing.text = "Health: " + Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2)))) + '%';
 
 		scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
-		judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nAverage: ${Math.round(averageMs)}ms \nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
+		judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms | Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
 		if(ratingName != '?')	
 		{
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
-			judgementCounter.text = 'Max Combo: ${maxCombo}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nAverage: ${Math.round(averageMs)}ms \nHealth: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %\n game not read that text';
+			judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms | Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
         }
 
 		if(botplayTxt.visible) {
@@ -3231,7 +3237,7 @@ class PlayState extends MusicBeatState
                 
 		var playerOffset:Int = 0;
 		var opponentOffset:Int = 0;
-                var iconOffset:Int = 26;
+        var iconOffset:Int = 26;
 
     	switch(ClientPrefs.hliconbop)
     	   {
@@ -3454,7 +3460,7 @@ class PlayState extends MusicBeatState
 				var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 				if(!daNote.mustPress) strumGroup = opponentStrums;
 
-                                 if (daNote.isSustainNote)
+                if (daNote.isSustainNote)
 				daNote.cameras = [camSus];
 
 				var strumX:Float = strumGroup.members[daNote.noteData].x;
@@ -4395,7 +4401,7 @@ class PlayState extends MusicBeatState
 		var daRating:Rating = Conductor.judgeNote(note, noteDiff);
 		var ratingNum:Int = 0;
 
-                totalNotesHit += daRating.ratingMod;
+        totalNotesHit += daRating.ratingMod;
 		note.ratingMod = daRating.ratingMod;
 		if(!note.ratingDisabled) daRating.increase();
 		note.rating = daRating.name;
@@ -5313,38 +5319,38 @@ class PlayState extends MusicBeatState
 				camHUD.zoom += 0.03 * camZoomingMult;
 			}
 
-            switch(ClientPrefs.hliconbop)
-				{
-					/*case 'Modern':
-						iconP1.scale.set(1.2, 1.2);
-						iconP2.scale.set(1.2, 1.2);
-		
-						iconP1.updateHitbox();
-						iconP2.updateHitbox();
-		*/
-					case 'Classic':
+        switch(ClientPrefs.hliconbop)
+			{
+				/*case 'Modern':
+					iconP1.scale.set(1.2, 1.2);
+					iconP2.scale.set(1.2, 1.2);
+	
+					iconP1.updateHitbox();
+					iconP2.updateHitbox();
+		        */
+				case 'Classic':
+					
+		            iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+		            iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+            
+		            iconP1.updateHitbox();
+		            iconP2.updateHitbox();
+		            
+				case 'Grafex':
+					iconbop = 1.15;
+					iconP1.scale.x = 1;
+					iconP2.scale.y = 1;
+					FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
+					FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
 						
-		                iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-		                iconP2.setGraphicSize(Std.int(iconP2.width + 30));
-                
-		                iconP1.updateHitbox();
-		                iconP2.updateHitbox();
-		                
-					case 'Grafex':
-								iconbop = 1.15;
-								iconP1.scale.x = 1;
-								iconP2.scale.y = 1;
-								FlxTween.tween(iconP1.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-								FlxTween.tween(iconP2.scale, {x: iconbop, y: iconbop}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-							
+			}
+	
+			if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
+				{
+					scoreTxt.scale.x = 1;
+					scoreTxt.scale.y = 1;
+					FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.075}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});         
 				}
-		
-				if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
-					{
-						scoreTxt.scale.x = 1;
-						scoreTxt.scale.y = 1;
-						FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.075}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});         
-					}
 			
 		
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)

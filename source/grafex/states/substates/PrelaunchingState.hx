@@ -4,7 +4,7 @@ import grafex.systems.Paths;
 import grafex.systems.statesystem.MusicBeatState;
 import sys.Http;
 import sys.io.File;
-import sys.io.FileSystem;
+import sys.FileSystem;
 import grafex.data.EngineData;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -16,6 +16,8 @@ import grafex.Utils;
 import Controls;
 
 // TODO: rewrite this, maybe? - Xale
+
+using StringTools;
 
 class PrelaunchingState extends MusicBeatState
 {
@@ -65,23 +67,22 @@ class PrelaunchingState extends MusicBeatState
         }
     }
 
-    function versionRequest():String
-    {
-        function versionRequest():String
-            {
-                // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
-                try {
-                    trace('Current version is ' + Http.requestUrl(link));
-                    return Http.requestUrl(link);
-                } catch(e) {
-                    if(FileSystem.exists('localVersion.txt')) { // Trying to check for the local txt version - Xale
-                        trace('Current version is ' + File.getContent('localVersion.txt').trim().split('\n')[0]);
-                        return File.getContent('localVersion.txt').trim().split('\n')[0];      
-                    }
-                    else 
-                        return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
-                }
-                return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
-            }
-    }
+   
+   function versionRequest():String
+       {
+           // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
+           try {
+               trace('Current version is ' + Http.requestUrl(link));
+               return Http.requestUrl(link);
+           } catch(e) {
+               if(FileSystem.exists('localVersion.txt')) { // Trying to check for the local txt version - Xale
+                   trace('Current version is ' + File.getContent('localVersion.txt').trim().split('\n')[0]);
+                   return File.getContent('localVersion.txt').trim().split('\n')[0];      
+               }
+               else 
+                   return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
+           }
+           return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
+       }
+
 }
