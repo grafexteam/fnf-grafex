@@ -2,7 +2,7 @@ package utils.animateatlas;
 
 import flixel.util.FlxColor;
 import grafex.states.PlayState;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import openfl.geom.Rectangle;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;

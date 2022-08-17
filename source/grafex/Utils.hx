@@ -1,8 +1,8 @@
 package grafex;
 
 import flixel.math.FlxMath;
-import grafex.systems.Paths;
-import grafex.systems.song.Song;
+import grafex.system.Paths;
+import grafex.system.song.Song;
 import grafex.states.PlayState;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
