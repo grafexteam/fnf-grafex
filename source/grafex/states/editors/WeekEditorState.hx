@@ -4,8 +4,8 @@ import grafex.sprites.menu.MenuItem;
 import grafex.sprites.menu.MenuCharacter;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 #if desktop
 import utils.Discord.DiscordClient;
 #end

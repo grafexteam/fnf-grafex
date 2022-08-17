@@ -1,12 +1,12 @@
 package grafex.states;
 
 import grafex.states.substates.LoadingState;
-import grafex.systems.song.Song;
+import grafex.system.song.Song;
 import grafex.states.substates.GameplayChangersSubstate;
 import grafex.states.substates.ResetScoreSubState;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import grafex.sprites.menu.MenuCharacter;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.menu.MenuItem;
 #if desktop
 import utils.Discord.DiscordClient;

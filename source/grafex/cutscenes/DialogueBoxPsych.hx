@@ -1,7 +1,7 @@
 package grafex.cutscenes;
 
 import flixel.util.FlxColor;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;

@@ -1,8 +1,8 @@
-package grafex.systems;
+package grafex.system;
 
 import grafex.states.PlayState;
-import grafex.systems.notes.Note;
-import grafex.systems.song.Song.SwagSong;
+import grafex.system.notes.Note;
+import grafex.system.song.Song.SwagSong;
 
 typedef BPMChangeEvent =
 {

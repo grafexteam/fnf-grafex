@@ -1,6 +1,6 @@
 package grafex.states.editors;
 
-import grafex.systems.Conductor;
+import grafex.system.Conductor;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;

@@ -2,8 +2,8 @@ package grafex.states;
 
 import grafex.sprites.attached.AttachedSprite;
 import grafex.sprites.Alphabet;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.Utils;
 #if desktop
 import utils.Discord.DiscordClient;
@@ -148,7 +148,7 @@ class CreditsState extends MusicBeatState
 						// using a FlxGroup is too much fuss!
 						iconArray.push(icon);
 						add(icon);
-					}
+					} 
 
 				if(curSelected == -1) curSelected = i;
 			}

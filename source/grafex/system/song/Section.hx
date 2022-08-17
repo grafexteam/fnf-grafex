@@ -1,4 +1,4 @@
-package grafex.systems.song;
+package grafex.system.song;
 
 typedef SwagSection =
 {

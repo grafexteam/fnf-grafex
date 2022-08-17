@@ -1,4 +1,4 @@
-package grafex.systems;
+package grafex.system;
 
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import openfl.system.System;

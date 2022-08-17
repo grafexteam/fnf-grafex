@@ -1,6 +1,6 @@
 package grafex.sprites.attached;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import flixel.FlxSprite;
 
 using StringTools;

@@ -1,4 +1,4 @@
-package;
+package grafex.effects;
 
 import flixel.FlxG;
 import openfl.filters.BitmapFilter;

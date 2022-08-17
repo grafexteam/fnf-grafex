@@ -1,7 +1,7 @@
 package grafex.sprites.background;
 
 import flixel.FlxSprite;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 
 class BGSprite extends FlxSprite
 {

@@ -1,4 +1,4 @@
-package grafex.systems.notes;
+package grafex.system.notes;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

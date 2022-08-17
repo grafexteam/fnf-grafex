@@ -1,8 +1,8 @@
 package grafex.states.editors;
 
 import grafex.sprites.background.BGSprite;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.HealthIcon;
 import utils.FlxUIDropDownMenuCustom;
 #if desktop

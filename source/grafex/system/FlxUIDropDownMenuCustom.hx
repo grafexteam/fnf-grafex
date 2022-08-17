@@ -1,4 +1,4 @@
-package grafex.systems;
+package grafex.system;
 
 import flash.geom.Rectangle;
 import flixel.addons.ui.interfaces.IFlxUIClickable;

@@ -1,7 +1,7 @@
 package grafex.sprites.menu;
 
 import grafex.Utils;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;

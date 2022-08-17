@@ -1,15 +1,15 @@
-package grafex.systems;
+package grafex.system;
 
 import grafex.states.substates.PauseSubState;
 import grafex.data.WeekData;
 import grafex.states.StoryMenuState;
 import grafex.states.FreeplayState;
-import grafex.systems.statesystem.MusicBeatState;
-import grafex.systems.notes.StrumNote;
-import grafex.systems.notes.Note;
+import grafex.system.statesystem.MusicBeatState;
+import grafex.system.notes.StrumNote;
+import grafex.system.notes.Note;
 import grafex.states.substates.GameOverSubstate;
 import grafex.states.substates.LoadingState;
-import grafex.systems.song.Song;
+import grafex.system.song.Song;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -60,9 +60,9 @@ using StringTools;
 class FunkinLua {
 	public static var Function_Stop:Dynamic = 1;
 	public static var Function_Continue:Dynamic = 0;
-public static var Function_StopLua:Dynamic = 2;
+	public static var Function_StopLua:Dynamic = 2;
 
-public var errorHandler:String->Void;
+	public var errorHandler:String->Void;
 	#if LUA_ALLOWED
 	public var lua:State = null;
 	#end
@@ -109,7 +109,7 @@ public var errorHandler:String->Void;
 		#end
 
 		// Lua shit
-set('Function_StopLua', Function_StopLua);
+		set('Function_StopLua', Function_StopLua);
 		set('Function_Stop', Function_Stop);
 		set('Function_Continue', Function_Continue);
 		set('luaDebugMode', false);
@@ -145,20 +145,20 @@ set('Function_StopLua', Function_StopLua);
 		set('curBeat', 0);
 		set('curStep', 0);
 
-set('curDecBeat', 0);
+		set('curDecBeat', 0);
 		set('curDecStep', 0);
 
 		set('score', 0);
 		set('misses', 0);
 		set('hits', 0);
-             set('bfcamoffsetx', 0);
-                set('bfcamoffsety', 0);
+        set('bfcamoffsetx', 0);
+        set('bfcamoffsety', 0);
 
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
 		set('version', EngineData.PsychEngineLuaCheckersVersion.trim());
-                set('engineVersion', EngineData.grafexEngineVersion.trim());
+        set('engineVersion', EngineData.grafexEngineVersion.trim());
 		
 		set('inGameOver', false);
 		set('mustHitSection', false);
@@ -557,7 +557,7 @@ Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?g
 
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
-                        if(luaFile.endsWith(".lua"))cervix=luaFile;
+            if(luaFile.endsWith(".lua")) cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
@@ -565,7 +565,7 @@ Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?g
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -575,7 +575,7 @@ else if(FileSystem.exists(cervix))
 					doPush = true;
 				}
 			}
-                        #else
+            #else
 			cervix = Paths.getPreloadPath(cervix);
 			if(Assets.exists(cervix)) {
 				doPush = true;

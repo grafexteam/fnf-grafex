@@ -1,6 +1,6 @@
-package grafex.systems.statesystem;
+package grafex.system.statesystem;
 
-import grafex.systems.Conductor.BPMChangeEvent;
+import grafex.system.Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.FlxBasic;

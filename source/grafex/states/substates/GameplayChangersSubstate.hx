@@ -1,7 +1,7 @@
 package grafex.states.substates;
 
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatSubstate;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatSubstate;
 import grafex.sprites.Alphabet;
 import grafex.sprites.CheckboxThingie;
 import grafex.sprites.attached.AttachedText;

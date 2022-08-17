@@ -1,14 +1,14 @@
 package grafex.states.editors;
 
 import grafex.states.substates.LoadingState;
-import grafex.systems.notes.Note;
-import grafex.systems.notes.NoteSplash;
-import grafex.systems.notes.StrumNote;
-import grafex.systems.Conductor;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
-import grafex.systems.song.Section.SwagSection;
-import grafex.systems.song.Song.SwagSong;
+import grafex.system.notes.Note;
+import grafex.system.notes.NoteSplash;
+import grafex.system.notes.StrumNote;
+import grafex.system.Conductor;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
+import grafex.system.song.Section.SwagSection;
+import grafex.system.song.Song.SwagSong;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;

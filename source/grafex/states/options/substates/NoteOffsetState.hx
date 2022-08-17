@@ -1,12 +1,12 @@
 package grafex.states.options.substates;
 
-import grafex.systems.CustomFadeTransition;
-import grafex.systems.Conductor;
-import grafex.systems.Paths;
+import grafex.system.CustomFadeTransition;
+import grafex.system.Conductor;
+import grafex.system.Paths;
 import grafex.sprites.background.BGSprite;
 import grafex.sprites.Alphabet;
 import grafex.sprites.characters.Character;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.statesystem.MusicBeatState;
 import flixel.util.FlxStringUtil;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;

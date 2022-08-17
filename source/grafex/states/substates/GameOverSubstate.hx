@@ -1,10 +1,10 @@
 package grafex.states.substates;
 
-import grafex.systems.Paths;
-import grafex.systems.Conductor;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.Conductor;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.characters.Boyfriend;
-import grafex.systems.statesystem.MusicBeatSubstate;
+import grafex.system.statesystem.MusicBeatSubstate;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSubState;

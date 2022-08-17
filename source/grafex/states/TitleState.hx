@@ -1,13 +1,14 @@
 package grafex.states;
 
 import grafex.states.substates.ExitGameState;
-import grafex.systems.statesystem.MusicBeatState;
-import grafex.systems.Paths;
-import grafex.systems.Conductor;
+import grafex.system.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.Conductor;
 
 import grafex.sprites.Alphabet;
 
 import grafex.effects.shaders.ColorSwap;
+import grafex.effects.ColorblindFilters;
 
 import grafex.states.MainMenuState;
 import grafex.states.substates.FlashingState;
@@ -26,7 +27,6 @@ import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import haxe.Json;
-import ColorblindFilters;
 import openfl.display.Bitmap;
 import grafex.data.WeekData;
 import openfl.display.BitmapData;

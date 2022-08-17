@@ -1,7 +1,7 @@
-package grafex.systems.statesystem;
+package grafex.system.statesystem;
 
 import utils.FlxVideo;
-import grafex.systems.Conductor.BPMChangeEvent;
+import grafex.system.Conductor.BPMChangeEvent;
 import lime.app.Application;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;

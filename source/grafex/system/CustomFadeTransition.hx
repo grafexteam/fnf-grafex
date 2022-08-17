@@ -1,7 +1,7 @@
-package grafex.systems;
+package grafex.system;
 
-import grafex.systems.statesystem.MusicBeatSubstate;
-import grafex.systems.Conductor.BPMChangeEvent;
+import grafex.system.statesystem.MusicBeatSubstate;
+import grafex.system.Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;

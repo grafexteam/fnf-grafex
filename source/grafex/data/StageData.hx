@@ -1,6 +1,6 @@
 package grafex.data;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import grafex.states.PlayState;
 
 import sys.io.File;
@@ -10,7 +10,7 @@ import openfl.utils.Assets;
 
 import haxe.Json;
 import haxe.format.JsonParser;
-import grafex.systems.song.Song;
+import grafex.system.song.Song;
 
 using StringTools;
 

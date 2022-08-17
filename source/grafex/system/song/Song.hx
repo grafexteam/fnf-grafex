@@ -1,7 +1,7 @@
-package grafex.systems.song;
+package grafex.system.song;
 
 import grafex.data.StageData;
-import grafex.systems.song.Section.SwagSection;
+import grafex.system.song.Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
