@@ -63,8 +63,9 @@ class Main extends Sprite
 	}
 
 	function onWindowClose()
-	{
+	{	GrfxLogger.log('info', 'Application closed by Player');
 		GrfxLogger.close();
+
 	}
 
 	function onWindowFocusOut()

@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
 import grafex.Utils;
 
@@ -400,7 +401,7 @@ class PlayState extends MusicBeatState
 		instance = this;
         currentPState = this;
 
-		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 
         setOnLuas('swapStrumLines', swapStrumLines);
 
@@ -2357,7 +2358,7 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
-		GrfxLogger.log('info', 'Loaded Song: ' + SONG.song);
+		GrfxLogger.log('info', 'Loaded Song: "' + SONG.song + '"');
 		GrfxLogger.log('info', 'Botplay: ' + ClientPrefs.getGameplaySetting('botplay', false).toString());
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
@@ -3768,7 +3769,7 @@ class PlayState extends MusicBeatState
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
 		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
 		{
-			GrfxLogger.log('info', 'Player Died');
+			GrfxLogger.log('info', 'Player died');
 			var ret:Dynamic = callOnLuas('onGameOver', [], false);
 			if(ret != FunkinLua.Function_Stop) {
 				boyfriend.stunned = true;
@@ -4317,7 +4318,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong():Void
 	{
-		GrfxLogger.log('info', 'Song ' + SONG.song + ' ended');
+		GrfxLogger.log('info', 'Song "' + SONG.song + '" ended');
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -4444,7 +4445,7 @@ class PlayState extends MusicBeatState
 		}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
+				log('info', 'Switching back to FreeplayState');
 				cancelMusicFadeTween();
 				CustomFadeTransition.nextCamera = camOther;
 				if(FlxTransitionableState.skipNextTransIn) {

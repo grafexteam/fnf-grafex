@@ -373,7 +373,7 @@ class FreeplayState extends MusicBeatState
 					vocals = new FlxSound();
 				FlxG.sound.list.add(vocals);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
-				GrfxLogger.log('info', 'Started Listening to Song: ' + PlayState.SONG.song);
+				GrfxLogger.log('info', 'Started listening to song: "' + PlayState.SONG.song + '"');
 				vocals.play();
 				vocals.persist = true;
 				vocals.looped = true;
@@ -410,9 +410,9 @@ class FreeplayState extends MusicBeatState
 		{
 		    persistentUpdate = false;
 		    var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-		    var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
+		    var songString:String = Highscore.formatSong(songLowercase, curDifficulty);
 	    
-		    trace(poop);
+			GrfxLogger.log('info', 'Loading song: "' + songString + '"');
     
 		    acceptedSong = true;
 		    FlxG.sound.music.volume = 0;
@@ -423,12 +423,12 @@ class FreeplayState extends MusicBeatState
 		    ChooseSound.looped = false;
     
 		    //Utils.checkExistingChart(songLowercase, poop);
-		    PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+		    PlayState.SONG = Song.loadFromJson(songString, songLowercase);
 		    PlayState.isStoryMode = false;
 		    PlayState.storyDifficulty = curDifficulty;
-			GrfxLogger.log('info', 'Loading song: ' + PlayState.SONG.song);
+			
 
-		    trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+		    GrfxLogger.log('info', 'Set Current week to: "' + WeekData.getWeekFileName() + '"');
 		    if(colorTween != null) {
 		    	colorTween.cancel();
 		    }

@@ -49,6 +49,10 @@ class GrfxLogger
 
     public static function close() 
     {
+        var output:FileOutput = File.append(path, false);
+        var date = Date.now().toString();
+        output.writeString('\n[$date][INFO]: Terminating', UTF8);
+        output.close();
         File.saveContent('./logs/Grafex.log', File.getContent(path));
         FileSystem.rename('./logs/Grafex.log', './logs/Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
     }

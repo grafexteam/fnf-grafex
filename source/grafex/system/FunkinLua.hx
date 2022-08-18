@@ -12,6 +12,7 @@ import grafex.states.substates.GameOverSubstate;
 import grafex.states.substates.LoadingState;
 import grafex.sprites.characters.Character;
 import grafex.sprites.Alphabet;
+import grafex.system.log.GrfxLogger.log;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -88,15 +89,11 @@ class FunkinLua {
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
-		//trace('Lua version: ' + Lua.version());
-		//trace("LuaJIT version: " + Lua.versionJIT());
-
-		//LuaL.dostring(lua, CLENSE);
-	        try{
+	    try{
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
-				trace('Error on lua script! ' + resultStr);
+				log('Warning', 'Error on lua script! ' + resultStr);
 				#if windows
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
@@ -106,11 +103,11 @@ class FunkinLua {
 				return;
 			}
 		}catch(e:Dynamic){
-			trace(e);
+			log('Error', e);
 			return;
 		}
 		scriptName = script;
-		trace('lua file loaded succesfully:' + script);
+		log('info', 'Lua file loaded succesfully: ' + script);
 
 		#if (haxe >= "4.0.0")
 		accessedProps = new Map();
@@ -1319,44 +1316,11 @@ if(leObj != null) {
 					PlayState.instance.modchartTimers.remove(tag);
 				}
 				PlayState.instance.callOnLuas('onTimerCompleted', [tag, tmr.loops, tmr.loopsLeft]);
-				//trace('Timer Completed: ' + tag);
 			}, loops));
 		});
 		Lua_helper.add_callback(lua, "cancelTimer", function(tag:String) {
 			cancelTimer(tag);
 		});
-
-		/*Lua_helper.add_callback(lua, "getPropertyAdvanced", function(varsStr:String) {
-			var variables:Array<String> = varsStr.replace(' ', '').split(',');
-			var leClass:Class<Dynamic> = Type.resolveClass(variables[0]);
-			if(variables.length > 2) {
-				var curProp:Dynamic = Reflect.getProperty(leClass, variables[1]);
-				if(variables.length > 3) {
-					for (i in 2...variables.length-1) {
-						curProp = Reflect.getProperty(curProp, variables[i]);
-					}
-				}
-				return Reflect.getProperty(curProp, variables[variables.length-1]);
-			} else if(variables.length == 2) {
-				return Reflect.getProperty(leClass, variables[variables.length-1]);
-			}
-			return null;
-		});
-		Lua_helper.add_callback(lua, "setPropertyAdvanced", function(varsStr:String, value:Dynamic) {
-			var variables:Array<String> = varsStr.replace(' ', '').split(',');
-			var leClass:Class<Dynamic> = Type.resolveClass(variables[0]);
-			if(variables.length > 2) {
-				var curProp:Dynamic = Reflect.getProperty(leClass, variables[1]);
-				if(variables.length > 3) {
-					for (i in 2...variables.length-1) {
-						curProp = Reflect.getProperty(curProp, variables[i]);
-					}
-				}
-				return Reflect.setProperty(curProp, variables[variables.length-1], value);
-			} else if(variables.length == 2) {
-				return Reflect.setProperty(leClass, variables[variables.length-1], value);
-			}
-		});*/
 		
 		//stupid bietch ass functions
 		Lua_helper.add_callback(lua, "addScore", function(value:Int = 0) {
@@ -1539,7 +1503,6 @@ Lua_helper.add_callback(lua, "getScore", function() {
 			var value1:String = arg1;
 			var value2:String = arg2;
 			PlayState.instance.triggerEventNote(name, value1, value2);
-			//trace('Triggered event: ' + name + ', ' + value1 + ', ' + value2);
 		});
 
 		Lua_helper.add_callback(lua, "startCountdown", function() {
@@ -1878,7 +1841,6 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 						}
 					}
 					shit.wasAdded = true;
-					//trace('added a thing: ' + tag);
 				}
 			}
 		});
@@ -2010,16 +1972,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
-			/*if(PlayState.instance.modchartSprites.exists(obj)) {
-				PlayState.instance.modchartSprites.get(obj).cameras = [cameraFromString(camera)];
-				return true;
-			}
-			else if(PlayState.instance.modchartTexts.exists(obj)) {
-				PlayState.instance.modchartTexts.get(obj).cameras = [cameraFromString(camera)];
-				return true;
-
-}*/
-                        var real = PlayState.instance.getLuaObject(obj);
+            var real = PlayState.instance.getLuaObject(obj);
 			if(real!=null){
 				real.cameras = [cameraFromString(camera)];
 				return true;
@@ -2439,7 +2392,6 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 				if(!shit.wasAdded) {
 					getInstance().add(shit);
 					shit.wasAdded = true;
-					//trace('added a thing: ' + tag);
 				}
 			}
 		});
@@ -2701,9 +2653,6 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 				}
 				return blah;
 			}
-			/*if(Std.isOfType(instance, Map))
-				instance.set(variable,value);
-			else*/
 	
 			Reflect.setProperty(instance, variable, value);
 			return true;
@@ -2786,7 +2735,6 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 					if(found)
 					{
 						PlayState.instance.runtimeShaders.set(name, [frag, vert]);
-						//trace('Found shader $name!');
 						return true;
 					}
 				}
@@ -2981,35 +2929,10 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 				return;
 			}
 			PlayState.instance.addTextToDebug(text, color);
-			trace(text);
+			log('LuaInfo', text);
 		}
 		#end
 	}
-		/*public function call(event:String, args:Array<Dynamic>):Dynamic {
-		#if LUA_ALLOWED
-		if(lua == null) {
-			return Function_Continue;
-		}
-		Lua.getglobal(lua, event);
-		for (arg in args) {
-			Convert.toLua(lua, arg);
-		}
-		var result:Null<Int> = Lua.pcall(lua, args.length, 1, 0);
-		if(result != null && resultIsAllowed(lua, result)) {
-			if(Lua.type(lua, -1) == Lua.LUA_TSTRING) {
-				var error:String = Lua.tostring(lua, -1);
-				Lua.pop(lua, 1);
-				if(error == 'attempt to call a nil value') { //Makes it ignore warnings and not break stuff if you didn't put the functions on your lua file
-					return Function_Continue;
-				}
-			}
-			var conv:Dynamic = Convert.fromLua(lua, result);
-			Lua.pop(lua, 1);
-			return conv;
-		}
-		#end
-		return Function_Continue;
-	}*/
 
     function getErrorMessage() {
         #if LUA_ALLOWED
@@ -3052,7 +2975,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 				return Function_Continue;
 			}
 
-			if(Lua.isfunction(lua, -1)==true){
+			if(Lua.isfunction(lua, -1)==true)
+			{
 				for(arg in args)
 					 Convert.toLua(lua, arg);
 				var result: Dynamic = Lua.pcall(lua, args.length, 1, 0);
@@ -3061,21 +2985,19 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 					if(errorHandler!=null){
 						errorHandler(err);
 					}else{
-						trace("ERROR: " + err);
+						log('error', err);
 					}
-					//LuaL.error(state,err);
 				}else{
 					var conv:Dynamic = cast getResult(lua, result);
 					Lua.pop(lua, 1);
 					return conv;
 				}
-	}else{
+			} else {
 				Lua.pop(lua, 1);
 				return null;
 			}
-}catch(e:Dynamic){
-			trace(e);
-
+		} catch(e:Dynamic) {
+			log('error', e);
 		}
 		#end
 		return Function_Continue;
@@ -3169,9 +3091,6 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 		if(result == null) {
 			return false;
 		}
-
-		// YES! FINALLY IT WORKS
-		//trace('variable: ' + variable + ', ' + result);
 		return (result == 'true');
 	}
 	#end

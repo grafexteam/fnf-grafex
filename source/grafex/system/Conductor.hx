@@ -1,5 +1,6 @@
 package grafex.system;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.PlayState;
 import grafex.system.notes.Note;
 import grafex.system.song.Song.SwagSong;
@@ -129,7 +130,7 @@ class Conductor
 			totalSteps += deltaSteps;
 			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
 		}
-		trace("new BPM map BUDDY " + bpmChangeMap);
+		GrfxLogger.log('info', "New BPM map: " + bpmChangeMap);
 	}
 
 	inline public static function calculateCrochet(bpm:Float){
