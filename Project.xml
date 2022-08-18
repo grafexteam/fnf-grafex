@@ -102,6 +102,7 @@
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
+	<assets path='versionCheck.txt' rename='localVersion.txt'/>
 
 	<haxelib name="actuate" />
 
