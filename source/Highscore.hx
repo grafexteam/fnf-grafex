@@ -1,5 +1,7 @@
 package;
 
+import grafex.Utils;
+import grafex.system.Paths;
 import flixel.FlxG;
 
 using StringTools;
@@ -103,7 +105,7 @@ class Highscore
 
 	public static function formatSong(song:String, diff:Int):String
 	{
-		return Paths.formatToSongPath(song) + CoolUtil.getDifficultyFilePath(diff);
+		return Paths.formatToSongPath(song) + Utils.getDifficultyFilePath(diff);
 	}
 
 	public static function getScore(song:String, diff:Int):Int

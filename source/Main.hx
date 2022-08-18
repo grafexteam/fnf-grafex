@@ -1,26 +1,29 @@
 package;
 
+import grafex.system.assets.manager.GrfxAssetManager;
+import openfl.display.Stage;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.tweens.FlxTween;
-import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import lime.app.Application;
-import lime.ui.WindowAttributes;
-import MusicBeatState;
+import grafex.system.log.GrfxLogger;
 
 // for crashing shit - Xale
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import haxe.io.Path;
-import Discord.DiscordClient;
+import utils.Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
-import sys.io.Process;
+import grafex.states.substates.PrelaunchingState;
+#if debug
+import grafex.states.TitleState;
+#end
+import utils.FPSMem;
 
 using StringTools;
 
@@ -42,7 +45,7 @@ class Main extends Sprite
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
-	{
+	{	
 		Lib.current.addChild(new Main());	
 	}
 
@@ -61,8 +64,14 @@ class Main extends Sprite
 
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+		Application.current.window.onClose.add(onWindowClose);
 	}
 
+	function onWindowClose()
+	{
+		GrfxLogger.close();
+	}
 
 	function onWindowFocusOut()
 		{
@@ -95,19 +104,21 @@ class Main extends Sprite
 			FlxG.updateFramerate = ClientPrefs.framerate;
 		}
 	}
-	
+
 	function onCrash(e:UncaughtErrorEvent):Void
 		{
+			GrfxLogger.log('error', e.error);
+			GrfxLogger.crash(e.error);
 			var errMsg:String = "";
 			var path:String;
 			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var dateNow:String = Date.now().toString();
+			var dateNow:String = Date.now().toString();				
 	
 			dateNow = dateNow.replace(" ", "_");
 			dateNow = dateNow.replace(":", "'");
 	
-			path = "./crash/" + "Grafex_" + dateNow + ".txt";
-	
+			path = "./logs/crash/" + "Grafex_" + dateNow + ".log";
+
 			for (stackItem in callStack)
 			{
 				switch (stackItem)
@@ -118,24 +129,16 @@ class Main extends Sprite
 						Sys.println(stackItem);
 				}
 			}
-	
-			errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/JustXale/fnf-grafex\n\n> Crash Handler written by: sqirra-rng";
-	
-			if (!FileSystem.exists("./crash/"))
-				FileSystem.createDirectory("./crash/");
-	
-			File.saveContent(path, errMsg + "\n");
-	
-			Sys.println(errMsg);
-			Sys.println("Crash dump saved in " + Path.normalize(path));
-	
-			Application.current.window.alert(errMsg, "Error!");
-			DiscordClient.shutdown();
-			Sys.exit(1);
+
+			
 		}
+
 
 	private function init(?E:Event):Void
 	{
+		GrfxLogger.init();
+		GrfxLogger.log('INFO', 'Test');
+
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -167,9 +170,8 @@ class Main extends Sprite
 
 		#if !mobile
         addChild(new FPSMem(10, 3, 0xFFFFFF));
+		GrfxAssetManager.createObject();
 		#end
-
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
 		#if html5
 		//FlxG.autoPause = false;
