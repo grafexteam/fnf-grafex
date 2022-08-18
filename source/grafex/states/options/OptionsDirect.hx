@@ -1,6 +1,6 @@
 package grafex.states.options;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;

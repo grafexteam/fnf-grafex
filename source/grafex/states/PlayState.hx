@@ -6,32 +6,33 @@ import grafex.states.options.OptionsMenu;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
 import grafex.states.substates.PauseSubState;
+import grafex.states.MainMenuState;
+import grafex.states.editors.ChartingState;
+import grafex.states.editors.CharacterEditorState;
+import grafex.states.substates.GameOverSubstate;
 
-
-import grafex.systems.statesystem.MusicBeatState;
-import grafex.systems.song.Section.SwagSection;
-import grafex.systems.song.Song.SwagSong;
-import grafex.systems.song.Song;
-import grafex.systems.notes.Note.EventNote;
-import grafex.systems.notes.*;
-import grafex.systems.CustomFadeTransition;
+import grafex.system.statesystem.MusicBeatState;
+import grafex.system.song.Section.SwagSection;
+import grafex.system.song.Song.SwagSong;
+import grafex.system.song.Song;
+import grafex.system.notes.Note.EventNote;
+import grafex.system.notes.*;
+import grafex.system.CustomFadeTransition;
+import grafex.system.FunkinLua;
+import grafex.system.Conductor.Rating;
+import grafex.system.Conductor;
+import grafex.system.Paths;
 
 import grafex.sprites.attached.*;
 import grafex.sprites.background.*;
 import grafex.sprites.HealthIcon;
-
-import grafex.systems.FunkinLua;
-import grafex.systems.Conductor.Rating;
-import grafex.systems.Conductor;
-import grafex.systems.Paths;
+import grafex.sprites.characters.Boyfriend;
+import grafex.sprites.characters.Character;
 
 import grafex.effects.WiggleEffect;
 import grafex.effects.WiggleEffect.WiggleEffectType;
 import grafex.effects.PhillyGlow.PhillyGlowGradient;
 import grafex.effects.PhillyGlow.PhillyGlowParticle;
-
-import grafex.sprites.characters.Boyfriend;
-import grafex.sprites.characters.Character;
 
 import grafex.data.StageData;
 import grafex.data.WeekData;
@@ -43,11 +44,6 @@ import grafex.cutscenes.DialogueBoxPsych.DialogueFile;
 import grafex.cutscenes.Cutscene.CutsceneFile;
 import grafex.cutscenes.DialogueBox;
 import grafex.cutscenes.CutsceneHandler;
-
-import grafex.states.MainMenuState;
-import grafex.states.editors.ChartingState;
-import grafex.states.editors.CharacterEditorState;
-import grafex.states.substates.GameOverSubstate;
 
 import lime.app.Application;
 import openfl.filters.BitmapFilter;
@@ -655,7 +651,7 @@ class PlayState extends MusicBeatState
 		switch (curStage)
 		{
 			case 'stage': //Week 1
-				/*var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
+				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 				add(bg);
 
 				var stageFront:BGSprite = new BGSprite('stagefront', -650, 600, 0.9, 0.9);
@@ -678,7 +674,7 @@ class PlayState extends MusicBeatState
 					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 					stageCurtains.updateHitbox();
 					add(stageCurtains);
-				}*/
+				}
 
 			case 'spooky': //Week 2
 				if(!ClientPrefs.lowQuality) {
@@ -1444,13 +1440,12 @@ class PlayState extends MusicBeatState
 
 		reloadHealthBarColors();
 		
-		songTxt = new FlxText(healthBar.x - 205, healthBarBG.y - 75, 1000, SONG.song + " (" + storyDifficultyText + ")", 24);
-		songTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER);
+		songTxt = new FlxText(12, healthBarBG.y + 50, 1000, SONG.song + " (" + storyDifficultyText + ")", 18);
+		songTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT);
 		songTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.1);
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-		songTxt.screenCenter(X);
 		if(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay)
 			songTxt.visible = false;
 		add(songTxt); 
@@ -4402,8 +4397,6 @@ class PlayState extends MusicBeatState
 				else
 				{
 					var difficulty:String = Utils.getDifficultyFilePath();
-
-				    var cutsceneFile:String = SONG.song.toLowerCase() + 'Cutscene';
 
                     trace('LOADING NEXT SONG');
 					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);

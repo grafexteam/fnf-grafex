@@ -1,9 +1,9 @@
 package grafex.states.substates;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
-import grafex.systems.statesystem.MusicBeatSubstate;
+import grafex.system.statesystem.MusicBeatSubstate;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;

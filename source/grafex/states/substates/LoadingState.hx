@@ -1,10 +1,10 @@
 package grafex.states.substates;
 
 import grafex.data.StageData;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import grafex.states.PlayState;
 
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.statesystem.MusicBeatState;
 import lime.app.Promise;
 import lime.app.Future;
 import flixel.FlxG;

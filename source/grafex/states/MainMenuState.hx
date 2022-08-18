@@ -1,8 +1,8 @@
 package grafex.states;
 
 import grafex.states.options.OptionsDirect;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 #if desktop
 import utils.Discord.DiscordClient;
 #end
@@ -28,7 +28,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
 import flixel.addons.display.FlxBackdrop;
 import grafex.data.EngineData;
-import grafex.systems.Conductor;
+import grafex.system.Conductor;
 
 using StringTools;
 

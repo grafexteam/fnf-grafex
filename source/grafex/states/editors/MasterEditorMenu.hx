@@ -4,8 +4,8 @@ import grafex.data.WeekData;
 import grafex.sprites.characters.Character;
 import grafex.sprites.characters.Character;
 import grafex.states.substates.LoadingState;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.Alphabet;
 #if desktop
 import utils.Discord.DiscordClient;
@@ -96,10 +96,10 @@ class MasterEditorMenu extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		if(FlxG.keys.justPressed.F11)
-                {
-                   FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                if (controls.UI_UP_P)
+        {
+           FlxG.fullscreen = !FlxG.fullscreen;
+        }
+    	if (controls.UI_UP_P)
 		{
 			changeSelection(-1);
 		}

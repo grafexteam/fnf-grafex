@@ -1,6 +1,6 @@
 package grafex.cutscenes;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import haxe.Json;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;

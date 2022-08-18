@@ -1,8 +1,8 @@
 package grafex.states.substates;
 
 import grafex.Utils;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.Alphabet;
 #if desktop
 import utils.Discord.DiscordClient;

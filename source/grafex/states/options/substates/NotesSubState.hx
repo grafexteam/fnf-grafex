@@ -1,9 +1,9 @@
 package grafex.states.options.substates;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import grafex.effects.shaders.ColorSwap;
 import grafex.sprites.Alphabet;
-import grafex.systems.statesystem.MusicBeatSubstate;
+import grafex.system.statesystem.MusicBeatSubstate;
 #if desktop
 import utils.Discord.DiscordClient;
 #end

@@ -4,12 +4,12 @@ import grafex.Utils;
 import grafex.states.substates.ResetScoreSubState;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
-import grafex.systems.song.Song;
-import grafex.systems.Conductor;
-import grafex.systems.Paths;
+import grafex.system.song.Song;
+import grafex.system.Conductor;
+import grafex.system.Paths;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.statesystem.MusicBeatState;
 #if desktop
 import utils.Discord.DiscordClient;
 #end

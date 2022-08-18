@@ -1,6 +1,6 @@
 package grafex.sprites;
 
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 

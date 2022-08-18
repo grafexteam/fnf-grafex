@@ -1,7 +1,7 @@
 package grafex.states.editors;
 
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 #if desktop
 import utils.Discord.DiscordClient;
 #end

@@ -3,9 +3,9 @@ package grafex.states.options;
 import grafex.states.options.substates.NoteOffsetState;
 import grafex.states.substates.PauseSubState;
 import grafex.states.options.substates.NotesSubState;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.statesystem.MusicBeatState;
 import grafex.states.substates.LoadingState;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 
 import flixel.FlxSubState;
 import flixel.input.gamepad.FlxGamepad;

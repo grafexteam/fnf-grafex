@@ -1,7 +1,7 @@
 package grafex.sprites.background;
 
-import grafex.systems.Conductor;
-import grafex.systems.Paths;
+import grafex.system.Conductor;
+import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;

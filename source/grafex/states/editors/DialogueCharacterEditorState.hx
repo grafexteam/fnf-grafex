@@ -1,9 +1,9 @@
 package grafex.states.editors;
 
-import grafex.systems.FlxUIDropDownMenuCustom;
+import grafex.system.FlxUIDropDownMenuCustom;
 import grafex.sprites.Alphabet;
-import grafex.systems.Paths;
-import grafex.systems.statesystem.MusicBeatState;
+import grafex.system.Paths;
+import grafex.system.statesystem.MusicBeatState;
 #if desktop
 import utils.Discord.DiscordClient;
 #end

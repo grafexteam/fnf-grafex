@@ -1,7 +1,7 @@
 package;
 
 import grafex.Utils;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import flixel.FlxG;
 
 using StringTools;

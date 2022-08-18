@@ -1,17 +1,14 @@
 package grafex.states.options.substates;
 
-import grafex.systems.song.Song;
+import grafex.effects.ColorblindFilters;
+import grafex.system.song.Song;
 import grafex.states.substates.LoadingState;
-import grafex.systems.Paths;
+import grafex.system.Paths;
 import utils.FPSMem;
 import lime.app.Application;
-import lime.system.DisplayMode;
-import flixel.util.FlxColor;
 import Controls.KeyboardScheme;
 import flixel.FlxG;
-import openfl.display.FPS;
 import flixel.graphics.FlxGraphic;
-import openfl.Lib;
 
 class Option
 {
@@ -90,10 +87,10 @@ class DFJKOption extends Option
 		//OptionsMenu.instance.selectedCatIndex = 4;
 		//OptionsMenu.instance.switchCat(OptionsMenu.instance.options[4], false);
 
-                if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			return false;
 		OptionsMenu.openControllsState();
-             		return true;
+        return true;
 	}
 
 	private override function updateDisplay():String
@@ -107,7 +104,7 @@ class NotesOption extends Option
 	public function new()
 	{
 		super();
-                if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			description = "This option cannot be toggled in the pause menu.";
 		else
 		description = "Edit notes colors";
@@ -118,10 +115,10 @@ class NotesOption extends Option
 		//OptionsMenu.instance.selectedCatIndex = 4;
 		//OptionsMenu.instance.switchCat(OptionsMenu.instance.options[4], false);
 
-                if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			return false;
 		OptionsMenu.openNotesState();
-             		return true;
+        return true;
 	}
 
 	private override function updateDisplay():String
@@ -135,7 +132,7 @@ class Customizeption extends Option
 	public function new()
 	{
 		super();
-                 if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			description = "This option cannot be toggled in the pause menu.";
 		else
 		description = "Edit elements positions / beat offset";
@@ -147,10 +144,10 @@ class Customizeption extends Option
 		//OptionsMenu.instance.switchCat(OptionsMenu.instance.options[4], false);
 
 
-         if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			return false;
 		OptionsMenu.openAjustState();
-	          		return true;
+	    return true;
 	}
 
 	private override function updateDisplay():String
@@ -1516,8 +1513,8 @@ class ColorBlindOption extends Option
 		ClientPrefs.ColorBlindTypeNum++;
 		if (ClientPrefs.ColorBlindTypeNum > OptionsHelpers.ColorBlindArray.length - 1)
 			ClientPrefs.ColorBlindTypeNum = OptionsHelpers.ColorBlindArray.length - 4;
-                  OptionsHelpers.ChangeColorBlind(ClientPrefs.ColorBlindTypeNum);
-				  ColorblindFilters.applyFiltersOnGame();
+        OptionsHelpers.ChangeColorBlind(ClientPrefs.ColorBlindTypeNum);
+		ColorblindFilters.applyFiltersOnGame();
 		display = updateDisplay();
 		return true;
 	}
