@@ -1,7 +1,6 @@
 package;
 
 import grafex.system.assets.manager.GrfxAssetManager;
-import openfl.display.Stage;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -15,13 +14,8 @@ import grafex.system.log.GrfxLogger;
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
-import haxe.io.Path;
-import utils.Discord.DiscordClient;
-import sys.FileSystem;
-import sys.io.File;
 import grafex.states.substates.PrelaunchingState;
 #if debug
-import grafex.states.TitleState;
 #end
 import utils.FPSMem;
 
