@@ -27,7 +27,7 @@ class GrfxLogger
     public static function init()
     {
         var date = Date.now().toString();
-        throw new haxe.Exception('Test');
+        //throw new haxe.Exception('Test');
 
         if (!FileSystem.exists("./logs/"))
             FileSystem.createDirectory("./logs/");
@@ -59,6 +59,8 @@ class GrfxLogger
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
 
+        close();
+
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
@@ -67,8 +69,6 @@ class GrfxLogger
 
 		Sys.println(e);
 		Sys.println("Crash dump saved in " + Path.normalize('./logs/crash'));
-
-        close();
 
 		Application.current.window.alert(errorMsg, "Error!");
 		DiscordClient.shutdown();
