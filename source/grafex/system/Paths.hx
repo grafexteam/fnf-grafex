@@ -350,7 +350,11 @@ inline static public function shaderFragment(key:String, ?library:String)
 			}
 		
 			inline static public function formatToSongPath(path:String) {
-				return path.toLowerCase().replace(' ', '-');
+				var invalidChars = ~/[~&\\;:<>#]/;
+		        var hideChars = ~/[.,'"%?!]/;
+        
+				var path = invalidChars.split(path.replace(' ', '-')).join("-");
+		        return hideChars.split(path).join("").toLowerCase();
 			}
 	
         public static var currentTrackedAssets:Map<String, FlxGraphic> = [];

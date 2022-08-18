@@ -104,7 +104,7 @@ class Main extends Sprite
 			FlxG.updateFramerate = ClientPrefs.framerate;
 		}
 	}
-	
+
 	function onCrash(e:UncaughtErrorEvent):Void
 		{
 			GrfxLogger.log('error', e.error);
@@ -132,6 +132,7 @@ class Main extends Sprite
 
 			
 		}
+
 
 	private function init(?E:Event):Void
 	{

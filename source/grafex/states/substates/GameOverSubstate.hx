@@ -1,5 +1,6 @@
 package grafex.states.substates;
 
+import grafex.data.WeekData;
 import grafex.system.Paths;
 import grafex.system.Conductor;
 import grafex.system.statesystem.MusicBeatState;
@@ -102,7 +103,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 			PlayState.deathCounter = 0;
 			PlayState.seenCutscene = false;
+			PlayState.chartingMode = false;
 
+			WeekData.loadTheFirstEnabledMod();
 			if (PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
 			else

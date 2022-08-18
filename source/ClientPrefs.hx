@@ -48,6 +48,7 @@ class ClientPrefs {
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
 	public static var lowQuality:Bool = false;
+	public static var shaders:Bool = true;
 	public static var framerate:Int = 60;
 	public static var cursing:Bool = true;
 	public static var violence:Bool = true;
@@ -141,7 +142,7 @@ class ClientPrefs {
  		FlxG.save.data.susTransper = susTransper;
 		FlxG.save.data.songNameDisplay = songNameDisplay;
 		FlxG.save.data.vintageOnGame = vintageOnGame;
-
+		FlxG.save.data.shaders = shaders;
  		FlxG.save.data.micedUpSus = micedUpSus;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.countdownpause = countdownpause;
@@ -454,6 +455,14 @@ class ClientPrefs {
 
 		if(FlxG.save.data.lowQuality == null) {
 			lowQuality = false;
+		}
+		
+		if(FlxG.save.data.shaders != null) {
+			shaders = FlxG.save.data.shaders;
+		}
+
+		if(FlxG.save.data.shaders == null) {
+			shaders = true;
 		}
 
 		if(FlxG.save.data.framerate != null) {

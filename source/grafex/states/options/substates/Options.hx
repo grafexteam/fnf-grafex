@@ -1850,3 +1850,35 @@ class VintageOption extends Option
 		return "Vintage: < " + (ClientPrefs.vintageOnGame ? "Enabled" : "Disabled") + " >";
 	}
 }
+
+class ShadersOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		if (OptionsMenu.isInPause)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		ClientPrefs.shaders = !ClientPrefs.shaders;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Shaders: < " + (ClientPrefs.shaders ? "Enabled" : "Disabled") + " >";
+	}
+}

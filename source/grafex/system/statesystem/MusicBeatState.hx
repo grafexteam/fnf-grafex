@@ -11,6 +11,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
+import flixel.FlxCamera;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.FlxState;
@@ -28,6 +29,8 @@ class MusicBeatState extends FlxUIState
 	private var curDecBeat:Float = 0;
 	private var controls(get, never):Controls;
 
+	public static var camBeat:FlxCamera;
+
 	var focusMusicTween:FlxTween;
 
 	inline function get_controls():Controls
@@ -36,6 +39,7 @@ class MusicBeatState extends FlxUIState
 	override function create() {
 		Application.current.window.onFocusOut.add(onFocusLost);
 		Application.current.window.onFocusIn.add(onFocus);
+		camBeat = FlxG.camera;
 
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		super.create();

@@ -178,6 +178,7 @@ class OptionsMenu extends FlxSubState
 			new OptionCata(640, 40, "Misc", [
 				new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
 				new ColorBlindOption("You can set colorblind filter (makes the game more playable for colorblind people)."),
+				new ShadersOption("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
 				new FPSOption("Toggle the FPS Counter."),
                 new MEMOption("Toggle the MEM Counter."),
 				#if desktop new FPSCapOption("Change your FPS Cap."),
@@ -793,6 +794,7 @@ class OptionsMenu extends FlxSubState
 		FlxG.save.data.gameplaySettings = null;
 		FlxG.save.data.controllerMode = null;
 		FlxG.save.data.customControls = ClientPrefs.keyBinds;
+		FlxG.save.data.shaders = null;
 	
         ClientPrefs.loadPrefs();
 
