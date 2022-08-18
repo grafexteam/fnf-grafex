@@ -89,6 +89,7 @@ class CreditsState extends MusicBeatState
             ['With thanks to'],
 			['LenyaTheCat','lenya','Grafex Icons Artist','https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'ffffff'],
 			['NotGeorg','','Grafex Arrows Skin Artist','https://twitter.com/VolkovGeorg', '919191'],
+			['MrOlegTitov', null, 'Emotional + Tech Support', '', 'E1843A'],
             [''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],

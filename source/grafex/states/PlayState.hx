@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.Utils;
 
 import grafex.states.options.OptionsMenu;
@@ -389,6 +390,8 @@ class PlayState extends MusicBeatState
 	{
 		instance = this;
         currentPState = this;
+
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 
         setOnLuas('swapStrumLines', swapStrumLines);
 

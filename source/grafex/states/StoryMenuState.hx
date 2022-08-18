@@ -64,6 +64,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
+		//TODO: add stateSwitching log (via Type.getClass)
 		Application.current.window.title = Main.appTitle + ' - Storymode Menu';
 
 		PlayState.isStoryMode = true;
@@ -191,7 +192,7 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist = new FlxText(FlxG.width * 0.05, tracksSprite.y + 60, 0, "", 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
-		txtTracklist.color = 0xFFe55777;
+		//txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		// add(rankText);
 		add(scoreText);
@@ -211,10 +212,8 @@ class StoryMenuState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		if(FlxG.keys.justPressed.F11)
-                {
-                FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                // scoreText.setFormat('VCR OSD Mono', 32);
+        	FlxG.fullscreen = !FlxG.fullscreen;
+        // scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, Utils.boundTo(elapsed * 30, 0, 1)));
 		if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
 
@@ -300,6 +299,7 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
+		//TODO: add curSelectedWeek log
 		if (!weekIsLocked(loadedWeeks[curWeek].fileName))
 		{
 			if (stopspamming == false)
@@ -340,7 +340,7 @@ class StoryMenuState extends MusicBeatState
 					trace('File found');		
 					FreeplayState.destroyFreeplayVocals();
 				}
-				else*/
+				else*/ // DO NOT REMOVE
 				LoadingState.loadAndSwitchState(new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});

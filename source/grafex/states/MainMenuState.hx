@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.options.OptionsDirect;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
@@ -66,6 +67,8 @@ class MainMenuState extends MusicBeatState
         
     override function create()
 	{
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menu", null);

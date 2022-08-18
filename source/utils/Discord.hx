@@ -18,6 +18,7 @@ class DiscordClient
         public static var isInitialized:Bool = false;
 	    public function new()
 	    {
+			//TODO: add log
 	    	DiscordRpc.start({
 	    		clientID: "885223855327698985",
 	    		onReady: onReady,

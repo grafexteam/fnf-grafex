@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.substates.ExitGameState;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
@@ -100,6 +101,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		
         Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
