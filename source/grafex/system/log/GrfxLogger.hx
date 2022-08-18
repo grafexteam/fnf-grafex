@@ -32,7 +32,7 @@ class GrfxLogger
             FileSystem.createDirectory("./logs/");
 
         File.saveContent(path, '$logo\n[$date][INFO]: Logger initialized');
-        trace('[$date][INFO]: Logger initialized');
+        Sys.println('[$date][INFO]: Logger initialized');
     }
 
     public static function log(type:String, message:String)
@@ -44,7 +44,7 @@ class GrfxLogger
         output.writeString('\n[$date][$typeString]: $message', UTF8);
         output.close();
 
-        trace('\n[$date][$typeString]: $message');
+        Sys.println('[$date][$typeString]: $message');
     }
 
     public static function close() 

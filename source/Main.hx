@@ -75,7 +75,7 @@ class Main extends Sprite
 
 	function onWindowFocusOut()
 		{
-			trace("Game unfocused");
+			GrfxLogger.log('info', "Game unfocused");
 	
 			if(!ClientPrefs.autoPause)
 			{
@@ -91,7 +91,7 @@ class Main extends Sprite
 	
 	function onWindowFocusIn()
 	{
-		trace("Game focused");
+		GrfxLogger.log('info', "Game focused");
 
 		if(!ClientPrefs.autoPause)
 		{

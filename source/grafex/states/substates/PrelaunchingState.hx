@@ -1,5 +1,6 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import sys.Http;
@@ -33,9 +34,10 @@ class PrelaunchingState extends MusicBeatState
 
     override function create()
     {
+        var version:String = versionRequest();
         #if VERSION_CHECK
-        if(versionRequest() != null)
-            if (versionRequest() == EngineData.grafexEngineVersion)
+        if(version != null)
+            if (version == EngineData.grafexEngineVersion)
                 MusicBeatState.switchState(new TitleState());
             else
             {
@@ -72,15 +74,20 @@ class PrelaunchingState extends MusicBeatState
        {
            // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
            try {
-               trace('Current version is ' + Http.requestUrl(link));
+               GrfxLogger.log('info', 'Current version is ' + Http.requestUrl(link));
                return Http.requestUrl(link);
            } catch(e) {
-               if(FileSystem.exists('localVersion.txt')) { // Trying to check for the local txt version - Xale
-                   trace('Current version is ' + File.getContent('localVersion.txt').trim().split('\n')[0]);
+                GrfxLogger.log('warning', "Couldn't connect to GitHub; Checking by local file");
+                if(FileSystem.exists('./localVersion.txt')) { // Trying to check for the local txt version - Xale
+                   GrfxLogger.log('info', 'Current version is ' + File.getContent('localVersion.txt').trim().split('\n')[0]);
                    return File.getContent('localVersion.txt').trim().split('\n')[0];      
-               }
-               else 
-                   return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
+                }
+                else
+                {
+                    return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale
+                    GrfxLogger.log('warning', "Couldn't check version by local file");
+                }
+                   
            }
            return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
        }

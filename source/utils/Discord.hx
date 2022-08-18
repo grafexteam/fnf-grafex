@@ -5,6 +5,8 @@ import Sys.sleep;
 import discord_rpc.DiscordRpc;
 #end
 
+import grafex.system.log.GrfxLogger;
+
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.State;
@@ -52,12 +54,12 @@ class DiscordClient
     
 	    static function onError(_code:Int, _message:String)
 	    {
-	    	trace('Error! $_code : $_message');
+	    	GrfxLogger.log('Warning', '$_message');
 	    }
     
 	    static function onDisconnected(_code:Int, _message:String)
 	    {
-	    	trace('Disconnected! $_code : $_message');
+	    	GrfxLogger.log('warning', '$_code : $_message');
 	    }
     
 	    public static function initialize()
@@ -66,7 +68,7 @@ class DiscordClient
 	    	{
 	    		new DiscordClient();
 	    	});
-	    	trace("Discord Client initialized");
+	    	GrfxLogger.log('info', "Discord Client initialized");
             isInitialized = true;
 	    }
     

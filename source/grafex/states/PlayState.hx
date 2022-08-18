@@ -2357,6 +2357,8 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		GrfxLogger.log('info', 'Loaded Song: ' + SONG.song);
+		GrfxLogger.log('info', 'Botplay: ' + ClientPrefs.getGameplaySetting('botplay', false).toString());
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
@@ -3766,6 +3768,7 @@ class PlayState extends MusicBeatState
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
 		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
 		{
+			GrfxLogger.log('info', 'Player Died');
 			var ret:Dynamic = callOnLuas('onGameOver', [], false);
 			if(ret != FunkinLua.Function_Stop) {
 				boyfriend.stunned = true;
@@ -4314,7 +4317,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong():Void
 	{
-		GrfxLogger.log('info', 'Song ended');
+		GrfxLogger.log('info', 'Song ' + SONG.song + ' ended');
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {

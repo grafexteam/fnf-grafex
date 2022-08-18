@@ -373,6 +373,7 @@ class FreeplayState extends MusicBeatState
 					vocals = new FlxSound();
 				FlxG.sound.list.add(vocals);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
+				GrfxLogger.log('info', 'Started Listening to Song: ' + PlayState.SONG.song);
 				vocals.play();
 				vocals.persist = true;
 				vocals.looped = true;
