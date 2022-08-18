@@ -27,7 +27,6 @@ class GrfxLogger
     public static function init()
     {
         var date = Date.now().toString();
-        //throw new haxe.Exception('Test');
 
         if (!FileSystem.exists("./logs/"))
             FileSystem.createDirectory("./logs/");
