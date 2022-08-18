@@ -137,7 +137,7 @@ class Main extends Sprite
 	private function init(?E:Event):Void
 	{
 		GrfxLogger.init();
-		GrfxLogger.log('INFO', 'Test');
+		GrfxLogger.log('INFO', 'Game launched');
 
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
