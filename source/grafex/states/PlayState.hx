@@ -1451,7 +1451,7 @@ class PlayState extends MusicBeatState
     	songTxt.scrollFactor.set();
 		if(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay)
 			songTxt.visible = false;
-		add(songTxt); 
+		add(songTxt);
 
  
 		scoreTxt = new FlxText(healthBar.x - 205, healthBarBG.y + 35, 1000, "", 18);
