@@ -1,5 +1,6 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.song.Song;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
@@ -110,7 +111,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 
-                if (!ClientPrefs.lowQuality)
+        if (!ClientPrefs.lowQuality)
 		{
 			pausebg = new FlxSprite().loadGraphic(Paths.image('pausemenubg'));
 			pausebg.color = 0xFF1E1E1E;
@@ -127,7 +128,7 @@ class PauseSubState extends MusicBeatSubstate
 				y: 0,
 				alpha: 1
 			}, 1, {ease: FlxEase.quadOut});
-                }
+        }
 		levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
@@ -309,7 +310,7 @@ class PauseSubState extends MusicBeatSubstate
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
 					restartSong();
-                                case "Leave Charting Mode":
+                case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;
 				case 'Skip Time':
@@ -337,6 +338,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
 				case "Exit to menu":
+					GrfxLogger.log('info', 'Exited Song');
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					if(PlayState.isStoryMode) {
@@ -344,10 +346,10 @@ class PauseSubState extends MusicBeatSubstate
 					} else {
 						MusicBeatState.switchState(new FreeplayState());
 					}
-PlayState.cancelMusicFadeTween();
+					PlayState.cancelMusicFadeTween();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     FlxG.sound.music.time = 9400;
-				     Conductor.changeBPM(102);
+				    Conductor.changeBPM(102);
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
 			}
