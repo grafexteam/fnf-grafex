@@ -77,7 +77,6 @@ class FunkinLua {
 
     public var errorHandler:String->Void;
 
-	public var errorHandler:String->Void;
 	#if LUA_ALLOWED
 	public var lua:State = null;
 	#end
