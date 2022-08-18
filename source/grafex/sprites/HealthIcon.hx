@@ -17,6 +17,7 @@ class HealthIcon extends FlxSprite
     // Oh yea, crafter things
 
 	public static var redirects:Map<String, String> = null;
+
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
