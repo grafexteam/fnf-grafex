@@ -508,11 +508,12 @@ class DialogueCharacterEditorState extends MusicBeatState
 	var lastTab:String = 'Character';
 	var transitioning:Bool = false;
 	override function update(elapsed:Float) {
+		MusicBeatState.camBeat = FlxG.camera;
 		if(FlxG.keys.justPressed.F11)
-                {
-                   FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                if(transitioning) {
+        {
+           FlxG.fullscreen = !FlxG.fullscreen;
+        }
+        if(transitioning) {
 			super.update(elapsed);
 			return;
 		}

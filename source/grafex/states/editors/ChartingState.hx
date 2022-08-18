@@ -3022,7 +3022,7 @@ function reloadGridLayer() {
 
 	private function saveLevel()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var json = {
 			"song": _song
 		};
@@ -3046,7 +3046,7 @@ function reloadGridLayer() {
 
 	private function saveEvents()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var eventsSong:SwagSong = {
 			song: _song.song,
 			notes: [],

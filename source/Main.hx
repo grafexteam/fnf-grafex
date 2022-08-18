@@ -97,7 +97,7 @@ class Main extends Sprite
 			FlxG.updateFramerate = ClientPrefs.framerate;
 		}
 	}
-	
+
 	function onCrash(e:UncaughtErrorEvent):Void
 		{
 			var errMsg:String = "";
@@ -135,6 +135,7 @@ class Main extends Sprite
 			DiscordClient.shutdown();
 			Sys.exit(1);
 		}
+
 
 	private function init(?E:Event):Void
 	{

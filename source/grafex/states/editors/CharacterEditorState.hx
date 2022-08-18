@@ -1142,11 +1142,13 @@ class CharacterEditorState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		MusicBeatState.camBeat = FlxG.camera;
 		if(FlxG.keys.justPressed.F11)
-                {
-                   FlxG.fullscreen = !FlxG.fullscreen;
-                }
-                  if(char.animationsArray[curAnim] != null) {
+        {
+           FlxG.fullscreen = !FlxG.fullscreen;
+        }
+
+        if(char.animationsArray[curAnim] != null) {
 			textAnim.text = char.animationsArray[curAnim].anim;
 
 			var curAnim:FlxAnimation = char.animation.getByName(char.animationsArray[curAnim].anim);
