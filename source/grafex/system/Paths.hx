@@ -594,4 +594,9 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
 	}
+
+	inline static public function stage(key:String, ?library:String, ?ext:String = "json")
+	{
+		return getPath('stages/$key.$ext', TEXT, library);
+	}
 }
