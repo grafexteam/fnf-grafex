@@ -13,9 +13,12 @@ import grafex.effects.ColorblindFilters;
 
 import grafex.states.MainMenuState;
 import grafex.states.substates.FlashingState;
+import grafex.util.ClientPrefs;
+import grafex.util.Highscore;
+import grafex.util.Utils;
 
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 import sys.thread.Thread;
 #end
 import flixel.FlxG;
@@ -51,6 +54,7 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
 import lime.ui.WindowAttributes;
+import grafex.util.PlayerSettings;
 
 using StringTools;
 
@@ -116,9 +120,24 @@ class TitleState extends MusicBeatState
     	FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		
+
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		titleJSON = Json.parse(File.getContent(path));
+		#else
 		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		titleJSON = Json.parse(Assets.getText(path));
-		
+		titleJSON = Json.parse(Assets.getText(path)); 
+		#end
+
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
 		FlxG.sound.volumeDownKeys = volumeDownKeys;
@@ -135,7 +154,7 @@ class TitleState extends MusicBeatState
 		swagShader = new ColorSwap();
 		super.create();
 
-		FlxG.save.bind('grafex', 'xale');
+		FlxG.save.bind('grafex', 'Grafex Team');
 		ClientPrefs.loadPrefs();
 
 		Highscore.load();

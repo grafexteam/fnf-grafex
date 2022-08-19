@@ -12,13 +12,14 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
 import grafex.system.song.Section.SwagSection;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import sys.io.File;
 import sys.FileSystem;
 
 import openfl.utils.Assets;
 import haxe.Json;
 import haxe.format.JsonParser;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

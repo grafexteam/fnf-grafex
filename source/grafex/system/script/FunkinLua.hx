@@ -13,6 +13,8 @@ import grafex.states.substates.LoadingState;
 import grafex.sprites.characters.Character;
 import grafex.sprites.Alphabet;
 import grafex.system.log.GrfxLogger.log;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -21,7 +23,7 @@ import llua.Convert;
 #end
 
 import flixel.FlxG;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
@@ -38,12 +40,12 @@ import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import grafex.data.EngineData;
 import flixel.addons.transition.FlxTransitionableState;
+import grafex.util.Highscore;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
 import Type.ValueType;
-import Controls;
 import grafex.cutscenes.DialogueBoxPsych;
 import grafex.states.PlayState;
 
@@ -53,7 +55,7 @@ import hscript.Interp;
 #end
 
 #if desktop
-import utils.Discord;
+import external.Discord;
 #end
 
 #if !flash
@@ -221,12 +223,12 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
- 		set('missSounds', ClientPrefs.playmisssounds);
-		set('missAnims', ClientPrefs.playmissanims);
-		set('PauseCountdown', ClientPrefs.countdownpause);
-		set('CamOnHits', ClientPrefs.shouldcameramove);
+ 		set('missSounds', ClientPrefs.playMissSounds);
+		set('missAnims', ClientPrefs.playMissAnims);
+		set('PauseCountdown', ClientPrefs.countDownPause);
+		set('CamOnHits', ClientPrefs.shouldCameraMove);
 		set('instRespawn', ClientPrefs.instantRespawn);
-		set('showJudgment', ClientPrefs.showjud);
+		set('showJudgment', ClientPrefs.showJudgement);
 		set('showCombo', ClientPrefs.showCombo);
 		set('blurNotes', ClientPrefs.blurNotes);
 		set('visibleHPBar', ClientPrefs.visibleHealthbar);
@@ -555,7 +557,7 @@ class FunkinLua {
 
 		});
 
-Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
+			Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
 			if(luaFile==null){
 				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");

@@ -2,6 +2,7 @@ package grafex.sprites.attached;
 
 import grafex.system.Paths;
 import flixel.FlxSprite;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

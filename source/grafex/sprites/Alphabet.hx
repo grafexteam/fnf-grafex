@@ -9,6 +9,9 @@ import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
 import flash.media.Sound;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
+
 
 using StringTools;
 

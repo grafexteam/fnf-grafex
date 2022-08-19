@@ -9,6 +9,7 @@ import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import grafex.system.log.GrfxLogger;
+import grafex.util.ClientPrefs;
 
 // for crashing shit - Xale
 import lime.app.Application;
@@ -17,7 +18,7 @@ import haxe.CallStack;
 import grafex.states.substates.PrelaunchingState;
 #if debug
 #end
-import utils.FPSMem;
+import external.FPSMem;
 
 using StringTools;
 

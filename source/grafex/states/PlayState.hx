@@ -2,7 +2,7 @@ package grafex.states;
 
 import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
-import grafex.Utils;
+import grafex.util.Utils;
 
 import grafex.states.options.OptionsMenu;
 import grafex.states.substates.LoadingState;
@@ -76,7 +76,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxMath;
 import flixel.ui.FlxBar;
@@ -94,6 +94,9 @@ import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
+import grafex.util.Highscore;
 import openfl.events.KeyboardEvent;
 
 import openfl.filters.ShaderFilter;
@@ -114,11 +117,11 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
-import utils.FlxVideo;
+import external.FlxVideo;
 #end
 
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 
 using StringTools;
@@ -467,7 +470,7 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
         camUnderHUDBeforeGame = new FlxCamera();
 
-		if(ClientPrefs.greenscreenmode) {
+		if(ClientPrefs.greenScreenMode) {
 			camUnderHUDBeforeGame.bgColor = new FlxColor(0xFF00FF00);
 		} else {
 			camUnderHUDBeforeGame.bgColor.alpha = 0;
@@ -1215,14 +1218,14 @@ class PlayState extends MusicBeatState
         laneunderlayOpponent = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
 		laneunderlayOpponent.color = FlxColor.BLACK;
 		laneunderlayOpponent.scrollFactor.set();
-        laneunderlayOpponent.alpha = ClientPrefs.underdelayalpha - 1;
-        laneunderlayOpponent.visible = ClientPrefs.underdelayonoff;
+        laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha - 1;
+        laneunderlayOpponent.visible = ClientPrefs.underDelayEnabled;
 
 		laneunderlay = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
 		laneunderlay.color = FlxColor.BLACK;
 		laneunderlay.scrollFactor.set();
-        laneunderlay.alpha = ClientPrefs.underdelayalpha - 1;
-        laneunderlay.visible = ClientPrefs.underdelayonoff;
+        laneunderlay.alpha = ClientPrefs.underDelayAlpha - 1;
+        laneunderlay.visible = ClientPrefs.underDelayEnabled;
 		if(!ClientPrefs.hideOpponenStrums)
         if(!ClientPrefs.middleScroll) 
         	{
@@ -1473,7 +1476,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.cameras = [camHUD];
 		judgementCounter.screenCenter(X);
 		judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms |  Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
-        if(ClientPrefs.showjud) 
+        if(ClientPrefs.showJudgement) 
         judgementCounter.visible = !ClientPrefs.hideHud;
         else
         judgementCounter.visible = false;
@@ -2646,8 +2649,8 @@ class PlayState extends MusicBeatState
 		songLength = FlxG.sound.music.length;
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-        FlxTween.tween(laneunderlayOpponent, {alpha: ClientPrefs.underdelayalpha}, 0.5, {ease: FlxEase.quadOut});
-        FlxTween.tween(laneunderlay, {alpha: ClientPrefs.underdelayalpha}, 0.5, {ease: FlxEase.quadOut});
+        FlxTween.tween(laneunderlayOpponent, {alpha: ClientPrefs.underDelayAlpha}, 0.5, {ease: FlxEase.quadOut});
+        FlxTween.tween(laneunderlay, {alpha: ClientPrefs.underDelayAlpha}, 0.5, {ease: FlxEase.quadOut});
 
 
         switch(curStage)
@@ -3357,7 +3360,7 @@ class PlayState extends MusicBeatState
 		var opponentOffset:Int = 0;
         var iconOffset:Int = 26;
 
-    	switch(ClientPrefs.hliconbop)
+    	switch(ClientPrefs.healthIconBop)
     	   {
     		case 'Grafex':	
     
@@ -4894,7 +4897,7 @@ class PlayState extends MusicBeatState
 
 			songMisses++;
         	healthBarShake(0.85);
-            if(ClientPrefs.playmisssounds) {
+            if(ClientPrefs.playMissSounds) {
         	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07);
 			vocals.volume = 0; }
 			if(!practiceMode) songScore -= 10;
@@ -4907,7 +4910,7 @@ class PlayState extends MusicBeatState
 				char = gf;
 			}
 
-			if(ClientPrefs.playmissanims)
+			if(ClientPrefs.playMissAnims)
 			if(char != null && !daNote.noMissAnimation && char.hasMissAnimations)
 			{
 				var daAlt = '';
@@ -4917,7 +4920,7 @@ class PlayState extends MusicBeatState
 				char.playAnim(animToPlay, true);
 			}
 
-			if (((camFocus == 'bf') || (camFocus == 'gf')) && ClientPrefs.shouldcameramove)
+			if (((camFocus == 'bf') || (camFocus == 'gf')) && ClientPrefs.shouldCameraMove)
 				triggerCamMovement(Math.abs(daNote.noteData));
 
 			callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote, daNote.ID]);
@@ -4952,15 +4955,15 @@ class PlayState extends MusicBeatState
 			totalPlayed++;
 			RecalculateRating();
             healthBarShake(0.65);
-            if(ClientPrefs.playmisssounds)
+            if(ClientPrefs.playMissSounds)
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.3, 0.4));
 
 
-            if(ClientPrefs.playmissanims)
+            if(ClientPrefs.playMissAnims)
 		 	if(boyfriend.hasMissAnimations)
 		    boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
 
-			if(ClientPrefs.playmisssounds)
+			if(ClientPrefs.playMissSounds)
 			vocals.volume = 0;
 		}
         callOnLuas('noteMissPress', [direction]);
@@ -5010,7 +5013,7 @@ class PlayState extends MusicBeatState
 					char.holdTimer = 0;
 
 				}
-			if (((camFocus == 'dad') || (camFocus == 'gf')) && ClientPrefs.shouldcameramove)
+			if (((camFocus == 'dad') || (camFocus == 'gf')) && ClientPrefs.shouldCameraMove)
 				triggerCamMovement(Math.abs(note.noteData));
 		}
 
@@ -5136,7 +5139,7 @@ class PlayState extends MusicBeatState
 			var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 			var leData:Int = Math.round(Math.abs(note.noteData));
 			var leType:String = note.noteType;
-			if (((camFocus == 'bf') || (camFocus == 'gf')) && ClientPrefs.shouldcameramove)
+			if (((camFocus == 'bf') || (camFocus == 'gf')) && ClientPrefs.shouldCameraMove)
 				triggerCamMovement(Math.abs(note.noteData));
 			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus, note.ID]);
 
@@ -5456,7 +5459,7 @@ class PlayState extends MusicBeatState
 				camHUD.zoom += 0.03 * camZoomingMult;
 			}
 
-        switch(ClientPrefs.hliconbop)
+        switch(ClientPrefs.healthIconBop)
 			{
 				/*case 'Modern':
 					iconP1.scale.set(1.2, 1.2);

@@ -9,10 +9,10 @@ import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.attached.AttachedSprite;
 import grafex.system.notes.*;
 import grafex.sprites.HealthIcon;
-import utils.FlxUIDropDownMenuCustom;
+import external.FlxUIDropDownMenuCustom;
 import grafex.system.Paths;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import grafex.system.Conductor.BPMChangeEvent;
 import grafex.system.song.Section.SwagSection;
@@ -64,6 +64,8 @@ import lime.app.Application;
 import sys.io.File;
 import sys.FileSystem;
 import flash.media.Sound;
+import grafex.util.Utils;
+import grafex.util.ClientPrefs;
 
 
 using StringTools;
@@ -238,8 +240,8 @@ class ChartingState extends MusicBeatState
 	{
 		Application.current.window.title = Main.appTitle + ' // ' + 'Chart Editor';
 
-		if(ClientPrefs.chartautosave) {
-			Lib.setInterval(autosaveSong, ClientPrefs.chartautosaveInterval * 60 * 1000); // <arubz> * 60 * 1000
+		if(ClientPrefs.chartAutoSave) {
+			Lib.setInterval(autosaveSong, ClientPrefs.chartAutoSaveInterval * 60 * 1000); // <arubz> * 60 * 1000
 		}
 
 		if (PlayState.SONG != null)

@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import grafex.sprites.Alphabet;
+import grafex.util.PlayerSettings;
 
 using StringTools;
 

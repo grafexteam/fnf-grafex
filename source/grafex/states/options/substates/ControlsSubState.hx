@@ -5,7 +5,7 @@ import grafex.sprites.attached.AttachedText;
 import grafex.sprites.Alphabet;
 import grafex.system.statesystem.MusicBeatSubstate;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flash.text.TextField;
 import flixel.FlxG;
@@ -27,7 +27,9 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
-import Controls;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 using StringTools;
 
@@ -282,13 +284,13 @@ class ControlsSubState extends MusicBeatSubstate {
 
 	private function addBindTexts(optionText:Alphabet, num:Int) {
 		var keys:Array<Dynamic> = ClientPrefs.keyBinds.get(optionShit[num][1]);
-		var text1 = new AttachedText(InputFormatter.getKeyName(keys[0]), 400, -55);
+		var text1 = new AttachedText(keys[0].toString(), 400, -55);
 		text1.setPosition(optionText.x + 400, optionText.y - 55);
 		text1.sprTracker = optionText;
 		grpInputs.push(text1);
 		add(text1);
 
-		var text2 = new AttachedText(InputFormatter.getKeyName(keys[1]), 650, -55);
+		var text2 = new AttachedText(keys[1].toString(), 650, -55);
 		text2.setPosition(optionText.x + 650, optionText.y - 55);
 		text2.sprTracker = optionText;
 		grpInputsAlt.push(text2);

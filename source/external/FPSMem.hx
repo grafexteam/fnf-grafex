@@ -1,4 +1,4 @@
-package utils;
+package external;
 
 import haxe.Timer;
 import openfl.events.Event;
@@ -30,7 +30,7 @@ class FPSMem extends TextField
 	public var currentFPS(default, null):Int;
     public var currentMem:Float;
 
-    public static var showMem:Bool=true;
+    public static var showMem:Bool=true; // TODO: Rename
     public static var showFPS:Bool=true;
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;

@@ -14,6 +14,7 @@ import flixel.util.FlxGradient;
 import flixel.FlxSubState;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
+import grafex.util.Utils;
 
 class CustomFadeTransition extends MusicBeatSubstate {
 	public static var finishCallback:Void->Void;

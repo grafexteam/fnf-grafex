@@ -1,4 +1,4 @@
-package utils.vlc;
+package external.vlc;
 
 import flixel.FlxG;
 import openfl.system.Capabilities;
@@ -15,7 +15,7 @@ import openfl.display3D.textures.RectangleTexture;
 import openfl.errors.Error;
 import openfl.events.Event;
 import openfl.geom.Rectangle;
-import utils.vlc.LibVLC;
+import external.vlc.LibVLC;
 
 /**
  * ...

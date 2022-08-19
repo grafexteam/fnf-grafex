@@ -7,6 +7,8 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if sys
 import sys.io.File;
 import sys.FileSystem;

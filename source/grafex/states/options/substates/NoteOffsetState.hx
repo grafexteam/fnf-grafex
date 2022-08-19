@@ -7,8 +7,6 @@ import grafex.sprites.background.BGSprite;
 import grafex.sprites.Alphabet;
 import grafex.sprites.characters.Character;
 import grafex.system.statesystem.MusicBeatState;
-import flixel.util.FlxStringUtil;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
@@ -20,6 +18,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.ui.FlxBar;
 import flixel.math.FlxPoint;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

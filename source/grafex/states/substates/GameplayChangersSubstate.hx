@@ -6,13 +6,14 @@ import grafex.sprites.Alphabet;
 import grafex.sprites.CheckboxThingie;
 import grafex.sprites.attached.AttachedText;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

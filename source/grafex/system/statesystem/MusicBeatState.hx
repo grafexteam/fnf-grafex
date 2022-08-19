@@ -1,6 +1,6 @@
 package grafex.system.statesystem;
 
-import utils.FlxVideo;
+import external.FlxVideo;
 import grafex.system.Conductor.BPMChangeEvent;
 import lime.app.Application;
 import flixel.FlxG;
@@ -16,6 +16,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.FlxState;
 import flixel.FlxBasic;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
+import grafex.util.PlayerSettings;
 
 class MusicBeatState extends FlxUIState
 {

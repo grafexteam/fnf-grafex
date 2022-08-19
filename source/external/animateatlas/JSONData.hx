@@ -1,4 +1,4 @@
-package utils.animateatlas;
+package external.animateatlas;
 
 /**
  * All data needed for the json importer + some extra for after parsing.

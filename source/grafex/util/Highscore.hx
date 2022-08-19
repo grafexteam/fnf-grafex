@@ -1,6 +1,6 @@
-package;
+package grafex.util;
 
-import grafex.Utils;
+import grafex.util.Utils;
 import grafex.system.Paths;
 import flixel.FlxG;
 

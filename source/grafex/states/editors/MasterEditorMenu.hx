@@ -8,7 +8,7 @@ import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.Alphabet;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;

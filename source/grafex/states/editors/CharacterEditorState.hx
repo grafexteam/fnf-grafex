@@ -4,9 +4,9 @@ import grafex.sprites.background.BGSprite;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.HealthIcon;
-import utils.FlxUIDropDownMenuCustom;
+import external.FlxUIDropDownMenuCustom;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -38,6 +38,8 @@ import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import lime.system.Clipboard;
 import flixel.animation.FlxAnimation;
 import flixel.math.FlxPoint;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 
 import sys.FileSystem;

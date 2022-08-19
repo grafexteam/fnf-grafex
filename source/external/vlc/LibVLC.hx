@@ -1,4 +1,4 @@
-package utils.vlc;
+package external.vlc;
 
 import cpp.Callable;
 import cpp.Function;
@@ -15,7 +15,7 @@ import lime.utils.UInt8Array;
  * @author Tommy S
  */
 //
-@:buildXml('<include name="../../../../source/utils/vlc/LibVLCBuild.xml" />')
+@:buildXml('<include name="../../../../source/external/vlc/LibVLCBuild.xml" />')
 @:include("LibVLC.h")
 @:unreflective
 @:keep

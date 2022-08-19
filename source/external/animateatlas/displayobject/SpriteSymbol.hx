@@ -1,4 +1,4 @@
-package utils.animateatlas.displayobject;
+package external.animateatlas.displayobject;
 
 import openfl.filters.GlowFilter;
 import openfl.filters.BlurFilter;
@@ -10,20 +10,20 @@ import openfl.display.Sprite;
 import openfl.errors.ArgumentError;
 import openfl.geom.Rectangle;
 import openfl.errors.Error;
-import utils.animateatlas.JSONData.ElementData;
-import utils.animateatlas.HelperEnums.LoopMode;
-import utils.animateatlas.HelperEnums.SymbolType;
+import external.animateatlas.JSONData.ElementData;
+import external.animateatlas.HelperEnums.LoopMode;
+import external.animateatlas.HelperEnums.SymbolType;
 import openfl.display.FrameLabel;
-import utils.animateatlas.JSONData.SymbolData;
-import utils.animateatlas.JSONData.SymbolInstanceData;
-import utils.animateatlas.JSONData.LayerData;
-import utils.animateatlas.JSONData.BitmapPosData;
-import utils.animateatlas.JSONData.Matrix3DData;
-import utils.animateatlas.JSONData.LayerFrameData;
-import utils.animateatlas.JSONData.ColorData;
+import external.animateatlas.JSONData.SymbolData;
+import external.animateatlas.JSONData.SymbolInstanceData;
+import external.animateatlas.JSONData.LayerData;
+import external.animateatlas.JSONData.BitmapPosData;
+import external.animateatlas.JSONData.Matrix3DData;
+import external.animateatlas.JSONData.LayerFrameData;
+import external.animateatlas.JSONData.ColorData;
 import openfl.geom.Matrix;
 import openfl.geom.ColorTransform;
-import utils.animateatlas.JSONData.FilterData;
+import external.animateatlas.JSONData.FilterData;
 
 class SpriteSymbol extends Sprite {
 	public var currentLabel(get, never):String;
@@ -137,7 +137,7 @@ class SpriteSymbol extends Sprite {
 		_composedFrame = _currentFrame;
 	}
 
-	@:access(utils.animateatlas)
+	@:access(external.animateatlas)
 	private function updateLayer(layerIndex:Int):Void {
 		var layer:Sprite = getLayer(layerIndex);
 		var frameData:LayerFrameData = getFrameData(layerIndex, _currentFrame);
@@ -231,7 +231,7 @@ class SpriteSymbol extends Sprite {
 		}
 	}
 
-	@:access(utils.animateatlas)
+	@:access(external.animateatlas)
 	public function setBitmap(data:BitmapPosData):Void {
 		if (data != null) {
 			var spriteData = _library.getSpriteData(data.name + "");
@@ -267,7 +267,7 @@ class SpriteSymbol extends Sprite {
 				_bitmap.parent.removeChild(_bitmap);
 		}
 	}
-	@:access(utils.animateatlas)
+	@:access(external.animateatlas)
 	private function setFilterData(data:FilterData):Void{
 		var blur:BlurFilter;
 		var glow:GlowFilter;
