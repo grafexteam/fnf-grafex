@@ -1,11 +1,11 @@
-package utils.animateatlas.tilecontainer;
+package external.animateatlas.displayobject;
 
-import utils.animateatlas.HelperEnums.LoopMode;
-import utils.animateatlas.HelperEnums.SymbolType;
-import openfl.display.TileContainer;
+import openfl.display.Sprite;
+import external.animateatlas.HelperEnums.LoopMode;
+import external.animateatlas.HelperEnums.SymbolType;
 
-@:access(utils.animateatlas.tilecontainer.TileContainerSymbol)
-class TileContainerMovieClip extends TileContainer {
+@:access(external.animateatlas.displayobject.SpriteSymbol)
+class SpriteMovieClip extends Sprite {
 	public var framerate(get, set):Float;
 	public var currentLabel(get, set):String;
 	public var currentFrame(get, set):Int;
@@ -14,20 +14,21 @@ class TileContainerMovieClip extends TileContainer {
 	public var symbolName(get, never):String;
 	public var numLayers(get, never):Int;
 	public var numFrames(get, never):Int;
-	public var layers(get, never):Array<TileContainer>; // ! Dangerous AF.
+	public var layers(get, never):Array<Sprite>; // ! Dangerous AF.
 
-	private var symbol:TileContainerSymbol;
+	private var symbol:SpriteSymbol;
 	private var _framerate:Null<Float> = null;
 
 	private var frameElapsed:Float = 0;
 
-	public function new(symbol:TileContainerSymbol) {
+	public function new(symbol:SpriteSymbol) {
 		super();
 		this.symbol = symbol;
-		addTile(this.symbol);
+		addChild(this.symbol);
 	}
 
 	public function update(dt:Int) {
+		//
 		var frameDuration:Float = 1000 / framerate;
 		frameElapsed += dt;
 
@@ -48,20 +49,6 @@ class TileContainerMovieClip extends TileContainer {
 	public function getFrame(label:String):Int {
 		return symbol.getFrame(label);
 	}
-	public function getFramesofAnim(label:String):Int {
-		var framesArray:Array<Int>;
-		var uncalculatedArray:Array<Int> = [];
-		var uncalculatedFrames:Int = 0;
-		
-		for (i in 0...getFrameLabels().length){
-		uncalculatedArray.push(getFrame(getFrameLabels()[i]));
-		}
-		
-	
-		uncalculatedFrames = uncalculatedArray[0]+uncalculatedArray.length;
-
-		return uncalculatedFrames;
-	}
 
 	// # region Property setter and getter
 
@@ -73,16 +60,12 @@ class TileContainerMovieClip extends TileContainer {
 	private function get_currentLabel():String {
 		return symbol.currentLabel;
 	}
+	
 
 	private function set_currentFrame(value:Int):Int {
 		symbol.currentFrame = value;
 		return value;
 	}
-
-	public function get_animFrames():Int{
-	return symbol.get_numFrames();
-	}
-	
 
 	private function get_currentFrame():Int {
 		return symbol.currentFrame;
@@ -110,16 +93,15 @@ class TileContainerMovieClip extends TileContainer {
 		return symbol.symbolName;
 	}
 
-	public function get_numLayers():Int {
+	private function get_numLayers():Int {
 		return symbol.numLayers;
 	}
 
 	private function get_numFrames():Int {
 		return symbol.numFrames;
 	}
-	
 
-	public function get_layers():Array<TileContainer> {
+	private function get_layers():Array<Sprite> {
 		return symbol._layers;
 	}
 

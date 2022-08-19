@@ -8,6 +8,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import grafex.data.WeekData;
+import grafex.util.Highscore;
+import grafex.util.Utils;
 
 using StringTools;
 

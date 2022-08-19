@@ -8,8 +8,11 @@ import grafex.system.Paths;
 import grafex.sprites.menu.MenuCharacter;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.menu.MenuItem;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
+
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -26,6 +29,7 @@ import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import flixel.graphics.FlxGraphic;
 import lime.app.Application;
+import grafex.util.Highscore;
 import grafex.data.WeekData;
 
 using StringTools;

@@ -1,7 +1,7 @@
 package grafex.states;
 
 import grafex.system.log.GrfxLogger;
-import grafex.Utils;
+import grafex.util.Utils;
 import grafex.states.substates.ResetScoreSubState;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
@@ -11,8 +11,10 @@ import grafex.system.Paths;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
 import grafex.system.statesystem.MusicBeatState;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxCamera;
 import grafex.states.editors.ChartingState;
@@ -35,6 +37,7 @@ import grafex.data.WeekData;
 import lime.app.Application;
 import sys.FileSystem;
 import flixel.util.FlxTimer;
+import grafex.util.Highscore;
 
 using StringTools;
 

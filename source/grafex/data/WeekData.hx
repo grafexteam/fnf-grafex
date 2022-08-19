@@ -5,6 +5,8 @@ import grafex.states.PlayState;
 import sys.FileSystem;
 import sys.io.File;
 import haxe.Json;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 
 using StringTools;

@@ -15,7 +15,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.group.FlxSpriteGroup;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import flixel.util.FlxSort;
 
 class CutsceneHandler extends FlxBasic

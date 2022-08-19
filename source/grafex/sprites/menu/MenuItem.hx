@@ -1,12 +1,13 @@
 package grafex.sprites.menu;
 
-import grafex.Utils;
+import grafex.util.Utils;
 import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import grafex.util.ClientPrefs;
 
 class MenuItem extends FlxSprite
 {

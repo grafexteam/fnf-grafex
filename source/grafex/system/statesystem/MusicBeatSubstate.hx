@@ -5,6 +5,9 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.FlxBasic;
 import flixel.FlxSprite;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
+import grafex.util.PlayerSettings;
 
 class MusicBeatSubstate extends FlxSubState
 {

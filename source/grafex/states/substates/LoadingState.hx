@@ -17,6 +17,7 @@ import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
 import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
+import grafex.util.ClientPrefs;
 
 import haxe.io.Path;
 

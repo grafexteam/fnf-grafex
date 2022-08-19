@@ -15,6 +15,8 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 class GameOverSubstate extends MusicBeatSubstate
 {

@@ -5,7 +5,7 @@ import grafex.sprites.Alphabet;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -33,6 +33,8 @@ import grafex.cutscenes.DialogueBoxPsych;
 import flixel.FlxCamera;
 import flixel.group.FlxSpriteGroup;
 import lime.system.Clipboard;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if sys
 import sys.io.File;
 #end

@@ -10,9 +10,10 @@ import grafex.system.notes.Note;
 import grafex.system.song.Song;
 import grafex.states.substates.GameOverSubstate;
 import grafex.states.substates.LoadingState;
-import grafex.sprites.characters.Boyfriend;
 import grafex.sprites.characters.Character;
 import grafex.sprites.Alphabet;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -21,37 +22,31 @@ import llua.Convert;
 #end
 
 import flixel.FlxG;
-import utils.animateatlas.AtlasFrameMaker;
-import flixel.addons.effects.FlxTrail;
+import external.animateatlas.AtlasFrameMaker;
 import flixel.input.keyboard.FlxKey;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.util.FlxTimer;
-import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import openfl.Lib;
 import openfl.display.BlendMode;
-import openfl.filters.BitmapFilter;
-import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import grafex.data.EngineData;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.system.FlxAssets.FlxShader;
+import grafex.util.Highscore;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
 import Type.ValueType;
-import Controls;
+import grafex.util.Controls;
 import grafex.cutscenes.DialogueBoxPsych;
 import grafex.states.PlayState;
 
@@ -61,7 +56,7 @@ import hscript.Interp;
 #end
 
 #if desktop
-import utils.Discord;
+import external.Discord;
 #end
 
 #if !flash
@@ -233,12 +228,12 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
- 		set('missSounds', ClientPrefs.playmisssounds);
-		set('missAnims', ClientPrefs.playmissanims);
-		set('PauseCountdown', ClientPrefs.countdownpause);
-		set('CamOnHits', ClientPrefs.shouldcameramove);
+ 		set('missSounds', ClientPrefs.playMissSounds);
+		set('missAnims', ClientPrefs.playMissAnims);
+		set('PauseCountdown', ClientPrefs.countDownPause);
+		set('CamOnHits', ClientPrefs.shouldCameraMove);
 		set('instRespawn', ClientPrefs.instantRespawn);
-		set('showJudgment', ClientPrefs.showjud);
+		set('showJudgment', ClientPrefs.showJudgement);
 		set('showCombo', ClientPrefs.showCombo);
 		set('blurNotes', ClientPrefs.blurNotes);
 		set('visibleHPBar', ClientPrefs.visibleHealthbar);

@@ -1,4 +1,4 @@
-package utils.animateatlas;
+package external.animateatlas;
 
 import flixel.util.FlxColor;
 import grafex.states.PlayState;
@@ -8,10 +8,10 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import haxe.Json;
 import openfl.display.BitmapData;
-import utils.animateatlas.JSONData.AtlasData;
-import utils.animateatlas.JSONData.AnimationData;
-import utils.animateatlas.displayobject.SpriteAnimationLibrary;
-import utils.animateatlas.displayobject.SpriteMovieClip;
+import external.animateatlas.JSONData.AtlasData;
+import external.animateatlas.JSONData.AnimationData;
+import external.animateatlas.displayobject.SpriteAnimationLibrary;
+import external.animateatlas.displayobject.SpriteMovieClip;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.frames.FlxFrame;

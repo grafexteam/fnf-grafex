@@ -5,9 +5,9 @@ import grafex.data.WeekData;
 import grafex.sprites.attached.AttachedSprite;
 import grafex.sprites.Alphabet;
 import grafex.system.statesystem.MusicBeatState;
-import grafex.Utils;
+import grafex.util.Utils;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flash.text.TextField;
 import flixel.FlxG;
@@ -32,6 +32,8 @@ import flash.geom.Rectangle;
 import flixel.ui.FlxButton;
 import flixel.FlxBasic;
 import sys.io.File;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 using StringTools;
 

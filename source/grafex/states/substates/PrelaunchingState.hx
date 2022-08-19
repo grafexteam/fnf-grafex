@@ -12,8 +12,8 @@ import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import grafex.Utils;
-import Controls;
+import grafex.util.Utils;
+import grafex.util.Controls;
 
 // TODO: rewrite this, maybe? - Xale
 

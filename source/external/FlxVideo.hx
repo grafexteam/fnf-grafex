@@ -1,4 +1,4 @@
-package utils;
+package external;
 
 #if web
 import openfl.net.NetConnection;
@@ -7,7 +7,7 @@ import openfl.events.NetStatusEvent;
 import openfl.media.Video;
 #else
 import openfl.events.Event;
-import utils.vlc.VlcBitmap;
+import external.vlc.VlcBitmap;
 #end
 import flixel.FlxBasic;
 import flixel.FlxG;

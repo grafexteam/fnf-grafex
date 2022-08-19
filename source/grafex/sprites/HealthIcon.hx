@@ -3,6 +3,7 @@ package grafex.sprites;
 import grafex.system.Paths;
 import flixel.FlxSprite;
 import openfl.utils.Assets as OpenFlAssets;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

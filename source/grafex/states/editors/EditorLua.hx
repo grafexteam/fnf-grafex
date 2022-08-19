@@ -19,16 +19,18 @@ import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
 import flixel.FlxBasic;
+import grafex.util.Utils;
+import grafex.util.ClientPrefs;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
 import Type.ValueType;
-import Controls;
+import grafex.util.Controls;
 import grafex.cutscenes.DialogueBoxPsych;
 
 #if desktop
-import utils.Discord;
+import external.Discord;
 #end
 
 using StringTools;

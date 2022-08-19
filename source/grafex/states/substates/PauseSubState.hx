@@ -6,7 +6,7 @@ import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
 import grafex.system.Conductor;
 import grafex.system.statesystem.MusicBeatSubstate;
-import Controls.Control;
+import grafex.util.Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -23,6 +23,9 @@ import flixel.FlxCamera;
 import flixel.util.FlxStringUtil;
 import grafex.states.PlayState;
 import grafex.sprites.Alphabet;
+import grafex.util.Utils;
+import grafex.util.ClientPrefs;
+import grafex.util.Highscore;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -285,7 +288,7 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-						if (ClientPrefs.countdownpause) 
+						if (ClientPrefs.countDownPause) 
 						{
 							startedCountdown = true;
 							startCountdown();

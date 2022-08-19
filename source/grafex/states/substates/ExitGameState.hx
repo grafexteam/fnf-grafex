@@ -1,11 +1,11 @@
 package grafex.states.substates;
 
-import grafex.Utils;
+import grafex.util.Utils;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.Alphabet;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -14,6 +14,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import flash.system.System;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

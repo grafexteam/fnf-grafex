@@ -14,7 +14,7 @@ import flixel.tweens.FlxTween;
 import openfl.Lib;
 import grafex.states.options.substates.Options;
 import grafex.states.options.substates.ControlsSubState;
-import Controls.Control;
+import grafex.util.Controls.Control;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -26,6 +26,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.util.FlxSave;
+import grafex.util.ClientPrefs;
 
 class OptionCata extends FlxSprite
 {

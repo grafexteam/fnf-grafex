@@ -3,8 +3,9 @@ package grafex.states.editors;
 import grafex.system.FlxUIDropDownMenuCustom;
 import grafex.sprites.characters.Boyfriend;
 import grafex.system.statesystem.MusicBeatState;
+import grafex.util.Utils;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxObject;

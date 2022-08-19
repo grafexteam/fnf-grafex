@@ -1,4 +1,4 @@
-package grafex;
+package grafex.util;
 
 import flixel.math.FlxMath;
 import grafex.system.Paths;

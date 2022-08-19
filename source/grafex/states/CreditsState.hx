@@ -4,9 +4,9 @@ import grafex.sprites.attached.AttachedSprite;
 import grafex.sprites.Alphabet;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
-import grafex.Utils;
+import grafex.util.Utils;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flash.text.TextField;
 import flixel.FlxG;

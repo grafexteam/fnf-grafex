@@ -1,7 +1,7 @@
 package grafex.system.log;
 
 import haxe.io.Path;
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 import lime.app.Application;
 import sys.io.FileOutput;
 import sys.FileSystem;
