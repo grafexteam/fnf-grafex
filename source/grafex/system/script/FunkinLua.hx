@@ -1,4 +1,4 @@
-package grafex.system;
+package grafex.system.script;
 
 import grafex.states.substates.PauseSubState;
 import grafex.data.WeekData;
@@ -940,7 +940,7 @@ if(luaFile.endsWith(".lua"))cervix=luaFile;
 		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String, ?gridX:Int, ?gridY:Int) {
 			var killMe:Array<String> = variable.split('.');
 			var spr:FlxSprite = getObjectDirectly(killMe[0]);
-var gX = gridX==null?0:gridX;
+			var gX = gridX==null?0:gridX;
 			var gY = gridY==null?0:gridY;
 			var animated = gX!=0 || gY!=0;
 
@@ -1733,9 +1733,9 @@ Lua_helper.add_callback(lua, "getScore", function() {
 		Lua_helper.add_callback(lua, "makeGraphic", function(obj:String, width:Int, height:Int, color:String) {
 			var colorNum:Int = Std.parseInt(color);
 			if(!color.startsWith('0x')) colorNum = Std.parseInt('0xff' + color);
-var spr:FlxSprite = PlayState.instance.getLuaObject(obj,false);
+			var spr:FlxSprite = PlayState.instance.getModObject(obj,false);
 			if(spr!=null) {
-				PlayState.instance.getLuaObject(obj,false).makeGraphic(width, height, colorNum);
+				PlayState.instance.getModObject(obj,false).makeGraphic(width, height, colorNum);
 				return;
 			}
 
@@ -1745,8 +1745,8 @@ var spr:FlxSprite = PlayState.instance.getLuaObject(obj,false);
 			}
 		});
 		Lua_helper.add_callback(lua, "addAnimationByPrefix", function(obj:String, name:String, prefix:String, framerate:Int = 24, loop:Bool = true) {
-			if(PlayState.instance.getLuaObject(obj,false)!=null) {
-				var cock:FlxSprite = PlayState.instance.getLuaObject(obj,false);
+			if(PlayState.instance.getModObject(obj,false)!=null) {
+				var cock:FlxSprite = PlayState.instance.getModObject(obj,false);
 				cock.animation.addByPrefix(name, prefix, framerate, loop);
 				if(cock.animation.curAnim == null) {
 					cock.animation.play(name, true);
@@ -1763,9 +1763,9 @@ var spr:FlxSprite = PlayState.instance.getLuaObject(obj,false);
 			}
 		});
 
-Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, frames:Array<Int>, framerate:Int = 24, loop:Bool = true) {
-			if(PlayState.instance.getLuaObject(obj,false)!=null) {
-				var cock:FlxSprite = PlayState.instance.getLuaObject(obj,false);
+		Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, frames:Array<Int>, framerate:Int = 24, loop:Bool = true) {
+			if(PlayState.instance.getModObject(obj,false)!=null) {
+				var cock:FlxSprite = PlayState.instance.getModObject(obj,false);
 				cock.animation.add(name, frames, framerate, loop);
 				if(cock.animation.curAnim == null) {
 					cock.animation.play(name, true);
@@ -1791,8 +1791,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 		});
 
 		Lua_helper.add_callback(lua, "objectPlayAnimation", function(obj:String, name:String, forced:Bool = false, ?startFrame:Int = 0) {
-			if(PlayState.instance.getLuaObject(obj,false)!=null) {
-				PlayState.instance.getLuaObject(obj,false).animation.play(name, forced, startFrame);
+			if(PlayState.instance.getModObject(obj,false)!=null) {
+				PlayState.instance.getModObject(obj,false).animation.play(name, forced, startFrame);
 				return true;
 			}
 
@@ -1805,8 +1805,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 		});
 		
 		Lua_helper.add_callback(lua, "setScrollFactor", function(obj:String, scrollX:Float, scrollY:Float) {
-		if(PlayState.instance.getLuaObject(obj,false)!=null) {
-				PlayState.instance.getLuaObject(obj,false).scrollFactor.set(scrollX, scrollY);
+		if(PlayState.instance.getModObject(obj,false)!=null) {
+				PlayState.instance.getModObject(obj,false).scrollFactor.set(scrollX, scrollY);
 				//return true;
 			}
 
@@ -1845,8 +1845,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			}
 		});
 		Lua_helper.add_callback(lua, "setGraphicSize", function(obj:String, x:Int, y:Int = 0, updateHitbox:Bool = true) {
-			if(PlayState.instance.getLuaObject(obj)!=null) {
-				var shit:FlxSprite = PlayState.instance.getLuaObject(obj);
+			if(PlayState.instance.getModObject(obj)!=null) {
+				var shit:FlxSprite = PlayState.instance.getModObject(obj);
 				shit.setGraphicSize(x, y);
 				if(updateHitbox) shit.updateHitbox();
 				return;
@@ -1866,8 +1866,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			luaTrace('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "scaleObject", function(obj:String, x:Float, y:Float, updateHitbox:Bool = true) {
-				if(PlayState.instance.getLuaObject(obj)!=null) {
-				var shit:FlxSprite = PlayState.instance.getLuaObject(obj);
+				if(PlayState.instance.getModObject(obj)!=null) {
+				var shit:FlxSprite = PlayState.instance.getModObject(obj);
 				shit.scale.set(x, y);
 				if(updateHitbox) shit.updateHitbox();
 				return;
@@ -1886,8 +1886,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			luaTrace('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "updateHitbox", function(obj:String) {
-			if(PlayState.instance.getLuaObject(obj)!=null) {
-				var shit:FlxSprite = PlayState.instance.getLuaObject(obj);
+			if(PlayState.instance.getModObject(obj)!=null) {
+				var shit:FlxSprite = PlayState.instance.getModObject(obj);
 				shit.updateHitbox();
 				return;
 			}
@@ -1909,8 +1909,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 
 
 		Lua_helper.add_callback(lua, "isNoteChild", function(parentID:Int, childID:Int){
-			var parent:Note = cast PlayState.instance.getLuaObject('note${parentID}',false);
-			var child:Note = cast PlayState.instance.getLuaObject('note${childID}',false);
+			var parent:Note = cast PlayState.instance.getModObject('note${parentID}',false);
+			var child:Note = cast PlayState.instance.getModObject('note${childID}',false);
 			if(parent!=null && child!=null)
 				return parent.tail.contains(child);
 
@@ -1972,7 +1972,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
-            var real = PlayState.instance.getLuaObject(obj);
+            var real = PlayState.instance.getModObject(obj);
 			if(real!=null){
 				real.cameras = [cameraFromString(camera)];
 				return true;
@@ -1991,7 +1991,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
-			var real = PlayState.instance.getLuaObject(obj);
+			var real = PlayState.instance.getModObject(obj);
 			if(real!=null) {
 				real.blend = blendModeFromString(blend);
 				return true;
@@ -2010,7 +2010,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			return false;
 		});
 		Lua_helper.add_callback(lua, "screenCenter", function(obj:String, pos:String = 'xy') {
-	                var spr:FlxSprite = PlayState.instance.getLuaObject(obj);
+	                var spr:FlxSprite = PlayState.instance.getModObject(obj);
 
 			if(spr==null){
 				var killMe:Array<String> = obj.split('.');
@@ -2041,7 +2041,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			var namesArray:Array<String> = [obj1, obj2];
 			var objectsArray:Array<FlxSprite> = [];
 			for (i in 0...namesArray.length)
-			{	var real = PlayState.instance.getLuaObject(namesArray[i]);
+			{	var real = PlayState.instance.getModObject(namesArray[i]);
 				if(real!=null) {
 					objectsArray.push(real);
 				} else {
@@ -3012,8 +3012,8 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 			die.push(Std.parseInt(strIndices[i]));
 		}
 
-		if(PlayState.instance.getLuaObject(obj, false)!=null) {
-			var pussy:FlxSprite = PlayState.instance.getLuaObject(obj, false);
+		if(PlayState.instance.getModObject(obj, false)!=null) {
+			var pussy:FlxSprite = PlayState.instance.getModObject(obj, false);
 			pussy.animation.addByIndices(name, prefix, die, '', framerate, loop);
 			if(pussy.animation.curAnim == null) {
 				pussy.animation.play(name, true);
@@ -3048,7 +3048,7 @@ Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, f
 
 	public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true):Dynamic
 	{
-	var coverMeInPiss:Dynamic = PlayState.instance.getLuaObject(objectName, checkForTextsToo);
+	var coverMeInPiss:Dynamic = PlayState.instance.getModObject(objectName, checkForTextsToo);
 		if(coverMeInPiss==null)
 			coverMeInPiss = getVarInArray(getInstance(), objectName);
 		return coverMeInPiss;

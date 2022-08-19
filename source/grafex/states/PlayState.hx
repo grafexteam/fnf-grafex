@@ -20,7 +20,7 @@ import grafex.system.song.Song;
 import grafex.system.notes.Note.EventNote;
 import grafex.system.notes.*;
 import grafex.system.CustomFadeTransition;
-import grafex.system.FunkinLua;
+import grafex.system.script.FunkinLua;
 import grafex.system.Conductor.Rating;
 import grafex.system.Conductor;
 import grafex.system.Paths;
@@ -346,6 +346,7 @@ class PlayState extends MusicBeatState
 
 	public var defaultCamZoom:Float = 1.05;
 	public var currentCamBeat:Float = 4;
+	public var camFollowLerp:Float = 0.04;
 
     var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -380,6 +381,8 @@ class PlayState extends MusicBeatState
 
 	// Lua shit
 	public static var instance:PlayState;
+	public var devStage:String = null;
+
 	public var luaArray:Array<FunkinLua> = [];
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
 	public var introSoundsSuffix:String = '';
@@ -714,7 +717,6 @@ class PlayState extends MusicBeatState
 				phillyWindow.updateHitbox();
 				add(phillyWindow);
 				phillyWindow.alpha = 0;
-
 
 				if(!ClientPrefs.lowQuality) {
 					var streetBehind:BGSprite = new BGSprite('philly/behindTrain', -40, 50);
@@ -1853,12 +1855,13 @@ class PlayState extends MusicBeatState
 
 	//Sussy baka
 
-    public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+    public function getModObject(tag:String, text:Bool=true):FlxSprite {
 		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
 		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
 		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);
 		return null;
 	}
+
 	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
@@ -3148,7 +3151,6 @@ class PlayState extends MusicBeatState
 	{
         super.update(elapsed);
 
-
 		setOnLuas('curDecStep', curDecStep);
 		setOnLuas('curDecBeat', curDecBeat);
 
@@ -3160,6 +3162,8 @@ class PlayState extends MusicBeatState
 		wiggleShit.update(elapsed);
 
 		maxHealthProb = health * 100;
+		
+		FlxG.camera.followLerp = camFollowLerp;
 
         for (hudcam in [camSus, camNOTES, camNOTEHUD, camUnderHUDBeforeGame]) {
         if (hudcam != null) {
