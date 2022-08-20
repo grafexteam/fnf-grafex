@@ -651,7 +651,7 @@ class PlayState extends MusicBeatState
 		FlxG.camera.followLerp = 0.04;
 
 		// TODO: delete this lol
-		throw new haxe.Exception('Just testing');
+		//throw new haxe.Exception('Just testing');
 
 		switch (curStage)
 		{
@@ -3366,7 +3366,8 @@ class PlayState extends MusicBeatState
 		        iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		        iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 				
-             case 'Modern':		
+             case 'Modern':	
+
 				var mult:Float = FlxMath.lerp(1, iconP1.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
 				iconP1.scale.set(mult, mult);
 				iconP1.updateHitbox();
@@ -3377,54 +3378,7 @@ class PlayState extends MusicBeatState
 		
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-
-
-		    	for (s in members)
-				{
-					if (Std.isOfType(s, HealthIcon))
-					{
-						var icon = cast(s, HealthIcon);
-						icon.cameras = [camHUDElem];
-						remove(icon);
-						iconGroup.add(icon);
-					}
-				}
-
-				iconGroup.forEach(function(icon:HealthIcon)
-				{
-					if (!icon.visible || !icon.auto)
-						return;
-					var decBeat = curDecBeat;
-					if (decBeat < 0)
-						decBeat = 1 + (decBeat % 1);
-					
-					var iconlerp = FlxMath.lerp(1.15, 1, FlxEase.cubeOut(decBeat % 1));
-					icon.scale.set(iconlerp, iconlerp);
-					icon.scale.set(iconlerp, iconlerp);
-					icon.offset.x = -75;
-					icon.offset.x = -75;
-				
-					if (icon.isPlayer)
-					{
-						icon.x = healthBar.x
-							+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset)
-							+ icon.offset.x
-							+ (icon.width * (icon.scale.x - 1) / 4)
-							+ (playerOffset * 85 * icon.scale.x);
-					}
-					else
-					{
-						icon.x = healthBar.x
-							+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01))
-							- (icon.width - iconOffset)
-							+ icon.offset.x
-							- (icon.width * (icon.scale.x - 1) / 2)
-							- (opponentOffset * 85 * icon.scale.x);
-					}
-				
-					icon.y = healthBar.y + (healthBar.height / 2) - (icon.height / 2);
-				});		
-                
+      
             case 'Classic':        
 		        iconP1.updateHitbox();
 		        iconP2.updateHitbox();
@@ -3437,30 +3391,36 @@ class PlayState extends MusicBeatState
 			health = 2;
 
 		if(isHealthCheckingEnabled)
-		{
-			iconP1.animation.frames == 3 ? {
-		        if (healthBar.percent < 20) {
-		        	iconP1.animation.curAnim.curFrame = 1;
-                    shakeFromLosing(iconP1); }
-		        else if (healthBar.percent > 80)
-		        	iconP1.animation.curAnim.curFrame = 2;
-		        else
-		        	iconP1.animation.curAnim.curFrame = 0;
-		    } : {
-		        healthBar.percent < 20 ? iconP1.animation.curAnim.curFrame = 1 : iconP1.animation.curAnim.curFrame = 0;
-		    }
-		    iconP2.animation.frames == 3 ? {
-		        if (healthBar.percent > 80) {
-                    shakeFromLosing(iconP2);
-		        	iconP2.animation.curAnim.curFrame = 1; }
-		        else if (healthBar.percent < 20)
-		        	iconP2.animation.curAnim.curFrame = 2;
-		        else 
-		        	iconP2.animation.curAnim.curFrame = 0;
-		    } : {
-		        healthBar.percent > 80 ? iconP2.animation.curAnim.curFrame = 1 : iconP2.animation.curAnim.curFrame = 0;
-		    }
-		}
+			{
+				if (iconP1.animation.frames == 3) {
+					if (healthBar.percent < 20) {
+						iconP1.animation.curAnim.curFrame = 1;
+						shakeFromLosing(iconP1); }
+					else if (healthBar.percent > 80)
+						iconP1.animation.curAnim.curFrame = 2;
+					else
+						iconP1.animation.curAnim.curFrame = 0;
+				} else {
+					if (healthBar.percent < 20)
+						iconP1.animation.curAnim.curFrame = 1;
+					else
+						iconP1.animation.curAnim.curFrame = 0;
+				}
+				if (iconP2.animation.frames == 3) {
+					if (healthBar.percent > 80) {
+						shakeFromLosing(iconP2);
+						iconP2.animation.curAnim.curFrame = 1; }
+					else if (healthBar.percent < 20)
+						iconP2.animation.curAnim.curFrame = 2;
+					else 
+						iconP2.animation.curAnim.curFrame = 0;
+				} else {
+					if (healthBar.percent > 80)
+						iconP2.animation.curAnim.curFrame = 1;
+					else 
+						iconP2.animation.curAnim.curFrame = 0;
+				}	
+			}
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;

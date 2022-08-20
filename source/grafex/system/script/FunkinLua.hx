@@ -1,5 +1,6 @@
 package grafex.system.script;
 
+import grafex.states.playstate.PlayState;
 import grafex.states.substates.PauseSubState;
 import grafex.data.WeekData;
 import grafex.states.StoryMenuState;
@@ -15,6 +16,7 @@ import grafex.sprites.Alphabet;
 import grafex.system.log.GrfxLogger.log;
 import grafex.util.ClientPrefs;
 import grafex.util.Utils;
+
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -48,7 +50,6 @@ import sys.io.File;
 #end
 import Type.ValueType;
 import grafex.cutscenes.DialogueBoxPsych;
-import grafex.states.PlayState;
 
 #if hscript
 import hscript.Parser;
@@ -96,7 +97,7 @@ class FunkinLua {
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
-				log('Warning', 'Error on lua script! ' + resultStr);
+				log('LuaWarning', 'Error on lua script! ' + resultStr);
 				#if windows
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
@@ -106,11 +107,11 @@ class FunkinLua {
 				return;
 			}
 		}catch(e:Dynamic){
-			log('Error', e);
+			log('LuaError', e);
 			return;
 		}
 		scriptName = script;
-		log('info', 'Lua file loaded succesfully: ' + script);
+		log('Luainfo', 'Lua file loaded succesfully: ' + script);
 
 		#if (haxe >= "4.0.0")
 		accessedProps = new Map();
@@ -717,7 +718,6 @@ class FunkinLua {
 							Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
 							pop++;
 						}
-						// TODO: table
 
 
 						// then the value
@@ -877,6 +877,91 @@ class FunkinLua {
 		}
 		luaTrace("Script doesn't exist!", false, false, FlxColor.RED);
 	});
+
+		Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String){ // returns a copy of the specified file's globals
+			var cervix = luaFile + ".lua";
+			if(luaFile.endsWith(".lua"))cervix=luaFile;
+			var doPush = false;
+			#if MODS_ALLOWED
+			if(FileSystem.exists(Paths.modFolders(cervix)))
+			{
+				cervix = Paths.modFolders(cervix);
+				doPush = true;
+			}
+			else if(FileSystem.exists(cervix))
+			{
+				doPush = true;
+			}
+			else {
+				cervix = Paths.getPreloadPath(cervix);
+				if(FileSystem.exists(cervix)) {
+					doPush = true;
+				}
+			}
+			#else
+			cervix = Paths.getPreloadPath(cervix);
+			if(Assets.exists(cervix)) {
+				doPush = true;
+			}
+			#end
+			if(doPush)
+			{
+				for (luaInstance in PlayState.instance.luaArray)
+				{
+					if(luaInstance.scriptName == cervix)
+					{
+						Lua.newtable(lua);
+						var tableIdx = Lua.gettop(lua);
+
+						Lua.pushvalue(luaInstance.lua, Lua.LUA_GLOBALSINDEX);
+						Lua.pushnil(luaInstance.lua);
+						while(Lua.next(luaInstance.lua, -2) != 0) {
+							// key = -2
+							// value = -1
+
+							var pop:Int = 0;
+
+							// Manual conversion
+							// first we convert the key
+							if(Lua.isnumber(luaInstance.lua,-2)){
+								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -2));
+								pop++;
+							}else if(Lua.isstring(luaInstance.lua,-2)){
+								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
+								pop++;
+							}else if(Lua.isboolean(luaInstance.lua,-2)){
+								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
+								pop++;
+							}
+
+
+							// then the value
+							if(Lua.isnumber(luaInstance.lua,-1)){
+								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
+								pop++;
+							}else if(Lua.isstring(luaInstance.lua,-1)){
+								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
+								pop++;
+							}else if(Lua.isboolean(luaInstance.lua,-1)){
+								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
+								pop++;
+							}
+
+							if(pop==2)Lua.rawset(lua, tableIdx); // then set it
+			        Lua.pop(luaInstance.lua, 1); // for the loop
+				}
+			    Lua.pop(luaInstance.lua,1); // end the loop entirely
+				Lua.pushvalue(lua, tableIdx); // push the table onto the stack so it gets returned
+						//luaTrace('The script "' + cervix + '" is already running!');
+
+				PlayState.instance.luaArray.remove(luaInstance);
+						return;
+					}
+				}
+			}
+			return;
+		});
+		luaTrace("Script doesn't exist!", false, false, FlxColor.RED);
 
 	Lua_helper.add_callback(lua, "runHaxeCode", function(codeToRun:String) {
 		#if hscript
@@ -2542,6 +2627,7 @@ class FunkinLua {
 		return Assets.exists(Paths.getPath('assets/$filename', TEXT));
 		#end
 	});
+
 	Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
 	{
 		try {
@@ -3096,10 +3182,11 @@ public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool 
 	#end
 }
 
+
 function getErrorMessage() {
 	#if LUA_ALLOWED
 	var v:String = Lua.tostring(lua, -1);
-	if(!isErrorAllowed(v)) v = null;
+	Lua.pop(lua, 1);
 	return v;
 	#end
 }
@@ -3118,7 +3205,7 @@ function getResult(l:State, result:Int):Any {
 		case Lua.LUA_TSTRING:
 			ret = Lua.tostring(l, -1);
 	}
-	
+
 	return ret;
 }
 
@@ -3129,36 +3216,37 @@ public function call(func:String, args:Array<Dynamic>): Dynamic{
 
 	lastCalledFunction = func;
 	try {
-		if(lua == null) return Function_Continue;
-
+		if(lua==null)return Function_Continue;
 		Lua.getglobal(lua, func);
+
 		var type:Int = Lua.type(lua, -1);
 		if (type != Lua.LUA_TFUNCTION) {
 			return Function_Continue;
 		}
-		
-		for(arg in args) {
-			Convert.toLua(lua, arg);
-		}
 
-		var result:Null<Int> = Lua.pcall(lua, args.length, 1, 0);
-		var error:Dynamic = getErrorMessage();
-		if(!resultIsAllowed(lua, result))
+		if(Lua.isfunction(lua, -1)==true)
 		{
+			for(arg in args)
+				 Convert.toLua(lua, arg);
+			var result: Dynamic = Lua.pcall(lua, args.length, 1, 0);
+			if(result!=0){
+				var err = getErrorMessage();
+				if(errorHandler!=null){
+					errorHandler(err);
+				}else{
+					log('Luaerror', err);
+				}
+			}else{
+				var conv:Dynamic = cast getResult(lua, result);
+				Lua.pop(lua, 1);
+				return conv;
+			}
+		} else {
 			Lua.pop(lua, 1);
-			if(error != null) luaTrace("ERROR (" + func + "): " + error, false, false, FlxColor.RED);
+			return null;
 		}
-		else
-		{
-			var conv:Dynamic = cast getResult(lua, result);
-			Lua.pop(lua, 1);
-			if(conv == null) conv = Function_Continue;
-			return conv;
-		}
-		return Function_Continue;
-	}
-	catch (e:Dynamic) {
-		trace(e);
+	} catch(e:Dynamic) {
+		log('Luaerror', e);
 	}
 	#end
 	return Function_Continue;
