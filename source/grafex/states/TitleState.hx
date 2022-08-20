@@ -99,7 +99,7 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 	
-	var titleJSON:TitleData;
+	public static var titleJSON:TitleData;
 	
 	public static var updateVersion:String = '';
 
@@ -137,6 +137,24 @@ class TitleState extends MusicBeatState
 		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
 		titleJSON = Json.parse(Assets.getText(path)); 
 		#end
+
+		if(titleJSON == null)
+		{	
+	    	titleJSON = {	
+	            titlex: -150,
+	            titley: -100,
+	            startx: 100,
+	            starty: 576,
+	            gfx: 512,
+	            gfy :40,
+	            backgroundSprite: "",
+	            bpm: 102,
+                logoBlTray: true,
+                backdropImage: "titleBg",
+                backdropImageVelocityX: 70,
+                backdropImageVelocityY: 70
+            };
+		}
 
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;

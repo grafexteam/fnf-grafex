@@ -1865,6 +1865,12 @@ class PlayState extends MusicBeatState
 		return null;
 	}
 
+	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
+		return null;
+	}
+
 	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
@@ -4384,8 +4390,8 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-                                        FlxG.sound.music.time = 9400;
-				        Conductor.changeBPM(102);
+                    FlxG.sound.music.time = 9400;
+					Conductor.changeBPM(TitleState.titleJSON.bpm);
 
 					cancelMusicFadeTween();
 					CustomFadeTransition.nextCamera = camOther;
@@ -4462,7 +4468,7 @@ class PlayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
                 FlxG.sound.music.time = 9400;
-				Conductor.changeBPM(102);
+				Conductor.changeBPM(TitleState.titleJSON.bpm);
 				WeekData.loadTheFirstEnabledMod();
 			}
 			transitioning = true;
