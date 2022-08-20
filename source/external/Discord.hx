@@ -20,7 +20,6 @@ class DiscordClient
         public static var isInitialized:Bool = false;
 	    public function new()
 	    {
-			//TODO: add log
 	    	DiscordRpc.start({
 	    		clientID: "885223855327698985",
 	    		onReady: onReady,
@@ -92,8 +91,6 @@ class DiscordClient
 	    		startTimestamp : Std.int(startTimestamp / 1000),
                 endTimestamp : Std.int(endTimestamp / 1000)
 	    	});
-    
-	    	//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, ,$smallImageText ,$hasStartTimestamp, $endTimestamp');
 	    }
     
 	    #if LUA_ALLOWED

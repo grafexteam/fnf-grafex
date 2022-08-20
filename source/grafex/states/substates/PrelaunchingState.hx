@@ -15,12 +15,16 @@ import flixel.util.FlxTimer;
 import grafex.util.Utils;
 
 // TODO: rewrite this, maybe? - Xale
+// TODO: Also merge this state with FlashingState
 
 using StringTools;
 
 class PrelaunchingState extends MusicBeatState
 {
     public static var link:String = 'https://raw.githubusercontent.com/JustXale/fnf-grafex/raw/versionCheck.txt'; // i hate github now
+
+    var connectionFailed:Bool = false;
+
     var txt:FlxText = new FlxText(0, 0, FlxG.width,
         "Hello there,
         \nYou are playing
@@ -28,16 +32,23 @@ class PrelaunchingState extends MusicBeatState
         \nconsider updating, please
         \n\nhttps://github.com/JustXale/fnf-grafex
         \n\nPress ENTER to open the page \nor ESCAPE to ignore this",
-        32);
+    32);
 
     override function create()
     {
         #if VERSION_CHECK
-        try {
-            File.saveContent('./localVersion.txt', Http.requestUrl(link)); // will save version from github locally
-        }
+        connectionFailed = false;
         
-        var version:String = requestVersion();
+        var version:String = null;
+   
+        try {     
+            File.saveContent('./localVersion.txt', Http.requestUrl(link)); // will save version from github locally
+        } catch(e) {
+            connectionFailed = true;
+            GrfxLogger.log('error', e.message == 'EOF' ? 'Connection timed out' : e.message);
+            GrfxLogger.log('error', "Couldn't update version");        
+        }
+        version = requestVersion();
         
         if(version != null)
             if (version == EngineData.grafexEngineVersion)
@@ -79,24 +90,30 @@ class PrelaunchingState extends MusicBeatState
    
    function requestVersion():String
        {
-           // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
-           GrfxLogger.log('info', 'Current engine version is ' + EngineData.grafexEngineVersion);
-           try {
+            // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
+            GrfxLogger.log('info', 'Current engine version is ' + EngineData.grafexEngineVersion);
+
+            !connectionFailed ? try {
                GrfxLogger.log('info', 'Current GitHub version is ' + Http.requestUrl(link));
                return Http.requestUrl(link);
-           } catch(e) {
+            } catch(e) {
+                connectionFailed = true;
+                GrfxLogger.log('warning', e.message == 'EOF' ? 'Connection timed out' : e.message);    
+            } : {
                 GrfxLogger.log('warning', "Couldn't connect to GitHub; Checking by local file");
+
                 if(FileSystem.exists('./localVersion.txt')) { // Trying to check for the local txt version - Xale
+                   GrfxLogger.log('info', "Local version is " + File.getContent('localVersion.txt').trim().split('\n')[0]);
                    return File.getContent('localVersion.txt').trim().split('\n')[0];      
                 }
                 else
                 {
                     GrfxLogger.log('warning', "Couldn't check version by local file");
                     return null; // YOU DELETED THAT FILE HOW DARE YOU - Xale                
-                }
-                   
-           }
-           GrfxLogger.log('warning', "Couldn't check version by both methods");
-           return null; // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
+                }  
+            }
+            GrfxLogger.log('warning', "Couldn't check version by both methods");
+            return null; 
+            // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
        }
 }

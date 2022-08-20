@@ -1,12 +1,17 @@
 package grafex.system.loader;
 
+import grafex.util.ClientPrefs;
+import grafex.system.assets.manager.GrfxArgumentManager;
 import grafex.system.assets.typedefs.GrfxObjectProperties;
 import grafex.system.loader.typedefs.GrfxStage;
 import grafex.system.script.FunkinLua;
 import grafex.system.script.FunkinLua.ModchartSprite;
+
+import grafex.states.playstate.PlayState;
 import grafex.states.substates.GameOverSubstate;
+
 import grafex.system.log.GrfxLogger.log;
-import grafex.states.PlayState;
+
 import flixel.FlxSprite;
 import sys.io.File;
 import sys.FileSystem;
@@ -19,10 +24,13 @@ class GrfxModAssetsLoader
 	public static function generateStage(key:String)
 	{
 		var stageJson:GrfxStage = parseModJson(key, 'stages/mod');
+		log('info', stageJson);
 	}
 
 	static function setSpriteOptions(obj:String, props:GrfxObjectProperties)
-	{		
+	{	
+		//props == null ? props = GrfxArgumentManager.generateObjectTypedef() : {};
+
 		if(PlayState.instance.getModObject(obj) != null && props != null) {
 			var sprite:FlxSprite = PlayState.instance.getModObject(obj);
 			props.x != null ? sprite.x = props.x : {
@@ -40,7 +48,7 @@ class GrfxModAssetsLoader
 				sprite.scale.set(1, 1);
 			}
 
-			(props.scrollfactor[0] != null && props.scrollfactor[1] != null) ? sprite.scrollFactor.set(props.scrollfactor[0], props.scrollfactor[1]) : {
+			props.scrollfactor != null ? sprite.scrollFactor.set(props.scrollfactor[0], props.scrollfactor[1]) : {
 				log('Warning', 'The object has been given an invalid ScrollFactor property');
 				sprite.scrollFactor.set(1, 1);
 			}

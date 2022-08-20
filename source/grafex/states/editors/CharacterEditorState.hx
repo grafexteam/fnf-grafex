@@ -1,5 +1,6 @@
 package grafex.states.editors;
 
+import grafex.states.playstate.PlayState;
 import grafex.sprites.background.BGSprite;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;

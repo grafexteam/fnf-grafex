@@ -1,7 +1,7 @@
 package grafex.cutscenes;
 
 import grafex.system.Paths;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxBasic;

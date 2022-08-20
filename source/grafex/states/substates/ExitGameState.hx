@@ -23,7 +23,6 @@ class ExitGameState extends MusicBeatState
 	var options:Array<String> = ['Yes', 'No'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
-	public static var menuBG:FlxSprite;
     public static var menuText:Alphabet;
 
 	function openSelectedSubstate(label:String) {
@@ -47,7 +46,7 @@ class ExitGameState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("Leaving Game Menu", null);
+		DiscordClient.changePresence("Leaving Game...", null);
 		#end
 
         var bg:FlxBackdrop;

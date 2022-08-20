@@ -1,7 +1,7 @@
 package flixel.shaders;
 
 import openfl.Lib;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.Effect;
 

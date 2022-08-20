@@ -1,6 +1,7 @@
 package;
 
-import grafex.system.assets.manager.GrfxAssetManager;
+
+import sys.io.Process;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -16,9 +17,10 @@ import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import grafex.states.substates.PrelaunchingState;
-#if debug
-#end
 import external.FPSMem;
+#if debug
+import grafex.states.TitleState;
+#end
 
 using StringTools;
 
@@ -102,32 +104,29 @@ class Main extends Sprite
 	}
 
 	function onCrash(e:UncaughtErrorEvent):Void
+	{
+		GrfxLogger.log('error', e.error);
+		GrfxLogger.crash(e.error);
+		var errMsg:String = "";
+		var path:String;
+		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+		var dateNow:String = Date.now().toString();				
+
+		dateNow = dateNow.replace(" ", "_");
+		dateNow = dateNow.replace(":", "'");
+
+		path = "./logs/crash/" + "Grafex_" + dateNow + ".log";
+		for (stackItem in callStack)
 		{
-			GrfxLogger.log('error', e.error);
-			GrfxLogger.crash(e.error);
-			var errMsg:String = "";
-			var path:String;
-			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var dateNow:String = Date.now().toString();				
-	
-			dateNow = dateNow.replace(" ", "_");
-			dateNow = dateNow.replace(":", "'");
-	
-			path = "./logs/crash/" + "Grafex_" + dateNow + ".log";
-
-			for (stackItem in callStack)
+			switch (stackItem)
 			{
-				switch (stackItem)
-				{
-					case FilePos(s, file, line, column):
-						errMsg += file + " (line " + line + ")\n";
-					default:
-						Sys.println(stackItem);
-				}
+				case FilePos(s, file, line, column):
+					errMsg += file + " (line " + line + ")\n";
+				default:
+					Sys.println(stackItem);
 			}
-
-			
 		}
+	}
 
 
 	private function init(?E:Event):Void
@@ -166,7 +165,6 @@ class Main extends Sprite
 
 		#if !mobile
         addChild(new FPSMem(10, 3, 0xFFFFFF));
-		GrfxAssetManager.createObject();
 		#end
 
 		#if html5

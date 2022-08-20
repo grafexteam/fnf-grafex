@@ -70,27 +70,29 @@ class FPSMem extends TextField
 	private #if !flash override #end function __enterFrame(d:Float):Void
 	{
 		currentTime = Timer.stamp();
-		var dt = currentTime-lastUpdate;
 		lastUpdate = currentTime;
 		times.push(currentTime);
+		
 		while(times[0]<currentTime-1)
 			times.shift();
 
 		var currentCount = times.length;
 		currentFPS = currentCount;
-    currentMem = Math.round(System.totalMemory / (1e+6));
+    	currentMem = Math.round(System.totalMemory / (1e+6));
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-                text = "";
-                   if(showFPS) {
+            text = "";
+
+            if(showFPS) {
 			   text += "FPS: " + currentFPS + "\n"; }
-                   if(showMem){
-				if(currentMem<0){
-        	                        text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n";
-				}else{
+            if(showMem) {
+				/*if(currentMem < 0){
+        	        text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n";
+				} else {
 					text += "Memory: " + currentMem + " MB\n";
-				}
+				}*/
+				currentMem < 0 ? text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n" : text += "Memory: " + currentMem + " MB\n";
 			}
 		text += "Grafex Engine v. " + EngineData.grafexEngineVersion + "\n" ;
 		}

@@ -21,7 +21,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 import flixel.util.FlxStringUtil;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.sprites.Alphabet;
 import grafex.util.Utils;
 import grafex.util.ClientPrefs;

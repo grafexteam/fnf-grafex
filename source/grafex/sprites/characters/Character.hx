@@ -1,6 +1,6 @@
 package grafex.sprites.characters;
 
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.sprites.background.TankmenBG;
 import grafex.system.song.Song;
 import grafex.system.Conductor;

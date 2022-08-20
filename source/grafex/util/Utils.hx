@@ -3,7 +3,7 @@ package grafex.util;
 import flixel.math.FlxMath;
 import grafex.system.Paths;
 import grafex.system.song.Song;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
 import lime.utils.Assets;

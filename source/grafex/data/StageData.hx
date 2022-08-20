@@ -1,7 +1,7 @@
 package grafex.data;
 
 import grafex.system.Paths;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 
 import sys.io.File;
 import sys.FileSystem;

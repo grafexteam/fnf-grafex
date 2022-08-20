@@ -69,6 +69,8 @@ class MainMenuState extends MusicBeatState
         
     override function create()
 	{
+		Paths.clearStoredMemory();
+		
 		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 		
 		#if desktop

@@ -8,26 +8,12 @@ import llua.State;
 import llua.Convert;
 #end
 
+import grafex.states.playstate.PlayState;
 import flixel.FlxG;
-import flixel.tweens.FlxTween;
-import flixel.text.FlxText;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxPoint;
-import flixel.system.FlxSound;
-import flixel.util.FlxTimer;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.util.FlxColor;
-import flixel.FlxBasic;
-import grafex.util.Utils;
 import grafex.util.ClientPrefs;
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
 import Type.ValueType;
-import grafex.util.Controls;
-import grafex.cutscenes.DialogueBoxPsych;
 
 #if desktop
 import external.Discord;

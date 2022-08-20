@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.states.playstate.PlayState;
 import grafex.system.log.GrfxLogger;
 import grafex.util.Utils;
 import grafex.states.substates.ResetScoreSubState;

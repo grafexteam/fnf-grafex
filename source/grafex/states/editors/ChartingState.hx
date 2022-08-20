@@ -1,9 +1,9 @@
 package grafex.states.editors;
 
+import grafex.states.playstate.PlayState;
 
 import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
-
 import grafex.sprites.characters.Character;
 import grafex.sprites.characters.Character.CharacterFile;
 import grafex.states.substates.LoadingState;

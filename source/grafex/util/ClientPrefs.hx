@@ -210,7 +210,13 @@ class ClientPrefs {
 		FlxG.save.data.showCombo != null ? showCombo = FlxG.save.data.showCombo : showCombo = true;
 		FlxG.save.data.blurNotes != null ? blurNotes = FlxG.save.data.blurNotes : blurNotes = false;
 		FlxG.save.data.shouldCameraMove != null ? shouldCameraMove = FlxG.save.data.shouldCameraMove : shouldCameraMove = true;
-		FlxG.save.data.autoPause != null ? (autoPause = FlxG.save.data.autoPause) && (FlxG.autoPause = autoPause) : (autoPause = false) && (FlxG.autoPause = autoPause);
+		FlxG.save.data.autoPause != null ? {
+			autoPause = FlxG.save.data.autoPause;
+			FlxG.autoPause = autoPause;
+		} : {
+			autoPause = false;
+			FlxG.autoPause = autoPause;
+		};
 		FlxG.save.data.hitSound != null ? hitSound = FlxG.save.data.hitSound : hitSound = false;
 		FlxG.save.data.greenScreenMode != null ? greenScreenMode = FlxG.save.data.greenScreenMode : greenScreenMode = false;
 		FlxG.save.data.playMissSounds != null ? playMissSounds = FlxG.save.data.playMissSounds : playMissSounds = true;

@@ -1,5 +1,6 @@
 package grafex.states.editors;
 
+import grafex.states.playstate.PlayState;
 import grafex.states.substates.LoadingState;
 import grafex.system.notes.Note;
 import grafex.system.notes.NoteSplash;

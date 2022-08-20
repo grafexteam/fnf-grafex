@@ -88,7 +88,7 @@ class CreditsState extends MusicBeatState
 			[''],
             ['With thanks to'],
 			['LenyaTheCat','lenya','Grafex Icons Artist','https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'ffffff'],
-			['NotGeorg','','Grafex Arrows Skin Artist','https://twitter.com/VolkovGeorg', '919191'],
+			['NotGeorg', null,'Grafex Arrows Skin Artist','https://twitter.com/VolkovGeorg', '919191'],
 			['MrOlegTitov', null, 'Emotional + Tech Support', '', 'E1843A'],
             [''],
 			['Psych Engine Team'],
@@ -140,7 +140,7 @@ class CreditsState extends MusicBeatState
 					Paths.currentModDirectory = creditsStuff[i][5];
 				}
 
-				if(creditsStuff[i][1] != null)
+				if(creditsStuff[i][1] != null && creditsStuff[i][1] != '')
 					{
 						var icon:AttachedSprite = new AttachedSprite('credits/' + creditsStuff[i][1]);
 						icon.xAdd = optionText.width + 10;

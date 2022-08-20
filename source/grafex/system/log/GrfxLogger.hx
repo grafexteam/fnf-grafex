@@ -1,8 +1,10 @@
 package grafex.system.log;
 
+import haxe.Http;
+import grafex.states.substates.FatalErrorState;
+import flixel.FlxG;
 import haxe.io.Path;
 import external.Discord.DiscordClient;
-import lime.app.Application;
 import sys.io.FileOutput;
 import sys.FileSystem;
 import sys.io.File;
@@ -35,11 +37,11 @@ class GrfxLogger
         Sys.println('[$date][INFO]: Logger initialized');
     }
 
-    public static function log(type:String, message:String)
+    public static function log(type:String, message:Dynamic)
     {
         var output:FileOutput = File.append(path, false);
         var date = Date.now().toString();
-        var typeString = type.toUpperCase();   
+        var typeString = (type != null && type != '') ? type.toUpperCase() : 'INFO';   
       
         output.writeString('\n[$date][$typeString]: $message', UTF8);
         output.close();
@@ -60,7 +62,7 @@ class GrfxLogger
     public static function crash(e:String)
     {
         var date = Date.now().toString();
-        var errorMsg:String = '\n[$date]Fatal Error occured: $e\n\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
+        var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
 
         close();
 
@@ -68,13 +70,19 @@ class GrfxLogger
             FileSystem.createDirectory("./logs/crash/");
        
         File.saveContent('./logs/crash/Crash_Grafex.log', '\n$logo' + errorMsg);
-        FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+        
 
 		Sys.println(e);
 		Sys.println("Crash dump saved in " + Path.normalize('./logs/crash'));
 
-		Application.current.window.alert(errorMsg, "Error!");
+        //openSubState();
+
+        FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+
+		//Application.current.window.alert(errorMsg, "Fatal Error Occured");
+        FlxG.switchState(new FatalErrorState(errorMsg));
 		DiscordClient.shutdown();
-		Sys.exit(1);
+        trace('Worked!');
+		//Sys.exit(1);
     }
 }

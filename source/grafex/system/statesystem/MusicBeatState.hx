@@ -1,21 +1,13 @@
 package grafex.system.statesystem;
 
 import external.FlxVideo;
-import grafex.system.Conductor.BPMChangeEvent;
 import lime.app.Application;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
-import flixel.math.FlxRect;
-import flixel.util.FlxTimer;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.FlxCamera;
-import flixel.util.FlxColor;
-import flixel.util.FlxGradient;
 import flixel.FlxState;
-import flixel.FlxBasic;
 import grafex.util.Controls;
 import grafex.util.ClientPrefs;
 import grafex.util.PlayerSettings;
@@ -67,36 +59,6 @@ class MusicBeatState extends FlxUIState
 		super.onFocusLost();
 	}
 	#end
-
-	/*override public function onFocus():Void
-	{
-		if(!ClientPrefs.autoPause)
-			{
-				// Normal global volume when focused
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
-
-				// Bring framerate back when focused
-				FlxG.drawFramerate = ClientPrefs.framerate;
-				FlxG.updateFramerate = ClientPrefs.framerate;
-			}
-		super.onFocus();
-	}
-
-	override public function onFocusLost()
-		{
-			//trace("Game unfocused");
-	
-			if(!ClientPrefs.autoPause)
-			{
-				/*if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
-				FlxG.drawFramerate = 20;
-			}
-			super.onFocusLost();
-		}*/
 
 	override function update(elapsed:Float)
 	{

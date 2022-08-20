@@ -3,7 +3,7 @@ package grafex.states.substates;
 import grafex.system.log.GrfxLogger;
 import grafex.data.StageData;
 import grafex.system.Paths;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 
 import grafex.system.statesystem.MusicBeatState;
 import lime.app.Promise;

@@ -1,5 +1,6 @@
 package grafex.states.options.substates;
 
+import grafex.states.playstate.PlayState;
 import grafex.effects.ColorblindFilters;
 import grafex.system.song.Song;
 import grafex.states.substates.LoadingState;
@@ -1025,7 +1026,7 @@ class AutoPause extends Option
 	public override function left():Bool
 	{
 		ClientPrefs.autoPause = !ClientPrefs.autoPause;
-                FlxG.autoPause = ClientPrefs.autoPause;
+        FlxG.autoPause = ClientPrefs.autoPause;
 		display = updateDisplay();
 		return true;
 	}

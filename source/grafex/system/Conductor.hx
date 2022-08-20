@@ -1,7 +1,7 @@
 package grafex.system;
 
 import grafex.system.log.GrfxLogger;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.system.notes.Note;
 import grafex.system.song.Song.SwagSong;
 import grafex.util.ClientPrefs;

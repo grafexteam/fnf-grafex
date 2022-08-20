@@ -7,7 +7,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import grafex.states.editors.ChartingState;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.effects.shaders.ColorSwap;
 import grafex.util.ClientPrefs;
 

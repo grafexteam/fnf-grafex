@@ -1,12 +1,12 @@
 package grafex.system.assets.typedefs;
 
 typedef GrfxObjectProperties = {
-    var x:Null<Float>;
-    var y:Null<Float>;
-    var scrollfactor:Array<Float>;
-    var scale:Null<Float>;
-    var image:Null<String>;
-    var animation:GrfxAnimatedSprite;
+    @:optional var x:Null<Float>;
+    @:optional var y:Null<Float>;
+    @:optional var scrollfactor:Array<Float>;
+    @:optional var scale:Null<Float>;
+    @:optional var image:Null<String>;
+    @:optional var animation:GrfxAnimatedSprite;
 
     @:optional var width:Null<Float>;
     @:optional var height:Null<Float>;

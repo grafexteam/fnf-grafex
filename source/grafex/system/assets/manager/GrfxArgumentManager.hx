@@ -6,9 +6,9 @@ import grafex.system.assets.typedefs.GrfxObjectProperties;
 
 class GrfxArgumentManager
 {
-	public static function generateObjectTypedef(?x:Float, ?y:Float, ?width:Float, ?height:Float, ?image:String, ?animation:GrfxAnimatedSprite):GrfxObjectProperties
+	public static function generateObjectTypedef(?x:Float = 0, ?y:Float = 0, ?width:Float = 0, ?height:Float =  0, ?image:String = null, ?animation:GrfxAnimatedSprite = null):GrfxObjectProperties
     {
-        var properties:GrfxObjectProperties;
+        var properties:GrfxObjectProperties = null;
         properties.x = x; 
         properties.y = y; 
         properties.width = width; 
