@@ -1,5 +1,8 @@
 package grafex.states.options;
 
+import grafex.system.log.GrfxLogger.log;
+import grafex.system.log.GrfxLogger;
+
 import grafex.states.options.substates.NoteOffsetState;
 import grafex.states.substates.PauseSubState;
 import grafex.states.options.substates.NotesSubState;
@@ -348,6 +351,7 @@ class OptionsMenu extends FlxSubState
 		}
 		catch (e)
 		{
+			GrfxLogger.log('error', "oops\n" + e);
 			selectedCatIndex = 0;
 		}
 	}

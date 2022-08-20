@@ -415,7 +415,7 @@ class FreeplayState extends MusicBeatState
 		    var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 		    var songString:String = Highscore.formatSong(songLowercase, curDifficulty);
 	    
-			GrfxLogger.log('info', 'Loading song: "' + songString + '"');
+			GrfxLogger.log('info', 'Loading Song: "' + songString + '" on ' + Utils.difficultyString());
     
 		    acceptedSong = true;
 		    FlxG.sound.music.volume = 0;
