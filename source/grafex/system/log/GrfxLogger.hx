@@ -79,8 +79,6 @@ class GrfxLogger
 
         FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
 
-		//Application.current.window.alert(errorMsg, "Fatal Error Occured");
-        FlxG.switchState(new FatalErrorState(errorMsg));
 		DiscordClient.shutdown();
         trace('Worked!');
 		//Sys.exit(1);
