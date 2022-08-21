@@ -1,7 +1,5 @@
 package;
 
-
-import sys.io.Process;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -15,7 +13,6 @@ import grafex.util.ClientPrefs;
 // for crashing shit - Xale
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
-import haxe.CallStack;
 import grafex.states.substates.PrelaunchingState;
 import external.FPSMem;
 #if debug
@@ -107,25 +104,6 @@ class Main extends Sprite
 	{
 		GrfxLogger.log('error', e.error);
 		GrfxLogger.crash(e.error);
-		var errMsg:String = "";
-		var path:String;
-		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-		var dateNow:String = Date.now().toString();				
-
-		dateNow = dateNow.replace(" ", "_");
-		dateNow = dateNow.replace(":", "'");
-
-		path = "./logs/crash/" + "Grafex_" + dateNow + ".log";
-		for (stackItem in callStack)
-		{
-			switch (stackItem)
-			{
-				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
-				default:
-					Sys.println(stackItem);
-			}
-		}
 	}
 
 
@@ -133,6 +111,7 @@ class Main extends Sprite
 	{
 		GrfxLogger.init();
 		GrfxLogger.log('INFO', 'Game launched');
+		GrfxLogger.debug('Test');
 
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
