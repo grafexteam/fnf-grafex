@@ -29,7 +29,7 @@ class GrfxLogger
 
     /**
         Initialies log system. 
-        Used only in main and is NOT recommended to use anywhere else
+        Used only in Main.hx and is NOT recommended to use anywhere else
     **/
     private static function init()
     {
@@ -45,7 +45,7 @@ class GrfxLogger
             FileSystem.createDirectory("./logs/debug/");
 
         File.saveContent(path, '$logo\n[$date][INFO]: Logger initialized');
-        File.saveContent(debugPath, '$logo\n[$date][DEBUG]: Debug Logger initialized');
+        File.saveContent(debugPath, '$logo\n[$date][DEBUG]: Debug Logger initialized\n[$date][DEBUG]: Platform type: ' + Sys.systemName());
 
         Sys.println('[$date][INFO]: Logger initialized');
     }
@@ -105,7 +105,7 @@ class GrfxLogger
     }
     /**
         Called, when game crashes. Opens CrashHandler (or Alert Window, if Crash Handler is missing) and displays an error.
-        Used only in main and is NOT recommended to use anywhere else)
+        Used only in Main.hx and is NOT recommended to use anywhere else)
     **/
     private static function crash(e:String)
     {
