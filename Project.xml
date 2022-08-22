@@ -104,8 +104,6 @@
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
 	<assets path='versionCheck.txt' rename='localVersion.txt'/>
 
-	<assets path='GrafexCrashHandler.exe'/>
-
 	<haxelib name="actuate" />
 
 	<assets path="plugins/" rename='' if="windows"/>
