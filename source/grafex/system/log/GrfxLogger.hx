@@ -94,7 +94,7 @@ class GrfxLogger
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
         var crashReportPath:String = 'logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log';
 
-        close();
+        
 
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
@@ -106,6 +106,10 @@ class GrfxLogger
         
         // FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportName);
 		var crashDialoguePath:String = "./crashHandler/GrafexCrashHandler";
+
+        FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+
+		var crashDialoguePath:String = "crashHandler/GrafexCrashHandler";
 
         #if windows
         crashDialoguePath += ".exe";
@@ -119,9 +123,11 @@ class GrfxLogger
 		else
 		{
 			// I had to do this or the stupid CI won't build :distress:
-			log("warning", "No crash dialog found! Making a simple alert instead...");
-			Application.current.window.alert(errorMsg, "Fatal Error Occured");
+			log('warning',"No crash dialog found! Making a simple alert instead...");      
+			Application.current.window.alert(errorMsg, "Fatal error detected");
 		}
+        close();
+        
 		DiscordClient.shutdown();
 		Sys.exit(1);
     }
