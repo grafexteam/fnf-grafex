@@ -1,4 +1,4 @@
-package grafex.system.loader.typedefs;
+package grafex.system.typedefs;
 
 typedef GrfxStageAnim = {
 	var name:String;

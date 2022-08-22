@@ -2,8 +2,8 @@ package grafex.system.loader;
 
 import grafex.util.ClientPrefs;
 import grafex.system.assets.manager.GrfxArgumentManager;
-import grafex.system.assets.typedefs.GrfxObjectProperties;
-import grafex.system.loader.typedefs.GrfxStage;
+import grafex.system.typedefs.GrfxObjectProperties;
+import grafex.system.typedefs.GrfxStage;
 import grafex.system.script.FunkinLua;
 import grafex.system.script.FunkinLua.ModchartSprite;
 

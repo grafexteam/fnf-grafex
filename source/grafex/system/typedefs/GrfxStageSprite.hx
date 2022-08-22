@@ -1,6 +1,6 @@
-package grafex.system.loader.typedefs;
+package grafex.system.typedefs;
 
-import grafex.system.assets.typedefs.GrfxObjectProperties;
+import grafex.system.typedefs.GrfxObjectProperties;
 
 typedef GrfxStageSprite = {
 	var name:String;
