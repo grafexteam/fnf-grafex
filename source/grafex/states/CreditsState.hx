@@ -42,6 +42,7 @@ class CreditsState extends MusicBeatState
 
 	override function create()
 	{
+		chechForRoll();
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -219,9 +220,9 @@ class CreditsState extends MusicBeatState
 				}
 	
 				if(controls.ACCEPT) {
-					if (creditsStuff[curSelected][3] == '' || creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4) {
+					if (creditsStuff[curSelected][3] == '' || creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length < 4) {
 						FlxG.sound.play(Paths.sound('cancelMenu'));
-					}else{
+					} else {
 						Utils.browserLoad(creditsStuff[curSelected][3]);
 					}
 				}
@@ -345,5 +346,13 @@ class CreditsState extends MusicBeatState
 
 	private function unselectableCheck(num:Int):Bool {
 		return creditsStuff[num].length <= 1;
+	}
+
+	function chechForRoll()
+	{
+		if(FlxG.random.int(0, 4) <= 1)
+		{
+			Utils.browserLoad('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+		}
 	}
 }
