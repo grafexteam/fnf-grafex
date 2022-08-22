@@ -1,5 +1,7 @@
 package grafex.states;
 
+import grafex.system.typedefs.GrfxCredits;
+import haxe.Json;
 import grafex.sprites.attached.AttachedSprite;
 import grafex.sprites.Alphabet;
 import grafex.system.Paths;
@@ -66,7 +68,11 @@ class CreditsState extends MusicBeatState
 					if(!Paths.ignoreModFolders.contains(modSplit[0].toLowerCase()) && !modsAdded.contains(modSplit[0]))
 					{
 						if(modSplit[1] == '1')
-							pushModCreditsToList(modSplit[0]);
+							{
+								trace('CHAT, IS IT WORKONG?');
+								//convertCredits(modSplit[0]);
+								pushModCreditsToList(modSplit[0]);
+							}		
 						else
 							modsAdded.push(modSplit[0]);
 					}
@@ -77,20 +83,21 @@ class CreditsState extends MusicBeatState
 		arrayOfFolders.push('');
 		for (folder in arrayOfFolders)
 		{
+			trace('CHAT, IS IT WORKONG?');
+			convertCredits(folder);
 			pushModCreditsToList(folder);
 		}
 		#end
 	
-
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Grafex Engine by'],
-		    ['JustXale','xale','Programmer','https://github.com/JustXale','f7a300'],
-		    ['PurSnake','snake','Programmer','https://github.com/PurSnake', 'C549DB'],
-			['MrOlegTitov', 'olegus', 'Programmer', 'https://github.com/MrOlegTitov', '9E29CF'],
-			['LenyaTheCat','lenya','Grafex Icons Artist','https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'ffffff'],
-			['NotGeorg', null,'Grafex Arrows Skin Artist','https://twitter.com/VolkovGeorg', '919191'],
+		    ['JustXale',			'xale',				'Programmer',													'https://github.com/JustXale',			'f7a300'],
+		    ['PurSnake',			'snake',			'Programmer',													'https://github.com/PurSnake', 			'C549DB'],
+			['MrOlegTitov', 		'olegus', 			'Programmer', 													'https://github.com/MrOlegTitov', 		'9E29CF'],
+			['LenyaTheCat',			'lenya',			'Artist',														'https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'ffffff'],
+			['NotGeorg', 			null,				'Custom Arrows Skin Artist',									'https://twitter.com/VolkovGeorg', 		'919191'],
             [''],
-			['With thanks to'],
+			['Additional Credits'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
 			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						'https://twitter.com/yoshubs',			'5E99DF'],
@@ -98,7 +105,7 @@ class CreditsState extends MusicBeatState
 			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
 			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	'https://twitter.com/gedehari',			'E1843A'],
 			['PolybiusProxy',		'proxy',			'.MP4 Video Loader Library (hxCodec)',							'https://twitter.com/polybiusproxy',	'DCD294'],
-			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			'https://twitter.com/kade0912',			'64A250'],
+			['KadeDev',				'kade',				'Maintainer of KE',												'https://twitter.com/kade0912',			'64A250'],
 			['Keoiki',				'keoiki',			'Note Splash Animations',										'https://twitter.com/Keoiki_',			'D2D2D2'],
 			['Nebula the Zorua',	'nebula',			'LUA JIT Fork and some Lua reworks',							'https://twitter.com/Nebula_Zorua',		'7D40B2'],
 			['Smokey',				'smokey',			'Sprite Atlas Support',											'https://twitter.com/Smokey_5_',		'483D92'],
@@ -317,21 +324,86 @@ class CreditsState extends MusicBeatState
 		if(modsAdded.contains(folder)) return;
 
 		var creditsFile:String = null;
-		if(folder != null && folder.trim().length > 0) creditsFile = Paths.mods(folder + '/data/credits.txt');
-		else creditsFile = Paths.mods('data/credits.txt');
+		if(folder != null && folder.trim().length > 0) creditsFile = Paths.mods(folder + '/data/credits/credits.json');
+		else creditsFile = Paths.mods('data/credits/credits.json');
 
 		if (FileSystem.exists(creditsFile))
 		{
-			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-			for(i in firstarray)
+			var firstArray:String = File.getContent(creditsFile);
+			var parsedStuff:GrfxCredits = cast Json.parse(firstArray);
+
+			trace(parsedStuff.credits);
+			trace(parsedStuff.credits.length);
+
+			if(parsedStuff.credits != null)
+			{
+				trace('WHEN THE TEST IS TEST OF MY TEST WHILE TESTING, IS IT WORKING CHAT??');
+				for(i in 0...parsedStuff.credits.length)
+				{
+					if(parsedStuff.credits[i].icon.length > 0)
+					{
+						creditsStuff.push([
+							parsedStuff.credits[i].name, 
+							(parsedStuff.credits[i].icon != null && parsedStuff.credits[i].icon != '') ? parsedStuff.credits[i].icon : '', 
+							(parsedStuff.credits[i].role != null && parsedStuff.credits[i].role != '') ? parsedStuff.credits[i].role : '', 
+							(parsedStuff.credits[i].socialLink != null && parsedStuff.credits[i].socialLink != '') ? parsedStuff.credits[i].socialLink : '', 
+							(parsedStuff.credits[i].bgColor != null && parsedStuff.credits[i].bgColor != '') ? parsedStuff.credits[i].bgColor : '', 
+						]);
+					}
+					else
+					{
+						creditsStuff.push([parsedStuff.credits[i].name]);
+					}
+						
+				}
+			}
+			/*for(i in firstArray)
 			{
 				var arr:Array<String> = i.replace('\\n', '\n').split("::");
 				if(arr.length >= 5) arr.push(folder);
 				creditsStuff.push(arr);
-			}
+			}*/
 			creditsStuff.push(['']);
 		}
 		modsAdded.push(folder);
+	}
+
+	function convertCredits(folder:String)
+	{
+		var finalArray:Array<GrfxCredit> = [];
+		// just copied code of the function above lol
+		if(modsAdded.contains(folder)) return;
+
+		var creditsFile:String = null;
+		if(folder != null && folder.trim().length > 0) creditsFile = Paths.mods(folder + '/data/credits');
+		else creditsFile = Paths.mods('data/credits');
+
+		if (FileSystem.exists('$creditsFile.txt'))
+		{
+			var firstarray:Array<String> = File.getContent('$creditsFile.txt').split('\n');
+			for(i in firstarray)
+			{
+				var arr:Array<String> = i.replace('\\n', '\n').split("::");
+				var json = {
+					"name": arr[0],
+					"icon": arr[1],
+					"role": arr[2],
+					"socialLink": arr[3],
+					"bgColor": arr[4],
+				};
+				finalArray.push(json);
+			}
+		}
+		var data:GrfxCredits = {
+			credits: finalArray,
+		};
+
+		var finalData = Json.stringify(data, '\t');
+
+		if(!FileSystem.exists('./$creditsFile/'))
+            FileSystem.createDirectory('./$creditsFile/');
+       
+		File.saveContent('$creditsFile/credits.json', finalData);
 	}
 	#end
 

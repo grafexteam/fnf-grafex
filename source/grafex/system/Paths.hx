@@ -1,5 +1,6 @@
 package grafex.system;
 
+import grafex.system.log.GrfxLogger;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import openfl.system.System;
 import flixel.FlxG;
@@ -557,7 +558,7 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		trace('oh no its returning null NOOOO');
+		GrfxLogger.log('Warning', 'Oh no, It is returning NULL, NOOOOOOOOOOO (P.s. Image not found LMAO)');
 		return null;
 	}
 
