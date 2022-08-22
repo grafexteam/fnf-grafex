@@ -90,7 +90,6 @@ import haxe.Json;
 import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
-import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
@@ -99,7 +98,6 @@ import grafex.util.Utils;
 import grafex.util.Highscore;
 import openfl.events.KeyboardEvent;
 
-import openfl.filters.ShaderFilter;
 import openfl.Lib;
 
 import openfl.filters.BitmapFilter;
