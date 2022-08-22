@@ -65,7 +65,7 @@ class GrfxLogger
         
         output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
         output.close();
-        Sys.println('[$date][DEBUG]:$filePosInfo: $message');
+        //Sys.println('[$date][DEBUG]:$filePosInfo: $message');
     }
 
     public static function close() 
@@ -92,36 +92,33 @@ class GrfxLogger
     {
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
+        var crashReportName:String = './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log';
 
         close();
 
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg);  
+        File.saveContent(crashReportName, '$logo' + errorMsg);  
 
-		Sys.println(e);
-		Sys.println("Crash dump saved in " + Path.normalize('./logs/crash'));
+		log("error", '$e');
+		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));
+        
+        // FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportName);
+		var crashDialoguePath:String = "./crashHandler/GrafexCrashHandler";
 
-        FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
-		var crashDialoguePath:String = "GrafexCrashHandler";
-
-		if (FileSystem.exists("./" + crashDialoguePath))
+        #if windows
+        crashDialoguePath += ".exe";
+        #end
+		if (FileSystem.exists(crashDialoguePath))
 		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
-
-			#if linux
-			crashDialoguePath = "./" + crashDialoguePath;
-			#end
-            #if windows
-            crashDialoguePath += ".exe";
-		    #end
-			new Process(crashDialoguePath, ['--error "$logo + $errorMsg"']);
+			log("info", "Found crash dialog: " + crashDialoguePath);
+			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path " + crashReportName);
 		}
 		else
 		{
 			// I had to do this or the stupid CI won't build :distress:
-			Sys.println("No crash dialog found! Making a simple alert instead...");
+			log("warning", "No crash dialog found! Making a simple alert instead...");
 			Application.current.window.alert(errorMsg, "Fatal Error Occured");
 		}
 		DiscordClient.shutdown();
