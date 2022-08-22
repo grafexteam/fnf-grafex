@@ -1,8 +1,8 @@
 package grafex.system.assets.manager;
 
 import flixel.FlxObject;
-import grafex.system.assets.enums.GrfxObjectType;
-import grafex.system.assets.typedefs.GrfxObjectProperties;
+import grafex.system.enums.GrfxObjectType;
+import grafex.system.typedefs.GrfxObjectProperties;
 
 // TODO: REWORK ALL THIS SHIT!!! (HIGH PRIORITY!!!)
 class GrfxAssetManager // this is my future hell... 

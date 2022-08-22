@@ -1,4 +1,4 @@
-package grafex.system.assets.enums;
+package grafex.system.enums;
 
 enum GrfxObjectType
 {

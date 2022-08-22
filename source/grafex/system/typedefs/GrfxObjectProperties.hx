@@ -1,4 +1,4 @@
-package grafex.system.assets.typedefs;
+package grafex.system.typedefs;
 
 typedef GrfxObjectProperties = {
     @:optional var x:Null<Float>;

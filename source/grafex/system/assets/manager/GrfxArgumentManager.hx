@@ -1,7 +1,7 @@
 package grafex.system.assets.manager;
 
-import grafex.system.assets.typedefs.GrfxAnimatedSprite;
-import grafex.system.assets.typedefs.GrfxObjectProperties;
+import grafex.system.typedefs.GrfxAnimatedSprite;
+import grafex.system.typedefs.GrfxObjectProperties;
 
 
 class GrfxArgumentManager

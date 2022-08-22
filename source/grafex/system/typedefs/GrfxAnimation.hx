@@ -1,4 +1,4 @@
-package grafex.system.assets.typedefs;
+package grafex.system.typedefs;
 
 typedef GrfxAnimation = {
     var name:Null<String>;
