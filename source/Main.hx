@@ -22,9 +22,8 @@ import grafex.states.TitleState;
 using StringTools;
 
 /* 
-      TODO:
-	++- Rework OPTIONSMENU
-	+-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
+	TODO: ++- Rework OPTIONSMENU
+	TODO: +-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
 	- PurSnake work
 */
 
