@@ -107,7 +107,7 @@ class GrfxLogger
         // FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportName);
 		var crashDialoguePath:String = "./crashHandler/GrafexCrashHandler";
 
-        FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+       // FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
 
 		var crashDialoguePath:String = "crashHandler/GrafexCrashHandler";
 
