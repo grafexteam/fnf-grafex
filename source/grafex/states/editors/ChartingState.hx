@@ -720,7 +720,7 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 		blockPressWhileTypingOnStepper.push(stepperBeats);
 		check_altAnim.name = 'check_altAnim';
 
-		check_changeBPM = new FlxUICheckBox(10, stepperBeats.y + 3, null, null, 'Change BPM', 100);
+		check_changeBPM = new FlxUICheckBox(10, stepperBeats.y + 30, null, null, 'Change BPM', 100);
 		check_changeBPM.checked = _song.notes[curSec].changeBPM;
 		check_changeBPM.name = 'check_changeBPM';
 
