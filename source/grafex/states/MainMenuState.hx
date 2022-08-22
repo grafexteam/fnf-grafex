@@ -1,6 +1,5 @@
 package grafex.states;
 
-import haxe.Exception;
 import grafex.system.log.GrfxLogger;
 import grafex.states.options.OptionsDirect;
 import grafex.system.Paths;
@@ -70,8 +69,6 @@ class MainMenuState extends MusicBeatState
         
     override function create()
 	{
-		throw new Exception("Xale is not SUS");
-
 		Paths.clearStoredMemory();
 		
 		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
