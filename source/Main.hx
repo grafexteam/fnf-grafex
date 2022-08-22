@@ -109,15 +109,14 @@ class Main extends Sprite
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
 		GrfxLogger.log('error', e.error);
-		GrfxLogger.crash(e.error);
+		@:privateAccess GrfxLogger.crash(e.error);
 	}
 
 
 	private function init(?E:Event):Void
 	{
-		GrfxLogger.init();
+		@:privateAccess GrfxLogger.init();
 		GrfxLogger.log('INFO', 'Game launched');
-		GrfxLogger.debug('Test');
 
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{

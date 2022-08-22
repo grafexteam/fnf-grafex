@@ -518,7 +518,6 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);	
 		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
-		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath))
 		#if MODS_ALLOWED
 			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
@@ -558,7 +557,7 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		GrfxLogger.log('Warning', 'Oh no, It is returning NULL, NOOOOOOOOOOO (P.s. Image not found LMAO)');
+		GrfxLogger.log('Warning', 'Image not found');
 		return null;
 	}
 

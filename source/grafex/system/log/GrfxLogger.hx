@@ -3,7 +3,6 @@ package grafex.system.log;
 import lime.app.Application;
 import sys.io.Process;
 import haxe.PosInfos;
-import flixel.FlxG;
 import haxe.io.Path;
 import external.Discord.DiscordClient;
 import sys.io.FileOutput;
@@ -28,8 +27,16 @@ class GrfxLogger
                                            |___/                                                          
     "; // Cool logo by Olega - Xale :p
 
-    public static function init()
+    /**
+        Initialies log system. 
+        Used only in main and is NOT recommended to use anywhere else
+    **/
+    private static function init()
     {
+        haxe.Log.trace = function(v:Dynamic, ?infos:PosInfos) {
+            log('trace', v, infos);
+        }
+
         var date = Date.now().toString();
 
         if (!FileSystem.exists("./logs/"))
@@ -43,6 +50,9 @@ class GrfxLogger
         Sys.println('[$date][INFO]: Logger initialized');
     }
 
+    /**
+        Outputs `message` with logType `type` in default logs, also copies info to debug logs with the PosInfos
+    **/
     public static function log(type:String, message:Dynamic, ?filePos:PosInfos)
     {
         var output:FileOutput = File.append(path, false);
@@ -56,6 +66,9 @@ class GrfxLogger
         debug(message, filePos);
     }
 
+    /**
+        Outputs `message` with logType `[DEBUG]` in debug logs with the PosInfos
+    **/
     public static function debug(message:Dynamic, ?filePos:PosInfos)
     {
         var output:FileOutput = File.append(debugPath, false);
@@ -68,6 +81,9 @@ class GrfxLogger
         #if debug Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
     }
 
+    /**
+        Closes GrfxLogger process
+    **/
     public static function close() 
     {
         var output:FileOutput = File.append(path, false);
@@ -87,8 +103,11 @@ class GrfxLogger
         File.saveContent('./logs/debug/DebugGrafex.log', File.getContent(debugPath));
         FileSystem.rename('./logs/debug/DebugGrafex.log', './logs/debug/DebugGrafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log');
     }
-
-    public static function crash(e:String)
+    /**
+        Called, when game crashes. Opens CrashHandler (or Alert Window, if Crash Handler is missing) and displays an error.
+        Used only in main and is NOT recommended to use anywhere else)
+    **/
+    private static function crash(e:String)
     {
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
