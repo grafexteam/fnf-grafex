@@ -103,6 +103,7 @@ class GrfxLogger
         File.saveContent('./logs/debug/DebugGrafex.log', File.getContent(debugPath));
         FileSystem.rename('./logs/debug/DebugGrafex.log', './logs/debug/DebugGrafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log');
     }
+    
     /**
         Called, when game crashes. Opens CrashHandler (or Alert Window, if Crash Handler is missing) and displays an error.
         Used only in Main.hx and is NOT recommended to use anywhere else)
