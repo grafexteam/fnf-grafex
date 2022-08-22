@@ -90,7 +90,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		difficultyChoices.push('BACK');
 
-           if (!playingPause)
+        if (!playingPause)
 		{
 			playingPause = true;
 			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
@@ -264,15 +264,6 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
 					PlayState.chartingMode = false;
-                    skipTimeTracker = null;
-
-					if(skipTimeText != null)
-					{
-						skipTimeText.kill();
-						remove(skipTimeText);
-						skipTimeText.destroy();
-					}
-					skipTimeText = null;
 					return;
 				}
 
@@ -306,6 +297,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.openChangersMenu();
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
+					deleteSkipTimeText();
 					regenMenu();
 				case 'Toggle Practice Mode':
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
@@ -344,9 +336,9 @@ class PauseSubState extends MusicBeatSubstate
 					GrfxLogger.log('info', 'Exited Song');
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
-					if(PlayState.isStoryMode) {
+					PlayState.isStoryMode ? {
 						MusicBeatState.switchState(new StoryMenuState());
-					} else {
+					} : {
 						MusicBeatState.switchState(new FreeplayState());
 					}
 					PlayState.cancelMusicFadeTween();
@@ -359,19 +351,28 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 
+	function deleteSkipTimeText()
+	{
+		if(skipTimeText != null)
+		{
+			skipTimeText.kill();
+			remove(skipTimeText);
+			skipTimeText.destroy();
+		}
+		skipTimeText = null;
+		skipTimeTracker = null;
+	}
+	
 	public static function restartSong(noTrans:Bool = false)
 	{
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
 
-		if(noTrans)
-		{
+		noTrans ? {
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.resetState();
-		}
-		else
-		{
+		} : {
 			MusicBeatState.resetState();
 		}
 	}

@@ -192,7 +192,7 @@ class ClientPrefs {
 
 	public static function loadPrefs() {
 		FlxG.save.data.susTransper != null ? susTransper = FlxG.save.data.susTransper : susTransper = 1;
-		FlxG.save.data.micedUpSus != null ? micedUpSus = FlxG.save.data.micedUpSus : micedUpSus = true;
+		FlxG.save.data.micedUpSus != null ? micedUpSus = FlxG.save.data.micedUpSus : micedUpSus = false;
 		FlxG.save.data.vintageOnGame != null ? vintageOnGame = FlxG.save.data.vintageOnGame : vintageOnGame = true;
 		FlxG.save.data.ColorBlindType != null ? ColorBlindType = FlxG.save.data.ColorBlindType : ColorBlindType = 'None';
 		FlxG.save.data.ColorBlindTypeNum != null ? ColorBlindTypeNum = FlxG.save.data.ColorBlindTypeNum : ColorBlindTypeNum = 0;
@@ -203,12 +203,12 @@ class ClientPrefs {
 		FlxG.save.data.chartAutoSave != null ? chartAutoSave = FlxG.save.data.chartAutoSave : chartAutoSave = true;
 		FlxG.save.data.skipTitleState != null ? skipTitleState = FlxG.save.data.skipTitleState : skipTitleState = false;
 		FlxG.save.data.playMissAnims != null ? playMissAnims = FlxG.save.data.playMissAnims : playMissAnims = true;
-		FlxG.save.data.countDownPause != null ? countDownPause = FlxG.save.data.countDownPause : countDownPause = true;
+		FlxG.save.data.countDownPause != null ? countDownPause = FlxG.save.data.countDownPause : countDownPause = false;
 		FlxG.save.data.noteSkin != null ? noteSkin = FlxG.save.data.noteSkin : noteSkin = 'Default';
 		FlxG.save.data.noteSkinNum != null ? noteSkinNum = FlxG.save.data.noteSkinNum : noteSkinNum = 0;
 		FlxG.save.data.visibleHealthbar != null ? visibleHealthbar = FlxG.save.data.visibleHealthbar : visibleHealthbar = true;
-		FlxG.save.data.showJudgement != null ? showJudgement = FlxG.save.data.showJudgement : showJudgement = true;
-		FlxG.save.data.showCombo != null ? showCombo = FlxG.save.data.showCombo : showCombo = true;
+		FlxG.save.data.showJudgement != null ? showJudgement = FlxG.save.data.showJudgement : showJudgement = false;
+		FlxG.save.data.showCombo != null ? showCombo = FlxG.save.data.showCombo : showCombo = false;
 		FlxG.save.data.blurNotes != null ? blurNotes = FlxG.save.data.blurNotes : blurNotes = false;
 		FlxG.save.data.shouldCameraMove != null ? shouldCameraMove = FlxG.save.data.shouldCameraMove : shouldCameraMove = true;
 		FlxG.save.data.autoPause != null ? {
@@ -237,7 +237,6 @@ class ClientPrefs {
 		FlxG.save.data.noteSplashes != null ? noteSplashes = FlxG.save.data.noteSplashes : noteSplashes = true;
 		FlxG.save.data.lowQuality != null ? lowQuality = FlxG.save.data.lowQuality : lowQuality = false;
 		FlxG.save.data.shaders != null ? shaders = FlxG.save.data.shaders : shaders = true;
-		
 		FlxG.save.data.camZooms != null ? camZooms = FlxG.save.data.camZooms : camZooms = true;
 		FlxG.save.data.hideHud != null ? hideHud = FlxG.save.data.hideHud : hideHud = false;
 		FlxG.save.data.noteOffset != null ? noteOffset = FlxG.save.data.noteOffset : noteOffset = 0;
@@ -256,12 +255,11 @@ class ClientPrefs {
 		FlxG.save.data.timeBarTypeNum != null ? timeBarTypeNum = FlxG.save.data.timeBarTypeNum : timeBarTypeNum = 0;
 		FlxG.save.data.scoreZoom != null ? scoreZoom = FlxG.save.data.scoreZoom : scoreZoom = true;
 		FlxG.save.data.noReset != null ? noReset = FlxG.save.data.noReset : noReset = false;
-		FlxG.save.data.underDelayAlpha != null ? underDelayAlpha = FlxG.save.data.underDelayAlpha : underDelayAlpha = 0.2;
+		FlxG.save.data.underDelayAlpha != null ? underDelayAlpha = FlxG.save.data.underDelayAlpha : underDelayAlpha = 0;
 		FlxG.save.data.underDelayEnabled != null ? underDelayEnabled = FlxG.save.data.underDelayEnabled : underDelayEnabled = true;
 		FlxG.save.data.healthBarAlpha != null ? healthBarAlpha = FlxG.save.data.healthBarAlpha : healthBarAlpha = 1;
 		FlxG.save.data.hsvol != null ? hsvol = FlxG.save.data.hsvol : hsvol = 0;
 		FlxG.save.data.comboOffset != null ? comboOffset = FlxG.save.data.comboOffset : comboOffset = [0, 0, 0, 0];
-		
 		FlxG.save.data.ratingOffset != null ? ratingOffset = FlxG.save.data.ratingOffset : ratingOffset = 0;
 		FlxG.save.data.sickWindow != null ? sickWindow = FlxG.save.data.sickWindow : sickWindow = 45;
 		FlxG.save.data.goodWindow != null ? goodWindow = FlxG.save.data.goodWindow : goodWindow = 90;
@@ -271,7 +269,6 @@ class ClientPrefs {
 		FlxG.save.data.songNameDisplay != null ? songNameDisplay = FlxG.save.data.songNameDisplay : songNameDisplay = true;
 		FlxG.save.data.volume != null ? FlxG.sound.volume = FlxG.save.data.volume : FlxG.sound.volume = 1;
 		FlxG.save.data.mute != null ? FlxG.sound.muted = FlxG.save.data.mute : FlxG.sound.muted = false;
-
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
 			if(framerate > FlxG.drawFramerate) {
