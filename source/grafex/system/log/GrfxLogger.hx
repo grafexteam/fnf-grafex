@@ -65,7 +65,7 @@ class GrfxLogger
         
         output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
         output.close();
-        #if debyg Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
+        #if debug Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
     }
 
     public static function close() 
@@ -97,14 +97,14 @@ class GrfxLogger
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg + '\n--------------' + File.getContent(path));  
+        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg + '\n\n----------------------------\n--- DEBUG LOG ---\n----------------------------\n' + File.getContent(debugPath));  
 
 		log("error", '$e');
 		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));
         
         FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportPath);
 
-		var crashDialoguePath:String = "crashHandler/GrafexCrashHandler";
+		var crashDialoguePath:String = "GrafexCrashHandler";
 
         #if windows
         crashDialoguePath += ".exe";
