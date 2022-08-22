@@ -110,7 +110,7 @@
 
 	<assets path="plugins/" rename='' if="windows"/>
 	<assets path="dlls/" rename='' if="windows"/>
-	<assets path="crashHandler"/>
+	<assets path="crashHandler" rename=''/>
 
 	<assets path="assets/videos" exclude="*.mp3" if="web"/>
 	<assets path="assets/videos" exclude="*.ogg" unless="web"/>
