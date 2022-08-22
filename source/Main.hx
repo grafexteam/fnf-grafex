@@ -23,7 +23,6 @@ using StringTools;
 
 /* 
       TODO:
-	+++-Resync vocals in freeplay
 	++- Rework OPTIONSMENU
 	+-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
 	- PurSnake work
