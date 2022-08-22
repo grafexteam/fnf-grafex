@@ -82,10 +82,10 @@ class GrfxLogger
         debugOutput.close();
 
         File.saveContent('./logs/Grafex.log', File.getContent(path));
-        FileSystem.rename('./logs/Grafex.log', './logs/Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+        FileSystem.rename('./logs/Grafex.log', './logs/Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log');
 
         File.saveContent('./logs/debug/DebugGrafex.log', File.getContent(debugPath));
-        FileSystem.rename('./logs/debug/DebugGrafex.log', './logs/debug/DebugGrafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+        FileSystem.rename('./logs/debug/DebugGrafex.log', './logs/debug/DebugGrafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log');
     }
 
     public static function crash(e:String)
@@ -94,20 +94,15 @@ class GrfxLogger
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
         var crashReportPath:String = 'logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log';
 
-        
-
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent(crashReportPath, '$logo' + errorMsg);  
+        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg);  
 
 		log("error", '$e');
 		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));
         
-        // FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportName);
-		var crashDialoguePath:String = "./crashHandler/GrafexCrashHandler";
-
-       // FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
+        FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportPath);
 
 		var crashDialoguePath:String = "crashHandler/GrafexCrashHandler";
 
@@ -117,7 +112,6 @@ class GrfxLogger
 		if (FileSystem.exists(crashDialoguePath))
 		{
 			log("info", "Found crash dialog: " + crashDialoguePath);
-            // trace("cd crashHandler && GrafexCrashHandler.exe --report_path " + crashReportPath);
 			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
 		}
 		else
