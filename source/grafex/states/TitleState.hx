@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.data.EngineData;
 import grafex.system.log.GrfxLogger;
 import grafex.states.substates.ExitGameState;
 import grafex.system.statesystem.MusicBeatState;
@@ -593,8 +594,11 @@ class TitleState extends MusicBeatState
 				case 2:
 					createCoolText(['Grafex Engine by'], 45);
 				case 4:
-					addMoreText('JustXale', 45); // yeah yeah, i know
-					addMoreText('PurSnake', 45);					
+					for(i in 0...EngineData.devsNicks.length)
+					{
+						addMoreText(EngineData.devsNicks[i], 45);
+					} // HAHA, PROTOGEN OPTIMIZED HAHAHAHA
+											
 				case 6:
                     deleteCoolText();
 					createCoolText(['Forked', 'from'], 15);
