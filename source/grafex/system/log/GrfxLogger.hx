@@ -93,7 +93,7 @@ class GrfxLogger
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
 
-        close();
+        
 
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
@@ -105,26 +105,31 @@ class GrfxLogger
 
         FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
 
-		var crashDialoguePath:String = "GrafexCrashHandler";
+		var crashDialoguePath:String = "crashHandler/GrafexCrashHandler";
+
+        #if windows
+        crashDialoguePath += ".exe";
+		#end
 
 		if (FileSystem.exists("./" + crashDialoguePath))
 		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
+			log('Info', "Found crash dialog: " + crashDialoguePath);
 
 			#if linux
 			crashDialoguePath = "./" + crashDialoguePath;
 			#end
-            #if windows
-            crashDialoguePath += ".exe";
-		    #end
-			new Process(crashDialoguePath, ['--error "$logo + $errorMsg"']);
+            
+			//new Process(crashDialoguePath, ['--error "$logo + $errorMsg"']);
+            trace(Sys.getCwd());
+            Sys.command(Sys.getCwd() + 'crashHandler/GrafexCrashHandler.exe --error "' + logo + errorMsg + '"');
 		}
 		else
 		{
 			// I had to do this or the stupid CI won't build :distress:
-			Sys.println("No crash dialog found! Making a simple alert instead...");
-			Application.current.window.alert(errorMsg, "Fatal Error Occured");
+			log('warning',"No crash dialog found! Making a simple alert instead...");      
+			Application.current.window.alert(errorMsg, "Fatal error detected");
 		}
+        close();
     
 		DiscordClient.shutdown();
 		Sys.exit(1);
