@@ -463,8 +463,8 @@ class FreeplayState extends MusicBeatState
 
 	function bopOnBeat()
 	{
-		FlxG.camera.zoom += 0.015;
-		camZoom = FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+		FlxG.camera.zoom += 0.0175;
+		camZoom = FlxTween.tween(FlxG.camera, {zoom: 1}, 0.15);
 	}
 	
 	public static function destroyFreeplayVocals() {

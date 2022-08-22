@@ -21,6 +21,14 @@ import grafex.states.TitleState;
 
 using StringTools;
 
+/* 
+      TODO:
+	+++-Resync vocals in freeplay
+	++- Rework OPTIONSMENU
+	+-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
+	- PurSnake work
+*/
+
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
