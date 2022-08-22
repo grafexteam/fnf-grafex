@@ -92,14 +92,14 @@ class GrfxLogger
     {
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
-        var crashReportName:String = './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log';
+        var crashReportPath:String = 'logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log';
 
         close();
 
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent(crashReportName, '$logo' + errorMsg);  
+        File.saveContent(crashReportPath, '$logo' + errorMsg);  
 
 		log("error", '$e');
 		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));
@@ -113,7 +113,8 @@ class GrfxLogger
 		if (FileSystem.exists(crashDialoguePath))
 		{
 			log("info", "Found crash dialog: " + crashDialoguePath);
-			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path " + crashReportName);
+            // trace("cd crashHandler && GrafexCrashHandler.exe --report_path " + crashReportPath);
+			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
 		}
 		else
 		{
