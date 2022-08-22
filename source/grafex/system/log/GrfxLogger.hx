@@ -52,7 +52,7 @@ class GrfxLogger
         output.writeString('\n[$date][$typeString]: $message', UTF8);
         output.close();
 
-        Sys.println('[$date][$typeString]: $message');
+        #if !debug Sys.println('[$date][$typeString]: $message'); #end
         debug(message, filePos);
     }
 
@@ -65,7 +65,7 @@ class GrfxLogger
         
         output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
         output.close();
-        //Sys.println('[$date][DEBUG]:$filePosInfo: $message');
+        #if debyg Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
     }
 
     public static function close() 
@@ -97,7 +97,7 @@ class GrfxLogger
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg);  
+        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg + '\n--------------' + File.getContent(path));  
 
 		log("error", '$e');
 		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));

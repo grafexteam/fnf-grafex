@@ -104,13 +104,12 @@
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
 	<assets path='versionCheck.txt' rename='localVersion.txt'/>
 
-	<assets path='crashHandler'/>
+	<assets path='GrafexCrashHandler.exe'/>
 
 	<haxelib name="actuate" />
 
 	<assets path="plugins/" rename='' if="windows"/>
 	<assets path="dlls/" rename='' if="windows"/>
-	<assets path="crashHandler" rename=''/>
 
 	<assets path="assets/videos" exclude="*.mp3" if="web"/>
 	<assets path="assets/videos" exclude="*.ogg" unless="web"/>
