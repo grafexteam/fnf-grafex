@@ -151,6 +151,7 @@ class OptionsMenu extends FlxSubState
 				new NoReset("Toggle pressing R to gameover."),
 				new InstantRespawn("Toggle if you instantly respawn after dying."),
 				new CamZoomOption("Toggle the camera zoom in-game."),
+                                new ControllerMode("Enables you to play with controller."),
                 new DFJKOption(),
                 new NotesOption(),
                 new Customizeption(),

@@ -65,7 +65,7 @@ class GrfxLogger
         
         output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
         output.close();
-        Sys.println('[$date][DEBUG]:$filePosInfo: $message');
+        //Sys.println('[$date][DEBUG]:$filePosInfo: $message');
     }
 
     public static function close() 
@@ -92,16 +92,20 @@ class GrfxLogger
     {
         var date = Date.now().toString();
         var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
+        var crashReportPath:String = 'logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log';
 
         
 
         if(!FileSystem.exists('./logs/crash/'))
             FileSystem.createDirectory("./logs/crash/");
        
-        File.saveContent('./logs/crash/Crash_Grafex.log', '$logo' + errorMsg);  
+        File.saveContent(crashReportPath, '$logo' + errorMsg);  
 
-		Sys.println(e);
-		Sys.println("Crash dump saved in " + Path.normalize('./logs/crash'));
+		log("error", '$e');
+		log("info", "Crash dump saved in " + Path.normalize('./logs/crash'));
+        
+        // FileSystem.rename('./logs/crash/Crash_Grafex.log', crashReportName);
+		var crashDialoguePath:String = "./crashHandler/GrafexCrashHandler";
 
         FileSystem.rename('./logs/crash/Crash_Grafex.log', './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "'") + '.log');
 
@@ -109,19 +113,12 @@ class GrfxLogger
 
         #if windows
         crashDialoguePath += ".exe";
-		#end
-
-		if (FileSystem.exists("./" + crashDialoguePath))
+        #end
+		if (FileSystem.exists(crashDialoguePath))
 		{
-			log('Info', "Found crash dialog: " + crashDialoguePath);
-
-			#if linux
-			crashDialoguePath = "./" + crashDialoguePath;
-			#end
-            
-			//new Process(crashDialoguePath, ['--error "$logo + $errorMsg"']);
-            trace(Sys.getCwd());
-            Sys.command(Sys.getCwd() + 'crashHandler/GrafexCrashHandler.exe --error "' + logo + errorMsg + '"');
+			log("info", "Found crash dialog: " + crashDialoguePath);
+            // trace("cd crashHandler && GrafexCrashHandler.exe --report_path " + crashReportPath);
+			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
 		}
 		else
 		{
@@ -130,7 +127,7 @@ class GrfxLogger
 			Application.current.window.alert(errorMsg, "Fatal error detected");
 		}
         close();
-    
+        
 		DiscordClient.shutdown();
 		Sys.exit(1);
     }
