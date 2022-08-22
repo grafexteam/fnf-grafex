@@ -1,5 +1,6 @@
 package grafex.util;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.TitleState;
 import flixel.FlxG;
 import flixel.util.FlxSave;
@@ -186,7 +187,7 @@ class ClientPrefs {
 		save.bind('controls_v2', 'Grafex Team'); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = keyBinds;
 		save.flush();
-		FlxG.log.add("Settings saved!");
+		GrfxLogger.log("info", "Settings saved!");
 	}
 
 	public static function loadPrefs() {
@@ -224,8 +225,14 @@ class ClientPrefs {
 		FlxG.save.data.instantRespawn != null ? instantRespawn = FlxG.save.data.instantRespawn : instantRespawn = false;
 		FlxG.save.data.downScroll != null ? downScroll = FlxG.save.data.downScroll : downScroll = false;
 		FlxG.save.data.middleScroll != null ? middleScroll = FlxG.save.data.middleScroll : middleScroll = false;
-		FlxG.save.data.showFPS != null ? (showFPS = FlxG.save.data.showFPS) && (FPSMem.showFPS = showFPS) : showFPS = true;
-		FlxG.save.data.showMEM != null ? (showMEM = FlxG.save.data.showMEM) && (FPSMem.showMem = showMEM) : showMEM = true;
+		FlxG.save.data.showFPS != null ? {
+			showFPS = FlxG.save.data.showFPS; 
+			FPSMem.showFPS = showFPS;
+		} : showFPS = true;
+		FlxG.save.data.showMEM != null ? {
+			showMEM = FlxG.save.data.showMEM; 
+			FPSMem.showMem = showMEM;
+		} : showMEM = true;
 		FlxG.save.data.flashing != null ? flashing = FlxG.save.data.flashing : flashing = true;
 		FlxG.save.data.noteSplashes != null ? noteSplashes = FlxG.save.data.noteSplashes : noteSplashes = true;
 		FlxG.save.data.lowQuality != null ? lowQuality = FlxG.save.data.lowQuality : lowQuality = false;
@@ -235,7 +242,13 @@ class ClientPrefs {
 		FlxG.save.data.hideHud != null ? hideHud = FlxG.save.data.hideHud : hideHud = false;
 		FlxG.save.data.noteOffset != null ? noteOffset = FlxG.save.data.noteOffset : noteOffset = 0;
 		FlxG.save.data.arrowHSV != null ? arrowHSV = FlxG.save.data.arrowHSV : arrowHSV = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-		FlxG.save.data.imagesPersist != null ? (imagesPersist = FlxG.save.data.imagesPersist) && (FlxGraphic.defaultPersist = ClientPrefs.imagesPersist) : (imagesPersist = false) && (FlxGraphic.defaultPersist = ClientPrefs.imagesPersist);
+		FlxG.save.data.imagesPersist != null ? {
+			imagesPersist = FlxG.save.data.imagesPersist; 
+			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+		} : {
+			imagesPersist = false; 
+			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+		};
 		FlxG.save.data.ghostTapping != null ? ghostTapping = FlxG.save.data.ghostTapping : ghostTapping = true;
 		FlxG.save.data.healthIconBop != null ? healthIconBop = FlxG.save.data.healthIconBop : healthIconBop = 'Modern';
 		FlxG.save.data.healthIconBopNum != null ? healthIconBopNum = FlxG.save.data.healthIconBopNum : healthIconBopNum = 1;
