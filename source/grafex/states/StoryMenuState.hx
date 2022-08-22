@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.playstate.PlayState;
 import grafex.states.substates.LoadingState;
 import grafex.system.song.Song;
@@ -70,6 +71,8 @@ class StoryMenuState extends MusicBeatState
 	override function create()
 	{
 		Paths.clearStoredMemory();
+
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 		
 		//TODO: add stateSwitching log (via Type.getClass)
 		Application.current.window.title = Main.appTitle + ' - Storymode Menu';

@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.Paths;
 import grafex.data.WeekData;
 import grafex.sprites.attached.AttachedSprite;
@@ -74,7 +75,10 @@ class ModsMenuState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
+		
 		WeekData.setDirectoryFromWeek();
+		
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 
 		#if desktop
 		// Updating Discord Rich Presence

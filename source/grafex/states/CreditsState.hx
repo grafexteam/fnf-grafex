@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.typedefs.GrfxCredits;
 import haxe.Json;
 import grafex.sprites.attached.AttachedSprite;
@@ -44,6 +45,8 @@ class CreditsState extends MusicBeatState
 
 	override function create()
 	{
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		
 		chechForRoll();
 		#if desktop
 		// Updating Discord Rich Presence
@@ -357,12 +360,7 @@ class CreditsState extends MusicBeatState
 						
 				}
 			}
-			/*for(i in firstArray)
-			{
-				var arr:Array<String> = i.replace('\\n', '\n').split("::");
-				if(arr.length >= 5) arr.push(folder);
-				creditsStuff.push(arr);
-			}*/
+
 			creditsStuff.push(['']);
 		}
 		modsAdded.push(folder);

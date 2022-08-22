@@ -1,5 +1,6 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.Paths;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
@@ -29,6 +30,8 @@ class ResetScoreSubState extends MusicBeatSubstate
 	// Week -1 = Freeplay
 	public function new(song:String, difficulty:Int, character:String, week:Int = -1)
 	{
+		GrfxLogger.log('info', 'Opened substate: ' + Type.getClassName(Type.getClass(this)));
+		
 		this.song = song;
 		this.difficulty = difficulty;
 		this.week = week;

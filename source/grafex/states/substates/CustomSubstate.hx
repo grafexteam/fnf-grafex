@@ -1,5 +1,6 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.states.playstate.PlayState;
 import flixel.FlxG;
 import grafex.system.statesystem.MusicBeatSubstate;
@@ -20,6 +21,8 @@ class CustomSubstate extends MusicBeatSubstate
 	
 	public function new(name:String)
 	{
+		GrfxLogger.log('info', 'Opened substate: ' + Type.getClassName(Type.getClass(this)));
+		
 		CustomSubstate.name = name;
 		super();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];

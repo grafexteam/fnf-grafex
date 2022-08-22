@@ -1,13 +1,11 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatSubstate;
 import grafex.sprites.Alphabet;
 import grafex.sprites.CheckboxThingie;
 import grafex.sprites.attached.AttachedText;
-#if desktop
-import external.Discord.DiscordClient;
-#end
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
@@ -51,14 +49,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Health Drain Percent', 'healthdrainpercent', 'percent', 0);
 		optionsArray.push(option);
 
-		/*var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', 'float', 1);
-		option.scrollSpeed = 1;
-		option.minValue = 0.5;
-		option.maxValue = 2.5;
-		option.changeValue = 0.1;
-		option.displayFormat = '%vX';
-		optionsArray.push(option);*/
-
 		var option:GameplayOption = new GameplayOption('Health Gain Multiplier', 'healthgain', 'float', 1);
 		option.scrollSpeed = 2.5;
 		option.minValue = 0;
@@ -98,6 +88,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	public function new()
 	{
+		GrfxLogger.log('info', 'Opened substate: ' + Type.getClassName(Type.getClass(this)));
+		
 		super();
 		
 		var bg:FlxSprite = new FlxSprite(-FlxG.width * 1.5, -FlxG.height * 1.5).makeGraphic(FlxG.width * 4, FlxG.height * 4, FlxColor.BLACK);
@@ -121,8 +113,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			var optionText:Alphabet = new Alphabet(0, 70 * i, optionsArray[i].name, true, false, 0.05, 0.8);
 			optionText.isMenuItem = true;
 			optionText.x += 300;
-			/*optionText.forceX = 300;
-			optionText.yMult = 90;*/
 			optionText.xAdd = 120;
 			optionText.targetY = i;
 			grpOptions.add(optionText);
@@ -246,7 +236,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 												updateTextFrom(oOption);
 											}
 										}
-										//trace(curOption.options[num]);
 							}
 							updateTextFrom(curOption);
 							curOption.change();

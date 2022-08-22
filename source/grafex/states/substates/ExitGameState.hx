@@ -10,7 +10,6 @@ import external.Discord.DiscordClient;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import flash.system.System;

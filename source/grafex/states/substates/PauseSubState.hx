@@ -66,6 +66,8 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
+
+		GrfxLogger.log('info', 'Opened substate: ' + Type.getClassName(Type.getClass(this)));
 		
         if(Utils.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		if(PlayState.chartingMode)
