@@ -392,6 +392,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		Paths.clearStoredMemory();
+		//throw new haxe.Exception('TEST LOL :))))))))');
 
 		instance = this;
         //currentPState = this;

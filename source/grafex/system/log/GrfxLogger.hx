@@ -112,7 +112,8 @@ class GrfxLogger
 		if (FileSystem.exists(crashDialoguePath))
 		{
 			log("info", "Found crash dialog: " + crashDialoguePath);
-			Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
+            new Process("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
+			//Sys.command("cd crashHandler && GrafexCrashHandler.exe --report_path ../" + crashReportPath);
 		}
 		else
 		{
