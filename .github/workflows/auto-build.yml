@@ -13,7 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup Haxe and install dependencies
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.2.5
+      
+      - name: Install project dependencies
         run: |
           apt install haxe
           haxelib setup /usr/share/haxe/lib
