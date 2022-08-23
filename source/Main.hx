@@ -1,5 +1,7 @@
 package;
 
+import flixel.addons.transition.FlxTransitionableState;
+import grafex.util.PlayerSettings;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -115,8 +117,13 @@ class Main extends Sprite
 
 	private function init(?E:Event):Void
 	{
+		FlxTransitionableState.skipNextTransIn = true;
+        FlxTransitionableState.skipNextTransOut = true;
+		
 		@:privateAccess GrfxLogger.init();
 		GrfxLogger.log('INFO', 'Game launched');
+
+		//PlayerSettings.init();
 
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
@@ -139,10 +146,6 @@ class Main extends Sprite
 			gameWidth = Math.ceil(stageWidth / zoom);
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
-
-		#if debug
-		initialState = TitleState;
-		#end
 
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));

@@ -1,5 +1,6 @@
 package grafex.states;
 
+import grafex.util.PlayerSettings;
 import grafex.data.EngineData;
 import grafex.system.log.GrfxLogger;
 import grafex.states.substates.ExitGameState;
@@ -14,15 +15,14 @@ import grafex.effects.shaders.ColorSwap;
 import grafex.effects.ColorblindFilters;
 
 import grafex.states.MainMenuState;
-import grafex.states.substates.FlashingState;
 import grafex.util.ClientPrefs;
 import grafex.util.Highscore;
 import grafex.util.Utils;
 
 #if desktop
 import external.Discord.DiscordClient;
-import sys.thread.Thread;
 #end
+
 import flixel.FlxG;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
@@ -102,6 +102,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		PlayerSettings.init();
+		
 		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 		
         Paths.clearStoredMemory();
@@ -180,11 +182,11 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
+		/*if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new FlashingState());
-		} else {
+		} else {*/
 			#if desktop
 			DiscordClient.initialize();
 			Application.current.onExit.add (function (exitCode) {
@@ -201,7 +203,7 @@ class TitleState extends MusicBeatState
 					startIntro();
 				});
 			}
-		}
+		//}
 	#end                
 	}
 
@@ -359,14 +361,11 @@ class TitleState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		if (FlxG.sound.music != null)
-		Conductor.songPosition = FlxG.sound.music.time;
+			Conductor.songPosition = FlxG.sound.music.time;
         FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, 0.95);
 
 		if(FlxG.keys.justPressed.F11)
             FlxG.fullscreen = !FlxG.fullscreen;
-		
-        if (FlxG.keys.justPressed.F)
-			FlxG.fullscreen = !FlxG.fullscreen;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
         var tryExitGame:Bool = FlxG.keys.justPressed.ESCAPE || controls.BACK;
@@ -408,14 +407,10 @@ class TitleState extends MusicBeatState
 					if (titleText != null)
 						titleText.animation.play('press');
 					//FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                    var SkipBlack:FlxSprite;  
-                    SkipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-                    add(SkipBlack);
+                    var skipBlack:FlxSprite;  
+                    skipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                    add(skipBlack);
 					transitioning = true;
-
-					// FlxG.sound.music.stop();
-					
-					// CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
 					
                 	FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
                 	FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
@@ -476,7 +471,7 @@ class TitleState extends MusicBeatState
                 FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
 				transitioning = true;
-                                skipped = true; // true
+                skipped = true; // true
 
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
@@ -484,7 +479,8 @@ class TitleState extends MusicBeatState
 					
 					closedState = true;
 				});
-                        }
+            }
+
             if (tryExitGame)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));

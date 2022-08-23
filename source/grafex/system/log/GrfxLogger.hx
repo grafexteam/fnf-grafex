@@ -33,9 +33,16 @@ class GrfxLogger
     **/
     private static function init()
     {
+        #if debug
+        haxe.Log.trace = function(v:Dynamic, ?infos:PosInfos) {
+            debug(v, infos, true);
+        }
+        #else
         haxe.Log.trace = function(v:Dynamic, ?infos:PosInfos) {
             log('trace', v, infos);
         }
+        #end
+
 
         var date = Date.now().toString();
 
@@ -69,16 +76,16 @@ class GrfxLogger
     /**
         Outputs `message` with logType `[DEBUG]` in debug logs with the PosInfos
     **/
-    public static function debug(message:Dynamic, ?filePos:PosInfos)
+    public static function debug(message:Dynamic, ?filePos:PosInfos, ?isTrace:Bool = false)
     {
         var output:FileOutput = File.append(debugPath, false);
         var date = Date.now().toString();
 
         var filePosInfo:String = filePos.fileName + ':' + filePos.lineNumber;
         
-        output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
+        output.writeString('\n[$date][${isTrace ? 'TRACE' : 'DEBUG'}]:$filePosInfo: $message', UTF8);
         output.close();
-        #if debug Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
+        #if debug Sys.println('[$date][${isTrace ? 'TRACE' : 'DEBUG'}]:$filePosInfo: $message'); #end
     }
 
     /**
@@ -129,6 +136,8 @@ class GrfxLogger
         #if windows
         crashDialoguePath += ".exe";
         #end
+
+        #if !debug
 		if (FileSystem.exists(crashDialoguePath))
 		{
 			log("info", "Found crash dialog: " + crashDialoguePath);
@@ -141,9 +150,11 @@ class GrfxLogger
 			log('warning',"No crash dialog found! Making a simple alert instead...");      
 			Application.current.window.alert(errorMsg, "Fatal error detected");
 		}
+        
         close();
         
 		DiscordClient.shutdown();
 		Sys.exit(1);
+        #end
     }
 }
