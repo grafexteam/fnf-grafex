@@ -53,6 +53,7 @@ class ExitGameState extends MusicBeatState
 	    bg.velocity.x = FlxG.random.float(-90, 90);
 		bg.velocity.y = FlxG.random.float(-20, 20);
 		bg.updateHitbox();
+		bg.color = 0x7208A0;
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 
