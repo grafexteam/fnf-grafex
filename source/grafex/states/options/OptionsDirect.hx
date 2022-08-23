@@ -1,4 +1,6 @@
 package grafex.states.options;
+
+import grafex.system.CustomFadeTransition;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import flixel.addons.transition.FlxTransitionableState;
@@ -10,8 +12,8 @@ class OptionsDirect extends MusicBeatState
 {
 	override function create()
 	{
-		//transIn = FlxTransitionableState.defaultTransIn;
-		//transOut = FlxTransitionableState.defaultTransOut;
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;
 
 		persistentUpdate = true;
 
@@ -24,5 +26,6 @@ class OptionsDirect extends MusicBeatState
 		add(movingBG);
 
 		openSubState(new OptionsMenu());
+		openSubState(new CustomFadeTransition(1, true)); // WHAT'S WRONG WITH THIS SHIT, IT ISN'T WORKING
 	}
 }
