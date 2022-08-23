@@ -24,14 +24,14 @@ jobs:
           haxelib install lime --quiet
           haxelib install openfl --quiet
           haxelib install flixel --never --quiet
-          haxelib install flixel-tools --quiet
-          haxelib install flixel-ui --quiet
+          haxelib install flixel-tools --never --quiet
+          haxelib install flixel-ui --never --quiet
           haxelib install hscript --quiet
-          haxelib install flixel-addons --quiet
+          haxelib install flixel-addons --never --quiet
           haxelib install actuate --quiet
           haxelib run lime setup --quiet
-          haxelib run lime setup flixel --quiet
-          haxelib run flixel-tools setup --quiet
+          haxelib run lime setup flixel --never --quiet
+          haxelib run flixel-tools setup --never --quiet
           haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit --quiet
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc --quiet
           haxelib install hxCodec --quiet
