@@ -1,7 +1,7 @@
 package grafex.util;
 
 import grafex.system.log.GrfxLogger;
-import grafex.states.TitleState;
+import grafex.states.substates.PrelaunchingState;
 import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
@@ -318,12 +318,12 @@ class ClientPrefs {
 	public static function reloadControls() {
 		PlayerSettings.player1.controls.setKeyboardScheme(KeyboardScheme.Solo);
 
-		TitleState.muteKeys = copyKey(keyBinds.get('volume_mute'));
-		TitleState.volumeDownKeys = copyKey(keyBinds.get('volume_down'));
-		TitleState.volumeUpKeys = copyKey(keyBinds.get('volume_up'));
-		FlxG.sound.muteKeys = TitleState.muteKeys;
-		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+		PrelaunchingState.muteKeys = copyKey(keyBinds.get('volume_mute'));
+		PrelaunchingState.volumeDownKeys = copyKey(keyBinds.get('volume_down'));
+		PrelaunchingState.volumeUpKeys = copyKey(keyBinds.get('volume_up'));
+		FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+		FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+		FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey> {

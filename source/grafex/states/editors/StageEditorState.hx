@@ -1,6 +1,7 @@
 package grafex.states.editors;
 
 import grafex.system.FlxUIDropDownMenuCustom;
+import grafex.states.substates.PrelaunchingState;
 import grafex.sprites.characters.Boyfriend;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.util.Utils;
@@ -670,9 +671,9 @@ class StageEditorState extends MusicBeatState
 			}
 		}
 
-        FlxG.sound.muteKeys = TitleState.muteKeys;
-		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+        FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+		FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+		FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 
         if(!charDropDown.dropPanel.visible) {
 

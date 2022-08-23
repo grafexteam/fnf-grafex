@@ -3,6 +3,7 @@ package grafex.states;
 import grafex.data.EngineData;
 import grafex.system.log.GrfxLogger;
 import grafex.states.substates.ExitGameState;
+import grafex.states.substates.PrelaunchingState;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
 import grafex.system.Conductor;
@@ -55,7 +56,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
 import lime.ui.WindowAttributes;
-import grafex.util.PlayerSettings;
 
 using StringTools;
 
@@ -77,10 +77,6 @@ typedef TitleData =
 
 class TitleState extends MusicBeatState
 {
-	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
-	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
-	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
-
 	public static var initialized:Bool = false;
     public static var fromMainMenu:Bool = false;
     public static var skipped:Bool = false;
@@ -157,26 +153,12 @@ class TitleState extends MusicBeatState
             };
 		}
 
-		FlxG.game.focusLostFramerate = 60;
-		FlxG.sound.muteKeys = muteKeys;
-		FlxG.sound.volumeDownKeys = volumeDownKeys;
-		FlxG.sound.volumeUpKeys = volumeUpKeys;
-		FlxG.keys.preventDefaultKeys = [TAB];
-        FlxG.camera.zoom = 1;
-
-		PlayerSettings.init();
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
 
 		swagShader = new ColorSwap();
 		super.create();
-
-		FlxG.save.bind('grafex', 'Grafex Team');
-		ClientPrefs.loadPrefs();
-
-		Highscore.load();
 
         bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
 		bgFlash.visible = true;
@@ -246,6 +228,18 @@ class TitleState extends MusicBeatState
 			Conductor.changeBPM(titleJSON.bpm);
 
 		persistentUpdate = true;
+
+		var bg:FlxSprite = new FlxSprite();
+
+		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
+			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
+		}else{
+			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		}
+        // bg.antialiasing = ClientPrefs.globalAntialiasing;
+		// bg.setGraphicSize(Std.int(bg.width * 0.6));
+		// bg.updateHitbox();
+		add(bg);
 
 		if(titleJSON.backdropImage == null)
 			titleJSON.backdropImage = 'titleBg';

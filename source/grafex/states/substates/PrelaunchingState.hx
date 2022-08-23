@@ -3,12 +3,16 @@ package grafex.states.substates;
 import grafex.system.log.GrfxLogger;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
+import grafex.util.PlayerSettings;
+import grafex.util.ClientPrefs;
+import grafex.util.Highscore;
 import sys.Http;
 import sys.io.File;
 import sys.FileSystem;
 import grafex.data.EngineData;
 import flixel.text.FlxText;
 import flixel.FlxG;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
@@ -21,6 +25,10 @@ using StringTools;
 
 class PrelaunchingState extends MusicBeatState
 {
+    public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
+	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
+	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
+
     public static var link:String = 'https://raw.githubusercontent.com/JustXale/fnf-grafex/raw/versionCheck.txt'; // i hate github now
 
     var connectionFailed:Bool = false;
@@ -36,6 +44,21 @@ class PrelaunchingState extends MusicBeatState
 
     override function create()
     {
+
+        FlxG.game.focusLostFramerate = 60;
+		FlxG.sound.muteKeys = muteKeys;
+		FlxG.sound.volumeDownKeys = volumeDownKeys;
+		FlxG.sound.volumeUpKeys = volumeUpKeys;
+		FlxG.keys.preventDefaultKeys = [TAB];
+        FlxG.camera.zoom = 1;
+
+		PlayerSettings.init();
+
+        FlxG.save.bind('grafex', 'Grafex Team');
+		ClientPrefs.loadPrefs();
+
+		Highscore.load();
+
         #if VERSION_CHECK
         connectionFailed = false;
         

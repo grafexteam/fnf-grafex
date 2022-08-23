@@ -7,6 +7,7 @@ import grafex.system.log.GrfxLogger;
 import grafex.sprites.characters.Character;
 import grafex.sprites.characters.Character.CharacterFile;
 import grafex.states.substates.LoadingState;
+import grafex.states.substates.PrelaunchingState;
 import grafex.system.song.Song;
 import grafex.system.Conductor;
 import grafex.system.statesystem.MusicBeatState;
@@ -1693,9 +1694,9 @@ for(mod in Paths.getGlobalMods())
 		}
 
 		if(!blockInput) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			for (dropDownMenu in blockPressWhileScrolling) {
 				if(dropDownMenu.dropPanel.visible) {
 					blockInput = true;

@@ -1,6 +1,7 @@
 package grafex.states.editors;
 
 import grafex.system.FlxUIDropDownMenuCustom;
+import grafex.states.substates.PrelaunchingState;
 import grafex.sprites.Alphabet;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
@@ -549,9 +550,9 @@ class DialogueCharacterEditorState extends MusicBeatState
 		}
 
 		if(!blockInput && !animationDropDown.dropPanel.visible) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			if(FlxG.keys.justPressed.SPACE && UI_mainbox.selected_tab_id == 'Character') {
 				character.playAnim(character.jsonFile.animations[curAnim].anim);
 				updateTextBox();

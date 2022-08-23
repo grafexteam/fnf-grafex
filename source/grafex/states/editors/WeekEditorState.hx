@@ -4,6 +4,7 @@ import grafex.sprites.menu.MenuItem;
 import grafex.sprites.menu.MenuCharacter;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
+import grafex.states.substates.PrelaunchingState;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 #if desktop
@@ -453,9 +454,9 @@ class WeekEditorState extends MusicBeatState
 		}
 
 		if(!blockInput) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -815,9 +816,9 @@ class WeekEditorFreeplayState extends MusicBeatState
 				iconInputText.hasFocus = false;
 			}
 		} else {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));

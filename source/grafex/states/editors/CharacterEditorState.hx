@@ -1,6 +1,7 @@
 package grafex.states.editors;
 
 import grafex.states.playstate.PlayState;
+import grafex.states.substates.PrelaunchingState;
 import grafex.sprites.background.BGSprite;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
@@ -133,7 +134,7 @@ class CharacterEditorState extends MusicBeatState
 		add(healthBarBG);
 		healthBarBG.cameras = [camHUD];
 
-                healthBarBG2 = new FlxSprite(30, FlxG.height - 90).loadGraphic(Paths.image('healthBar'));
+        healthBarBG2 = new FlxSprite(30, FlxG.height - 90).loadGraphic(Paths.image('healthBar'));
 		healthBarBG2.scrollFactor.set();
 		add(healthBarBG2);
 		healthBarBG2.cameras = [camHUD];
@@ -1180,9 +1181,9 @@ class CharacterEditorState extends MusicBeatState
 				return;
 			}
 		}
-		FlxG.sound.muteKeys = TitleState.muteKeys;
-		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+		FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+		FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+		FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE) {
