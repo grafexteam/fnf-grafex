@@ -20,7 +20,6 @@ jobs:
       
       - name: Install project dependencies
         run: |
-          apt install haxe
           haxelib setup /usr/share/haxe/lib
           haxelib install lime
           haxelib install openfl
