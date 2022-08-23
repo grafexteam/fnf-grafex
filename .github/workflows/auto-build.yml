@@ -1,0 +1,43 @@
+name: Build Grafex Engine
+
+on:
+  pull_request:
+    branches: [ stable ]
+  push:
+    branches: [ stable ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Haxe and install dependencies
+        run: |
+          haxelib setup /usr/share/haxe/lib
+          haxelib install lime
+          haxelib install openfl
+          haxelib install flixel --never
+          haxelib install flixel-tools
+          haxelib install flixel-ui
+          haxelib install hscript
+          haxelib install flixel-addons
+          haxelib install actuate
+          haxelib run lime setup
+          haxelib run lime setup flixel
+          haxelib run flixel-tools setup
+          haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install hxCodec
+      
+      - name: Build using Lime
+        run: |
+          lime build windows
+      
+      - name: Publish build artifacts
+        run: echo $(ls)
+#         uses: actions/upload-artifact@v3
+#           with:
+#             name: my-artifact
+#             path: path/to/artifact/world.txt
