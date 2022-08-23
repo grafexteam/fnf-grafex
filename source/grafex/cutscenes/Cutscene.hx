@@ -19,6 +19,8 @@ import grafex.util.PlayerSettings;
 
 using StringTools;
 
+// TODO: Optimize assets loading?
+
 typedef CutsceneFile = {
 	var cutscene:Array<CutsceneLine>;
 }
@@ -118,11 +120,8 @@ class Cutscene extends FlxSpriteGroup
     }
 
    	function spawnCharacters() {
-		#if (haxe >= "4.0.0")
 		var charsMap:Map<String, Bool> = new Map();
-		#else
-		var charsMap:Map<String, Bool> = new Map<String, Bool>();
-		#end
+		
 		for (i in 0...cutsceneList.cutscene.length) {
 			if(cutsceneList.cutscene[i] != null) {
 				var charToAdd:String = cutsceneList.cutscene[i].portrait;
@@ -469,10 +468,11 @@ class Cutscene extends FlxSpriteGroup
 		if(file.voiceline == null) file.voiceline = '';
 		if(file.cutscenePic == null) file.cutscenePic = '';
 		if(file.event == null) file.event = '';
-		/*else if (file.event != '')
-			eventCheck(file.event);*/
+		
 		return file;
 	}
+
+	// TODO: add new events
 
 	public function eventCheck(event:String):Array<String>
 	{
