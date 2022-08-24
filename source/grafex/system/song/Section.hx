@@ -32,6 +32,5 @@ class Section
 	public function new(sectionBeats:Float = 4)
 	{
 		this.sectionBeats = sectionBeats;
-		GrfxLogger.debug('test created section: ' + sectionBeats);
 	}
 }
