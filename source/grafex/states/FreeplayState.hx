@@ -479,6 +479,17 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	override function sectionHit()
+	{
+		super.sectionHit();
+
+		if (PlayState.SONG.notes[curSection] != null && PlayState.SONG.notes[curSection].changeBPM)
+		{
+			Conductor.changeBPM(PlayState.SONG.notes[curSection].bpm);
+			GrfxLogger.debug('Test BPM changed');
+		}
+	}
+
 	function bopOnBeat()
 	{
 		FlxG.camera.zoom += 0.0175;
