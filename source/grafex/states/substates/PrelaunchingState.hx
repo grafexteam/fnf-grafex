@@ -19,8 +19,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 import grafex.util.Utils;
 
-// TODO: rewrite this, maybe? - Xale
-// TODO: Also merge this state with FlashingState
+// TODO: rewrite this, maybe?
 
 using StringTools;
 
@@ -203,7 +202,6 @@ class PrelaunchingState extends MusicBeatState
             } : {
                 GrfxLogger.log('warning', "Couldn't connect to GitHub; Checking by local file");
 
-                // TODO: Repair this stuff at line 212
                 if(FileSystem.exists('./localVersion.txt'))
                 { // Trying to check for the local txt version - Xale
                     var returnArray:Array<Int> = [];
