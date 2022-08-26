@@ -67,6 +67,7 @@ class Main extends Sprite
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+		//Lib.current.loaderInfo.
 		Application.current.window.onClose.add(onWindowClose);
 	}
 
@@ -110,8 +111,11 @@ class Main extends Sprite
 
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
-		GrfxLogger.log('error', e.error);
-		@:privateAccess GrfxLogger.crash(e.error);
+		if(e != null)
+		{
+			GrfxLogger.log('error', e.error);
+			@:privateAccess GrfxLogger.crash(e.error);
+		}
 	}
 
 
