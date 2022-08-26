@@ -14,7 +14,6 @@ class ClientPrefs {
     public static var playMissSounds:Bool = true;
 	public static var playMissAnims:Bool = true;
 	public static var countDownPause:Bool = true;
-    public static var greenScreenMode:Bool = false;
     public static var hitSound:Bool = false;
     public static var shouldCameraMove:Bool = true;
     public static var hsvol:Float = 0;
@@ -127,7 +126,6 @@ class ClientPrefs {
 		FlxG.save.data.playMissAnims = playMissAnims;
         FlxG.save.data.instantRespawn = instantRespawn;
         FlxG.save.data.playMissSounds = playMissSounds;
-        FlxG.save.data.greenScreenMode = greenScreenMode;
         FlxG.save.data.hitSound = hitSound;
         FlxG.save.data.shouldCameraMove = shouldCameraMove;
         FlxG.save.data.healthIconBop = healthIconBop;
@@ -219,7 +217,6 @@ class ClientPrefs {
 			FlxG.autoPause = autoPause;
 		};
 		FlxG.save.data.hitSound != null ? hitSound = FlxG.save.data.hitSound : hitSound = false;
-		FlxG.save.data.greenScreenMode != null ? greenScreenMode = FlxG.save.data.greenScreenMode : greenScreenMode = false;
 		FlxG.save.data.playMissSounds != null ? playMissSounds = FlxG.save.data.playMissSounds : playMissSounds = true;
 		FlxG.save.data.hitSound != null ? hitSound = FlxG.save.data.hitSound : hitSound = false;
 		FlxG.save.data.instantRespawn != null ? instantRespawn = FlxG.save.data.instantRespawn : instantRespawn = false;

@@ -193,7 +193,6 @@ class OptionsMenu extends FlxSubState
                 new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
                 new QualityLow("Turn off some object on stages"),
 				new Imagepersist("Images loaded will stay in memory until the game is closed."),
-				new GreenScreenMode("Makes screen green."),
         		]),
 			new OptionCata(935, 40, "Extra", [
 				//new ResetSettings("Reset some your settings. This is irreversible!")
@@ -749,7 +748,6 @@ class OptionsMenu extends FlxSubState
 		FlxG.save.data.playmissanims = null;
         FlxG.save.data.instantRespawn = null;
         FlxG.save.data.playmisssounds = null;
-        FlxG.save.data.greenscreenmode = null;
         FlxG.save.data.hitsound = null;
         FlxG.save.data.shouldcameramove = null;
         FlxG.save.data.hliconbop = null;

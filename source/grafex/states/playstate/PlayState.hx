@@ -264,6 +264,7 @@ class PlayState extends MusicBeatState
 	public var iconGroup:FlxTypedGroup<HealthIcon>;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
+
 	public var camHUD:FlxCamera; // FUCKIN LUA - PurSnake
 	public var camHUDElem:FlxCamera; // khm - PurSnake
 	public var camPAUSE:FlxCamera;
@@ -452,18 +453,10 @@ class PlayState extends MusicBeatState
 
         camUnderHUDBeforeGame = new FlxCamera();
 
-		if(ClientPrefs.greenScreenMode) {
-			camUnderHUDBeforeGame.bgColor = new FlxColor(0xFF00FF00);
-		} else {
-			camUnderHUDBeforeGame.bgColor.alpha = 0;
-		}
+		camUnderHUDBeforeGame.bgColor.alpha = 0;
 
 		camOther = new FlxCamera();
 		camOther.bgColor.alpha = 0;
-		
-		camOther.bgColor.alpha = 0;
-        camGame.bgColor.alpha = 0;
-		camGame.bgColor = FlxColor.TRANSPARENT;
 
 		camSus = new FlxCamera();
 		camSus.bgColor.alpha = 0;
@@ -644,9 +637,6 @@ class PlayState extends MusicBeatState
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
 		FlxG.camera.followLerp = 0.04;
-
-		// TODO: delete this lol
-		//throw new haxe.Exception('Just testing');
 
 		switch (curStage)
 		{
@@ -1007,9 +997,6 @@ class PlayState extends MusicBeatState
 				if(!ClientPrefs.lowQuality) foregroundSprites.add(new BGSprite('tank4', 1300, 900, 1.5, 1.5, ['fg']));
 				foregroundSprites.add(new BGSprite('tank5', 1620, 700, 1.5, 1.5, ['fg']));
 				if(!ClientPrefs.lowQuality) foregroundSprites.add(new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg']));
-
-			case 'bunker':
-				GrfxModAssetsLoader.generateStage('bunker');
 		}
 
 		switch(Paths.formatToSongPath(SONG.song))
@@ -1822,7 +1809,7 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		var luaFile:String = 'characters/' + name + '.lua';
-                #if MODS_ALLOWED
+        #if MODS_ALLOWED
 		if(FileSystem.exists(Paths.modFolders(luaFile))) {
 			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
@@ -2544,7 +2531,6 @@ class PlayState extends MusicBeatState
 							}
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
-						//showhphud();
 		    case 4:
                 }
 				notes.forEachAlive(function(note:Note) {
@@ -5679,46 +5665,6 @@ class PlayState extends MusicBeatState
 		}
 		return string;
 	}
-			
-	function showhphud()
-	{
-		for (elem in [timeBarBG, timeBar, judgementCounter, songTxt])
-		{
-			if (elem != null)
-				FlxTween.tween(elem, {alpha: 1}, Conductor.crochet / 250, {ease: FlxEase.circOut});
-		}
-		for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips])
-		{
-			if (elem != null)
-				FlxTween.tween(elem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 250, {ease: FlxEase.circOut});
-		}
-		for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips])
-		{
-			if (delem != null)
-				FlxTween.tween(delem, {y: (ClientPrefs.downScroll ?  delem.y + 490 :  delem.y - 510)}, Conductor.crochet / 250, {ease: FlxEase.circOut});
-		}
-	}
-	
-	function hideHPHud()
-	{
-		for (elem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, timeBarBG, timeBar, judgementCounter, songTxt, healthStrips]) {
-			if (elem != null) {
-				elem.alpha = ClientPrefs.healthBarAlpha - 1;
-						}  
-		}
-		for (delem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
-			if (delem != null) {
-				(ClientPrefs.downScroll ?  delem.y -= 500 :  delem.y += 500);
-			}  
-		}
-	}
-	// Future things - PurSnake
-	/*var dadTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); 
-	insert(members.indexOf(dadGroup) - 1, dadTrail);
-	var bfTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069); 
-	insert(members.indexOf(boyfriendGroup) - 1, bfTrail);
-	var gfTrail = new FlxTrail(gf, null, 4, 24, 0.3, 0.069); 
-	insert(members.indexOf(gfGroup) - 1, gfTrail);*/
 			   
 	var camFocus:String = "";
 	var daFunneOffsetMultiplier:Float = 20;
