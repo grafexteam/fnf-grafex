@@ -1,6 +1,6 @@
 package grafex.sprites.characters;
 
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.sprites.background.TankmenBG;
 import grafex.system.song.Song;
 import grafex.system.Conductor;
@@ -12,13 +12,14 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
 import grafex.system.song.Section.SwagSection;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import sys.io.File;
 import sys.FileSystem;
 
 import openfl.utils.Assets;
 import haxe.Json;
 import haxe.format.JsonParser;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

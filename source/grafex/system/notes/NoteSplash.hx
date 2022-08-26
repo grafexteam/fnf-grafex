@@ -2,9 +2,9 @@ package grafex.system.notes;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import grafex.effects.shaders.ColorSwap;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
+import grafex.util.ClientPrefs;
 
 class NoteSplash extends FlxSprite
 {

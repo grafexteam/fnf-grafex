@@ -740,7 +740,6 @@ class FlxCamera extends FlxBasic
 			}
 			else if (frame != null)
 			{
-				// TODO: fix this case for zoom less than initial zoom...
 				frame.paint(buffer, destPoint, true);
 			}
 		}
@@ -812,7 +811,6 @@ class FlxCamera extends FlxBasic
 				trianglesSprite.graphics.drawTriangles(drawVertices, indices, uvtData);
 				trianglesSprite.graphics.endFill();
 
-				// TODO: check this block of code for cases, when zoom < 1 (or initial zoom?)...
 				if (_useBlitMatrix)
 					_helperMatrix.copyFrom(_blitMatrix);
 				else

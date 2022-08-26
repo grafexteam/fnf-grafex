@@ -1,5 +1,7 @@
 package grafex.states;
 
+import grafex.system.log.GrfxLogger;
+import grafex.states.playstate.PlayState;
 import grafex.states.substates.LoadingState;
 import grafex.system.song.Song;
 import grafex.states.substates.GameplayChangersSubstate;
@@ -8,8 +10,11 @@ import grafex.system.Paths;
 import grafex.sprites.menu.MenuCharacter;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.menu.MenuItem;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
+
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -26,6 +31,7 @@ import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import flixel.graphics.FlxGraphic;
 import lime.app.Application;
+import grafex.util.Highscore;
 import grafex.data.WeekData;
 
 using StringTools;
@@ -64,6 +70,10 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
+		Paths.clearStoredMemory();
+
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		
 		//TODO: add stateSwitching log (via Type.getClass)
 		Application.current.window.title = Main.appTitle + ' - Storymode Menu';
 
@@ -192,7 +202,7 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist = new FlxText(FlxG.width * 0.05, tracksSprite.y + 60, 0, "", 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
-		//txtTracklist.color = 0xFFe55777;
+		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		// add(rankText);
 		add(scoreText);

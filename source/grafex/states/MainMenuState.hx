@@ -5,7 +5,7 @@ import grafex.states.options.OptionsDirect;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -30,6 +30,8 @@ import flixel.util.FlxTimer;
 import flixel.addons.display.FlxBackdrop;
 import grafex.data.EngineData;
 import grafex.system.Conductor;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 using StringTools;
 
@@ -67,6 +69,8 @@ class MainMenuState extends MusicBeatState
         
     override function create()
 	{
+		Paths.clearStoredMemory();
+		
 		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 		
 		#if desktop
@@ -82,7 +86,7 @@ class MainMenuState extends MusicBeatState
 			{	
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
         		FlxG.sound.music.time = 9400;
-				Conductor.changeBPM(102);
+				Conductor.changeBPM(TitleState.titleJSON.bpm);
 			}
 
         FlxG.mouse.visible = false;
@@ -397,7 +401,9 @@ class MainMenuState extends MusicBeatState
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
-										//MusicBeatState.switchState(new options.OptionsState());
+										FlxTransitionableState.skipNextTransIn = false;
+            							FlxTransitionableState.skipNextTransOut = false;
+										
 										MusicBeatState.switchState(new OptionsDirect());
 
                                         FreeplayState.destroyFreeplayVocals();

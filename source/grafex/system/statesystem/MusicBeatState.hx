@@ -1,26 +1,22 @@
 package grafex.system.statesystem;
 
-import utils.FlxVideo;
-import grafex.system.Conductor.BPMChangeEvent;
+import grafex.states.playstate.PlayState;
+import external.FlxVideo;
 import lime.app.Application;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
-import flixel.math.FlxRect;
-import flixel.util.FlxTimer;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.FlxCamera;
-import flixel.util.FlxColor;
-import flixel.util.FlxGradient;
 import flixel.FlxState;
-import flixel.FlxBasic;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
+import grafex.util.PlayerSettings;
 
 class MusicBeatState extends FlxUIState
 {
-	private var lastBeat:Float = 0;
-	private var lastStep:Float = 0;
+	private var curSection:Int = 0;
+	private var stepsToDo:Int = 0;
 
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
@@ -65,36 +61,6 @@ class MusicBeatState extends FlxUIState
 	}
 	#end
 
-	/*override public function onFocus():Void
-	{
-		if(!ClientPrefs.autoPause)
-			{
-				// Normal global volume when focused
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
-
-				// Bring framerate back when focused
-				FlxG.drawFramerate = ClientPrefs.framerate;
-				FlxG.updateFramerate = ClientPrefs.framerate;
-			}
-		super.onFocus();
-	}
-
-	override public function onFocusLost()
-		{
-			//trace("Game unfocused");
-	
-			if(!ClientPrefs.autoPause)
-			{
-				/*if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
-				FlxG.drawFramerate = 20;
-			}
-			super.onFocusLost();
-		}*/
-
 	override function update(elapsed:Float)
 	{
 		//everyStep();
@@ -103,10 +69,52 @@ class MusicBeatState extends FlxUIState
 		updateCurStep();
 		updateBeat();
 
-		if (oldStep != curStep && curStep > 0)
-			stepHit();
+		if (oldStep != curStep)
+		{
+			if(curStep > 0)
+				stepHit();
+	
+			if(PlayState.SONG != null)
+			{
+				if (oldStep < curStep)
+					updateSection();
+				else
+					rollbackSection();
+			}
+		}
 
 		super.update(elapsed);
+	}
+
+	private function updateSection():Void
+	{
+		if(stepsToDo < 1) stepsToDo = Math.round(getBeatsOnSection() * 4);
+		while(curStep >= stepsToDo)
+		{
+			curSection++;
+			var beats:Float = getBeatsOnSection();
+			stepsToDo += Math.round(beats * 4);
+			sectionHit();
+		}
+	}
+
+	private function rollbackSection():Void
+	{
+		if(curStep < 0) return;
+		var lastSection:Int = curSection;
+		curSection = 0;
+		stepsToDo = 0;
+		for (i in 0...PlayState.SONG.notes.length)
+		{
+			if (PlayState.SONG.notes[i] != null)
+			{
+				stepsToDo += Math.round(getBeatsOnSection() * 4);
+				if(stepsToDo > curStep) break;
+
+				curSection++;
+			}
+		}
+		if(curSection > lastSection) sectionHit();
 	}
 
 	private function updateBeat():Void
@@ -166,5 +174,17 @@ class MusicBeatState extends FlxUIState
 	public function beatHit():Void
 	{
 		//do literally nothing dumbass
+	}
+
+	public function sectionHit():Void
+	{
+		//GrfxLogger.debug('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
+	}
+
+	function getBeatsOnSection()
+	{
+		var val:Null<Float> = 4;
+		if(PlayState.SONG != null && PlayState.SONG.notes[curSection] != null) val = PlayState.SONG.notes[curSection].sectionBeats;
+		return val == null ? 4 : val;
 	}
 }

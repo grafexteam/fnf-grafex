@@ -1,14 +1,17 @@
 package grafex.states.options.substates;
 
+import grafex.states.playstate.PlayState;
 import grafex.effects.ColorblindFilters;
 import grafex.system.song.Song;
 import grafex.states.substates.LoadingState;
 import grafex.system.Paths;
-import utils.FPSMem;
+import external.FPSMem;
 import lime.app.Application;
-import Controls.KeyboardScheme;
+import grafex.util.Controls.KeyboardScheme;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 
 class Option
 {
@@ -588,7 +591,7 @@ class AutoSave extends Option
 	public override function left():Bool
 	{
 
-		ClientPrefs.chartautosave = !ClientPrefs.chartautosave;
+		ClientPrefs.chartAutoSave = !ClientPrefs.chartAutoSave;
 		display = updateDisplay();
 		return true;
 	}
@@ -601,7 +604,7 @@ class AutoSave extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Chart AutoSave: < " + (ClientPrefs.chartautosave ? "Enabled" : "Disabled") + " >";
+		return "Chart AutoSave: < " + (ClientPrefs.chartAutoSave ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -615,25 +618,25 @@ class AutoSaveInt extends Option
 
 	public override function left():Bool
 	{
-		ClientPrefs.chartautosaveInterval--;
-		if (ClientPrefs.chartautosaveInterval < 1)
-		ClientPrefs.chartautosaveInterval = 1;
+		ClientPrefs.chartAutoSaveInterval--;
+		if (ClientPrefs.chartAutoSaveInterval < 1)
+		ClientPrefs.chartAutoSaveInterval = 1;
 		display = updateDisplay();
 		return true;
 	}
 
 	public override function right():Bool
 	{
-		ClientPrefs.chartautosaveInterval++;
-		if (ClientPrefs.chartautosaveInterval > 15)
-			ClientPrefs.chartautosaveInterval = 15;
+		ClientPrefs.chartAutoSaveInterval++;
+		if (ClientPrefs.chartAutoSaveInterval > 15)
+			ClientPrefs.chartAutoSaveInterval = 15;
 		display = updateDisplay();
 		return true;
 	}
 
 	public override function getValue():String
 	{
-		return "Chart AutoSave Interval: < " + ClientPrefs.chartautosaveInterval + " Minutes >";
+		return "Chart AutoSave Interval: < " + ClientPrefs.chartAutoSaveInterval + " Minutes >";
 	}
 }
 
@@ -707,14 +710,14 @@ class Shouldcameramove extends Option
 
 	public override function press():Bool
 	{
-		ClientPrefs.shouldcameramove= !ClientPrefs.shouldcameramove;
+		ClientPrefs.shouldCameraMove = !ClientPrefs.shouldCameraMove;
 		display = updateDisplay();
 		return true;
 	}
 
 	private override function updateDisplay():String
 	{
-		return "Dynamic Camera: < " + (ClientPrefs.shouldcameramove ? "Enabled" : "Disabled") + " >";
+		return "Dynamic Camera: < " + (ClientPrefs.shouldCameraMove ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -826,7 +829,7 @@ class MissSoundsOption extends Option
 
 	public override function left():Bool
 	{
-		ClientPrefs.playmisssounds = !ClientPrefs.playmisssounds;
+		ClientPrefs.playMissSounds = !ClientPrefs.playMissSounds;
 		display = updateDisplay();
 		return true;
 	}
@@ -839,7 +842,7 @@ class MissSoundsOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Miss Sounds: < " + (ClientPrefs.playmisssounds ? "Enabled" : "Disabled") + " >";
+		return "Miss Sounds: < " + (ClientPrefs.playMissSounds ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -853,7 +856,7 @@ class MissAnimsOption extends Option
 
 	public override function left():Bool
 	{
-		ClientPrefs.playmissanims = !ClientPrefs.playmissanims;
+		ClientPrefs.playMissAnims = !ClientPrefs.playMissAnims;
 		display = updateDisplay();
 		return true;
 	}
@@ -866,7 +869,7 @@ class MissAnimsOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Miss Animations: < " + (ClientPrefs.playmissanims ? "Enabled" : "Disabled") + " >";
+		return "Miss Animations: < " + (ClientPrefs.playMissAnims ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -880,7 +883,7 @@ class PauseCountDownOption extends Option
 
 	public override function left():Bool
 	{
-		ClientPrefs.countdownpause = !ClientPrefs.countdownpause;
+		ClientPrefs.countDownPause = !ClientPrefs.countDownPause;
 		display = updateDisplay();
 		return true;
 	}
@@ -893,7 +896,7 @@ class PauseCountDownOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "AfterPause CountDown: < " + (ClientPrefs.countdownpause ? "Enabled" : "Disabled") + " >";
+		return "AfterPause CountDown: < " + (ClientPrefs.countDownPause ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -912,7 +915,7 @@ class GreenScreenMode extends Option
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.greenscreenmode = !ClientPrefs.greenscreenmode;
+		ClientPrefs.greenScreenMode = !ClientPrefs.greenScreenMode;
 		display = updateDisplay();
 		return true;
 	}
@@ -925,7 +928,7 @@ class GreenScreenMode extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Green Screen mode: < " + (ClientPrefs.greenscreenmode ? "Enabled" : "Disabled") + " >";
+		return "Green Screen mode: < " + (ClientPrefs.greenScreenMode ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -1023,7 +1026,7 @@ class AutoPause extends Option
 	public override function left():Bool
 	{
 		ClientPrefs.autoPause = !ClientPrefs.autoPause;
-                FlxG.autoPause = ClientPrefs.autoPause;
+        FlxG.autoPause = ClientPrefs.autoPause;
 		display = updateDisplay();
 		return true;
 	}
@@ -1304,7 +1307,7 @@ class JudgementCounter extends Option
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.showjud = !ClientPrefs.showjud;
+		ClientPrefs.showJudgement = !ClientPrefs.showJudgement;
 		display = updateDisplay();
 		return true;
 	}
@@ -1317,7 +1320,7 @@ class JudgementCounter extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Judgement Counter: < " + (ClientPrefs.showjud ? "Enabled" : "Disabled") + " >";
+		return "Judgement Counter: < " + (ClientPrefs.showJudgement ? "Enabled" : "Disabled") + " >";
 	}
 }
 
@@ -1540,10 +1543,10 @@ class IconBop extends Option
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.hliconbopNum--;
-		if (ClientPrefs.hliconbopNum < 0)
-		ClientPrefs.hliconbopNum = OptionsHelpers.IconsBopArray.length - 3;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.hliconbopNum);
+		ClientPrefs.healthIconBopNum--;
+		if (ClientPrefs.healthIconBopNum < 0)
+		ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 3;
+        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
 		display = updateDisplay();
 		return true;
 	}
@@ -1552,17 +1555,17 @@ class IconBop extends Option
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.hliconbopNum++;
-		if (ClientPrefs.hliconbopNum > OptionsHelpers.IconsBopArray.length - 1)
-			ClientPrefs.hliconbopNum = OptionsHelpers.IconsBopArray.length - 1;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.hliconbopNum);
+		ClientPrefs.healthIconBopNum++;
+		if (ClientPrefs.healthIconBopNum > OptionsHelpers.IconsBopArray.length - 1)
+			ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 1;
+        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
 		display = updateDisplay();
 		return true;
 	}
 
 	public override function getValue():String
 	{
-		return "Icon bopping type: < " + OptionsHelpers.getIconBopByID(ClientPrefs.hliconbopNum) + " >";
+		return "Icon bopping type: < " + OptionsHelpers.getIconBopByID(ClientPrefs.healthIconBopNum) + " >";
 	}
 }
 
@@ -1770,17 +1773,17 @@ class LaneUnderlayOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Lane Transparceny: < " + Utils.truncateFloat(ClientPrefs.underdelayalpha, 1) + " >";
+		return "Lane Transparceny: < " + Utils.truncateFloat(ClientPrefs.underDelayAlpha, 1) + " >";
 	}
 
 	override function right():Bool
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.underdelayalpha += 0.1;
+		ClientPrefs.underDelayAlpha += 0.1;
 
-		if (ClientPrefs.underdelayalpha > 1)
-			ClientPrefs.underdelayalpha = 1;
+		if (ClientPrefs.underDelayAlpha > 1)
+			ClientPrefs.underDelayAlpha = 1;
 		return true;
 	}
 
@@ -1788,10 +1791,10 @@ class LaneUnderlayOption extends Option
 	{
 		if (OptionsMenu.isInPause)
 			return false;
-		ClientPrefs.underdelayalpha -= 0.1;
+		ClientPrefs.underDelayAlpha -= 0.1;
 
-		if (ClientPrefs.underdelayalpha < 0)
-			ClientPrefs.underdelayalpha = 0;
+		if (ClientPrefs.underDelayAlpha < 0)
+			ClientPrefs.underDelayAlpha = 0;
 
 		return true;
 	}

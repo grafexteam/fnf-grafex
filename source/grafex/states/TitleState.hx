@@ -1,7 +1,10 @@
 package grafex.states;
 
+import grafex.util.PlayerSettings;
+import grafex.data.EngineData;
 import grafex.system.log.GrfxLogger;
 import grafex.states.substates.ExitGameState;
+import grafex.states.substates.PrelaunchingState;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
 import grafex.system.Conductor;
@@ -12,12 +15,14 @@ import grafex.effects.shaders.ColorSwap;
 import grafex.effects.ColorblindFilters;
 
 import grafex.states.MainMenuState;
-import grafex.states.substates.FlashingState;
+import grafex.util.ClientPrefs;
+import grafex.util.Highscore;
+import grafex.util.Utils;
 
 #if desktop
-import utils.Discord.DiscordClient;
-import sys.thread.Thread;
+import external.Discord.DiscordClient;
 #end
+
 import flixel.FlxG;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
@@ -72,10 +77,6 @@ typedef TitleData =
 
 class TitleState extends MusicBeatState
 {
-	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
-	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
-	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
-
 	public static var initialized:Bool = false;
     public static var fromMainMenu:Bool = false;
     public static var skipped:Bool = false;
@@ -95,12 +96,14 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 	
-	var titleJSON:TitleData;
+	public static var titleJSON:TitleData;
 	
 	public static var updateVersion:String = '';
 
 	override public function create():Void
 	{
+		PlayerSettings.init();
+		
 		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 		
         Paths.clearStoredMemory();
@@ -116,17 +119,41 @@ class TitleState extends MusicBeatState
     	FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		
-		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		titleJSON = Json.parse(Assets.getText(path));
-		
-		FlxG.game.focusLostFramerate = 60;
-		FlxG.sound.muteKeys = muteKeys;
-		FlxG.sound.volumeDownKeys = volumeDownKeys;
-		FlxG.sound.volumeUpKeys = volumeUpKeys;
-		FlxG.keys.preventDefaultKeys = [TAB];
-        FlxG.camera.zoom = 1;
 
-		PlayerSettings.init();
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		titleJSON = Json.parse(File.getContent(path));
+		#else
+		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
+		titleJSON = Json.parse(Assets.getText(path)); 
+		#end
+
+		if(titleJSON == null)
+		{	
+	    	titleJSON = {	
+	            titlex: -150,
+	            titley: -100,
+	            startx: 100,
+	            starty: 576,
+	            gfx: 512,
+	            gfy :40,
+	            backgroundSprite: "",
+	            bpm: 102,
+                logoBlTray: true,
+                backdropImage: "titleBg",
+                backdropImageVelocityX: 70,
+                backdropImageVelocityY: 70
+            };
+		}
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -134,11 +161,6 @@ class TitleState extends MusicBeatState
 
 		swagShader = new ColorSwap();
 		super.create();
-
-		FlxG.save.bind('grafex', 'xale');
-		ClientPrefs.loadPrefs();
-
-		Highscore.load();
 
         bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
 		bgFlash.visible = true;
@@ -160,11 +182,11 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
+		/*if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new FlashingState());
-		} else {
+		} else {*/
 			#if desktop
 			DiscordClient.initialize();
 			Application.current.onExit.add (function (exitCode) {
@@ -181,7 +203,7 @@ class TitleState extends MusicBeatState
 					startIntro();
 				});
 			}
-		}
+		//}
 	#end                
 	}
 
@@ -208,6 +230,18 @@ class TitleState extends MusicBeatState
 			Conductor.changeBPM(titleJSON.bpm);
 
 		persistentUpdate = true;
+
+		var bg:FlxSprite = new FlxSprite();
+
+		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
+			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
+		}else{
+			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		}
+        // bg.antialiasing = ClientPrefs.globalAntialiasing;
+		// bg.setGraphicSize(Std.int(bg.width * 0.6));
+		// bg.updateHitbox();
+		add(bg);
 
 		if(titleJSON.backdropImage == null)
 			titleJSON.backdropImage = 'titleBg';
@@ -327,14 +361,11 @@ class TitleState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		if (FlxG.sound.music != null)
-		Conductor.songPosition = FlxG.sound.music.time;
+			Conductor.songPosition = FlxG.sound.music.time;
         FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, 0.95);
 
 		if(FlxG.keys.justPressed.F11)
             FlxG.fullscreen = !FlxG.fullscreen;
-		
-        if (FlxG.keys.justPressed.F)
-			FlxG.fullscreen = !FlxG.fullscreen;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
         var tryExitGame:Bool = FlxG.keys.justPressed.ESCAPE || controls.BACK;
@@ -376,14 +407,10 @@ class TitleState extends MusicBeatState
 					if (titleText != null)
 						titleText.animation.play('press');
 					//FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                    var SkipBlack:FlxSprite;  
-                    SkipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-                    add(SkipBlack);
+                    var skipBlack:FlxSprite;  
+                    skipBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+                    add(skipBlack);
 					transitioning = true;
-
-					// FlxG.sound.music.stop();
-					
-					// CoolUtil.cameraZoom(camera, 3, 3, FlxEase.backOut, ONESHOT);
 					
                 	FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
                 	FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
@@ -444,7 +471,7 @@ class TitleState extends MusicBeatState
                 FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
 				transitioning = true;
-                                skipped = true; // true
+                skipped = true; // true
 
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
@@ -452,7 +479,8 @@ class TitleState extends MusicBeatState
 					
 					closedState = true;
 				});
-                        }
+            }
+
             if (tryExitGame)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -556,8 +584,11 @@ class TitleState extends MusicBeatState
 				case 2:
 					createCoolText(['Grafex Engine by'], 45);
 				case 4:
-					addMoreText('JustXale', 45); // yeah yeah, i know
-					addMoreText('PurSnake', 45);					
+					for(i in 0...EngineData.devsNicks.length)
+					{
+						addMoreText(EngineData.devsNicks[i], 45);
+					} // HAHA, PROTOGEN OPTIMIZED HAHAHAHA
+											
 				case 6:
                     deleteCoolText();
 					createCoolText(['Forked', 'from'], 15);

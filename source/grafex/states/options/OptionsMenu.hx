@@ -1,5 +1,8 @@
 package grafex.states.options;
 
+import grafex.system.log.GrfxLogger.log;
+import grafex.system.log.GrfxLogger;
+
 import grafex.states.options.substates.NoteOffsetState;
 import grafex.states.substates.PauseSubState;
 import grafex.states.options.substates.NotesSubState;
@@ -14,7 +17,7 @@ import flixel.tweens.FlxTween;
 import openfl.Lib;
 import grafex.states.options.substates.Options;
 import grafex.states.options.substates.ControlsSubState;
-import Controls.Control;
+import grafex.util.Controls.Control;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -26,6 +29,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.util.FlxSave;
+import grafex.util.ClientPrefs;
 
 class OptionCata extends FlxSprite
 {
@@ -147,6 +151,7 @@ class OptionsMenu extends FlxSubState
 				new NoReset("Toggle pressing R to gameover."),
 				new InstantRespawn("Toggle if you instantly respawn after dying."),
 				new CamZoomOption("Toggle the camera zoom in-game."),
+                                new ControllerMode("Enables you to play with controller."),
                 new DFJKOption(),
                 new NotesOption(),
                 new Customizeption(),
@@ -347,6 +352,7 @@ class OptionsMenu extends FlxSubState
 		}
 		catch (e)
 		{
+			GrfxLogger.log('error', "oops\n" + e);
 			selectedCatIndex = 0;
 		}
 	}

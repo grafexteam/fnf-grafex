@@ -1,10 +1,11 @@
 package grafex.states.editors;
 
 import grafex.sprites.Alphabet;
+import grafex.states.substates.PrelaunchingState;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -23,6 +24,7 @@ import flash.net.FileFilter;
 import haxe.Json;
 import grafex.cutscenes.DialogueBoxPsych;
 import lime.system.Clipboard;
+import grafex.util.ClientPrefs;
 #if sys
 import sys.io.File;
 #end
@@ -342,9 +344,9 @@ class DialogueEditorState extends MusicBeatState
 		}
 
 		if(!blockInput) {
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			if(FlxG.keys.justPressed.SPACE) {
 				reloadText(speedStepper.value);
 			}

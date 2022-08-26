@@ -5,6 +5,9 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.FlxBasic;
 import flixel.FlxSprite;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
+import grafex.util.PlayerSettings;
 
 class MusicBeatSubstate extends FlxSubState
 {
@@ -19,7 +22,7 @@ class MusicBeatSubstate extends FlxSubState
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 
-private var curDecStep:Float = 0;
+	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	private var controls(get, never):Controls;
 
@@ -36,7 +39,6 @@ private var curDecStep:Float = 0;
 
 		if (oldStep != curStep && curStep > 0)
 			stepHit();
-
 
 		super.update(elapsed);
 	}

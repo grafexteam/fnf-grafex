@@ -2,7 +2,7 @@ package grafex.sprites.background;
 
 import grafex.system.Paths;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
+import grafex.util.Utils;
 
 class BackgroundGirls extends FlxSprite
 {

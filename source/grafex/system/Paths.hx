@@ -1,5 +1,6 @@
 package grafex.system;
 
+import grafex.system.log.GrfxLogger;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import openfl.system.System;
 import flixel.FlxG;
@@ -7,6 +8,8 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -515,7 +518,6 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);	
 		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
-		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath))
 		#if MODS_ALLOWED
 			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
@@ -555,7 +557,7 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		trace('oh no its returning null NOOOO');
+		GrfxLogger.log('Warning', 'Image not found');
 		return null;
 	}
 
@@ -593,5 +595,10 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 		#end
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
+	}
+
+	inline static public function stage(key:String, ?library:String, ?ext:String = "json")
+	{
+		return getPath('stages/$key.$ext', TEXT, library);
 	}
 }

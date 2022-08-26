@@ -1,7 +1,7 @@
 package grafex.cutscenes;
 
 import grafex.system.Paths;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxBasic;
@@ -15,7 +15,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.group.FlxSpriteGroup;
-import utils.animateatlas.AtlasFrameMaker;
+import external.animateatlas.AtlasFrameMaker;
 import flixel.util.FlxSort;
 
 class CutsceneHandler extends FlxBasic
@@ -27,6 +27,7 @@ class CutsceneHandler extends FlxBasic
 	public var endTime:Float = 0;
 	public var objects:Array<FlxSprite> = [];
 	public var music:String = null;
+	public var sounds:Array<FlxSound> = [];
 	public function new()
 	{
 		super();
@@ -73,6 +74,29 @@ class CutsceneHandler extends FlxBasic
 			PlayState.instance.remove(this);
 		}
 		
+		if (FlxG.keys.justPressed.ENTER)
+		{
+			finishCallback();
+			if(finishCallback2 != null) finishCallback2();
+	
+			for (spr in objects)
+			{
+				spr.kill();
+				PlayState.instance.remove(spr);
+				spr.destroy();
+			}
+	
+			for (sound in sounds)
+			{
+				if (sound.playing)
+					sound.stop();
+			}
+	
+			kill();
+			destroy();
+			PlayState.instance.remove(this);
+		}
+	
 		while(timedEvents.length > 0 && timedEvents[0][0] <= cutsceneTime)
 		{
 			timedEvents[0][1]();

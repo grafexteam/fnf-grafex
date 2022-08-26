@@ -1,8 +1,9 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
 import grafex.data.StageData;
 import grafex.system.Paths;
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 
 import grafex.system.statesystem.MusicBeatState;
 import lime.app.Promise;
@@ -17,6 +18,7 @@ import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
 import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
+import grafex.util.ClientPrefs;
 
 import haxe.io.Path;
 
@@ -90,8 +92,6 @@ class LoadingState extends MusicBeatState
 	{
 		if (!Assets.cache.hasSound(path))
 		{
-			var library = Assets.getLibrary("songs");
-			final symbolPath = path.split(":").pop();
 			var callback = callbacks.add("song:" + path);
 			Assets.loadSound(path).onComplete(function (_) { callback(); });
 		}
@@ -159,7 +159,7 @@ class LoadingState extends MusicBeatState
 		if(weekDir != null && weekDir.length > 0 && weekDir != '') directory = weekDir;
 
 		Paths.setCurrentLevel(directory);
-		trace('Setting asset folder to ' + directory);
+		GrfxLogger.log('info', 'Setting asset folder to: "' + directory + '"');
 
 	#if NO_PRELOAD_ALL
 		var loaded:Bool = false;
@@ -309,7 +309,7 @@ class MultiCallback
 		return func;
 	}
 	
-	inline function log(msg):Void
+	inline function log(msg):Void // idk what really is this - Xale
 	{
 		if (logId != null)
 			trace('$logId: $msg');

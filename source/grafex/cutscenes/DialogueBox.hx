@@ -1,6 +1,6 @@
 package grafex.cutscenes;
 
-import grafex.states.PlayState;
+import grafex.states.playstate.PlayState;
 import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import grafex.sprites.Alphabet;
+import grafex.util.PlayerSettings;
 
 using StringTools;
 

@@ -1,14 +1,15 @@
 package grafex.system.assets.manager;
 
 import flixel.FlxObject;
-import grafex.system.assets.enums.GrfxObjectType;
-import grafex.system.assets.typedefs.GrfxObjectProperties;
+import grafex.system.enums.GrfxObjectType;
+import grafex.system.typedefs.GrfxObjectProperties;
 
-class GrfxAssetManager
+// TODO: REWORK ALL THIS SHIT!!! (HIGH PRIORITY!!!)
+class GrfxAssetManager // this is my future hell... 
 {
-    public static var currentAssets(default, null):Array<GrfxObject> = null;
+    /*public static var currentAssets(default, null):Array<GrfxObject> = null;
 
-    public static var defaultArgs:GrfxObjectProperties = {x: 0.0, y: 0.0, height: 0.0, width: 0.0, image: null, animation: null};
+    public static var defaultArgs:GrfxObjectProperties = {x: 0.0, y: 0.0, height: 0.0, width: 0.0, image: null, animation: null, scale: 0, scrollfactor:[0,0]};
 
     public static function createObject(?type:GrfxObjectType = OBJECT, ?args:GrfxObjectProperties = null):FlxObject
     {
@@ -49,5 +50,5 @@ class GrfxAssetManager
     static public function toString():String
     {
         return '[object GrfxAssetManager]';
-    }
+    }*/
 }

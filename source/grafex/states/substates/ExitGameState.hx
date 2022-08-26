@@ -1,19 +1,19 @@
 package grafex.states.substates;
 
-import grafex.Utils;
+import grafex.util.Utils;
 import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.sprites.Alphabet;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import flash.system.System;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 
@@ -22,7 +22,6 @@ class ExitGameState extends MusicBeatState
 	var options:Array<String> = ['Yes', 'No'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
-	public static var menuBG:FlxSprite;
     public static var menuText:Alphabet;
 
 	function openSelectedSubstate(label:String) {
@@ -46,7 +45,7 @@ class ExitGameState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("Leaving Game Menu", null);
+		DiscordClient.changePresence("Leaving Game...", null);
 		#end
 
         var bg:FlxBackdrop;
@@ -54,6 +53,7 @@ class ExitGameState extends MusicBeatState
 	    bg.velocity.x = FlxG.random.float(-90, 90);
 		bg.velocity.y = FlxG.random.float(-20, 20);
 		bg.updateHitbox();
+		bg.color = 0x7208A0;
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 

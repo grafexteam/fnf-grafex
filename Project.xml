@@ -96,6 +96,7 @@
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
 	<assets path='extra/readme.txt' rename='you MUST readme.txt' />
+	<assets path='versionCheck.txt' rename='localVersion.txt'/>
 
 	<haxelib name="actuate" />
 
@@ -125,6 +126,7 @@
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
+
 	<!--<haxelib name="polymod"/> -->
 	<haxelib name="discord_rpc" if="desktop"/>
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->

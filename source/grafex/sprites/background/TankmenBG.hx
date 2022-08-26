@@ -5,6 +5,7 @@ import grafex.system.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import grafex.util.ClientPrefs;
 
 class TankmenBG extends FlxSprite
 {

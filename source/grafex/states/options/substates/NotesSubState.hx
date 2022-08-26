@@ -5,7 +5,7 @@ import grafex.effects.shaders.ColorSwap;
 import grafex.sprites.Alphabet;
 import grafex.system.statesystem.MusicBeatSubstate;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flash.text.TextField;
 import flixel.FlxG;
@@ -27,7 +27,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
-import Controls;
+import grafex.util.Controls;
+import grafex.util.ClientPrefs;
 
 using StringTools;
 

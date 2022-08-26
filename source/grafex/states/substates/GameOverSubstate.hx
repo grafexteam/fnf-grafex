@@ -1,5 +1,7 @@
 package grafex.states.substates;
 
+import grafex.system.log.GrfxLogger;
+import grafex.states.playstate.PlayState;
 import grafex.data.WeekData;
 import grafex.system.Paths;
 import grafex.system.Conductor;
@@ -8,13 +10,11 @@ import grafex.sprites.characters.Boyfriend;
 import grafex.system.statesystem.MusicBeatSubstate;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSubState;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
+import grafex.util.Utils;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -51,6 +51,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float, camX:Float, camY:Float)
 	{
+		GrfxLogger.log('info', 'Opened substate: ' + Type.getClassName(Type.getClass(this)));
+		
 		super();
 
 		PlayState.instance.setOnLuas('inGameOver', true);

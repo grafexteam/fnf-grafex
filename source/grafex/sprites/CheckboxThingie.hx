@@ -3,6 +3,7 @@ package grafex.sprites;
 import grafex.system.Paths;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import grafex.util.ClientPrefs;
 
 class CheckboxThingie extends FlxSprite
 {

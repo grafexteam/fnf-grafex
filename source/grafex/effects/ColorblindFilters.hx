@@ -3,6 +3,7 @@ package grafex.effects;
 import flixel.FlxG;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
+import grafex.util.ClientPrefs;
 
 class ColorblindFilters {
     // i honesly have no ideas how to make it, so i hope that works

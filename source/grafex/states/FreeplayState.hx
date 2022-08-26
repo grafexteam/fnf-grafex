@@ -1,7 +1,9 @@
 package grafex.states;
 
+import grafex.states.playstate.PlayState;
 import grafex.system.log.GrfxLogger;
-import grafex.Utils;
+import grafex.util.Utils;
+import grafex.states.MainMenuState;
 import grafex.states.substates.ResetScoreSubState;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
@@ -11,8 +13,10 @@ import grafex.system.Paths;
 import grafex.sprites.HealthIcon;
 import grafex.sprites.Alphabet;
 import grafex.system.statesystem.MusicBeatState;
+import grafex.util.ClientPrefs;
+import grafex.util.Utils;
 #if desktop
-import utils.Discord.DiscordClient;
+import external.Discord.DiscordClient;
 #end
 import flixel.FlxCamera;
 import grafex.states.editors.ChartingState;
@@ -35,6 +39,7 @@ import grafex.data.WeekData;
 import lime.app.Application;
 import sys.FileSystem;
 import flixel.util.FlxTimer;
+import grafex.util.Highscore;
 
 using StringTools;
 
@@ -48,6 +53,7 @@ class FreeplayState extends MusicBeatState
 
 	var selector:FlxText;
 	private static var curSelected:Int = 0;
+	private static var freeplayinstPlaying:Int = -1;
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
 
@@ -240,13 +246,28 @@ class FreeplayState extends MusicBeatState
 		var leWeek:WeekData = WeekData.weeksLoaded.get(name);
 		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!StoryMenuState.weekCompleted.exists(leWeek.weekBefore) || !StoryMenuState.weekCompleted.get(leWeek.weekBefore)));
 	}
-
-	var instPlaying:Int = -1;
+	
     var holdTime:Float = 0;
     private static var vocals:FlxSound = null;
 	private static var ChooseSound:FlxSound = null;
 	override function update(elapsed:Float)
 	{
+		for (icon in iconArray)
+	    {
+		    switch(ClientPrefs.healthIconBop)
+    	    {				
+                case 'Modern':	
+			        var mult:Float = FlxMath.lerp(1, icon.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
+			        icon.scale.set(mult, mult);
+			
+			    case 'Classic':
+                    icon.scale.set(1, 1);
+
+              default:
+				//Nothing    
+		    }
+	    }
+
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
@@ -352,7 +373,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(space)
 		{
-			if(instPlaying != curSelected)
+			if(freeplayinstPlaying != curSelected)
 			{
 				#if PRELOAD_ALL
                 destroyFreeplayVocals();
@@ -373,12 +394,13 @@ class FreeplayState extends MusicBeatState
 					vocals = new FlxSound();
 				FlxG.sound.list.add(vocals);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
+				GrfxLogger.log('info', 'Started listening to song: "' + PlayState.SONG.song + '"');
 				vocals.play();
 				vocals.persist = true;
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				Conductor.changeBPM(PlayState.SONG.bpm);
-				instPlaying = curSelected;
+				freeplayinstPlaying = curSelected;
 				#end
 			}
 		}
@@ -396,22 +418,15 @@ class FreeplayState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	/*override function beatHit() {
-		super.beatHit();
-
-		if (FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0)
-			FlxG.camera.zoom += 0.015;
-	}*/
-
 	function acceptSong()
 	{
 		if (!acceptedSong)
 		{
 		    persistentUpdate = false;
 		    var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-		    var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
+		    var songString:String = Highscore.formatSong(songLowercase, curDifficulty);
 	    
-		    trace(poop);
+			GrfxLogger.log('info', 'Loading Song: "' + songString + '" on ' + Utils.difficultyString());
     
 		    acceptedSong = true;
 		    FlxG.sound.music.volume = 0;
@@ -422,17 +437,25 @@ class FreeplayState extends MusicBeatState
 		    ChooseSound.looped = false;
     
 		    //Utils.checkExistingChart(songLowercase, poop);
-		    PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+		    PlayState.SONG = Song.loadFromJson(songString, songLowercase);
 		    PlayState.isStoryMode = false;
 		    PlayState.storyDifficulty = curDifficulty;
-			GrfxLogger.log('info', 'Loading song: ' + PlayState.SONG.song);
+			
 
-		    trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+		    GrfxLogger.log('info', 'Set Current week to: "' + WeekData.getWeekFileName() + '"');
 		    if(colorTween != null) {
 		    	colorTween.cancel();
 		    }
+
+			for (item in grpSongs.members)
+				if (item.targetY == 0)
+					FlxFlicker.flicker(item, 1.05, 0.06, false, false);
+			
+			FlxFlicker.flicker(iconArray[curSelected], 1.05, 0.06, false, false);
     
 		    FlxTween.tween(camINTERFACE, {alpha: 0}, 0.3, {ease: FlxEase.linear, startDelay: 0.4});
+
+			freeplayinstPlaying = -1;
     
 		    new FlxTimer().start(1.1, function(tmr:FlxTimer)
 		    {	
@@ -456,10 +479,33 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	override function sectionHit()
+	{
+		super.sectionHit();
+
+		if (PlayState.SONG.notes[curSection] != null && PlayState.SONG.notes[curSection].changeBPM)
+		{
+			Conductor.changeBPM(PlayState.SONG.notes[curSection].bpm);
+			GrfxLogger.debug('Test BPM changed');
+		}
+	}
+
 	function bopOnBeat()
 	{
-		FlxG.camera.zoom += 0.015;
-		camZoom = FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+		FlxG.camera.zoom += 0.0175;
+		camZoom = FlxTween.tween(FlxG.camera, {zoom: 1}, 0.15);
+
+		freeplayinstPlaying >= 0 ? {
+			if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20 || (PlayState.SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
+				resyncVocals();
+
+		    iconArray[freeplayinstPlaying].doIconWork();
+	    } : {
+           for (i in 0...iconArray.length)
+		    {
+				iconArray[i].doIconWork();
+		    }
+	    }
 	}
 	
 	public static function destroyFreeplayVocals() {
@@ -546,9 +592,17 @@ class FreeplayState extends MusicBeatState
 		    for (i in 0...iconArray.length)
 		    {
 		    	iconArray[i].alpha = 0.6;
+				iconArray[i].animation.curAnim.curFrame = 0;
 		    }
     
 		    iconArray[curSelected].alpha = 1;
+			if(iconArray[curSelected].animation.frames == 3)
+			{
+				songs[curSelected].songName == 'Tutorial'
+				? iconArray[curSelected].animation.curAnim.curFrame = 1
+				: iconArray[curSelected].animation.curAnim.curFrame = 2;
+			}
+			
     
 		    for (item in grpSongs.members)
 		    {
@@ -617,6 +671,16 @@ class FreeplayState extends MusicBeatState
 		scoreBG.x = FlxG.width - (scoreBG.scale.x / 2);
 		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
 		diffText.x -= diffText.width / 2;
+	}
+
+	function resyncVocals():Void
+	{
+		vocals.pause();
+
+		FlxG.sound.music.play();
+		Conductor.songPosition = FlxG.sound.music.time;
+		vocals.time = Conductor.songPosition;
+		vocals.play();
 	}
 }
 

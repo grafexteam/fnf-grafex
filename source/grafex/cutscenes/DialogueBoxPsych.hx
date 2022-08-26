@@ -12,6 +12,8 @@ import sys.io.File;
 #end
 import openfl.utils.Assets;
 import grafex.sprites.Alphabet;
+import grafex.util.ClientPrefs;
+import grafex.util.PlayerSettings;
 
 using StringTools;
 

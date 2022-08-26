@@ -1,7 +1,7 @@
 package;
 
-import grafex.system.assets.manager.GrfxAssetManager;
-import openfl.display.Stage;
+import flixel.addons.transition.FlxTransitionableState;
+import grafex.util.PlayerSettings;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -10,22 +10,24 @@ import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import grafex.system.log.GrfxLogger;
+import grafex.util.ClientPrefs;
 
 // for crashing shit - Xale
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
-import haxe.CallStack;
-import haxe.io.Path;
-import utils.Discord.DiscordClient;
-import sys.FileSystem;
-import sys.io.File;
 import grafex.states.substates.PrelaunchingState;
+import external.FPSMem;
 #if debug
 import grafex.states.TitleState;
 #end
-import utils.FPSMem;
 
 using StringTools;
+
+/* 
+	TODO: ++- Rework OPTIONSMENU
+	TODO: +-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
+	- PurSnake work
+*/
 
 class Main extends Sprite
 {
@@ -69,13 +71,14 @@ class Main extends Sprite
 	}
 
 	function onWindowClose()
-	{
+	{	GrfxLogger.log('info', 'Application closed by Player');
 		GrfxLogger.close();
+
 	}
 
 	function onWindowFocusOut()
 		{
-			trace("Game unfocused");
+			GrfxLogger.log('info', "Game unfocused");
 	
 			if(!ClientPrefs.autoPause)
 			{
@@ -91,7 +94,7 @@ class Main extends Sprite
 	
 	function onWindowFocusIn()
 	{
-		trace("Game focused");
+		GrfxLogger.log('info', "Game focused");
 
 		if(!ClientPrefs.autoPause)
 		{
@@ -106,38 +109,21 @@ class Main extends Sprite
 	}
 
 	function onCrash(e:UncaughtErrorEvent):Void
-		{
-			GrfxLogger.log('error', e.error);
-			GrfxLogger.crash(e.error);
-			var errMsg:String = "";
-			var path:String;
-			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var dateNow:String = Date.now().toString();				
-	
-			dateNow = dateNow.replace(" ", "_");
-			dateNow = dateNow.replace(":", "'");
-	
-			path = "./logs/crash/" + "Grafex_" + dateNow + ".log";
-
-			for (stackItem in callStack)
-			{
-				switch (stackItem)
-				{
-					case FilePos(s, file, line, column):
-						errMsg += file + " (line " + line + ")\n";
-					default:
-						Sys.println(stackItem);
-				}
-			}
-
-			
-		}
+	{
+		GrfxLogger.log('error', e.error);
+		@:privateAccess GrfxLogger.crash(e.error);
+	}
 
 
 	private function init(?E:Event):Void
 	{
-		GrfxLogger.init();
-		GrfxLogger.log('INFO', 'Test');
+		FlxTransitionableState.skipNextTransIn = true;
+        FlxTransitionableState.skipNextTransOut = true;
+		
+		@:privateAccess GrfxLogger.init();
+		GrfxLogger.log('INFO', 'Game launched');
+
+		//PlayerSettings.init();
 
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
@@ -161,16 +147,11 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if debug
-		initialState = TitleState;
-		#end
-
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
         addChild(new FPSMem(10, 3, 0xFFFFFF));
-		GrfxAssetManager.createObject();
 		#end
 
 		#if html5

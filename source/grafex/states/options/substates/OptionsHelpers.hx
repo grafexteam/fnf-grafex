@@ -3,11 +3,10 @@ package grafex.states.options.substates;
 import sys.FileSystem;
 import sys.io.File;
 #end
-import openfl.display.BitmapData;
-import flixel.FlxSprite;
-import flixel.graphics.FlxGraphic;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxG;
+import grafex.util.Utils;
+import grafex.util.ClientPrefs;
+
 
 using StringTools;
 
@@ -36,7 +35,7 @@ class OptionsHelpers
 
     static public function ChangeIconBop(id:Int)
     {
-        ClientPrefs.hliconbop = getIconBopByID(id);
+        ClientPrefs.healthIconBop = getIconBopByID(id);
     }
 
     public static function getTimeBarByID(id:Int)
