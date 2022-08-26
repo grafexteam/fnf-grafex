@@ -6,7 +6,7 @@ You must have [the most up-to-date version of Haxe](https://haxe.org/download/),
 
 Follow a Friday Night Funkin' source code compilation tutorial, after this you will need to install LuaJIT.
 
-To install LuaJIT do this: `haxelib install linc_luajit` on a Command prompt/PowerShell
+To install LuaJIT do this: `haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit` on a Command prompt/PowerShell
 
 ...Or if you don't want your mod to be able to run .lua scripts, delete the "LUA_ALLOWED" line on Project.xml
 
@@ -19,16 +19,14 @@ To install LuaJIT do this: `haxelib install linc_luajit` on a Command prompt/Pow
 * NotGeorg - Grafex Arrows Artist
 
 
-## Credits:
+## Additional Credits:
 * Shadow Mario - Programmer
 * RiverOaken - Artist
 * Yoshubs - Assistant Programmer
-
-### Special Thanks
-* bbpanzu - Ex-Programmer
+* bbpanzu - Ex-Programmer of PE
 * shubs - New Input System
 * SqirraRNG - Crash Handler and Base code for Chart Editor's Waveform
-* KadeDev - Fixed some cool stuff on Chart Editor and other PRs
+* KadeDev - Fixed some cool stuff. Also KE developer
 * iFlicky - Composer of Psync and Tea Time, also made the Dialogue Sounds
 * PolybiusProxy - .MP4 Video Loader Library (hxCodec)
 * Keoiki - Note Splash Animations
