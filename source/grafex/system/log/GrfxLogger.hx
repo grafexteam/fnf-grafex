@@ -33,16 +33,9 @@ class GrfxLogger
     **/
     private static function init()
     {
-        #if debug
         haxe.Log.trace = function(v:Dynamic, ?infos:PosInfos) {
-            debug(v, infos, true);
+            customTrace(v, infos);
         }
-        #else
-        haxe.Log.trace = function(v:Dynamic, ?infos:PosInfos) {
-            log('trace', v, infos);
-        }
-        #end
-
 
         var date = Date.now().toString();
 
@@ -73,20 +66,34 @@ class GrfxLogger
         debug(message, filePos);
     }
 
+    public static function customTrace(message:Dynamic, ?filePos:PosInfos)
+    {
+        var output:FileOutput = File.append(#if debug debugPath #else path #end, false);
+        var date = Date.now().toString();
+        var filePosInfo:String = filePos.fileName + ':' + filePos.lineNumber;
+      
+        output.writeString('\n[$date][TRACE]:$filePosInfo: $message', UTF8);
+        output.close();
+
+        Sys.println('[$date][TRACE]:$filePosInfo: $message');
+    }
+
     /**
         Outputs `message` with logType `[DEBUG]` in debug logs with the PosInfos
     **/
-    public static function debug(message:Dynamic, ?filePos:PosInfos, ?isTrace:Bool = false)
+    public static function debug(message:Dynamic, ?filePos:PosInfos)
     {
         var output:FileOutput = File.append(debugPath, false);
         var date = Date.now().toString();
 
         var filePosInfo:String = filePos.fileName + ':' + filePos.lineNumber;
         
-        output.writeString('\n[$date][${isTrace ? 'TRACE' : 'DEBUG'}]:$filePosInfo: $message', UTF8);
+        output.writeString('\n[$date][DEBUG]:$filePosInfo: $message', UTF8);
         output.close();
-        #if debug Sys.println('[$date][${isTrace ? 'TRACE' : 'DEBUG'}]:$filePosInfo: $message'); #end
+        #if debug Sys.println('[$date][DEBUG]:$filePosInfo: $message'); #end
     }
+
+
 
     /**
         Closes GrfxLogger process
