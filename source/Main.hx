@@ -123,6 +123,8 @@ class Main extends Sprite
 	{
 		FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
+
+		Application.current.window.focus();
 		
 		@:privateAccess GrfxLogger.init();
 		GrfxLogger.log('INFO', 'Game launched');
