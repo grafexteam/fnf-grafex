@@ -8,7 +8,6 @@ import grafex.data.WeekData;
 import grafex.states.StoryMenuState;
 import grafex.states.FreeplayState;
 import grafex.system.statesystem.MusicBeatState;
-import grafex.system.statesystem.MusicBeatSubstate;
 import grafex.system.notes.StrumNote;
 import grafex.system.notes.Note;
 import grafex.system.song.Song;
@@ -1081,17 +1080,23 @@ class FunkinLua {
 			}
 			return getVarInArray(Type.resolveClass(classVar), variable);
 		});
+
 		Lua_helper.add_callback(lua, "setPropertyFromClass", function(classVar:String, variable:String, value:Dynamic) {
 			@:privateAccess
 			var killMe:Array<String> = variable.split('.');
+
+			classVar == 'GameOverSubstate' ? classVar = 'grafex.states.substates.GameOverSubstate' : classVar;
+
 			if(killMe.length > 1) {
 				var coverMeInPiss:Dynamic = getVarInArray(Type.resolveClass(classVar), killMe[0]);
+				trace(Type.resolveClass(classVar));
 				for (i in 1...killMe.length-1) {
 					coverMeInPiss = getVarInArray(coverMeInPiss, killMe[i]);
 				}
 				setVarInArray(coverMeInPiss, killMe[killMe.length-1], value);
 				return true;
 			}
+
 			setVarInArray(Type.resolveClass(classVar), variable, value);
 			return true;
 		});
