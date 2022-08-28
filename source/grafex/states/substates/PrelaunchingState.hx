@@ -143,7 +143,7 @@ class PrelaunchingState extends MusicBeatState
             makeCoolTransition();
 
         if(controls.ACCEPT)
-            if(txts[curSelected][1] != null && txts[curSelected][1] != '') Utils.browserLoad(txts[curSelected][1]);
+            if(!leftState && txts[curSelected][1] != null && txts[curSelected][1] != '') Utils.browserLoad(txts[curSelected][1]);
     }
 
 	function changeSelection(?pos:Int)
