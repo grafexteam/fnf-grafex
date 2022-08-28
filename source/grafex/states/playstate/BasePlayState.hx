@@ -272,6 +272,7 @@ class PlayState extends MusicBeatState
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var camNOTES:FlxCamera;
+    public var camSus:FlxCamera; // GET OUT OF MY HEAD!!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - PurSnake
     public var camNOTEHUD:FlxCamera;
 
     var blurNotes:BlurFilter;
@@ -387,7 +388,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		//Paths.clearStoredMemory();
+		Paths.clearStoredMemory();
 
 		instance = this;
 
@@ -457,6 +458,9 @@ class PlayState extends MusicBeatState
 		camOther = new FlxCamera();
 		camOther.bgColor.alpha = 0;
 
+		camSus = new FlxCamera();
+		camSus.bgColor.alpha = 0;
+
         camNOTES = new FlxCamera();
 		camNOTES.bgColor = 0;
 
@@ -470,6 +474,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camUnderHUDBeforeGame);
 		FlxG.cameras.add(camHUD);
         FlxG.cameras.add(camNOTEHUD);
+        FlxG.cameras.add(camSus);
 		FlxG.cameras.add(camNOTES);
 		FlxG.cameras.add(camHUDElem);
         FlxG.cameras.add(camOther);
@@ -493,10 +498,13 @@ class PlayState extends MusicBeatState
         camNOTEHUD.setFilters(filtershud);
         camHUD.setFilters(filtershud);
 		camHUDElem.setFilters(filtershud);
+        camSus.setFilters(filterSUSnotes); 
+        camNOTES.setFilters(filtersnotes); 
         camGame.filtersEnabled = true;
         camHUD.filtersEnabled = true; 
 		camHUDElem.filtersEnabled = true; 
         camNOTEHUD.filtersEnabled = true;
+        camSus.filtersEnabled = true;
         camNOTES.filtersEnabled = true;
 
 
@@ -508,15 +516,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
-
-                /*
-                var iconPath = Paths.image('icon.png');
-		trace(iconPath);
-		if (Assets.exists(iconPath)) {
-			lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
-			iconChanged = true;
-		} 
-                */  //Maybe - PurSnake
+		
 		#if desktop
 		storyDifficultyText = Utils.difficulties[storyDifficulty];
 
@@ -3166,7 +3166,7 @@ class PlayState extends MusicBeatState
 
 		maxHealthProb = health * 100;
 
-        for (hudcam in [camHUDElem, camNOTES, camNOTEHUD, camUnderHUDBeforeGame]) {
+        for (hudcam in [camHUDElem, camSus, camNOTES, camNOTEHUD, camUnderHUDBeforeGame]) {
         if (hudcam != null) {
 		hudcam.zoom = camHUD.zoom;
         hudcam.visible = camHUD.visible;
@@ -3442,6 +3442,7 @@ class PlayState extends MusicBeatState
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 			camHUDElem.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
             camNOTES.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
+			camSus.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 			camNOTEHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
             camUnderHUDBeforeGame.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 		}
@@ -3495,6 +3496,9 @@ class PlayState extends MusicBeatState
 			{
 				var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
 				if(!daNote.mustPress) strumGroup = opponentStrums;
+
+                if (daNote.isSustainNote)
+				daNote.cameras = [camSus];
 
 				var strumX:Float = strumGroup.members[daNote.noteData].x;
 				var strumY:Float = strumGroup.members[daNote.noteData].y;

@@ -3,7 +3,6 @@ package grafex.states;
 import grafex.util.PlayerSettings;
 import grafex.data.EngineData;
 import grafex.system.log.GrfxLogger;
-import grafex.states.substates.ExitGameState;
 import grafex.states.substates.PrelaunchingState;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
@@ -215,6 +214,7 @@ class TitleState extends MusicBeatState
 	var swagShader:ColorSwap = null;
     var bgMenu:FlxBackdrop;
     var bgFlash:FlxSprite;
+	var exitText:FlxText;
 
 	function startIntro()
 	{
@@ -328,6 +328,14 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = true;
 
+		exitText = new FlxText(-300, 0, FlxG.width, 'Exiting game...', 32);
+		exitText.alpha = 0;
+        exitText.borderColor = FlxColor.BLACK;
+        exitText.borderSize = 3;
+        exitText.borderStyle = FlxTextBorderStyle.OUTLINE;
+        exitText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+        add(exitText);
+
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
 		if (initialized)
@@ -355,6 +363,7 @@ class TitleState extends MusicBeatState
 
 	var newTitle:Bool = false;
 	var titleTimer:Float = 0;
+	var timer:Float = 0;
 
 	override function update(elapsed:Float)
 	{
@@ -386,11 +395,6 @@ class TitleState extends MusicBeatState
 		{
 			if (gamepad.justPressed.START)
 				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
 		}
 
 		if (newTitle) {
@@ -481,11 +485,18 @@ class TitleState extends MusicBeatState
 				});
             }
 
-            if (tryExitGame)
+            if (FlxG.keys.pressed.ESCAPE)
 			{
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxG.switchState(new ExitGameState());
-                closedState = true;
+				timer += elapsed * 5;
+				exitText.alpha = FlxMath.lerp(0, 1, timer / 3);
+
+				if(timer >= 8)
+					Sys.exit(0);
+			}
+			else
+			{
+				timer = 0;
+				exitText.alpha = 0;
 			}
 		}
 
@@ -587,7 +598,7 @@ class TitleState extends MusicBeatState
 					for(i in 0...EngineData.devsNicks.length)
 					{
 						addMoreText(EngineData.devsNicks[i], 45);
-					} // HAHA, PROTOGEN OPTIMIZED HAHAHAHA
+					} // HAHA, PROTOGEN OPTIMIZED
 											
 				case 6:
                     deleteCoolText();

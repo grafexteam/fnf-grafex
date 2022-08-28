@@ -19,8 +19,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 import grafex.util.Utils;
 
-// TODO: rewrite this, maybe? - Xale
-// TODO: Also merge this state with FlashingState
+// TODO: rewrite this, maybe?
 
 using StringTools;
 
@@ -72,7 +71,7 @@ class PrelaunchingState extends MusicBeatState
         #if VERSION_CHECK
         connectionFailed = false;
         
-        var version:String = null;
+        var version:Array<Int> = null;
    
         try {     
             File.saveContent('./localVersion.txt', Http.requestUrl(link)); // will save version from github locally
@@ -85,7 +84,8 @@ class PrelaunchingState extends MusicBeatState
         
         if(version != null)
         {
-            if (version >= EngineData.grafexEngineVersion)
+            //if(version >= EngineData.grafexEngineVersion)
+            if(checkVersion(version))
             {
                 GrfxLogger.log('info', 'Engine is up-to-date');
                 //MusicBeatState.switchState(new TitleState());
@@ -93,13 +93,7 @@ class PrelaunchingState extends MusicBeatState
             else
             {
                 GrfxLogger.log('warning', 'Player should update the engine');
-                txts.push([
-                    'Hello there,
-                    \nYou are playing
-                    \nthe outdated version of Grafex
-                    \nconsider updating, please 
-                    \n\n' + EngineData.githubLink + '
-                    \n\nPress ENTER to open the page \nor ESCAPE to ignore this', EngineData.githubLink]);
+                txts.push(['Hello there,\nYou are playing the outdated version of Grafex.\nconsider updating, please:\n\n' + EngineData.githubLink + '\n\nPress ENTER to open the page', EngineData.githubLink]);
             } 
         }
 
@@ -119,7 +113,7 @@ class PrelaunchingState extends MusicBeatState
         txt.screenCenter(X);
         add(txt);
 
-        arrowTxt = new FlxText(txt.x + 200, txt.y + 200, FlxG.width, '', 32);
+        arrowTxt = new FlxText(txt.x + 300, txt.y + 300, FlxG.width, '', 32);
         arrowTxt.borderColor = FlxColor.BLACK;
         arrowTxt.borderSize = 3;
         arrowTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
@@ -133,8 +127,11 @@ class PrelaunchingState extends MusicBeatState
     {
         super.update(elapsed);
 
-        arrowSine += 270 * elapsed;
-        arrowTxt.alpha = 1 - Math.sin((Math.PI * arrowSine) / 180);
+        if(!leftState)
+        {
+            arrowSine += 270 * elapsed;
+            arrowTxt.alpha = 1 - Math.sin((Math.PI * arrowSine) / 180);
+        }   
 
         if(controls.UI_LEFT_P)
             changeSelection(-1);
@@ -174,7 +171,6 @@ class PrelaunchingState extends MusicBeatState
                             arrowTxt.text = "<";
                     }
             }
-        trace(arrowTxt.text);
 
         if(curSelected == txts.length)
             makeCoolTransition();
@@ -182,23 +178,43 @@ class PrelaunchingState extends MusicBeatState
         FlxG.sound.play(Paths.sound('scrollMenu'));
     }
 
-   function requestVersion():String
+   function requestVersion():Array<Int>
        {
             // More flexible thing for those, whose Ethernet is DEAD :skull: - Xale
             GrfxLogger.log('info', 'Current engine version is ' + EngineData.grafexEngineVersion);
 
             !connectionFailed ? try {
-               GrfxLogger.log('info', 'Current GitHub version is ' + Http.requestUrl(link));
-               return Http.requestUrl(link);
+                var returnArray:Array<Int> = [];
+                GrfxLogger.log('info', 'Current GitHub version is ' + Http.requestUrl(link));
+
+                for(i in 0...Http.requestUrl(link).trim().split('\n')[0].split('.').length)
+                {
+                    trace(Std.parseInt(Http.requestUrl(link).trim().split('\n')[0].split('.')[i]));
+                    returnArray.push(Std.parseInt(Http.requestUrl(link).trim().split('\n')[0].split('.')[i]));
+                }
+
+                return returnArray;
+                //return Std.parseInt(Http.requestUrl(link).trim().split('\n')[0].split('.'));
             } catch(e) {
                 connectionFailed = true;
-                GrfxLogger.log('warning', e.message == 'EOF' ? 'Connection timed out' : e.message);    
+                GrfxLogger.log('warning', e.message == 'EOF' ? 'Connection timed out' : e.message);
+                requestVersion();
             } : {
                 GrfxLogger.log('warning', "Couldn't connect to GitHub; Checking by local file");
 
-                if(FileSystem.exists('./localVersion.txt')) { // Trying to check for the local txt version - Xale
-                   GrfxLogger.log('info', "Local version is " + File.getContent('localVersion.txt').trim().split('\n')[0]);
-                   return File.getContent('localVersion.txt').trim().split('\n')[0];      
+                if(FileSystem.exists('./localVersion.txt'))
+                { // Trying to check for the local txt version - Xale
+                    var returnArray:Array<Int> = [];
+
+                    GrfxLogger.log('info', "Local version is " + File.getContent('localVersion.txt').trim().split('\n')[0]);
+
+                    for(i in 0...File.getContent('localVersion.txt').trim().split('\n')[0].split('.').length)
+                    {
+                        trace(Std.parseInt(File.getContent('localVersion.txt').trim().split('\n')[0].split('.')[i]));
+                        returnArray.push(Std.parseInt(File.getContent('localVersion.txt').trim().split('\n')[0].split('.')[i]));
+                    }
+                    return returnArray;
+                    //return File.getContent('localVersion.txt').trim().split('\n')[0].split('.');      
                 }
                 else
                 {
@@ -211,8 +227,24 @@ class PrelaunchingState extends MusicBeatState
             // NOTHING WORKS, HOW DID YOU DO THAT?! - Xale
        }
 
+    function checkVersion(version:Array<Int>):Bool
+    {
+        for(i in 0...version.length)
+        {
+            trace(version[i] <= EngineData.notParsedVersion[i]);
+        }
+
+		if(version[0] <= EngineData.notParsedVersion[0] && version[1] < EngineData.notParsedVersion[1])
+            return true;
+        else if(version[2] <= EngineData.notParsedVersion[2])
+            return false;
+        return false;
+
+	}
+
     function makeCoolTransition()
     {
+        arrowTxt.alpha = 1;
         leftState = true;
         //FlxG.camera.fade(FlxColor.BLACK, 3, true);
         FlxTween.tween(txt, {alpha: 0}, 3);

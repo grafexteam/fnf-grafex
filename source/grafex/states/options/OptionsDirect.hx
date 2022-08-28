@@ -7,6 +7,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
+import flixel.util.FlxTimer;
 
 class OptionsDirect extends MusicBeatState
 {
@@ -25,7 +26,10 @@ class OptionsDirect extends MusicBeatState
 		movingBG.velocity.y = FlxG.random.float(-20, 20);
 		add(movingBG);
 
-		openSubState(new OptionsMenu());
 		openSubState(new CustomFadeTransition(1, true)); // WHAT'S WRONG WITH THIS SHIT, IT ISN'T WORKING
+		new FlxTimer().start(0.8, function(tmr:FlxTimer)
+		{
+			openSubState(new OptionsMenu());
+		});		
 	}
 }
