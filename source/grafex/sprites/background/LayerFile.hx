@@ -4,6 +4,7 @@ typedef LayerFile =
 {
 	public var name:String;
 	public var directory:String;
+	public var alpha:Float;
 	public var xAxis:Float;
 	public var yAxis:Float;
 	public var scrollX:Float;

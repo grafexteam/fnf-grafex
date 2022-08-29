@@ -88,6 +88,7 @@ class StageEditorState extends MusicBeatState
 	public static var stepperscrollX:FlxUIInputText;
 	public static var stepperscrollY:FlxUIInputText;
 
+	var alphaStepper:FlxUINumericStepper;
 	var scaleStepper:FlxUINumericStepper;
 
 	public static var layerStepper:FlxUINumericStepper;
@@ -286,6 +287,10 @@ class StageEditorState extends MusicBeatState
 
 		var exlabel = new FlxText(240, stepperscrollX.y + 20, 64, 'Scroll Factor X');
 
+		alphaStepper = new FlxUINumericStepper(240, nameInputText.y, 0.1, 1, 0, 1, 1);
+
+		var alphalabel = new FlxText(240, alphaStepper.y + 20, 64, 'Alpha');
+
 		scaleStepper = new FlxUINumericStepper(240, directoryInputText.y, 0.1, 1, 0, 10, 1);
 
 		var scalelabel = new FlxText(240, scaleStepper.y + 20, 64, 'Scale');
@@ -311,6 +316,7 @@ class StageEditorState extends MusicBeatState
 				scrollY: Std.parseFloat(stepperscrollX.text),
 				scrollX: Std.parseFloat(stepperscrollY.text),
 				scale: scaleStepper.value,
+				alpha: alphaStepper.value,
 				flipX: isflippedX.checked,
 				flipY: isflippedY.checked
 			};
@@ -364,6 +370,7 @@ class StageEditorState extends MusicBeatState
 					scrollY: Std.parseFloat(stepperscrollX.text),
 					scrollX: Std.parseFloat(stepperscrollY.text),
 					scale: scaleStepper.value,
+					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
 					flipY: isflippedY.checked
 				};
@@ -402,6 +409,7 @@ class StageEditorState extends MusicBeatState
 		tab_group_layers.add(removeLayer);
 		tab_group_layers.add(addLayer);
 		tab_group_layers.add(scaleStepper);
+		tab_group_layers.add(alphaStepper);
 		tab_group_layers.add(layerStepper);
 		tab_group_layers.add(layerlabel);
 		tab_group_layers.add(scalelabel);
@@ -546,6 +554,7 @@ class StageEditorState extends MusicBeatState
 			stepperscrollX.text = Std.string(layer.scrollX);
 			stepperscrollY.text = Std.string(layer.scrollY);
 			scaleStepper.value = layer.scale;
+			alphaStepper.value - layer.alpha;
 			isflippedX.checked = layer.flipX;
 			isflippedY.checked = layer.flipY;
 
@@ -639,11 +648,29 @@ class StageEditorState extends MusicBeatState
 					scrollY: Std.parseFloat(stepperscrollX.text),
 					scrollX: Std.parseFloat(stepperscrollY.text),
 					scale: scaleStepper.value,
+					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
 					flipY: isflippedY.checked
 				};
 				stageSwag.scale = sender.value;
 				visualLayers[Std.int(layerStepper.value)].setGraphicSize(Std.int(visualLayers[Std.int(layerStepper.value)].width * stageSwag.scale));
+			}
+
+			if (sender == alphaStepper)
+			{
+				var stageSwag:LayerFile = {
+					name: nameInputText.text,
+					directory: directoryInputText.text,
+					xAxis: Std.parseFloat(xInputText.text),
+					yAxis: Std.parseFloat(yInputText.text),
+					scrollY: Std.parseFloat(stepperscrollX.text),
+					scrollX: Std.parseFloat(stepperscrollY.text),
+					scale: scaleStepper.value,
+					alpha: alphaStepper.value,
+					flipX: isflippedX.checked,
+					flipY: isflippedY.checked
+				};
+				stageSwag.alpha = sender.value;
 			}
 		}
 	}

@@ -1003,6 +1003,7 @@ class PlayState extends MusicBeatState
 					loadedLayer.scale.set(layer.scale, layer.scale);
 					loadedLayer.flipX = layer.flipX;
 					loadedLayer.flipY = layer.flipY;
+					loadedLayer.alpha = layer.alpha;
 					add(loadedLayer);
 				}
 		}
