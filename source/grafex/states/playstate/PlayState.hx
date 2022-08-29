@@ -341,6 +341,7 @@ class PlayState extends MusicBeatState
 
 	public var defaultCamZoom:Float = 1.05;
 	public var bgLayers:Array<Dynamic>;
+	public var loadedBgLayers:Array<Dynamic> = [];
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
 
     var vintage:FlxSprite;
@@ -999,12 +1000,16 @@ class PlayState extends MusicBeatState
 				isPixelStage = stageData.isPixelStage;
 				if(bgLayers != null)
 				for (layer in bgLayers) {
-					var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
-					loadedLayer.scale.set(layer.scale, layer.scale);
-					loadedLayer.flipX = layer.flipX;
-					loadedLayer.flipY = layer.flipY;
-					loadedLayer.alpha = layer.alpha;
-					add(loadedLayer);
+					if(!layer.beforeChars)
+					{
+					    var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
+					    loadedLayer.scale.set(layer.scale, layer.scale);
+					    loadedLayer.flipX = layer.flipX;
+					    loadedLayer.flipY = layer.flipY;
+					    loadedLayer.alpha = layer.alpha;
+					    add(loadedLayer);
+						loadedBgLayers.push(loadedLayer);
+					}
 				}
 		}
 
@@ -1033,6 +1038,21 @@ class PlayState extends MusicBeatState
 				add(halloweenWhite);
 			case 'tank':
 				add(foregroundSprites);
+
+			default:
+                if(bgLayers != null)
+				for (layer in bgLayers) {
+					if(layer.beforeChars)
+					{
+					    var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
+					    loadedLayer.scale.set(layer.scale, layer.scale);
+					    loadedLayer.flipX = layer.flipX;
+					    loadedLayer.flipY = layer.flipY;
+					    loadedLayer.alpha = layer.alpha;
+					    add(loadedLayer);
+						loadedBgLayers.push(loadedLayer);
+					}
+				}
 		}
 
 		#if LUA_ALLOWED

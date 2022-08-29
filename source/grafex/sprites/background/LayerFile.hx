@@ -12,4 +12,5 @@ typedef LayerFile =
 	public var scale:Float;
 	public var flipX:Bool;
 	public var flipY:Bool;
+	public var beforeChars:Bool;
 }

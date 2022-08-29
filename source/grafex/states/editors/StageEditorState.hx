@@ -81,6 +81,8 @@ class StageEditorState extends MusicBeatState
 
 	var isgf:FlxUICheckBox;
 
+	var isbeforeChars:FlxUICheckBox;
+
 	var data:StageFile;
 	var shouldStayIn:FlxSprite;
 
@@ -299,6 +301,8 @@ class StageEditorState extends MusicBeatState
 
 		var layerlabel = new FlxText(15, layerStepper.y + 20, 64, 'Selected Layer');
 
+		isbeforeChars = new FlxUICheckBox(120, layerStepper.y + 20, null, null, "Before Characters", 100);
+
 		isflippedX = new FlxUICheckBox(240, layerStepper.y + 20, null, null, "FlipX", 100);
 
 		isflippedY = new FlxUICheckBox(240, isflippedX.y + 20, null, null, "FlipY", 100);
@@ -318,7 +322,8 @@ class StageEditorState extends MusicBeatState
 				scale: scaleStepper.value,
 				alpha: alphaStepper.value,
 				flipX: isflippedX.checked,
-				flipY: isflippedY.checked
+				flipY: isflippedY.checked,
+				beforeChars: isbeforeChars.checked
 			};
 
 			var luaMakeStage:String = "makeLuaSprite('" + nameInputText.text + "', " + "'" + directoryInputText.text + "', " + xInputText.text + ", "
@@ -372,7 +377,8 @@ class StageEditorState extends MusicBeatState
 					scale: scaleStepper.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
-					flipY: isflippedY.checked
+					flipY: isflippedY.checked,
+					beforeChars: isbeforeChars.checked
 				};
 
 				var luaMakeStage:String = "makeLuaSprite('" + nameInputText.text + "', " + "'" + directoryInputText.text + "', " + xInputText.text + ", "
@@ -405,6 +411,7 @@ class StageEditorState extends MusicBeatState
 		tab_group_layers.add(nameInputText);
 		tab_group_layers.add(isflippedY);
 		tab_group_layers.add(isflippedX);
+		tab_group_layers.add(isbeforeChars);
 		tab_group_layers.add(directoryInputText);
 		tab_group_layers.add(removeLayer);
 		tab_group_layers.add(addLayer);
@@ -557,6 +564,7 @@ class StageEditorState extends MusicBeatState
 			alphaStepper.value - layer.alpha;
 			isflippedX.checked = layer.flipX;
 			isflippedY.checked = layer.flipY;
+			isbeforeChars.checked = layer.beforeChars;
 
 			var assetName:String = layer.directory;
 			var directoryLayer:String = "images/" + assetName + ".png";
@@ -650,7 +658,8 @@ class StageEditorState extends MusicBeatState
 					scale: scaleStepper.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
-					flipY: isflippedY.checked
+					flipY: isflippedY.checked,
+					beforeChars: isbeforeChars.checked
 				};
 				stageSwag.scale = sender.value;
 				visualLayers[Std.int(layerStepper.value)].setGraphicSize(Std.int(visualLayers[Std.int(layerStepper.value)].width * stageSwag.scale));
@@ -668,7 +677,8 @@ class StageEditorState extends MusicBeatState
 					scale: scaleStepper.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
-					flipY: isflippedY.checked
+					flipY: isflippedY.checked,
+					beforeChars: isbeforeChars.checked
 				};
 				stageSwag.alpha = sender.value;
 			}
