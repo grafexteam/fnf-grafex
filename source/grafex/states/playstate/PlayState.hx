@@ -340,6 +340,7 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 
 	public var defaultCamZoom:Float = 1.05;
+	public var bgLayers:Array<Dynamic>;
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
 
     var vintage:FlxSprite;
@@ -582,6 +583,7 @@ class PlayState extends MusicBeatState
 		stageData = StageData.getStageFile(curStage);
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
 			stageData = {
+				name: "",
 				directory: "",
 				defaultZoom: 0.9,
 				isPixelStage: false,
@@ -589,6 +591,7 @@ class PlayState extends MusicBeatState
 				boyfriend: [770, 100],
 				girlfriend: [400, 130],
 				opponent: [100, 100],
+				layerArray: [],
 				hide_girlfriend: false,
 
 				camera_boyfriend: [0, 0],
@@ -609,6 +612,8 @@ class PlayState extends MusicBeatState
 		DAD_X = stageData.opponent[0];
 		DAD_Y = stageData.opponent[1];
 
+		bgLayers = stageData.layerArray;
+	
 		if(stageData.camera_speed != null)
 			cameraSpeed = stageData.camera_speed;
 
@@ -989,6 +994,17 @@ class PlayState extends MusicBeatState
 				if(!ClientPrefs.lowQuality) foregroundSprites.add(new BGSprite('tank4', 1300, 900, 1.5, 1.5, ['fg']));
 				foregroundSprites.add(new BGSprite('tank5', 1620, 700, 1.5, 1.5, ['fg']));
 				if(!ClientPrefs.lowQuality) foregroundSprites.add(new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg']));
+				
+			default: //custom stages
+				isPixelStage = stageData.isPixelStage;
+				if(bgLayers != null)
+				for (layer in bgLayers) {
+					var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
+					loadedLayer.scale.set(layer.scale, layer.scale);
+					loadedLayer.flipX = layer.flipX;
+					loadedLayer.flipY = layer.flipY;
+					add(loadedLayer);
+				}
 		}
 
 		switch(Paths.formatToSongPath(SONG.song))
