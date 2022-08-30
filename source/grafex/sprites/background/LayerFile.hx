@@ -9,7 +9,8 @@ typedef LayerFile =
 	public var yAxis:Float;
 	public var scrollX:Float;
 	public var scrollY:Float;
-	public var scale:Float;
+	public var scaleX:Float;
+	public var scaleY:Float;
 	public var flipX:Bool;
 	public var flipY:Bool;
 	public var beforeChars:Bool;

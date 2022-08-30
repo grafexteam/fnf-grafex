@@ -1003,7 +1003,7 @@ class PlayState extends MusicBeatState
 					if(!layer.beforeChars)
 					{
 					    var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
-					    loadedLayer.scale.set(layer.scale, layer.scale);
+					    loadedLayer.scale.set(layer.scaleX, layer.scaleY);
 					    loadedLayer.flipX = layer.flipX;
 					    loadedLayer.flipY = layer.flipY;
 					    loadedLayer.alpha = layer.alpha;
@@ -1045,7 +1045,7 @@ class PlayState extends MusicBeatState
 					if(layer.beforeChars)
 					{
 					    var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
-					    loadedLayer.scale.set(layer.scale, layer.scale);
+					    loadedLayer.scale.set(layer.scaleX, layer.scaleY);
 					    loadedLayer.flipX = layer.flipX;
 					    loadedLayer.flipY = layer.flipY;
 					    loadedLayer.alpha = layer.alpha;

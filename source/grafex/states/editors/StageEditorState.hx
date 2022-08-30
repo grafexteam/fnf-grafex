@@ -91,7 +91,8 @@ class StageEditorState extends MusicBeatState
 	public static var stepperscrollY:FlxUIInputText;
 
 	var alphaStepper:FlxUINumericStepper;
-	var scaleStepper:FlxUINumericStepper;
+	var scaleStepperX:FlxUINumericStepper;
+	var scaleStepperY:FlxUINumericStepper;
 
 	public static var layerStepper:FlxUINumericStepper;
 
@@ -103,8 +104,10 @@ class StageEditorState extends MusicBeatState
 	public static var luaStages:Array<String> = [];
 	public static var luaScrollFactors:Array<String> = [];
 	public static var luaAdded:Array<String> = [];
+	public static var luaScale:Array<String> = [];
 	public static var luaFlipX:Array<String> = [];
 	public static var luaFlipY:Array<String> = [];
+	public static var luaAlpha:Array<String> = [];
 
 	var visualLayers:Array<FlxSprite> = [];
 
@@ -293,11 +296,12 @@ class StageEditorState extends MusicBeatState
 
 		var alphalabel = new FlxText(240, alphaStepper.y + 20, 64, 'Alpha');
 
-		scaleStepper = new FlxUINumericStepper(240, directoryInputText.y, 0.1, 1, 0, 10, 1);
+		scaleStepperX = new FlxUINumericStepper(240, directoryInputText.y - 10, 0.1, 1, 0, 10, 1);
+		scaleStepperY = new FlxUINumericStepper(240, directoryInputText.y + 10, 0.1, 1, 0, 10, 1);
 
-		var scalelabel = new FlxText(240, scaleStepper.y + 20, 64, 'Scale');
+		var scalelabel = new FlxText(240, scaleStepperY.y + 20, 64, 'Scale X / Y');
 
-		layerStepper = new FlxUINumericStepper(15, scaleStepper.y + 150, 1, 0, 0, 0, 1);
+		layerStepper = new FlxUINumericStepper(15, scaleStepperY.y + 150, 1, 0, 0, 0, 1);
 
 		var layerlabel = new FlxText(15, layerStepper.y + 20, 64, 'Selected Layer');
 
@@ -319,7 +323,8 @@ class StageEditorState extends MusicBeatState
 				yAxis: Std.parseFloat(yInputText.text),
 				scrollY: Std.parseFloat(stepperscrollX.text),
 				scrollX: Std.parseFloat(stepperscrollY.text),
-				scale: scaleStepper.value,
+				scaleX: scaleStepperX.value,
+				scaleY: scaleStepperY.value,
 				alpha: alphaStepper.value,
 				flipX: isflippedX.checked,
 				flipY: isflippedY.checked,
@@ -329,9 +334,11 @@ class StageEditorState extends MusicBeatState
 			var luaMakeStage:String = "makeLuaSprite('" + nameInputText.text + "', " + "'" + directoryInputText.text + "', " + xInputText.text + ", "
 				+ yInputText.text + ");";
 			var luaMakeScrollFactor:String = "setScrollFactor('" + nameInputText.text + "', " + stepperscrollX.text + ", " + stepperscrollY.text + ");";
-			var luaAdd:String = "addLuaSprite('" + nameInputText.text + "', " + "'false'" + ");";
+			var luaAdd:String = "addLuaSprite('" + nameInputText.text + "', " + isbeforeChars.checked + ");";
+			var luaScaleString:String = "scaleObject('" + nameInputText.text +  "', " + scaleStepperX.value + ", " + scaleStepperY.value + ");";
 			var luaFlipYstring:String = "setProperty('" + nameInputText.text + ".flipY', " + isflippedY.checked + ");";
 			var luaFlipXstring:String = "setProperty('" + nameInputText.text + ".flipX', " + isflippedX.checked + ");";
+			var luaAlphaString:String = "setProperty('" + nameInputText.text + ".alpha', " + alphaStepper.value + ");";
 			createdLayer = new FlxSprite();
 			if (visualLayers.contains(dummyLayer))
 			{
@@ -346,6 +353,8 @@ class StageEditorState extends MusicBeatState
 			layerStepper.value++;
 			luaFlipX.push(luaFlipXstring);
 			luaFlipY.push(luaFlipYstring);
+			luaAlpha.push(luaAlphaString);
+			luaScale.push(luaScaleString);
 			stageFile.layerArray.push(stageSwag);
 			remove(bg);
 			remove(stageFront);
@@ -374,7 +383,8 @@ class StageEditorState extends MusicBeatState
 					yAxis: Std.parseFloat(yInputText.text),
 					scrollY: Std.parseFloat(stepperscrollX.text),
 					scrollX: Std.parseFloat(stepperscrollY.text),
-					scale: scaleStepper.value,
+					scaleX: scaleStepperX.value,
+					scaleY: scaleStepperY.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
 					flipY: isflippedY.checked,
@@ -384,9 +394,11 @@ class StageEditorState extends MusicBeatState
 				var luaMakeStage:String = "makeLuaSprite('" + nameInputText.text + "', " + "'" + directoryInputText.text + "', " + xInputText.text + ", "
 					+ yInputText.text + ");";
 				var luaMakeScrollFactor:String = "setScrollFactor('" + nameInputText.text + "', " + stepperscrollX.text + ", " + stepperscrollY.text + ");";
-				var luaAdd:String = "addLuaSprite('" + nameInputText.text + "', " + "'false'" + ");";
+				var luaAdd:String = "addLuaSprite('" + nameInputText.text + "', " + isbeforeChars.checked + ");";
+				var luaScaleString:String = "scaleObject('" + nameInputText.text +  "', " + scaleStepperX.value + ", " + scaleStepperY.value + ");";
 				var luaFlipYstring:String = "setProperty('" + nameInputText.text + ".flipY', " + isflippedY.checked + ");";
 				var luaFlipXstring:String = "setProperty('" + nameInputText.text + ".flipX', " + isflippedX.checked + ");";
+				var luaAlphaString:String = "setProperty('" + nameInputText.text + ".alpha', " + alphaStepper.value + ");";
 
 				deleteLayer();
 				xInputText.text = "" + 0;
@@ -396,6 +408,8 @@ class StageEditorState extends MusicBeatState
 				luaAdded.remove(luaAdd);
 				luaFlipX.remove(luaFlipXstring);
 				luaFlipY.remove(luaFlipYstring);
+				luaAlpha.remove(luaAlphaString);
+				luaScale.remove(luaScaleString);
 				layerStepper.value--;
 				remove(createdLayer);
 				visualLayers.remove(createdLayer);
@@ -415,11 +429,13 @@ class StageEditorState extends MusicBeatState
 		tab_group_layers.add(directoryInputText);
 		tab_group_layers.add(removeLayer);
 		tab_group_layers.add(addLayer);
-		tab_group_layers.add(scaleStepper);
+		tab_group_layers.add(scaleStepperX);
+		tab_group_layers.add(scaleStepperY);
 		tab_group_layers.add(alphaStepper);
 		tab_group_layers.add(layerStepper);
 		tab_group_layers.add(layerlabel);
 		tab_group_layers.add(scalelabel);
+		tab_group_layers.add(alphalabel);
 		tab_group_layers.add(namelabel);
 		tab_group_layers.add(directlabel);
 		tab_group_layers.add(stepperscrollX);
@@ -560,7 +576,8 @@ class StageEditorState extends MusicBeatState
 			yInputText.text = Std.string(layer.yAxis);
 			stepperscrollX.text = Std.string(layer.scrollX);
 			stepperscrollY.text = Std.string(layer.scrollY);
-			scaleStepper.value = layer.scale;
+			scaleStepperX.value = layer.scaleX;
+			scaleStepperY.value = layer.scaleY;
 			alphaStepper.value - layer.alpha;
 			isflippedX.checked = layer.flipX;
 			isflippedY.checked = layer.flipY;
@@ -576,7 +593,8 @@ class StageEditorState extends MusicBeatState
 				createdLayer.loadGraphic(Paths.image(assetName));
 				createdLayer.x = layer.xAxis;
 				createdLayer.y = layer.yAxis;
-				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				//createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				createdLayer.scale.set(layer.scaleX, layer.scaleY);
 				add(createdLayer);
 				visualLayers.push(createdLayer);
 			}
@@ -588,7 +606,8 @@ class StageEditorState extends MusicBeatState
 				createdLayer.loadGraphic(Paths.getPath(directoryLayer, IMAGE));
 				createdLayer.x = layer.xAxis;
 				createdLayer.y = layer.yAxis;
-				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				//createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				createdLayer.scale.set(layer.scaleX, layer.scaleY);
 				add(createdLayer);
 				visualLayers.push(createdLayer);
 			}
@@ -646,7 +665,7 @@ class StageEditorState extends MusicBeatState
 	{
 		if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
 		{
-			if (sender == scaleStepper)
+			if (sender == scaleStepperX)
 			{
 				var stageSwag:LayerFile = {
 					name: nameInputText.text,
@@ -655,15 +674,38 @@ class StageEditorState extends MusicBeatState
 					yAxis: Std.parseFloat(yInputText.text),
 					scrollY: Std.parseFloat(stepperscrollX.text),
 					scrollX: Std.parseFloat(stepperscrollY.text),
-					scale: scaleStepper.value,
+					scaleX: scaleStepperX.value,
+					scaleY: scaleStepperY.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
 					flipY: isflippedY.checked,
 					beforeChars: isbeforeChars.checked
 				};
-				stageSwag.scale = sender.value;
-				visualLayers[Std.int(layerStepper.value)].setGraphicSize(Std.int(visualLayers[Std.int(layerStepper.value)].width * stageSwag.scale));
+				stageSwag.scaleX = sender.value;
+				//visualLayers[Std.int(layerStepper.value)].setGraphicSize(Std.int(visualLayers[Std.int(layerStepper.value)].width * stageSwag.scale));
+				visualLayers[Std.int(layerStepper.value)].scale.set(stageSwag.scaleX, stageSwag.scaleY);
 			}
+
+			if (sender == scaleStepperY)
+				{
+					var stageSwag:LayerFile = {
+						name: nameInputText.text,
+						directory: directoryInputText.text,
+						xAxis: Std.parseFloat(xInputText.text),
+						yAxis: Std.parseFloat(yInputText.text),
+						scrollY: Std.parseFloat(stepperscrollX.text),
+						scrollX: Std.parseFloat(stepperscrollY.text),
+						scaleX: scaleStepperX.value,
+				        scaleY: scaleStepperY.value,
+						alpha: alphaStepper.value,
+						flipX: isflippedX.checked,
+						flipY: isflippedY.checked,
+						beforeChars: isbeforeChars.checked
+					};
+					stageSwag.scaleY = sender.value;
+					//visualLayers[Std.int(layerStepper.value)].setGraphicSize(Std.int(visualLayers[Std.int(layerStepper.value)].width * stageSwag.scale));
+					visualLayers[Std.int(layerStepper.value)].scale.set(stageSwag.scaleX, stageSwag.scaleY);
+				}
 
 			if (sender == alphaStepper)
 			{
@@ -674,7 +716,8 @@ class StageEditorState extends MusicBeatState
 					yAxis: Std.parseFloat(yInputText.text),
 					scrollY: Std.parseFloat(stepperscrollX.text),
 					scrollX: Std.parseFloat(stepperscrollY.text),
-					scale: scaleStepper.value,
+					scaleX: scaleStepperX.value,
+					scaleY: scaleStepperY.value,
 					alpha: alphaStepper.value,
 					flipX: isflippedX.checked,
 					flipY: isflippedY.checked,
@@ -760,7 +803,7 @@ class StageEditorState extends MusicBeatState
 			var y = Std.parseInt(STRING[1].trim());
 			stageFile.boyfriend = [x, y];
 			bf.x = x;
-			bf.y = y;
+			bf.y = y + 350;
 
 			var STRING2 = gfInputText.text.trim().split(", ");
 			var x2 = Std.parseInt(STRING2[0].trim());
@@ -875,6 +918,9 @@ class StageEditorState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
+			FlxG.sound.muteKeys = PrelaunchingState.muteKeys;
+			FlxG.sound.volumeDownKeys = PrelaunchingState.volumeDownKeys;
+			FlxG.sound.volumeUpKeys = PrelaunchingState.volumeUpKeys;
 			MusicBeatState.switchState(new MasterEditorMenu());
 			FlxG.sound.playMusic(Paths.music());
 
@@ -947,7 +993,7 @@ class StageEditorState extends MusicBeatState
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save("function onCreate()\n" + luaStages.join("\n") + "\n" + luaScrollFactors.join("\n") + "\n" + luaFlipY.join("\n") + "\n"
-				+ luaFlipX.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end",
+				+ luaFlipX.join("\n") + "\n" + luaAlpha.join("\n") + "\n" + luaScale.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end",
 				dirinputtext.text + ".lua");
 			log('info', 'LUA Stage succsesfully saved!');
 		}
