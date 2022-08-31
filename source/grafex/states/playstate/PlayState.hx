@@ -1,15 +1,12 @@
 package grafex.states.playstate;
 
-import grafex.system.loader.GrfxModAssetsLoader;
 import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
-import grafex.util.Utils;
 
 import grafex.states.options.OptionsMenu;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
 import grafex.states.substates.PauseSubState;
-import grafex.states.MainMenuState;
 import grafex.states.editors.ChartingState;
 import grafex.states.editors.CharacterEditorState;
 import grafex.states.substates.GameOverSubstate;
@@ -228,7 +225,6 @@ class PlayState extends MusicBeatState
 
 	public var isHealthCheckingEnabled:Bool = true;
 	private var healthBarBG:AttachedSprite;
-    public var healthBarHigh:AttachedSprite;
 	public var healthBar:FlxBar;
     public var healthStrips:FlxSprite;
     public var healthBarWN:FlxBar;
@@ -1353,7 +1349,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.visible = !ClientPrefs.hideHud;
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
-		add(healthBarBG);
+		//add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'displayedHealth', 0, 2);
@@ -1368,6 +1364,7 @@ class PlayState extends MusicBeatState
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
         healthBarWN.visible = !ClientPrefs.hideHud;
 		add(healthBarWN);
+		
 
         healthStrips = new FlxSprite().loadGraphic(Paths.image('strips'));
  	    healthStrips.y = FlxG.height * 0.90;
@@ -1378,24 +1375,11 @@ class PlayState extends MusicBeatState
  	    healthStrips.blend = MULTIPLY;
  	    healthStrips.x = healthBarBG.x-1.9;
 	    healthStrips.alpha = ClientPrefs.healthBarAlpha;
-
+		
  	    add(healthStrips);
+		add(healthBarBG);
+
  	    if(ClientPrefs.downScroll) healthStrips.y = 0.11 * FlxG.height;
-
-        healthBarHigh = new AttachedSprite('healthBarHigh');
-		healthBarHigh.y = healthBarBG.y;
-		healthBarHigh.screenCenter(X);
-		healthBarHigh.scrollFactor.set();              
-        healthBarHigh.alpha = ClientPrefs.healthBarAlpha;
-		healthBarHigh.blend = MULTIPLY;
-		healthBarHigh.xAdd = -4;
-		healthBarHigh.yAdd = -4;
-        add(healthBarHigh);
-
-		if (isPixelStage)
-			healthBarHigh.visible = false;
-        else
-            healthBarHigh.visible = !ClientPrefs.hideHud;	
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -1414,7 +1398,7 @@ class PlayState extends MusicBeatState
 
 
         if(!ClientPrefs.hideHud)
-			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
 				if (helem != null) {
 					helem.visible = ClientPrefs.visibleHealthbar;
 			}  
@@ -1504,7 +1488,6 @@ class PlayState extends MusicBeatState
         vintage.cameras = [camHUDElem];
 		badLoseVin.cameras = [camHUDElem];
         songTxt.cameras = [camHUDElem];
-		healthBarHigh.cameras = [camHUDElem];
 
 		startingSong = true;
 
@@ -5606,7 +5589,7 @@ class PlayState extends MusicBeatState
 	{
 		redFlash();
 
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh, healthStrips]) {
+		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
 			if (helem != null) {
 				for (timer in [
 					{time: 0.01, forse:  (10 * intensity)},
@@ -5626,7 +5609,7 @@ class PlayState extends MusicBeatState
 		
 	function redFlash() // HaxeFlixel documentaion be like - PurSnake || Rewrited - PurSnake
 	{
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthBarHigh]) {
+		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG]) {
 		    if (helem != null) {
 		        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
 				FlxTween.tween(helem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 300, {ease: FlxEase.quadInOut, startDelay: 0.55});
