@@ -141,8 +141,6 @@ class PlayState extends MusicBeatState
 
 	var filtershud:Array<BitmapFilter> = [];
 	var filtersgame:Array<BitmapFilter> = [];
-	var filtersnotes:Array<BitmapFilter> = [];
-    var filterSUSnotes:Array<BitmapFilter> = [];
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -226,7 +224,7 @@ class PlayState extends MusicBeatState
 	public var isHealthCheckingEnabled:Bool = true;
 	private var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
-    public var healthStrips:FlxSprite;
+	public var healthStrips:AttachedSprite;
     public var healthBarWN:FlxBar;
 	var songPercent:Float = 0;
 
@@ -269,11 +267,6 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var camNOTES:FlxCamera;
     public var camNOTEHUD:FlxCamera;
-
-    var blurNotes:BlurFilter;
-
-    var wiggleShit:WiggleEffect = new WiggleEffect();
-	var susWiggle:ShaderFilter;
 
 	public var cameraSpeed:Float = 1;
 
@@ -385,7 +378,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		//Paths.clearStoredMemory();
+		Paths.clearStoredMemory();
 
 		instance = this;
 
@@ -479,13 +472,6 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-        blurNotes = new BlurFilter(0, 2, 15);
-
-        if(ClientPrefs.blurNotes)
-		{
-			filtersnotes.push(blurNotes); // blur :D - PurSnake
-			filterSUSnotes.push(blurNotes);
-		}
 
         camGame.setFilters(filtersgame);
         camNOTEHUD.setFilters(filtershud);
@@ -1262,24 +1248,6 @@ class PlayState extends MusicBeatState
 		add(timeTxt);
 		timeBarBG.sprTracker = timeBar;
 
-		// le wiggle
-		wiggleShit.waveAmplitude = 0.07;
-		wiggleShit.effectType = WiggleEffectType.DREAMY;
-		wiggleShit.waveFrequency = 0;
-		wiggleShit.waveSpeed = 1.8; // fasto
-		wiggleShit.shader.uTime.value = [(strumLine.y - Note.swagWidth * 4) / FlxG.height]; // from 4mbr0s3 2
-		susWiggle = new ShaderFilter(wiggleShit.shader);
-		// le wiggle 2
-		var wiggleShit2:WiggleEffect = new WiggleEffect();
-		wiggleShit2.waveAmplitude = 0.10;
-		wiggleShit2.effectType = WiggleEffectType.HEAT_WAVE_VERTICAL;
-		wiggleShit2.waveFrequency = 0;
-		wiggleShit2.waveSpeed = 1.8; // fasto
-		wiggleShit2.shader.uTime.value = [(strumLine.y - Note.swagWidth * 4) / FlxG.height]; // from 4mbr0s3 2
-		var susWiggle2 = new ShaderFilter(wiggleShit2.shader);
-        if(ClientPrefs.micedUpSus)
-			filterSUSnotes.push(susWiggle); // only enable it for snake notes
-
         strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
 		add(grpNoteSplashes);
@@ -1390,7 +1358,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'displayedHealth', 0, 2);
-		healthBar.scrollFactor.set();// y 10  heigh 14
+		healthBar.scrollFactor.set();
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBar);
@@ -1401,22 +1369,17 @@ class PlayState extends MusicBeatState
 		healthBarWN.alpha = ClientPrefs.healthBarAlpha;
         healthBarWN.visible = !ClientPrefs.hideHud;
 		add(healthBarWN);
-		
 
-        healthStrips = new FlxSprite().loadGraphic(Paths.image('strips'));
- 	    healthStrips.y = FlxG.height * 0.90;
- 	    healthStrips.screenCenter(X);
- 	    healthStrips.scrollFactor.set();
- 	    healthStrips.visible = !ClientPrefs.hideHud;
-        healthStrips.color = FlxColor.BLACK;
- 	    healthStrips.blend = MULTIPLY;
- 	    healthStrips.x = healthBarBG.x-1.9;
-	    healthStrips.alpha = ClientPrefs.healthBarAlpha;
+		healthStrips = new AttachedSprite('healthBarAnim', 'healthmove', null, true);
+		healthStrips.y = healthBarBG.y;
+		healthStrips.screenCenter(X);
+		healthStrips.updateHitbox();
+		healthStrips.blend = MULTIPLY;
+		healthStrips.visible = !ClientPrefs.hideHud;
+		healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		
  	    add(healthStrips);
 		add(healthBarBG);
-
- 	    if(ClientPrefs.downScroll) healthStrips.y = 0.11 * FlxG.height;
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -1471,7 +1434,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.screenCenter(X);
 		judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms |  Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
         if(ClientPrefs.showJudgement) 
-        judgementCounter.visible = !ClientPrefs.hideHud;
+        judgementCounter.visible = (!ClientPrefs.hideHud && !cpuControlled);
         else
         judgementCounter.visible = false;
 
@@ -3178,11 +3141,6 @@ class PlayState extends MusicBeatState
 		setOnLuas('curDecBeat', curDecBeat);
 
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
-
-        wiggleShit.waveAmplitude = FlxMath.lerp(wiggleShit.waveAmplitude, 0, 0.035 / (ClientPrefs.framerate / 75));
- 		wiggleShit.waveFrequency = FlxMath.lerp(wiggleShit.waveFrequency, 0, 0.035 / (ClientPrefs.framerate / 75));
-
-		wiggleShit.update(elapsed);
 
 		maxHealthProb = health * 100;
 
@@ -5325,9 +5283,6 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
-		wiggleShit.waveAmplitude = 0.035;
-		wiggleShit.waveFrequency = 10;
-
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
@@ -5361,7 +5316,6 @@ class PlayState extends MusicBeatState
 		{
 			gf.dance();
 		}
-
         if (curBeat % boyfriend.danceEveryNumBeats == 0 && boyfriend.animation.curAnim != null && !boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.stunned)
 		{
 			boyfriend.dance();
@@ -5541,11 +5495,9 @@ class PlayState extends MusicBeatState
 			    {
 				case "Psych":
 					ratings = RatingsData.psychRatings;
-				// GO CHECK FOREVER ENGINE OUT!! https://github.com/Yoshubs/Forever-Engine-Legacy
-				case "Forever":
+				case "Forever":   // https://github.com/Yoshubs/Forever-Engine-Legacy
 					ratings = RatingsData.foreverRatings;
-				// ALSO TRY ANDROMEDA!! https://github.com/nebulazorua/andromeda-engine
-				case "Andromeda":
+				case "Andromeda": // https://github.com/nebulazorua/andromeda-engine
 					ratings = RatingsData.andromedaRatings;
 				case "Kade":
 					ratings = RatingsData.accurateRatings;
@@ -5646,7 +5598,7 @@ class PlayState extends MusicBeatState
 		
 	function redFlash() // HaxeFlixel documentaion be like - PurSnake || Rewrited - PurSnake
 	{
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG]) {
+		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
 		    if (helem != null) {
 		        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
 				FlxTween.tween(helem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 300, {ease: FlxEase.quadInOut, startDelay: 0.55});

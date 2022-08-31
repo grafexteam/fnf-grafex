@@ -168,7 +168,6 @@ class OptionsMenu extends FlxSubState
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
 				new MissAnimsOption("Toggle miss animations playing when you don't hit a note."),
                 new ShowSplashes("Show particles on SICK hit."),
-                new MicedUpSusOption("Enables filter like in MicedUp Engine."),
                // new SustainsAlpha("Change Sustain Notes Alpha."),
 				new HealthBarOption("Toggles health bar visibility"),
 				new JudgementCounter("Show your judgements that you've gotten in the song"),
@@ -177,7 +176,7 @@ class OptionsMenu extends FlxSubState
                 new ShowCombo("Combo sprite appearance."),
                 new ScoreZoom("Zoom score on 2'nd beat."),
                 new HealthBarAlpha("Healthbar Transparceny."),
-                new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."),
+                //new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."), // TODO: rework later - Snake
 			    new TimeBarType("Change the song's current position bar."),
 			]),
 			new OptionCata(640, 40, "Misc", [
@@ -763,7 +762,6 @@ class OptionsMenu extends FlxSubState
  		FlxG.save.data.SusTransper = null;
 		FlxG.save.data.songNameDisplay = null;
 		FlxG.save.data.vintageOnGame = null;
- 		FlxG.save.data.micedUpSus = null;
 		FlxG.save.data.middleScroll = null;
 		FlxG.save.data.countdownpause = null;
 		FlxG.save.data.showFPS = null;

@@ -35,7 +35,6 @@ class ClientPrefs {
 	public static var chartAutoSaveInterval:Int = 5;
 	public static var chartAutoSave:Bool = true;
     public static var skipTitleState:Bool = false;
-    public static var micedUpSus:Bool = true;
     public static var susTransper:Float = 1;
 	public static var ratingSystem:String = 'Grafex';
 	public static var ratingSystemNum:Int = 0;
@@ -142,7 +141,6 @@ class ClientPrefs {
 		FlxG.save.data.songNameDisplay = songNameDisplay;
 		FlxG.save.data.vintageOnGame = vintageOnGame;
 		FlxG.save.data.shaders = shaders;
- 		FlxG.save.data.micedUpSus = micedUpSus;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.countDownPause = countDownPause;
 		FlxG.save.data.showFPS = showFPS;
@@ -190,7 +188,6 @@ class ClientPrefs {
 
 	public static function loadPrefs() {
 		FlxG.save.data.susTransper != null ? susTransper = FlxG.save.data.susTransper : susTransper = 1;
-		FlxG.save.data.micedUpSus != null ? micedUpSus = FlxG.save.data.micedUpSus : micedUpSus = false;
 		FlxG.save.data.vintageOnGame != null ? vintageOnGame = FlxG.save.data.vintageOnGame : vintageOnGame = true;
 		FlxG.save.data.ColorBlindType != null ? ColorBlindType = FlxG.save.data.ColorBlindType : ColorBlindType = 'None';
 		FlxG.save.data.ColorBlindTypeNum != null ? ColorBlindTypeNum = FlxG.save.data.ColorBlindTypeNum : ColorBlindTypeNum = 0;
