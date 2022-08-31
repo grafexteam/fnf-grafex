@@ -257,7 +257,7 @@ class ChartingState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
 
-		GrfxLogger.log('info', 'Started charting "' + _song + '"');
+		GrfxLogger.log('info', 'Started charting "' + _song.song + '"');
 
 		vortex = FlxG.save.data.chart_vortex;
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));

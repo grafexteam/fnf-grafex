@@ -227,25 +227,25 @@ inline static public function shaderFragment(key:String, ?library:String)
 		return sound(key + FlxG.random.int(min, max), library);
 	}
 
-	inline static public function music(key:String, ?library:String):Sound
-		{
-			var file:Sound = returnSound('music', key, library);
-			return file;
-		}
-	
-		inline static public function voices(song:String):Any
-		{
-			var songKey:String = '${formatToSongPath(song)}/Voices';
-			var voices = returnSound('songs', songKey);
-			return voices;
-		}
+	inline static public function music(key:String = 'freakyMenu', ?library:String, where:String = 'music'):Sound
+	{
+		var file:Sound = returnSound(where, key, library);
+		return file;
+	}
 
-		inline static public function inst(song:String):Any
-			{
-				var songKey:String = '${formatToSongPath(song)}/Inst';
-				var inst = returnSound('songs', songKey);
-				return inst;
-			}
+	inline static public function voices(song:String):Any
+	{
+		var songKey:String = '${formatToSongPath(song)}/Voices';
+		var voices = returnSound('songs', songKey);
+		return voices;
+	}
+
+	inline static public function inst(song:String):Any
+		{
+			var songKey:String = '${formatToSongPath(song)}/Inst';
+			var inst = returnSound('songs', songKey);
+			return inst;
+		}
 
 	#if MODS_ALLOWED
     public static var currentTrackedSounds:Map<String, Sound> = [];

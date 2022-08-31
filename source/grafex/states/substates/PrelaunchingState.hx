@@ -30,6 +30,7 @@ class PrelaunchingState extends MusicBeatState
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
     public static var leftState:Bool = false;
+    private static var alreadySeen:Bool = false;
 
     public static var link:String = 'https://raw.githubusercontent.com/JustXale/fnf-grafex/raw/versionCheck.txt'; // i hate github now
 
@@ -101,7 +102,9 @@ class PrelaunchingState extends MusicBeatState
         {
             txts.push(["Couldn't connect to the server", '']);
         }
-        #end //MusicBeatState.switchState(new TitleState());
+        #end
+        if(alreadySeen)
+        MusicBeatState.switchState(new TitleState());
 
         txts.push(["Thanks for using our engine! <3\n- with love\n    Grafex Team", '']);
 
@@ -143,7 +146,7 @@ class PrelaunchingState extends MusicBeatState
             makeCoolTransition();
 
         if(controls.ACCEPT)
-            if(txts[curSelected][1] != null && txts[curSelected][1] != '') Utils.browserLoad(txts[curSelected][1]);
+            if(!leftState && txts[curSelected][1] != null && txts[curSelected][1] != '') Utils.browserLoad(txts[curSelected][1]);
     }
 
 	function changeSelection(?pos:Int)
@@ -246,6 +249,7 @@ class PrelaunchingState extends MusicBeatState
     {
         arrowTxt.alpha = 1;
         leftState = true;
+        alreadySeen = true;
         //FlxG.camera.fade(FlxColor.BLACK, 3, true);
         FlxTween.tween(txt, {alpha: 0}, 3);
         FlxTween.tween(arrowTxt, {alpha: 0}, 3);

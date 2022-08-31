@@ -1,12 +1,12 @@
 package grafex.states;
 
-import grafex.util.PlayerSettings;
+
 import grafex.data.EngineData;
-import grafex.system.log.GrfxLogger;
-import grafex.states.substates.PrelaunchingState;
+
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.Paths;
 import grafex.system.Conductor;
+import grafex.system.log.GrfxLogger;
 
 import grafex.sprites.Alphabet;
 
@@ -14,6 +14,9 @@ import grafex.effects.shaders.ColorSwap;
 import grafex.effects.ColorblindFilters;
 
 import grafex.states.MainMenuState;
+import grafex.states.substates.PrelaunchingState;
+
+import grafex.util.PlayerSettings;
 import grafex.util.ClientPrefs;
 import grafex.util.Highscore;
 import grafex.util.Utils;
