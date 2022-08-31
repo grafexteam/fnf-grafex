@@ -192,7 +192,6 @@ class PrelaunchingState extends MusicBeatState
 
                 for(i in 0...Http.requestUrl(link).trim().split('\n')[0].split('.').length)
                 {
-                    trace(Std.parseInt(Http.requestUrl(link).trim().split('\n')[0].split('.')[i]));
                     returnArray.push(Std.parseInt(Http.requestUrl(link).trim().split('\n')[0].split('.')[i]));
                 }
 
@@ -213,7 +212,6 @@ class PrelaunchingState extends MusicBeatState
 
                     for(i in 0...File.getContent('localVersion.txt').trim().split('\n')[0].split('.').length)
                     {
-                        trace(Std.parseInt(File.getContent('localVersion.txt').trim().split('\n')[0].split('.')[i]));
                         returnArray.push(Std.parseInt(File.getContent('localVersion.txt').trim().split('\n')[0].split('.')[i]));
                     }
                     return returnArray;
@@ -232,11 +230,6 @@ class PrelaunchingState extends MusicBeatState
 
     function checkVersion(version:Array<Int>):Bool
     {
-        for(i in 0...version.length)
-        {
-            trace(version[i] <= EngineData.notParsedVersion[i]);
-        }
-
 		if(version[0] <= EngineData.notParsedVersion[0] && version[1] < EngineData.notParsedVersion[1])
             return true;
         else if(version[2] <= EngineData.notParsedVersion[2])
