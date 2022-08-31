@@ -1354,7 +1354,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.visible = !ClientPrefs.hideHud;
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
-		//add(healthBarBG);
+		add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'displayedHealth', 0, 2);
@@ -1379,7 +1379,6 @@ class PlayState extends MusicBeatState
 		healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		
  	    add(healthStrips);
-		add(healthBarBG);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
