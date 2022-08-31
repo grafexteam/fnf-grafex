@@ -259,14 +259,10 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
-	public var camHUD:FlxCamera; // FUCKIN LUA - PurSnake
-	public var camHUDElem:FlxCamera; // khm - PurSnake
+	public var camHUD:FlxCamera;
 	public var camPAUSE:FlxCamera;
-	public var camUnderHUDBeforeGame:FlxCamera;  // For some shit like UnderDelayLanes and because noone care- PurSnake
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
-	public var camNOTES:FlxCamera;
-    public var camNOTEHUD:FlxCamera;
 
 	public var cameraSpeed:Float = 1;
 
@@ -438,31 +434,14 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
-		camHUDElem = new FlxCamera();
-		camHUDElem.bgColor.alpha = 0;
-
-        camUnderHUDBeforeGame = new FlxCamera();
-
-		camUnderHUDBeforeGame.bgColor.alpha = 0;
-
 		camOther = new FlxCamera();
 		camOther.bgColor.alpha = 0;
-
-        camNOTES = new FlxCamera();
-		camNOTES.bgColor = 0;
-
-        camNOTEHUD = new FlxCamera();
-        camNOTEHUD.bgColor.alpha = 0;
 
 		camPAUSE = new FlxCamera();
 		camPAUSE.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camUnderHUDBeforeGame);
 		FlxG.cameras.add(camHUD);
-        FlxG.cameras.add(camNOTEHUD);
-		FlxG.cameras.add(camNOTES);
-		FlxG.cameras.add(camHUDElem);
         FlxG.cameras.add(camOther);
 
 		FlxG.cameras.add(camPAUSE);
@@ -474,14 +453,9 @@ class PlayState extends MusicBeatState
 
 
         camGame.setFilters(filtersgame);
-        camNOTEHUD.setFilters(filtershud);
         camHUD.setFilters(filtershud);
-		camHUDElem.setFilters(filtershud);
         camGame.filtersEnabled = true;
         camHUD.filtersEnabled = true; 
-		camHUDElem.filtersEnabled = true; 
-        camNOTEHUD.filtersEnabled = true;
-        camNOTES.filtersEnabled = true;
 
 
 		persistentUpdate = true;
@@ -1429,7 +1403,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.borderSize = 1.5;
 		judgementCounter.borderQuality = 2;
 		judgementCounter.scrollFactor.set();
-		judgementCounter.cameras = [camHUDElem];
+		judgementCounter.cameras = [camHUD];
 		judgementCounter.screenCenter(X);
 		judgementCounter.text = 'Max Combo: ${maxCombo} | Sicks: ${sicks} | Goods: ${goods} | Bads: ${bads} | Shits: ${shits} | Average: ${Math.round(averageMs)}ms |  Health: ${Std.string(Math.floor(Std.parseFloat(Std.string((maxHealthProb) / 2))))} %';
         if(ClientPrefs.showJudgement) 
@@ -1467,26 +1441,26 @@ class PlayState extends MusicBeatState
 		vintage.alpha = 0.2;
 		add(vintage);
 
-		strumLineNotes.cameras = [camNOTEHUD];
-		grpNoteSplashes.cameras = [camNOTEHUD];
-		notes.cameras = [camNOTES];
-		healthBar.cameras = [camHUDElem];
-		healthBarBG.cameras = [camHUDElem];
-        healthBarWN.cameras = [camHUDElem];
-        healthStrips.cameras = [camHUDElem];
-		iconP1.cameras = [camHUDElem];
-		iconP2.cameras = [camHUDElem];
-		scoreTxt.cameras = [camHUDElem];
-		botplayTxt.cameras = [camHUDElem];
-        laneunderlay.cameras = [camUnderHUDBeforeGame];
-		laneunderlayOpponent.cameras = [camUnderHUDBeforeGame];
-		timeBar.cameras = [camHUDElem];
-		timeBarBG.cameras = [camHUDElem];
-		timeTxt.cameras = [camHUDElem];
-		doof.cameras = [camHUDElem];
-        vintage.cameras = [camHUDElem];
-		badLoseVin.cameras = [camHUDElem];
-        songTxt.cameras = [camHUDElem];
+		strumLineNotes.cameras = [camHUD];
+		grpNoteSplashes.cameras = [camHUD];
+		notes.cameras = [camHUD];
+		healthBar.cameras = [camHUD];
+		healthBarBG.cameras = [camHUD];
+        healthBarWN.cameras = [camHUD];
+        healthStrips.cameras = [camHUD];
+		iconP1.cameras = [camHUD];
+		iconP2.cameras = [camHUD];
+		scoreTxt.cameras = [camHUD];
+		botplayTxt.cameras = [camHUD];
+        laneunderlay.cameras = [camHUD];
+		laneunderlayOpponent.cameras = [camHUD];
+		timeBar.cameras = [camHUD];
+		timeBarBG.cameras = [camHUD];
+		timeTxt.cameras = [camHUD];
+		doof.cameras = [camHUD];
+        vintage.cameras = [camHUD];
+		badLoseVin.cameras = [camHUD];
+        songTxt.cameras = [camHUD];
 
 		startingSong = true;
 
@@ -1866,7 +1840,7 @@ class PlayState extends MusicBeatState
 				}
 				cutsceneDialogue.nextDialogueThing = startNextDialogue;
 				cutsceneDialogue.skipDialogueThing = skipDialogue;
-				cutsceneDialogue.cameras = [camHUDElem];
+				cutsceneDialogue.cameras = [camHUD];
 				add(cutsceneDialogue);
 			} else {
 				FlxG.log.warn('Your cutscene file is badly formatted!');
@@ -1905,7 +1879,7 @@ class PlayState extends MusicBeatState
 			}
 			psychDialogue.nextDialogueThing = startNextDialogue;
 			psychDialogue.skipDialogueThing = skipDialogue;
-			psychDialogue.cameras = [camHUDElem];
+			psychDialogue.cameras = [camHUD];
 			add(psychDialogue);
 		} else {
 			FlxG.log.warn('Your dialogue file is badly formatted!');
@@ -2339,7 +2313,7 @@ class PlayState extends MusicBeatState
 	public function startCountdown():Void
 	{
 		GrfxLogger.log('info', 'Successfully Loaded "'+SONG.song+'" on '+storyDifficultyText+' 
-		Stage: '+curStage+'
+		Stage: '+curStage.toUpperCase()+'
 		Boyfriend: '+SONG.player1.toUpperCase()+'
 		Girlfriend: '+SONG.gfVersion.toUpperCase()+'
 		Opponent: '+SONG.player2.toUpperCase());
@@ -2438,13 +2412,19 @@ class PlayState extends MusicBeatState
 					bottomBoppers.dance(true);
 					santa.dance(true);
 				}
+
+				iconGroup.forEach(function(icon:HealthIcon)
+				{
+					icon.doIconWork();
+				}); //For stuped icons to do their shit while song isnt started - Snake
+
 				switch (swagCounter)
 				{
 					case 0:
 						FlxG.sound.play(Paths.sound('intro3' + introSoundsSuffix), 0.6);
 					case 1:
 						countdownReady = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
-						countdownReady.cameras = [camHUDElem];
+						countdownReady.cameras = [camHUD];
 						countdownReady.scrollFactor.set();
 						countdownReady.updateHitbox();
 
@@ -2465,7 +2445,7 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
 					case 2:
 						countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
-						countdownSet.cameras = [camHUDElem];
+						countdownSet.cameras = [camHUD];
 						countdownSet.scrollFactor.set();
 
 						if (PlayState.isPixelStage)
@@ -2485,7 +2465,7 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
                     case 3:
 						countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
-						countdownGo.cameras = [camHUDElem];
+						countdownGo.cameras = [camHUD];
 						countdownGo.scrollFactor.set();
 
 						if (PlayState.isPixelStage)
@@ -3143,16 +3123,6 @@ class PlayState extends MusicBeatState
 
 		maxHealthProb = health * 100;
 
-        for (hudcam in [camHUDElem, camNOTES, camNOTEHUD, camUnderHUDBeforeGame]) {
-        if (hudcam != null) {
-		hudcam.zoom = camHUD.zoom;
-        hudcam.visible = camHUD.visible;
-        hudcam.x = camHUD.x;
-        hudcam.y = camHUD.y;
-        hudcam.alpha = camHUD.alpha;
-		    }  
-        }
-
         if(FlxG.keys.justPressed.F11)
         {
             FlxG.fullscreen = !FlxG.fullscreen;
@@ -3417,10 +3387,6 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
-			camHUDElem.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
-            camNOTES.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
-			camNOTEHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
-            camUnderHUDBeforeGame.zoom = FlxMath.lerp(1, camHUD.zoom, Utils.boundTo(1 - (elapsed * 3.125 * camZoomingDecay), 0, 1));
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -4436,7 +4402,7 @@ class PlayState extends MusicBeatState
 		}
 
 		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating.image + pixelShitPart2));
-		rating.cameras = [camNOTEHUD];
+		rating.cameras = [camHUD];
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
@@ -4449,7 +4415,7 @@ class PlayState extends MusicBeatState
 
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
-		comboSpr.cameras = [camNOTEHUD];
+		comboSpr.cameras = [camHUD];
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x - 135;
         comboSpr.y += 130;
@@ -4496,7 +4462,7 @@ class PlayState extends MusicBeatState
 		for (i in seperatedScore)
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
-			numScore.cameras = [camNOTEHUD];
+			numScore.cameras = [camHUD];
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
 			numScore.y += 80;
@@ -5018,7 +4984,6 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-            
 				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
                 if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 				note.kill();
@@ -5754,7 +5719,7 @@ class PlayState extends MusicBeatState
 				inCutscene = true;
 				var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 				bg.scrollFactor.set();
-				bg.cameras = [camHUDElem];
+				bg.cameras = [camHUD];
 				add(bg);
 	
 				switch(endEvent)
