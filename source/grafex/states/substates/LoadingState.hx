@@ -30,7 +30,7 @@ class LoadingState extends MusicBeatState
 	// If you're compiling to desktop (or something that doesn't use NO_PRELOAD_ALL), search for getNextState instead
 	// I'd recommend doing it on both actually lol
 	
-	// TO DO: Make this easier
+	// TODO: Make this easier
 	
 	var target:FlxState;
 	var stopMusic = false;
@@ -50,6 +50,8 @@ class LoadingState extends MusicBeatState
 	var loadBar:FlxSprite;
 	override function create()
 	{
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
 		add(bg);
 		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
