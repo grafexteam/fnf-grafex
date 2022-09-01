@@ -66,7 +66,7 @@ class StrumNote extends FlxSprite
 		texture = skin; //Load texture and anims
 
 		scrollFactor.set();
-                if(strumOffsets.exists(ClientPrefs.noteSkin))
+        if(strumOffsets.exists(ClientPrefs.noteSkin))
 		{
 			var addOffset:Array<Dynamic> = strumOffsets.get(ClientPrefs.noteSkin);
 			if(noteData < addOffset.length)

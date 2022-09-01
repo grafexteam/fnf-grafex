@@ -16,9 +16,9 @@ class NoteSplash extends FlxSprite
 		super(x, y);
 
 		var skin = 'noteSplashes';
-                if(PlayState.isPixelStage) {
-			      skin = 'pixelUI/noteSplashesPx';
-			}
+        if(PlayState.isPixelStage) {
+			skin = 'pixelUI/noteSplashesPx';
+		}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -32,20 +32,20 @@ class NoteSplash extends FlxSprite
 
 	public function setupNoteSplash(x:Float, y:Float, note:Int = 0, texture:String = null, hueColor:Float = 0, satColor:Float = 0, brtColor:Float = 0) {
 		
-                setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
+        setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
 		alpha = 0.6;
 
 		if(texture == null) {
-                        if(ClientPrefs.noteSkin == 'Grafex')
-			texture = 'noteSplashesNew';
-                        else
-                        texture = 'noteSplashes';
+            if(ClientPrefs.noteSkin == 'Grafex')
+			    texture = 'noteSplashesNew';
+            else
+                texture = 'noteSplashes';
 
-                        if(PlayState.isPixelStage) {
-                               if(ClientPrefs.noteSkin == 'Grafex')
-			       texture = 'pixelUI/noteSplashesPxNew';
-                               else
-                               texture = 'pixelUI/noteSplashesPx';
+            if(PlayState.isPixelStage) {
+                if(ClientPrefs.noteSkin == 'Grafex')
+			        texture = 'pixelUI/noteSplashesPxNew';
+                else
+                    texture = 'pixelUI/noteSplashesPx';
 			}
                        
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
@@ -58,10 +58,10 @@ class NoteSplash extends FlxSprite
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
 
-                if(ClientPrefs.noteSkin == 'Grafex')
+        if(ClientPrefs.noteSkin == 'Grafex')
 		offset.set(32, 45);
-                else
-                offset.set(10, 10);
+        else
+        offset.set(10, 10);
 
 		var animNum:Int = FlxG.random.int(1, 2);
 		animation.play('note' + note + '-' + animNum, true);
