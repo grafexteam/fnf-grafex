@@ -373,8 +373,6 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		Paths.clearStoredMemory();
-
 		instance = this;
 
 		log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
