@@ -232,8 +232,8 @@ class OptionsMenu extends FlxSubState
 			bg.scrollFactor.set();
 			menu.add(bg);
 
-			background.alpha = 0.5;
-			bg.alpha = 0.6;
+			background.alpha = 0.3;
+			bg.alpha = 0.4;
 
 			cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		}

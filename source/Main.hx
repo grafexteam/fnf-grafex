@@ -23,12 +23,6 @@ import grafex.states.TitleState;
 
 using StringTools;
 
-/* 
-	TODO: ++- Rework OPTIONSMENU
-	TODO: +-- Add ability to change some options from OptionsMenu in PauseState with PlayState.instance
-	- PurSnake work
-*/
-
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -57,6 +51,7 @@ class Main extends Sprite
 
 		if (stage != null)
 		{
+			stage.color = 0x00ff0000;
 			init();	
 		}
 		else

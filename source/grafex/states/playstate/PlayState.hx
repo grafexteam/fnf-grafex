@@ -218,16 +218,16 @@ class PlayState extends MusicBeatState
     private var displayedHealth:Float = 1;
 	public var combo:Int = 0;
 	public var maxCombo:Int = 0;
-    var judgementCounter:FlxText;
+    public var judgementCounter:FlxText;
 
 	public var isHealthCheckingEnabled:Bool = true;
-	private var healthBarBG:AttachedSprite;
+	public var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
 	public var healthStrips:AttachedSprite;
     public var healthBarWN:FlxBar;
 	var songPercent:Float = 0;
 
-	private var timeBarBG:AttachedSprite;
+	public var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 
 	public var ratingsData:Array<Rating> = [];	
@@ -311,8 +311,8 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
-    var songTxt:FlxText;
-	var timeTxt:FlxText;
+    public var songTxt:FlxText;
+	public var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
 	var allNotesMs:Float = 0;
@@ -328,7 +328,7 @@ class PlayState extends MusicBeatState
 	public var loadedBgLayers:Array<Dynamic> = [];
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
 
-    var vintage:FlxSprite;
+    public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
 
 	var isEventWorking:Bool = false;
@@ -1169,7 +1169,7 @@ class PlayState extends MusicBeatState
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 39, 400, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
-		timeTxt.alpha = 0;
+		timeTxt.alpha = 1;
         timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 89;
@@ -1381,8 +1381,7 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-		if(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay)
-			songTxt.visible = false;
+		songTxt.visible = (ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		add(songTxt);
 
  
@@ -3375,8 +3374,7 @@ class PlayState extends MusicBeatState
 					var secondsTotal:Int = Math.floor(songCalc / 1000);
 					if(secondsTotal < 0) secondsTotal = 0;
 
-					if(ClientPrefs.timeBarType != 'Song Name')
-						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+					timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
 				}
 			}
 		}

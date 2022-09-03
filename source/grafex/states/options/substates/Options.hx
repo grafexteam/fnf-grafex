@@ -406,7 +406,7 @@ class KESustainsOption extends Option
 
 	public override function left():Bool
 	{
-                if (OptionsMenu.isInPause)
+        if (OptionsMenu.isInPause)
 			return false;
 		ClientPrefs.keSustains = !ClientPrefs.keSustains;
 		display = updateDisplay();
@@ -424,8 +424,6 @@ class KESustainsOption extends Option
 		return "Kade Engine Sustains System: < " + (ClientPrefs.keSustains ? "Enabled" : "Disabled") + " >";
 	}
 }
-
-
 
 class ScoreZoom extends Option
 {
@@ -459,18 +457,40 @@ class HideHud extends Option
 	public function new(desc:String)
 	{
 		super();
-              if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
+        //if (OptionsMenu.isInPause)
+		//	description = "This option cannot be toggled in the pause menu.";
+		//else
 			description = desc;
 
 	}
 
 	public override function left():Bool
 	{
-              	if (OptionsMenu.isInPause)
-			return false;
+        //if (OptionsMenu.isInPause)
+		//	return false;
 		ClientPrefs.hideHud = !ClientPrefs.hideHud;
+
+		PlayState.instance.healthBarBG.visible = !ClientPrefs.hideHud;
+		PlayState.instance.healthBar.visible = !ClientPrefs.hideHud;
+		PlayState.instance.healthBarWN.visible = !ClientPrefs.hideHud;
+		PlayState.instance.healthStrips.visible  = !ClientPrefs.hideHud;
+		PlayState.instance.iconP1.visible = !ClientPrefs.hideHud;
+		PlayState.instance.iconP2.visible = !ClientPrefs.hideHud;
+		PlayState.instance.songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
+		PlayState.instance.scoreTxt.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
+
+		if(ClientPrefs.showJudgement) 
+			PlayState.instance.judgementCounter.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
+		else
+			PlayState.instance.judgementCounter.visible = false;
+
+		if(!ClientPrefs.hideHud)
+			for (helem in [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.healthBarWN, PlayState.instance.healthBarBG, PlayState.instance.healthStrips]) {
+				if (helem != null) {
+					helem.visible = ClientPrefs.visibleHealthbar;
+			}  
+		}
+
 		display = updateDisplay();
 		return true;
 	}
@@ -714,16 +734,11 @@ class FlashingLightsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.flashing = !ClientPrefs.flashing;
 		display = updateDisplay();
 		return true;
@@ -1200,16 +1215,11 @@ class CamZoomOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+        description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.camZooms = !ClientPrefs.camZooms;
 		display = updateDisplay();
 		return true;
@@ -1232,17 +1242,18 @@ class JudgementCounter extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.showJudgement = !ClientPrefs.showJudgement;
+
+		if(ClientPrefs.showJudgement) 
+			PlayState.instance.judgementCounter.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
+		else
+			PlayState.instance.judgementCounter.visible = false;
+
 		display = updateDisplay();
 		return true;
 	}
@@ -1270,7 +1281,7 @@ class Imagepersist extends Option
 	public override function left():Bool
 	{
 		ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
-                FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+        FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
 		display = updateDisplay();
 		return true;
 	}
@@ -1468,16 +1479,11 @@ class IconBop extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.healthIconBopNum--;
 		if (ClientPrefs.healthIconBopNum < 0)
 		ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 3;
@@ -1488,8 +1494,6 @@ class IconBop extends Option
 
 	public override function right():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.healthIconBopNum++;
 		if (ClientPrefs.healthIconBopNum > OptionsHelpers.IconsBopArray.length - 1)
 			ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 1;
@@ -1509,33 +1513,32 @@ class TimeBarType extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+        description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.timeBarTypeNum--;
 		if (ClientPrefs.timeBarTypeNum < 0)
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 3;
      	OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
+		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
+		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
 		return true;
 	}
 
 	public override function right():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
-		ClientPrefs.timeBarTypeNum++;
+        ClientPrefs.timeBarTypeNum++;
 		if (ClientPrefs.timeBarTypeNum > OptionsHelpers.TimeBarArray.length - 1)
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 1;
         OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
+		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
+		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
 		return true;
 	}
 
@@ -1550,18 +1553,20 @@ class HealthBarOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	public override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.visibleHealthbar = !ClientPrefs.visibleHealthbar;
 		display = updateDisplay();
+
+		if(!ClientPrefs.hideHud)
+			for (helem in [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.healthBarWN, PlayState.instance.healthBarBG, PlayState.instance.healthStrips]) {
+				if (helem != null) {
+					helem.visible = ClientPrefs.visibleHealthbar;
+			}  
+		}
 		return true;
 	}
 
@@ -1582,31 +1587,40 @@ class HealthBarAlpha extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+
+		description = desc;
 		acceptValues = true;
 	}
 
 	override function right():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.healthBarAlpha += 0.1;
 		if (ClientPrefs.healthBarAlpha > 1)
 			ClientPrefs.healthBarAlpha = 1;
+
+		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
+
 		return true;
 	}
 
 	override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.healthBarAlpha -= 0.1;
 
 		if (ClientPrefs.healthBarAlpha < 0)
 			ClientPrefs.healthBarAlpha = 0;
+
+		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
+		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
 
 		return true;
 	}
@@ -1699,10 +1713,7 @@ class LaneUnderlayOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsMenu.isInPause)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+	    description = desc;
 		acceptValues = true;
 	}
 
@@ -1713,23 +1724,26 @@ class LaneUnderlayOption extends Option
 
 	override function right():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.underDelayAlpha += 0.1;
 
 		if (ClientPrefs.underDelayAlpha > 1)
 			ClientPrefs.underDelayAlpha = 1;
+
+		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+
 		return true;
 	}
 
 	override function left():Bool
 	{
-		if (OptionsMenu.isInPause)
-			return false;
 		ClientPrefs.underDelayAlpha -= 0.1;
 
 		if (ClientPrefs.underDelayAlpha < 0)
 			ClientPrefs.underDelayAlpha = 0;
+
+		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
 
 		return true;
 	}
@@ -1747,6 +1761,7 @@ class SongNameOption extends Option
 	{
 		ClientPrefs.songNameDisplay = !ClientPrefs.songNameDisplay;
 		display = updateDisplay();
+		PlayState.instance.songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		return true;
 	}
 
@@ -1774,6 +1789,7 @@ class VintageOption extends Option
 	{
 		ClientPrefs.vintageOnGame = !ClientPrefs.vintageOnGame;
 		display = updateDisplay();
+		PlayState.instance.vintage.visible = ClientPrefs.vintageOnGame;
 		return true;
 	}
 
