@@ -15,6 +15,7 @@ To install LuaJIT do this: `haxelib git linc_luajit https://github.com/nebulazor
 ## Grafex Engine
 * JustXale - Programmer
 * PurSnake - Programmer
+* MrOlegTitov - Programmer
 * LenyaTheCat - Icons Artist
 * NotGeorg - Grafex Arrows Artist
 
