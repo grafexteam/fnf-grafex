@@ -1729,8 +1729,10 @@ class LaneUnderlayOption extends Option
 		if (ClientPrefs.underDelayAlpha > 1)
 			ClientPrefs.underDelayAlpha = 1;
 
-		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
-		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		if (Type.getClass(FlxG.state) == PlayState){
+			PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+			PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		}
 
 		return true;
 	}
@@ -1742,8 +1744,10 @@ class LaneUnderlayOption extends Option
 		if (ClientPrefs.underDelayAlpha < 0)
 			ClientPrefs.underDelayAlpha = 0;
 
-		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
-		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		if (Type.getClass(FlxG.state) == PlayState){
+			PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+			PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		}
 
 		return true;
 	}
