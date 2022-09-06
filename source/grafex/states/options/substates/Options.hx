@@ -1836,3 +1836,30 @@ class ShadersOption extends Option
 		return "Shaders: < " + (ClientPrefs.shaders ? "Enabled" : "Disabled") + " >";
 	}
 }
+
+class ComboStacking extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.comboStacking = !ClientPrefs.comboStacking;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Combo Stacking: < " + (ClientPrefs.comboStacking ? "Enabled" : "Disabled") + " >";
+	}
+}

@@ -174,6 +174,7 @@ class OptionsMenu extends FlxSubState
 				new LaneUnderlayOption("How transparent your lane is, higher = more visible."),
                 new HideHud("Shows to you hud."),
                 new ShowCombo("Combo sprite appearance."),
+				new ComboStacking("Ratings and Combo won't stack, saving on System Memory and making them easier to read."),
                 new ScoreZoom("Zoom score on 2'nd beat."),
                 new HealthBarAlpha("Healthbar Transparceny."),
                 //new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."), // TODO: rework later - Snake
