@@ -3,6 +3,8 @@ package grafex.states.playstate;
 import grafex.util.ClientPrefs;
 import grafex.sprites.background.BGSprite;
 
+// what the hell is this for?
+
 class Week1State extends BasePlayState
 {
     override function create()
@@ -35,9 +37,5 @@ class Week1State extends BasePlayState
         add(gfGroup);
         add(dadGroup);
         add(boyfriendGroup);
-
-        
     }
-
-    
 }
