@@ -81,23 +81,22 @@ class HealthIcon extends FlxSprite
 	}
 
 	public dynamic function updateAnim(health:Float){ // Dynamic to prevent having like 20 if statements
-		if(spriteType == 'trio')
+		switch(spriteType)
 		{
-			if (health < 20) {
-				animation.curAnim.curFrame = 1;
-			} else if (health > 80) {
-				animation.curAnim.curFrame = 2;
-			} else {
-				animation.curAnim.curFrame = 0;
-			}
-		}
-		else if(spriteType == 'dual')
-		{
-			if (health < 20)
-				animation.curAnim.curFrame = 1;
-			else
-				animation.curAnim.curFrame = 0;
-		}
+		    case 'trio':
+			    if (health < 20) {
+			    	animation.curAnim.curFrame = 1;
+			    } else if (health > 80) {
+			    	animation.curAnim.curFrame = 2;
+			    } else {
+			    	animation.curAnim.curFrame = 0;
+			    }
+            case 'dual':
+		    	if (health < 20)
+		    		animation.curAnim.curFrame = 1;
+		    	else
+		    		animation.curAnim.curFrame = 0;
+	    }
 	}
 
 	public function doIconWork() {
@@ -155,7 +154,7 @@ class HealthIcon extends FlxSprite
 		switch(ClientPrefs.healthIconBop)
 		{
 			case 'Grafex':	
-
+                //nothing dumbass
 
 			case 'Modern':	
 
