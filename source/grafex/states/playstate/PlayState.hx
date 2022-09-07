@@ -2833,64 +2833,62 @@ class PlayState extends MusicBeatState
 				addCharacterToList(newCharacter, charType);
 
             case 'Dadbattle Spotlight':
-				if (WeekData.getWeekFileName() != 'week1' && curStage != 'stage') return;
-
-				dadbattleBlack = new BGSprite(null, -800, -400, 0, 0);
-				dadbattleBlack.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-				dadbattleBlack.alpha = 0.25;
-				dadbattleBlack.visible = false;
-				add(dadbattleBlack);
-
-				dadbattleLight = new BGSprite('spotlight', 400, -400);
-				dadbattleLight.alpha = 0.375;
-				dadbattleLight.blend = ADD;
-				dadbattleLight.visible = false;
-
-				dadbattleSmokes = new FlxSpriteGroup();
-				dadbattleSmokes.alpha = 0.7;
-				dadbattleSmokes.blend = ADD;
-				dadbattleSmokes.visible = false;
-				add(dadbattleLight);
-				add(dadbattleSmokes);
-
-				var offsetX = 200;
-				var smoke:BGSprite = new BGSprite('smoke', -1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
-				smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
-				smoke.updateHitbox();
-				smoke.velocity.x = FlxG.random.float(15, 22);
-				smoke.active = true;
-				dadbattleSmokes.add(smoke);
-				var smoke:BGSprite = new BGSprite('smoke', 1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
-				smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
-				smoke.updateHitbox();
-				smoke.velocity.x = FlxG.random.float(-15, -22);
-				smoke.active = true;
-				smoke.flipX = true;
-				dadbattleSmokes.add(smoke);
-
-
-		case 'Philly Glow':
-				if (WeekData.getWeekFileName() != 'week3' && curStage != 'philly' && !ClientPrefs.lowQuality) return;
-
-				blammedLightsBlack = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-				blammedLightsBlack.visible = false;
-				insert(members.indexOf(phillyStreet), blammedLightsBlack);
-
-				phillyWindowEvent = new BGSprite('philly/window', phillyWindow.x, phillyWindow.y, 0.3, 0.3);
-				phillyWindowEvent.setGraphicSize(Std.int(phillyWindowEvent.width * 0.85));
-				phillyWindowEvent.updateHitbox();
-				phillyWindowEvent.visible = false;
-				insert(members.indexOf(blammedLightsBlack) + 1, phillyWindowEvent);
-
-
-				phillyGlowGradient = new PhillyGlowGradient(-400, 225); //This shit was refusing to properly load FlxGradient so fuck it
-				phillyGlowGradient.visible = false;
-				insert(members.indexOf(blammedLightsBlack) + 1, phillyGlowGradient);
-
-				precacheList.set('philly/particle', 'image'); //precache particle image
-				phillyGlowParticles = new FlxTypedGroup<PhillyGlowParticle>();
-				phillyGlowParticles.visible = false;
-				insert(members.indexOf(phillyGlowGradient) + 1, phillyGlowParticles);
+				if (WeekData.getWeekFileName() == 'week1' && curStage == 'stage'){
+					dadbattleBlack = new BGSprite(null, -800, -400, 0, 0);
+					dadbattleBlack.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+					dadbattleBlack.alpha = 0.25;
+					dadbattleBlack.visible = false;
+					add(dadbattleBlack);
+	
+					dadbattleLight = new BGSprite('spotlight', 400, -400);
+					dadbattleLight.alpha = 0.375;
+					dadbattleLight.blend = ADD;
+					dadbattleLight.visible = false;
+	
+					dadbattleSmokes = new FlxSpriteGroup();
+					dadbattleSmokes.alpha = 0.7;
+					dadbattleSmokes.blend = ADD;
+					dadbattleSmokes.visible = false;
+					add(dadbattleLight);
+					add(dadbattleSmokes);
+	
+					var offsetX = 200;
+					var smoke:BGSprite = new BGSprite('smoke', -1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
+					smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
+					smoke.updateHitbox();
+					smoke.velocity.x = FlxG.random.float(15, 22);
+					smoke.active = true;
+					dadbattleSmokes.add(smoke);
+					var smoke:BGSprite = new BGSprite('smoke', 1550 + offsetX, 660 + FlxG.random.float(-20, 20), 1.2, 1.05);
+					smoke.setGraphicSize(Std.int(smoke.width * FlxG.random.float(1.1, 1.22)));
+					smoke.updateHitbox();
+					smoke.velocity.x = FlxG.random.float(-15, -22);
+					smoke.active = true;
+					smoke.flipX = true;
+					dadbattleSmokes.add(smoke);
+				}
+			case 'Philly Glow':
+				if (WeekData.getWeekFileName() == 'week3' && curStage == 'philly' && !ClientPrefs.lowQuality){
+					blammedLightsBlack = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+					blammedLightsBlack.visible = false;
+					insert(members.indexOf(phillyStreet), blammedLightsBlack);
+	
+					phillyWindowEvent = new BGSprite('philly/window', phillyWindow.x, phillyWindow.y, 0.3, 0.3);
+					phillyWindowEvent.setGraphicSize(Std.int(phillyWindowEvent.width * 0.85));
+					phillyWindowEvent.updateHitbox();
+					phillyWindowEvent.visible = false;
+					insert(members.indexOf(blammedLightsBlack) + 1, phillyWindowEvent);
+	
+	
+					phillyGlowGradient = new PhillyGlowGradient(-400, 225); //This shit was refusing to properly load FlxGradient so fuck it
+					phillyGlowGradient.visible = false;
+					insert(members.indexOf(blammedLightsBlack) + 1, phillyGlowGradient);
+	
+					precacheList.set('philly/particle', 'image'); //precache particle image
+					phillyGlowParticles = new FlxTypedGroup<PhillyGlowParticle>();
+					phillyGlowParticles.visible = false;
+					insert(members.indexOf(phillyGlowGradient) + 1, phillyGlowParticles);
+				}
 		}
 
 		if(!eventPushedMap.exists(event.event)) {
