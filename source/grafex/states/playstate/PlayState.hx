@@ -1372,7 +1372,6 @@ class PlayState extends MusicBeatState
 		iconGroup.add(iconP2);
 		add(iconGroup);
 
-
         if(!ClientPrefs.hideHud)
 			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
 				if (helem != null) {
@@ -2334,8 +2333,8 @@ class PlayState extends MusicBeatState
 		if(ret != FunkinLua.Function_Stop) {
         if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
-			generateStaticArrows(0);
-			generateStaticArrows(1);
+		    generateStaticArrows(0);
+		    generateStaticArrows(1);
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
@@ -2920,7 +2919,7 @@ class PlayState extends MusicBeatState
 	}
 
     public var skipArrowStartTween:Bool = false; //for lua
-    private function generateStaticArrows(player:Int):Void
+	private function generateStaticArrows(player:Int):Void
 	{
 		for (i in 0...4)
 		{
@@ -3297,52 +3296,37 @@ class PlayState extends MusicBeatState
 			openChartEditor();
 		}
 
-		iconGroup.forEach(function(icon:HealthIcon)
-		{
-			icon.doIconPos(elapsed);
-		});
-
         if (health > 2)
 			health = 2;
 
 		if(isHealthCheckingEnabled)
+		{
+			iconGroup.forEach(function(icon:HealthIcon)
 			{
-				iconP1.animation.frames == 3 ? {
-					if (healthBar.percent < 20) {
-						iconP1.animation.curAnim.curFrame = 1;
-						shakeFromLosing(iconP1); }
-					else if (healthBar.percent > 80)
-						iconP1.animation.curAnim.curFrame = 2;
-					else
-						iconP1.animation.curAnim.curFrame = 0;
-				} : {
-					if (healthBar.percent < 20)
-						iconP1.animation.curAnim.curFrame = 1;
-					else
-						iconP1.animation.curAnim.curFrame = 0;
-				}
-				iconP2.animation.frames == 3 ? {
-					if (healthBar.percent > 80) {
-						shakeFromLosing(iconP2);
-						iconP2.animation.curAnim.curFrame = 1; }
-					else if (healthBar.percent < 20)
-						iconP2.animation.curAnim.curFrame = 2;
-					else 
-						iconP2.animation.curAnim.curFrame = 0;
-				} : {
-					if (healthBar.percent > 80)
-						iconP2.animation.curAnim.curFrame = 1;
-					else 
-						iconP2.animation.curAnim.curFrame = 0;
-				}	
-			}
+				if(icon.isPlayer)
+					icon.updateAnim(healthBar.percent);
+				else
+					icon.updateAnim(100 - healthBar.percent);
+			});
+
+			if (healthBar.percent < 20)
+				shakeFromLosing(iconP1);
+
+			if (healthBar.percent > 80)
+				shakeFromLosing(iconP2);	
+		}
+
+		iconGroup.forEach(function(icon:HealthIcon)
+		{
+			icon.doIconPos(elapsed);
+		});
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
 			CustomFadeTransition.nextCamera = camOther;
-			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			MusicBeatState.switchState(new CharacterEditorState(dad.curCharacter));
 		}
 		
         healthBar.percent < 30 ? FlxTween.tween(badLoseVin, {alpha:0.75}, 1, {ease: FlxEase.linear}) : FlxTween.tween(badLoseVin, {alpha: 0}, 1, {ease: FlxEase.linear});

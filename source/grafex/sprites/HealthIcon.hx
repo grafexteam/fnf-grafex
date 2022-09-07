@@ -10,8 +10,6 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
 
-import openfl.utils.Assets as OpenFlAssets;
-
 using StringTools;
 
 class HealthIcon extends FlxSprite
@@ -34,10 +32,10 @@ class HealthIcon extends FlxSprite
 
 		if (sprTracker != null)
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
-
 	}
 
 	private var iconOffsets:Array<Float> = [0, 0];
+	var spriteType = "dual";
 	public function changeIcon(char:String)
 	{
 		if(this.char != char)
@@ -63,11 +61,13 @@ class HealthIcon extends FlxSprite
 						iconOffsets[1] = (width - 150) / 2;
 					}
 				
-					updateHitbox();
+			        updateHitbox();
 					if (widths == 450) {
+						spriteType = "trio";
 						animation.add(char, [0, 1, 2], 0, false, isPlayer);
 					} else {
 						animation.add(char, [0, 1], 0, false, isPlayer);
+						spriteType = "dual";
 					}
 					animation.play(char);
 					this.char = char;
@@ -77,6 +77,26 @@ class HealthIcon extends FlxSprite
 						antialiasing = false;
         	   	    }
 			}
+		}
+	}
+
+	public dynamic function updateAnim(health:Float){ // Dynamic to prevent having like 20 if statements
+		if(spriteType == 'trio')
+		{
+			if (health < 20) {
+				animation.curAnim.curFrame = 1;
+			} else if (health > 80) {
+				animation.curAnim.curFrame = 2;
+			} else {
+				animation.curAnim.curFrame = 0;
+			}
+		}
+		else if(spriteType == 'dual')
+		{
+			if (health < 20)
+				animation.curAnim.curFrame = 1;
+			else
+				animation.curAnim.curFrame = 0;
 		}
 	}
 
@@ -90,9 +110,8 @@ class HealthIcon extends FlxSprite
 					scale.x = 1;
 					scale.y = 1;
 					FlxTween.tween(this.scale, {x: 1.15, y: 1.15}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-                default:
-					    //nothing dumbass
-
+				case 'Classic':
+					setGraphicSize(Std.int(this.width + 30));
 			}
 	}
 
@@ -121,6 +140,7 @@ class HealthIcon extends FlxSprite
 					}
    
 			case 'Classic':    
+				scale.set(1, 1);
 
 				updateHitbox();
 				this.isPlayer ? {
@@ -128,6 +148,22 @@ class HealthIcon extends FlxSprite
 				} : {
 					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (width - iconOffset);
 				}
+		}
+	}
+
+	public function doIconPosFreePlayBoyezz(elapsed:Float) {
+		switch(ClientPrefs.healthIconBop)
+		{
+			case 'Grafex':	
+
+
+			case 'Modern':	
+
+				var mult:Float = FlxMath.lerp(1, this.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
+				scale.set(mult, mult);
+   
+			case 'Classic':    
+				scale.set(1, 1);
 		}
 	}
 
