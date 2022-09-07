@@ -3672,7 +3672,7 @@ class PlayState extends MusicBeatState
 	public function triggerEventNote(eventName:String, value1:String, value2:String, ?value3:String) {
 		switch(eventName) {
             case 'Dadbattle Spotlight':
-				// if (WeekData.getWeekFileName() != 'week1' && curStage != 'stage') return;
+				if (WeekData.getWeekFileName() != 'week1' && curStage != 'stage') return;
 
 				var val:Null<Int> = Std.parseInt(value1);
 				if(val == null) val = 0;
@@ -3747,7 +3747,7 @@ class PlayState extends MusicBeatState
 				gfSpeed = value;
 
 			case 'Philly Glow':
-				// if (WeekData.getWeekFileName() != 'week3' && curStage != 'philly' && !ClientPrefs.lowQuality) return;
+				if (WeekData.getWeekFileName() != 'week3' && curStage != 'philly' && !ClientPrefs.lowQuality) return;
 
 				var lightId:Int = Std.parseInt(value1);
 				if(Math.isNaN(lightId)) lightId = 0;
