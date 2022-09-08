@@ -246,7 +246,7 @@ class PrelaunchingState extends MusicBeatState
         //FlxG.camera.fade(FlxColor.BLACK, 3, true);
         FlxTween.tween(txt, {alpha: 0}, 3);
         FlxTween.tween(arrowTxt, {alpha: 0}, 3);
-        FlxG.sound.play(Paths.sound('titleShoot')).fadeOut(4, 0);
+        FlxG.sound.play(Paths.sound('titleShoot'), 0.8).fadeOut(4, 0);
         FlxG.camera.flash(FlxColor.WHITE, 3, function() {
             FlxTransitionableState.skipNextTransIn = false;
             FlxTransitionableState.skipNextTransOut = false;
