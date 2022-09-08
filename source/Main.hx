@@ -34,8 +34,8 @@ class Main extends Sprite
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var appTitle:String = "Friday Night Funkin': Grafex Engine";
 
-	final normalFps:Int = ClientPrefs.framerate;
-	final lowFps:Int = 10;
+	final normalFps:Int = ClientPrefs.framerate; // it's gonna get removed by DCE anyways, so I'm not gonna comment it out
+	// final lowFps:Int = 10;
 	var focusMusicTween:FlxTween;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
@@ -61,38 +61,38 @@ class Main extends Sprite
 
 		Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
-		//Lib.current.loaderInfo.
 		Application.current.window.onClose.add(onWindowClose);
+
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 	}
 
 	function onWindowClose()
-	{	GrfxLogger.log('info', 'Application closed by Player');
+	{
 		GrfxLogger.close();
-
+		GrfxLogger.log('info', 'Application closed by Player');
 	}
 
 	function onWindowFocusOut()
+	{
+		GrfxLogger.log('info', "Game unfocused");
+
+		if(!ClientPrefs.autoPause /*&& Type.getClass(FlxG.state) != PlayState || !PlayState.instance.paused*/)
 		{
-			GrfxLogger.log('info', "Game unfocused");
-	
-			if(!ClientPrefs.autoPause)
-			{
 			// Lower global volume when unfocused
 				if (focusMusicTween != null)
 					focusMusicTween.cancel();
-			    focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
-	
+				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
+
 			// Conserve power by lowering draw framerate when unfocuced
-			FlxG.drawFramerate = lowFps;
-			}
+			FlxG.drawFramerate = 10;
 		}
+	}
 	
 	function onWindowFocusIn()
 	{
 		GrfxLogger.log('info', "Game focused");
 
-		if(!ClientPrefs.autoPause)
+		if(!ClientPrefs.autoPause /*&& Type.getClass(FlxG.state) != PlayState || !PlayState.instance.paused*/)
 		{
 			// Normal global volume when focused
 			if (focusMusicTween != null)
@@ -141,8 +141,8 @@ class Main extends Sprite
 
 		if (zoom == -1)
 		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
+			final ratioX:Float = stageWidth / gameWidth; // change it back if needed
+			final ratioY:Float = stageHeight / gameHeight;
 			zoom = Math.min(ratioX, ratioY);
 			gameWidth = Math.ceil(stageWidth / zoom);
 			gameHeight = Math.ceil(stageHeight / zoom);

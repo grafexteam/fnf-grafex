@@ -1719,7 +1719,7 @@ class LaneUnderlayOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Lane Transparceny: < " + Utils.truncateFloat(ClientPrefs.underDelayAlpha, 1) + " >";
+		return "Lane Transparency: < " + Utils.truncateFloat(ClientPrefs.underDelayAlpha, 1) + " >";
 	}
 
 	override function right():Bool
