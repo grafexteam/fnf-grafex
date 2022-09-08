@@ -1388,7 +1388,7 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-		songTxt.visible = (ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
+		songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		add(songTxt);
 
  
