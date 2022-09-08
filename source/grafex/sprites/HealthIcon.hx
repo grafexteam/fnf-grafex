@@ -60,6 +60,8 @@ class HealthIcon extends FlxSprite
 			{     
         		default:
 					var name:String = 'icons/' + char;
+					spriteType = "dual";
+					animatedIconStage = "normal";
 
 					#if MODS_ALLOWED
 					var modXmlToFind:String = Paths.modsXml(name);

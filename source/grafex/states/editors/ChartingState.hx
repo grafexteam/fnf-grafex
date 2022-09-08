@@ -2495,7 +2495,7 @@ if(!blockInput){
 	{
 		var healthIconP1:String = loadHealthIconFromCharacter(_song.player1);
 		var healthIconP2:String = loadHealthIconFromCharacter(_song.player2);
-                var healthIconGF:String = loadHealthIconFromCharacter(_song.gfVersion);
+        var healthIconGF:String = loadHealthIconFromCharacter(_song.gfVersion);
 
 		if (_song.notes[curSec].mustHitSection)
 		{
