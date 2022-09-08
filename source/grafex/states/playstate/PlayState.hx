@@ -327,6 +327,7 @@ class PlayState extends MusicBeatState
 	public var bgLayers:Array<Dynamic>;
 	public var loadedBgLayers:Array<Dynamic> = [];
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
+	public var iconsWorkBeat:Int = 1;
 
     public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -368,6 +369,13 @@ class PlayState extends MusicBeatState
 	private var controlArray:Array<String>;
 
 	var precacheList:Map<String, String> = new Map<String, String>();
+
+	// stores the last judgement object
+	public static var lastRating:FlxSprite;
+	// stores the last combo sprite object
+	public static var lastCombo:FlxSprite;
+	// stores the last combo score objects in an array
+	public static var lastScore:Array<FlxSprite> = [];
 
 	var maxHealthProb:Float;
 
@@ -1365,7 +1373,6 @@ class PlayState extends MusicBeatState
 		iconGroup.add(iconP2);
 		add(iconGroup);
 
-
         if(!ClientPrefs.hideHud)
 			for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
 				if (helem != null) {
@@ -1381,7 +1388,7 @@ class PlayState extends MusicBeatState
         songTxt.borderSize = 1.2;
         songTxt.borderQuality = 1.5;
     	songTxt.scrollFactor.set();
-		songTxt.visible = (ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
+		songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		add(songTxt);
 
  
@@ -2327,8 +2334,8 @@ class PlayState extends MusicBeatState
 		if(ret != FunkinLua.Function_Stop) {
         if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
-			generateStaticArrows(0);
-			generateStaticArrows(1);
+		    generateStaticArrows(0);
+		    generateStaticArrows(1);
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
@@ -2410,10 +2417,12 @@ class PlayState extends MusicBeatState
 					santa.dance(true);
 				}
 
-				iconGroup.forEach(function(icon:HealthIcon)
-				{
-					icon.doIconWork();
-				}); //For stuped icons to do their shit while song isnt started - Snake
+
+                if(curBeat % iconsWorkBeat == 0)
+				    iconGroup.forEach(function(icon:HealthIcon)
+				    {
+				    	icon.doIconWork();
+				    }); //For stuped icons to do their shit while song isnt started - Snake
 
 				switch (swagCounter)
 				{
@@ -2913,7 +2922,7 @@ class PlayState extends MusicBeatState
 	}
 
     public var skipArrowStartTween:Bool = false; //for lua
-    private function generateStaticArrows(player:Int):Void
+	private function generateStaticArrows(player:Int):Void
 	{
 		for (i in 0...4)
 		{
@@ -3290,52 +3299,37 @@ class PlayState extends MusicBeatState
 			openChartEditor();
 		}
 
-		iconGroup.forEach(function(icon:HealthIcon)
-		{
-			icon.doIconPos(elapsed);
-		});
-
         if (health > 2)
 			health = 2;
 
 		if(isHealthCheckingEnabled)
+		{
+			iconGroup.forEach(function(icon:HealthIcon)
 			{
-				iconP1.animation.frames == 3 ? {
-					if (healthBar.percent < 20) {
-						iconP1.animation.curAnim.curFrame = 1;
-						shakeFromLosing(iconP1); }
-					else if (healthBar.percent > 80)
-						iconP1.animation.curAnim.curFrame = 2;
-					else
-						iconP1.animation.curAnim.curFrame = 0;
-				} : {
-					if (healthBar.percent < 20)
-						iconP1.animation.curAnim.curFrame = 1;
-					else
-						iconP1.animation.curAnim.curFrame = 0;
-				}
-				iconP2.animation.frames == 3 ? {
-					if (healthBar.percent > 80) {
-						shakeFromLosing(iconP2);
-						iconP2.animation.curAnim.curFrame = 1; }
-					else if (healthBar.percent < 20)
-						iconP2.animation.curAnim.curFrame = 2;
-					else 
-						iconP2.animation.curAnim.curFrame = 0;
-				} : {
-					if (healthBar.percent > 80)
-						iconP2.animation.curAnim.curFrame = 1;
-					else 
-						iconP2.animation.curAnim.curFrame = 0;
-				}	
-			}
+				if(icon.isPlayer)
+					icon.updateAnim(healthBar.percent);
+				else
+					icon.updateAnim(100 - healthBar.percent);
+			});
+
+			if (healthBar.percent < 20)
+				shakeFromLosing(iconP1);
+
+			if (healthBar.percent > 80)
+				shakeFromLosing(iconP2);	
+		}
+
+		iconGroup.forEach(function(icon:HealthIcon)
+		{
+			icon.doIconPos(elapsed);
+		});
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
 			CustomFadeTransition.nextCamera = camOther;
-			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			MusicBeatState.switchState(new CharacterEditorState(dad.curCharacter));
 		}
 		
         healthBar.percent < 30 ? FlxTween.tween(badLoseVin, {alpha:0.75}, 1, {ease: FlxEase.linear}) : FlxTween.tween(badLoseVin, {alpha: 0}, 1, {ease: FlxEase.linear});
@@ -4427,6 +4421,12 @@ class PlayState extends MusicBeatState
 		comboSpr.velocity.x += FlxG.random.float(-5, 5);
 		insert(members.indexOf(strumLineNotes), rating);
 
+		if (!ClientPrefs.comboStacking)
+	    {
+	    	if (lastRating != null) lastRating.kill();
+	    	lastRating = rating;
+	    }
+
 		if (!PlayState.isPixelStage)
 		{
 			rating.setGraphicSize(Std.int(rating.width * 0.7));
@@ -4454,6 +4454,20 @@ class PlayState extends MusicBeatState
 		seperatedScore.push(Math.floor(combo / 10) % 10);
 		seperatedScore.push(combo % 10);
 
+		if (!ClientPrefs.comboStacking)
+		{
+			if (lastCombo != null) lastCombo.kill();
+			lastCombo = comboSpr;
+		}
+		if (lastScore != null)
+		{
+			while (lastScore.length > 0)
+			{
+				lastScore[0].kill();
+				lastScore.remove(lastScore[0]);
+			}
+		}
+			
 		var daLoop:Int = 0;
 		for (i in seperatedScore)
 		{
@@ -4465,6 +4479,10 @@ class PlayState extends MusicBeatState
 
 			numScore.x += ClientPrefs.comboOffset[2];
 			numScore.y -= ClientPrefs.comboOffset[3];
+
+			if (!ClientPrefs.comboStacking)
+				lastScore.push(numScore);
+
 			if (!PlayState.isPixelStage)
 			{
 				numScore.antialiasing = ClientPrefs.globalAntialiasing;
@@ -5261,10 +5279,11 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-        iconGroup.forEach(function(icon:HealthIcon)
-		{
-			icon.doIconWork();
-		});
+		if(curBeat % iconsWorkBeat == 0)
+			iconGroup.forEach(function(icon:HealthIcon)
+			{
+				icon.doIconWork();
+			});
 
 		if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
 		{
@@ -5565,10 +5584,12 @@ class PlayState extends MusicBeatState
             }  }
 		if(isHealthCheckingEnabled)
 		isHealthCheckingEnabled = false;
-		
+		if(iconP1.spriteType != "animated")
 		iconP1.animation.curAnim.curFrame = 1;
-        if (iconP2.animation.frames == 3)
-		iconP2.animation.curAnim.curFrame = 2; 
+		if(iconP2.spriteType != "animated"){
+          if (iconP2.animation.frames == 3)
+		  iconP2.animation.curAnim.curFrame = 2; 
+		}
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				isHealthCheckingEnabled = true;

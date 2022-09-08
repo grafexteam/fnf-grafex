@@ -254,18 +254,7 @@ class FreeplayState extends MusicBeatState
 	{
 		for (icon in iconArray)
 	    {
-		    switch(ClientPrefs.healthIconBop)
-    	    {				
-                case 'Modern':	
-			        var mult:Float = FlxMath.lerp(1, icon.scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-			        icon.scale.set(mult, mult);
-			
-			    case 'Classic':
-                    icon.scale.set(1, 1);
-
-              default:
-				//Nothing    
-		    }
+		    icon.doIconPosFreePlayBoyezz(elapsed);
 	    }
 
 		if (FlxG.sound.music != null)

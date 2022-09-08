@@ -1729,8 +1729,10 @@ class LaneUnderlayOption extends Option
 		if (ClientPrefs.underDelayAlpha > 1)
 			ClientPrefs.underDelayAlpha = 1;
 
-		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
-		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		if (Type.getClass(FlxG.state) == PlayState){
+			PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+			PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		}
 
 		return true;
 	}
@@ -1742,8 +1744,10 @@ class LaneUnderlayOption extends Option
 		if (ClientPrefs.underDelayAlpha < 0)
 			ClientPrefs.underDelayAlpha = 0;
 
-		PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
-		PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		if (Type.getClass(FlxG.state) == PlayState){
+			PlayState.instance.laneunderlay.alpha = ClientPrefs.underDelayAlpha;
+			PlayState.instance.laneunderlayOpponent.alpha = ClientPrefs.underDelayAlpha;
+		}
 
 		return true;
 	}
@@ -1834,5 +1838,32 @@ class ShadersOption extends Option
 	private override function updateDisplay():String
 	{
 		return "Shaders: < " + (ClientPrefs.shaders ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+class ComboStacking extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.comboStacking = !ClientPrefs.comboStacking;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Combo Stacking: < " + (ClientPrefs.comboStacking ? "Enabled" : "Disabled") + " >";
 	}
 }

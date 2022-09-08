@@ -63,6 +63,7 @@ class ClientPrefs {
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
 	public static var controllerMode:Bool = false;
+	public static var comboStacking = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -151,7 +152,7 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.ColorBlindType = ColorBlindType;
-
+		FlxG.save.data.comboStacking = comboStacking;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -187,6 +188,7 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		FlxG.save.data.comboStacking != null ? comboStacking = FlxG.save.data.comboStacking : comboStacking = false;
 		FlxG.save.data.susTransper != null ? susTransper = FlxG.save.data.susTransper : susTransper = 1;
 		FlxG.save.data.vintageOnGame != null ? vintageOnGame = FlxG.save.data.vintageOnGame : vintageOnGame = true;
 		FlxG.save.data.ColorBlindType != null ? ColorBlindType = FlxG.save.data.ColorBlindType : ColorBlindType = 'None';
