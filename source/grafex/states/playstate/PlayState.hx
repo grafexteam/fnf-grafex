@@ -327,6 +327,7 @@ class PlayState extends MusicBeatState
 	public var bgLayers:Array<Dynamic>;
 	public var loadedBgLayers:Array<Dynamic> = [];
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
+	public var iconsWorkBeat:Int = 1;
 
     public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -2416,10 +2417,12 @@ class PlayState extends MusicBeatState
 					santa.dance(true);
 				}
 
-				iconGroup.forEach(function(icon:HealthIcon)
-				{
-					icon.doIconWork();
-				}); //For stuped icons to do their shit while song isnt started - Snake
+
+                if(curBeat % iconsWorkBeat == 0)
+				    iconGroup.forEach(function(icon:HealthIcon)
+				    {
+				    	icon.doIconWork();
+				    }); //For stuped icons to do their shit while song isnt started - Snake
 
 				switch (swagCounter)
 				{
@@ -5276,10 +5279,11 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-        iconGroup.forEach(function(icon:HealthIcon)
-		{
-			icon.doIconWork();
-		});
+		if(curBeat % iconsWorkBeat == 0)
+			iconGroup.forEach(function(icon:HealthIcon)
+			{
+				icon.doIconWork();
+			});
 
 		if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
 		{
@@ -5580,10 +5584,12 @@ class PlayState extends MusicBeatState
             }  }
 		if(isHealthCheckingEnabled)
 		isHealthCheckingEnabled = false;
-		
+		if(iconP1.spriteType != "animated")
 		iconP1.animation.curAnim.curFrame = 1;
-        if (iconP2.animation.frames == 3)
-		iconP2.animation.curAnim.curFrame = 2; 
+		if(iconP2.spriteType != "animated"){
+          if (iconP2.animation.frames == 3)
+		  iconP2.animation.curAnim.curFrame = 2; 
+		}
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				isHealthCheckingEnabled = true;
