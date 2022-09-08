@@ -2309,14 +2309,14 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
-		GrfxLogger.log('info', 'Successfully Loaded "'+SONG.song+'" on '+storyDifficultyText+' 
-		Stage: '+curStage.toUpperCase()+'
-		Boyfriend: '+SONG.player1.toUpperCase()+'
-		Girlfriend: '+SONG.gfVersion.toUpperCase()+'
-		Opponent: '+SONG.player2.toUpperCase());
-		
-		GrfxLogger.log('info', 'Started Song: "' + SONG.song + '"');
+		GrfxLogger.log('info', 'Successfully Loaded "'+SONG.song+'" on '+storyDifficultyText);
+		GrfxLogger.log('info', 'Stage: '+curStage.toUpperCase());
+		GrfxLogger.log('info', 'Boyfriend: '+SONG.player1.toUpperCase());
+		GrfxLogger.log('info', 'Girlfriend: '+SONG.gfVersion.toUpperCase());
+		GrfxLogger.log('info', 'Opponent: '+SONG.player2.toUpperCase());
+		//GrfxLogger.log('info', 'Started Song: "' + SONG.song + '"');
 		GrfxLogger.log('info', 'Botplay: ' + ClientPrefs.getGameplaySetting('botplay', false).toString());
+
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
