@@ -277,13 +277,13 @@ class OptionsMenu extends FlxSubState
 		restoreSettingsText.borderQuality = 3;
 		add(restoreSettingsText);
 
-		optionsImage = new FlxSprite();
+		optionsImage = new FlxSprite(0, 0);
 		optionsImage.frames = Paths.getSparrowAtlas('mainmenu/menu_options');
 		optionsImage.animation.addByPrefix('idle', "options white", 24);
 		optionsImage.animation.play('idle');
 		optionsImage.scale.set(0.35, 0.35);
 		optionsImage.screenCenter(X);
-		optionsImage.y = 5;
+		optionsImage.y -= 39;
 		add(optionsImage);
 
 		super.create();
