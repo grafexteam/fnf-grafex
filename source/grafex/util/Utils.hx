@@ -49,9 +49,11 @@ class Utils
 		return Paths.formatToSongPath(fileSuffix);
 	}
 
-	public static function difficultyString():String
+	public static function difficultyString(diff:Int = null):String
 	{
-		return difficulties[PlayState.storyDifficulty].toUpperCase();
+		var difficulty = diff;
+		if (difficulty == null) difficulty = PlayState.storyDifficulty;
+		return difficulties[difficulty].toUpperCase();
 	}
 
 	inline public static function boundTo(value:Float, min:Float, max:Float):Float {

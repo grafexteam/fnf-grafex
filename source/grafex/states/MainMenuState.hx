@@ -86,6 +86,7 @@ class MainMenuState extends MusicBeatState
 			{	
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
         		FlxG.sound.music.time = 9400;
+				TitleState.titleJSON = TitleState.getTitleData();
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
 			}
 

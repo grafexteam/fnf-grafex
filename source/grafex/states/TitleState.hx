@@ -121,22 +121,7 @@ class TitleState extends MusicBeatState
     	FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		
-		#if (desktop && MODS_ALLOWED)
-		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "mods/images/gfDanceTitle.json";
-		}
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "assets/images/gfDanceTitle.json";
-		}
-		//trace(path, FileSystem.exists(path));
-		titleJSON = Json.parse(File.getContent(path));
-		#else
-		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		titleJSON = Json.parse(Assets.getText(path)); 
-		#end
+		titleJSON = getTitleData();
 
 		if(titleJSON == null)
 		{	
@@ -618,6 +603,28 @@ class TitleState extends MusicBeatState
 					skipIntro();
 			}
 		}
+	}
+
+	public static function getTitleData()
+	{
+		var data:TitleData;
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/gfDanceTitle.json";
+		}
+		trace(path, FileSystem.exists(path));
+		data = Json.parse(File.getContent(path));
+		#else
+		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
+		data = Json.parse(Assets.getText(path)); 
+		#end
+		return data;
 	}
 
 	var skippedIntro:Bool = false;

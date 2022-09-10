@@ -111,7 +111,16 @@ class ChartingState extends MusicBeatState
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
         ['Set Cam Zoom', "Value 1: Cam zoom \n Value 2: if blank, it will smoothly zoom regularly, otherwise it will do an instant zoom."],
-        ['Set Property', "Value 1: Variable name\nValue 2: New value"]
+		['Set Property', "Value 1: Variable name\nValue 2: New value"],
+		['Change Scroll Type', "Value 1: Scroll type & direction\nValue 2:Middle scroll [middlescroll, normal]
+		V1 separated by commas. First:
+		'any' put anything after the comma and v2
+		'player' use player settings
+		'swap current' swap current scroll
+		'swap player' swap with player scroll.
+		Second: [upscroll, downscroll]. Example:
+		v1: 'any,upscroll' v2: 'middlescroll'
+		(toggles upscroll and middlescroll)"] //kh - snake
 	];
 
 	var _file:FileReference;

@@ -1325,7 +1325,6 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection();
 
-		// TODO: Make new cool healthbar
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.90;
 		healthBarBG.screenCenter(X);
@@ -3515,6 +3514,9 @@ class PlayState extends MusicBeatState
 					}
 				}
 
+				if (daNote.isSustainNote)
+					daNote.flipY = ClientPrefs.downScroll;
+
 				// Kill extremely late notes and cause misses
 				if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 				{
@@ -4053,6 +4055,64 @@ class PlayState extends MusicBeatState
 				} else {
 					FunkinLua.setVarInArray(this, value1, value2);
 				}
+
+			case 'Change Scroll Type': //Code adaptation of (https://gamebanana.com/tools/8756) - PurSnake
+				if (FlxG.save.data.downScroll == null) FlxG.save.data.downScroll = false;
+				if (FlxG.save.data.middleScroll == null) FlxG.save.data.middleScroll = false;
+                //TODO: Kill myself -PurSnake
+				var v:Array<String> = value1.split(',');	
+				var next:String = "";
+				var alt:String = "";
+				switch (v[0]) {
+					case "any":
+						next = v[1];
+						alt = value2;
+					case "player":
+						next = FlxG.save.data.downScroll ? "downscroll" : "upscroll";
+						alt = FlxG.save.data.middleScroll ? "middlescroll" : "normal";
+					case "swap current":
+						next = ClientPrefs.downScroll ? "upscroll" : "downscroll";
+						alt = ClientPrefs.middleScroll ? "normal" : "middlescroll";
+					case "swap player":
+						next = FlxG.save.data.downScroll ? "upscroll" : "downscroll";
+						alt = FlxG.save.data.middleScroll ? "normal" : "middlescroll";
+				}
+
+				switch (next) {
+					case "downscroll":
+						ClientPrefs.downScroll = true;
+						strumLine.y = FlxG.height - 150;
+					case "upscroll":
+						ClientPrefs.downScroll = false;
+						strumLine.y = 50;
+				}
+				switch (alt) {
+					case "middlescroll":
+						ClientPrefs.middleScroll = true;
+						strumLine.x = STRUM_X_MIDDLESCROLL;
+					case "normal":
+						ClientPrefs.middleScroll = false;
+						strumLine.x = STRUM_X;
+				}
+
+				for (i in 0...strumLineNotes.members.length) {
+					var strum:StrumNote = strumLineNotes.members[i];
+					strum.y = strumLine.y;
+					strum.x = strumLine.x + (Note.swagWidth * strum.ID) + 50;
+					strum.x += ((FlxG.width / 2) * strum.player);
+
+					if (strum.player == 0) {
+						var strumAlpha:Float = ClientPrefs.middleScroll ? 0.35 : 1;
+						if (ClientPrefs.middleScroll) {
+							strum.x += 310;
+							if(strum.ID > 1) { //Up and Right
+								strum.x += FlxG.width / 2 + 25;
+							}
+						}
+						strum.alpha = !ClientPrefs.hideOpponenStrums ? strumAlpha : 0;
+					}
+					strum.downScroll = ClientPrefs.downScroll; // oh no - sanke 
+				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}
@@ -4215,6 +4275,7 @@ class PlayState extends MusicBeatState
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     FlxG.sound.music.time = 9400;
+					TitleState.titleJSON = TitleState.getTitleData();
 					Conductor.changeBPM(TitleState.titleJSON.bpm);
 
 					cancelMusicFadeTween();
@@ -4291,6 +4352,7 @@ class PlayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
                 FlxG.sound.music.time = 9400;
+				TitleState.titleJSON = TitleState.getTitleData();
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
 				WeekData.loadTheFirstEnabledMod();
 			}

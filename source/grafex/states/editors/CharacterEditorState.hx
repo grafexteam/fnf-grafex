@@ -598,7 +598,7 @@ class CharacterEditorState extends MusicBeatState
 				char.antialiasing = true;
 			}
 			char.noAntialiasing = noAntialiasingCheckBox.checked;
-                        ghostChar.antialiasing = char.antialiasing;
+            ghostChar.antialiasing = char.antialiasing;
 		};
 
 		positionXStepper = new FlxUINumericStepper(flipXCheckBox.x + 110, flipXCheckBox.y, 10, char.positionArray[0], -9000, 9000, 0);
@@ -1090,7 +1090,7 @@ class CharacterEditorState extends MusicBeatState
 			char.alpha = 1;
 		}
 		ghostChar.color = 0xFF666688;
-                ghostChar.antialiasing = char.antialiasing;
+        ghostChar.antialiasing = char.antialiasing;
 	}
 
 	function reloadCharacterDropDown() {

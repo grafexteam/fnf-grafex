@@ -473,10 +473,7 @@ class FreeplayState extends MusicBeatState
 		super.sectionHit();
 
 		if (PlayState.SONG.notes[curSection] != null && PlayState.SONG.notes[curSection].changeBPM)
-		{
 			Conductor.changeBPM(PlayState.SONG.notes[curSection].bpm);
-			GrfxLogger.debug('Test BPM changed');
-		}
 	}
 
 	function bopOnBeat()

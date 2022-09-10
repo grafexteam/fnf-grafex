@@ -119,6 +119,7 @@ class OptionsMenu extends FlxSubState
 
 	var startSong = true;
 
+	public var optionsImage:FlxSprite;
 	public function new(pauseMenu:Bool = false)
 	{
 		super();
@@ -275,6 +276,15 @@ class OptionsMenu extends FlxSubState
 		restoreSettingsText.borderSize = 2;
 		restoreSettingsText.borderQuality = 3;
 		add(restoreSettingsText);
+
+		optionsImage = new FlxSprite();
+		optionsImage.frames = Paths.getSparrowAtlas('mainmenu/menu_options');
+		optionsImage.animation.addByPrefix('idle', "options white", 24);
+		optionsImage.animation.play('idle');
+		optionsImage.scale.set(0.35, 0.35);
+		optionsImage.screenCenter(X);
+		optionsImage.y = 5;
+		add(optionsImage);
 
 		super.create();
 	}

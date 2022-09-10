@@ -17,7 +17,7 @@ class StrumNote extends FlxSprite
 	public var downScroll:Bool = ClientPrefs.downScroll;//plan on doing scroll directions soon -bb
 	public var sustainReduce:Bool = true;
 
-	private var player:Int;
+	public var player:Int;
 
     private static var strumOffsets:Map<String, Array<Dynamic>> = [
 		'Future' => [
