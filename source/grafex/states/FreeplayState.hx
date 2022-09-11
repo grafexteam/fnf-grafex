@@ -362,13 +362,15 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(space)
 		{
+			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 			if(freeplayinstPlaying != curSelected)
 			{
+				if(sys.FileSystem.exists(Paths.inst(songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop)) || sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop))) {
 				#if PRELOAD_ALL
                 destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 				Paths.currentModDirectory = songs[curSelected].folder;
-				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 
 				var listenin:String = 'Freeplay - Listening: ' + songs[curSelected].songName + '';
@@ -391,6 +393,26 @@ class FreeplayState extends MusicBeatState
 				Conductor.changeBPM(PlayState.SONG.bpm);
 				freeplayinstPlaying = curSelected;
 				#end
+			} else 
+			    {
+				    trace(poop + '\'s .ogg does not exist!');
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+				    FlxG.camera.shake(0.04, 0.04);
+				    var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid Song!");
+				    funnyText.scrollFactor.set();
+				    funnyText.screenCenter();
+					funnyText.cameras = [camINTERFACE];
+				    funnyText.x = FlxG.width/2 - 250;
+				    funnyText.y = FlxG.height/2 - 64;
+				    funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				    add(funnyText);
+				    FlxTween.tween(funnyText, {alpha: 0}, 0.6, {
+				    	onComplete: function(tween:FlxTween)
+				    	{
+				    		funnyText.destroy();
+				    	}
+				    });
+			    } 
 			}
 		}
 
@@ -411,50 +433,75 @@ class FreeplayState extends MusicBeatState
 	{
 		if (!acceptedSong)
 		{
+
 		    persistentUpdate = false;
 		    var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 		    var songString:String = Highscore.formatSong(songLowercase, curDifficulty);
 	    
-			GrfxLogger.log('info', 'Loading Song: "' + songString + '" on ' + Utils.difficultyString());
-    
-		    acceptedSong = true;
-		    FlxG.sound.music.volume = 0;
-		    destroyFreeplayVocals();
-		    		
-		    ChooseSound = new FlxSound().loadEmbedded(Paths.sound('confirmMenu'));
-		    ChooseSound.play();
-		    ChooseSound.looped = false;
-    
-		    //Utils.checkExistingChart(songLowercase, poop);
-		    PlayState.SONG = Song.loadFromJson(songString, songLowercase);
-		    PlayState.isStoryMode = false;
-		    PlayState.storyDifficulty = curDifficulty;
-			
+			if(sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + songString)) || sys.FileSystem.exists(Paths.json(songLowercase + '/' + songString))) 
+			{
+			        trace(songString);
+        
+			        GrfxLogger.log('info', 'Loading Song: "' + songString + '" on ' + Utils.difficultyString());
+            
+		            acceptedSong = true;
+		            FlxG.sound.music.volume = 0;
+		            destroyFreeplayVocals();
+		            		
+		            ChooseSound = new FlxSound().loadEmbedded(Paths.sound('confirmMenu'));
+		            ChooseSound.play();
+		            ChooseSound.looped = false;
+            
+		            //Utils.checkExistingChart(songLowercase, poop);
+		            PlayState.SONG = Song.loadFromJson(songString, songLowercase);
+		            PlayState.isStoryMode = false;
+		            PlayState.storyDifficulty = curDifficulty;
+			        
+        
+		            GrfxLogger.log('info', 'Set Current week to: "' + WeekData.getWeekFileName() + '"');
+		            if(colorTween != null) {
+		            	colorTween.cancel();
+		            }
+        
+			        for (item in grpSongs.members)
+			        	if (item.targetY == 0)
+			        		FlxFlicker.flicker(item, 1.05, 0.06, false, false);
+			        
+			        FlxFlicker.flicker(iconArray[curSelected], 1.05, 0.06, false, false);
+            
+		            FlxTween.tween(camINTERFACE, {alpha: 0}, 0.3, {ease: FlxEase.linear, startDelay: 0.4});
+        
+			        freeplayinstPlaying = -1;
+            
+		            new FlxTimer().start(1.1, function(tmr:FlxTimer)
+		            {	
+	                    if (FlxG.keys.pressed.SHIFT){
+	                    	LoadingState.loadAndSwitchState(new ChartingState());
+	                    }else{
+	                    	LoadingState.loadAndSwitchState(new PlayState());
+	                    }
+	                     
+                    });
+			} else {
+				trace(songString + '.json does not exist!');
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.camera.shake(0.04, 0.04);
+				var funnyText = new FlxText(12, FlxG.height - 24, 0, "Invalid JSON!");
+				funnyText.scrollFactor.set();
+				funnyText.screenCenter();
+				funnyText.cameras = [camINTERFACE];
+				funnyText.x = FlxG.width/2 - 250;
+				funnyText.y = FlxG.height/2 - 64;
+				funnyText.setFormat("VCR OSD Mono", 64, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				add(funnyText);
+				FlxTween.tween(funnyText, {alpha: 0}, 0.6, {
+					onComplete: function(tween:FlxTween)
+					{
+						funnyText.destroy();
+					}
+				});
+			}
 
-		    GrfxLogger.log('info', 'Set Current week to: "' + WeekData.getWeekFileName() + '"');
-		    if(colorTween != null) {
-		    	colorTween.cancel();
-		    }
-
-			for (item in grpSongs.members)
-				if (item.targetY == 0)
-					FlxFlicker.flicker(item, 1.05, 0.06, false, false);
-			
-			FlxFlicker.flicker(iconArray[curSelected], 1.05, 0.06, false, false);
-    
-		    FlxTween.tween(camINTERFACE, {alpha: 0}, 0.3, {ease: FlxEase.linear, startDelay: 0.4});
-
-			freeplayinstPlaying = -1;
-    
-		    new FlxTimer().start(1.1, function(tmr:FlxTimer)
-		    {	
-	            if (FlxG.keys.pressed.SHIFT){
-	            	LoadingState.loadAndSwitchState(new ChartingState());
-	            }else{
-	            	LoadingState.loadAndSwitchState(new PlayState());
-	            }
-	             
-            });
 	    }
 	}
 

@@ -307,6 +307,9 @@ class PlayState extends MusicBeatState
 	var tankmanRun:FlxTypedGroup<TankmenBG>;
 	var foregroundSprites:FlxTypedGroup<BGSprite>;
 
+	//this probably doesnt need to exist but whatever
+	public var hudIsSwapped:Bool = false;
+
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
@@ -4056,6 +4059,48 @@ class PlayState extends MusicBeatState
 					FunkinLua.setVarInArray(this, value1, value2);
 				}
 
+			case 'Swap Hud':
+				if (!hudIsSwapped) {
+					playerStrums.forEach(function(spr:FlxSprite) {
+						FlxTween.tween(spr, {x: spr.x - 650}, 0.1, {
+							ease: FlxEase.circOut
+						});
+					});
+					opponentStrums.forEach(function(spr:FlxSprite) {
+						FlxTween.tween(spr, {x: spr.x + 650}, 0.1, {
+							ease: FlxEase.circOut
+						});
+					});
+					hudIsSwapped = true;
+				} else {
+					playerStrums.forEach(function(spr:FlxSprite) {
+						FlxTween.tween(spr, {x: spr.x + 650}, 0.1, {
+							ease: FlxEase.circOut
+						});
+					});
+					opponentStrums.forEach(function(spr:FlxSprite) {
+						FlxTween.tween(spr, {x: spr.x - 650}, 0.1, {
+							ease: FlxEase.circOut
+						});
+					});
+					hudIsSwapped = false;
+				}
+
+			//i totally didnt need to do this but its here
+			case 'Flash Camera':
+				var val1:Null<Float> = Std.parseFloat(value1);
+				var val2:Null<Int> = Std.parseInt(value2);
+				FlxG.camera.flash(val2, val1);
+	
+			case 'Flash Camera (HUD)':
+				var val1:Null<Float> = Std.parseFloat(value1);
+				var val2:Null<Int> = Std.parseInt(value2);
+				camHUD.flash(val2, val1);
+			
+			case 'Set Cam Speed':
+				var val1:Null<Float> = Std.parseFloat(value1);
+				cameraSpeed = val1;
+
 			case 'Change Scroll Type': //Code adaptation of (https://gamebanana.com/tools/8756) - PurSnake
 				if (FlxG.save.data.downScroll == null) FlxG.save.data.downScroll = false;
 				if (FlxG.save.data.middleScroll == null) FlxG.save.data.middleScroll = false;
@@ -4746,7 +4791,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		// FlxG.watch.addQuick('asdfa', upP);
+        // FlxG.watch.addQuick('asdfa', upP);
 		if (startedCountdown && !boyfriend.stunned && generatedMusic)
 		{
 			// rewritten inputs???
@@ -4759,7 +4804,7 @@ class PlayState extends MusicBeatState
 				}
 			});
 
-			if (parsedHoldArray.contains(true) && !endingSong) {
+    		if (parsedHoldArray.contains(true) && !endingSong) {
 			}
 			else if (boyfriend.animation.curAnim != null && boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
@@ -4767,7 +4812,7 @@ class PlayState extends MusicBeatState
             }
 		}
 
-		// TO DO: Find a better way to handle controller inputs, this should work for now
+    	// TO DO: Find a better way to handle controller inputs, this should work for now
 		if(ClientPrefs.controllerMode || strumsBlocked.contains(true))
 		{
 			var parsedArray:Array<Bool> = parseKeys('_R');

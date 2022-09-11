@@ -84,30 +84,57 @@ class HealthIcon extends FlxSprite
 
 					if(spriteType != "animated")
 					{
-					    loadGraphic(file); //Load stupidly first for getting the file size
+						loadGraphic(file); //Load stupidly first for getting the file size
 					    var widths = width;
-					    if (width == 450) {
-					    	loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); // 
-					    	iconOffsets[0] = (width - 150) / 3;
-					    	iconOffsets[1] = (width - 150) / 3;
-					    	iconOffsets[2] = (width - 150) / 3;
-					    } else {
-					    	loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); 
-					    	iconOffsets[0] = (width - 150) / 2;
-					    	iconOffsets[1] = (width - 150) / 2;
-					    }
+
+						switch(width)
+						{
+                            case 150:
+								loadGraphic(file, true, Math.floor(width), Math.floor(height));
+								iconOffsets[0] = (width - 150);
+
+								animation.add(char, [0], 0, false, isPlayer);
+					            animation.play(char);
+					            this.char = char;
+
+								spriteType = "single";
+
+							case 300:
+								loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); 
+					    	    iconOffsets[0] = (width - 150) / 2;
+					    	    iconOffsets[1] = (width - 150) / 2;
+
+								animation.add(char, [0, 1], 0, false, isPlayer);
+								animation.play(char);
+								this.char = char;
+
+								spriteType = "dual";
+                      
+							case 450:
+								loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); // 
+								iconOffsets[0] = (width - 150) / 3;
+								iconOffsets[1] = (width - 150) / 3;
+								iconOffsets[2] = (width - 150) / 3;
+
+								animation.add(char, [0, 1, 2], 0, false, isPlayer);
+								animation.play(char);
+								this.char = char;
+
+								spriteType = "trio";
+							
+							default:
+								loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); 
+					    	    iconOffsets[0] = (width - 150) / 2;
+					    	    iconOffsets[1] = (width - 150) / 2;
+
+								animation.add(char, [0, 1], 0, false, isPlayer);
+								animation.play(char);
+								this.char = char;
+
+								spriteType = "dual";
+						}
 				
 			            updateHitbox();
-					    if (widths == 450) {
-					    	spriteType = "trio";
-					    	animation.add(char, [0, 1, 2], 0, false, isPlayer);
-					    } else {
-					    	animation.add(char, [0, 1], 0, false, isPlayer);
-					    	spriteType = "dual";
-					    }
-					    animation.play(char);
-					    this.char = char;
-				
 					    antialiasing = ClientPrefs.globalAntialiasing;
 					    if(char.endsWith('-pixel')) {
 					    	antialiasing = false;
@@ -154,6 +181,9 @@ class HealthIcon extends FlxSprite
 		        		animation.curAnim.curFrame = 1;
 		        	else
 		        		animation.curAnim.curFrame = 0;
+				case 'single': 
+					animation.curAnim.curFrame = 0;
+
 				case 'animated':
 					if (health < 20) {
 						animatedIconStage = "loose";
@@ -211,7 +241,7 @@ class HealthIcon extends FlxSprite
 					}
    
 			case 'Classic':    
-				scale.set(1, 1);
+				setGraphicSize(Std.int(FlxMath.lerp(150, this.width, 0.50)));
 
 				this.isPlayer ? {
 					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
