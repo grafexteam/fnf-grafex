@@ -159,6 +159,9 @@
 	<!--Disable the Flixel sound management code-->
 	<!--<haxedef name="FLX_NO_SOUND_SYSTEM" />-->
 
+	<!-- No deprecation warnings. -->
+	<haxedef name="no-deprecation-warnings"/>
+
 	<!--Disable the Flixel core focus lost screen-->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 
