@@ -71,7 +71,6 @@ typedef TitleData =
 	gfy:Float,
 	backgroundSprite:String,
 	bpm:Int,
-	logoBlTray:Bool,
 	backdropImage:String,
 	backdropImageVelocityX:Int,
 	backdropImageVelocityY:Int
@@ -134,7 +133,6 @@ class TitleState extends MusicBeatState
 	            gfy :40,
 	            backgroundSprite: "",
 	            bpm: 102,
-                logoBlTray: true,
                 backdropImage: "titleBg",
                 backdropImageVelocityX: 70,
                 backdropImageVelocityY: 70
@@ -187,7 +185,6 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-    var logoBltrail:FlxTrail;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
@@ -232,37 +229,25 @@ class TitleState extends MusicBeatState
 		add(bgMenu);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-			
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');	
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 1, false);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
-		swagShader = new ColorSwap();
+		add(logoBl);
+		logoBl.shader = swagShader.shader;
 
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
-	
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-	
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
-		if(titleJSON.logoBlTray)
-		{
-        logoBltrail = new FlxTrail(logoBl, 24, 0, 0.4, 0.02);
-		add(logoBltrail);
-		}
  
-		add(logoBl);
-        logoBltrail.shader = swagShader.shader;
-		logoBl.shader = swagShader.shader;
-       
-        FlxTween.tween(logoBl, {y: logoBl.y + 80}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
-
+        if(logoBl != null)  FlxTween.tween(logoBl, {y: logoBl.y + 50}, Conductor.crochet / 1000, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
+	
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);		
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		var animFrames:Array<FlxFrame> = [];
@@ -400,8 +385,8 @@ class TitleState extends MusicBeatState
                 	FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 					FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
 					FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-	        		FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
-					FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        		if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+				    if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 					FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
                 	FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
 
@@ -449,8 +434,8 @@ class TitleState extends MusicBeatState
                 FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 				FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-	        	FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
-				FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        	if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+				if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
                 FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
@@ -558,10 +543,10 @@ class TitleState extends MusicBeatState
 		if(gfDance != null) {
 			danceLeft = !danceLeft;
 
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
+		if (danceLeft)
+			gfDance.animation.play('danceRight');
+		else
+			gfDance.animation.play('danceLeft');
 		}
 
 		if(!closedState) {
@@ -578,7 +563,7 @@ class TitleState extends MusicBeatState
 					for(i in 0...EngineData.devsNicks.length)
 					{
 						addMoreText(EngineData.devsNicks[i], 45);
-					} // HAHA, PROTOGEN OPTIMIZED
+					} // HAHA, PROTOGEN OPTIMIZED  || eh? - PurSnake
 											
 				case 6:
                     deleteCoolText();

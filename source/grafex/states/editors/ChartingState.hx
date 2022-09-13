@@ -112,6 +112,7 @@ class ChartingState extends MusicBeatState
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
         ['Set Cam Zoom', "Value 1: Cam zoom \n Value 2: if blank, it will smoothly zoom regularly, otherwise it will do an instant zoom."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
+		['Set Cam Speed', "Value 1: New camera speed"],
 		['Swap Hud', "Swaps the positions of the strums."],
 		['Flash Camera', "Value 1: Duration to fade.\nValue 2: Colour. (Write as '0xffffff')"],
 		['Flash Camera (HUD)', "Value 1: Duration to fade.\nValue 2: Colour. (Write as '0xffffff')"],
