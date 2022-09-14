@@ -470,6 +470,8 @@ class HideHud extends Option
 		//	return false;
 		ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
+		if (Type.getClass(FlxG.state) == PlayState){
+
 		PlayState.instance.healthBarBG.visible = !ClientPrefs.hideHud;
 		PlayState.instance.healthBar.visible = !ClientPrefs.hideHud;
 		PlayState.instance.healthBarWN.visible = !ClientPrefs.hideHud;
@@ -491,6 +493,7 @@ class HideHud extends Option
 			}  
 		}
 
+	    }
 		display = updateDisplay();
 		return true;
 	}
@@ -1249,10 +1252,12 @@ class JudgementCounter extends Option
 	{
 		ClientPrefs.showJudgement = !ClientPrefs.showJudgement;
 
+		if (Type.getClass(FlxG.state) == PlayState){
 		if(ClientPrefs.showJudgement) 
 			PlayState.instance.judgementCounter.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
 		else
 			PlayState.instance.judgementCounter.visible = false;
+	    }
 
 		display = updateDisplay();
 		return true;
@@ -1523,9 +1528,11 @@ class TimeBarType extends Option
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 3;
      	OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
+		}
 		return true;
 	}
 
@@ -1536,9 +1543,11 @@ class TimeBarType extends Option
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 1;
         OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
+		}
 		return true;
 	}
 
@@ -1561,12 +1570,14 @@ class HealthBarOption extends Option
 		ClientPrefs.visibleHealthbar = !ClientPrefs.visibleHealthbar;
 		display = updateDisplay();
 
+		if (Type.getClass(FlxG.state) == PlayState){
 		if(!ClientPrefs.hideHud)
 			for (helem in [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.healthBarWN, PlayState.instance.healthBarBG, PlayState.instance.healthStrips]) {
 				if (helem != null) {
 					helem.visible = ClientPrefs.visibleHealthbar;
 			}  
 		}
+	    }
 		return true;
 	}
 
@@ -1597,14 +1608,14 @@ class HealthBarAlpha extends Option
 		ClientPrefs.healthBarAlpha += 0.1;
 		if (ClientPrefs.healthBarAlpha > 1)
 			ClientPrefs.healthBarAlpha = 1;
-
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
-
+		}
 		return true;
 	}
 
@@ -1614,14 +1625,14 @@ class HealthBarAlpha extends Option
 
 		if (ClientPrefs.healthBarAlpha < 0)
 			ClientPrefs.healthBarAlpha = 0;
-
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
-
+		}
 		return true;
 	}
 
@@ -1765,6 +1776,7 @@ class SongNameOption extends Option
 	{
 		ClientPrefs.songNameDisplay = !ClientPrefs.songNameDisplay;
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState)
 		PlayState.instance.songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		return true;
 	}
@@ -1793,6 +1805,7 @@ class VintageOption extends Option
 	{
 		ClientPrefs.vintageOnGame = !ClientPrefs.vintageOnGame;
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState)
 		PlayState.instance.vintage.visible = ClientPrefs.vintageOnGame;
 		return true;
 	}
