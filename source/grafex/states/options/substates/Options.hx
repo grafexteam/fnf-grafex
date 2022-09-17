@@ -1880,3 +1880,41 @@ class ComboStacking extends Option
 		return "Combo Stacking: < " + (ClientPrefs.comboStacking ? "Enabled" : "Disabled") + " >";
 	}
 }
+
+class Keystrokes extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.keystrokes = !ClientPrefs.keystrokes;
+		display = updateDisplay();
+
+		if (Type.getClass(FlxG.state) == PlayState) {
+			PlayState.instance.keyLeft.visible  = ClientPrefs.keystrokes;
+			PlayState.instance.keyDown.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyUp.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyRight.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyLeftText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyDownText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyUpText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyRightText.visible = ClientPrefs.keystrokes;
+		}
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Keystrokes: < " + (ClientPrefs.keystrokes ? "Enabled" : "Disabled") + " >";
+	}
+}

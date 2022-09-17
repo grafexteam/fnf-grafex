@@ -10,6 +10,7 @@ import grafex.util.Controls;
 import external.FPSMem;
 
 class ClientPrefs {
+	public static var keystrokes:Bool = false;
 	public static var vintageOnGame:Bool = true;
     public static var playMissSounds:Bool = true;
 	public static var playMissAnims:Bool = true;
@@ -169,7 +170,7 @@ class ClientPrefs {
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
         FlxG.save.data.hsvol = hsvol;
 		FlxG.save.data.comboOffset = comboOffset;
-
+        FlxG.save.data.keystrokes = keystrokes;
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
@@ -188,6 +189,7 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		FlxG.save.data.keystrokes != null ? keystrokes = FlxG.save.data.keystrokes : keystrokes = false;
 		FlxG.save.data.comboStacking != null ? comboStacking = FlxG.save.data.comboStacking : comboStacking = false;
 		FlxG.save.data.susTransper != null ? susTransper = FlxG.save.data.susTransper : susTransper = 1;
 		FlxG.save.data.vintageOnGame != null ? vintageOnGame = FlxG.save.data.vintageOnGame : vintageOnGame = true;

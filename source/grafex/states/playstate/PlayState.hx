@@ -4,6 +4,7 @@ import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
 
 import grafex.states.options.OptionsMenu;
+import grafex.states.options.substates.ControlsSubState;
 import grafex.states.substates.LoadingState;
 import grafex.states.substates.GameplayChangersSubstate;
 import grafex.states.substates.PauseSubState;
@@ -335,6 +336,17 @@ class PlayState extends MusicBeatState
     public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
 
+	public var keyLeft:FlxSprite;
+	public var keyDown:FlxSprite;
+	public var keyUp:FlxSprite;
+	public var keyRight:FlxSprite;
+	public var keyLeftText:FlxText;
+	public var keyDownText:FlxText;
+	public var keyUpText:FlxText;
+	public var keyRightText:FlxText;
+
+	public var keyStrockesTweens:Map<Int, FlxTween> = new Map<Int, FlxTween>();
+
 	var isEventWorking:Bool = false;
 
     // how big to stretch the pixel art assets
@@ -598,7 +610,7 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		FlxG.camera.followLerp = 0.04;
+		FlxG.camera.followLerp = 0.16;
 
 		switch (curStage)
 		{
@@ -1445,6 +1457,79 @@ class PlayState extends MusicBeatState
 		vintage.alpha = 0.2;
 		add(vintage);
 
+		keyLeft = new FlxSprite(9, 0).makeGraphic(60, 60);
+		keyLeft.color = FlxColor.WHITE;
+		keyLeft.alpha = 0.26;
+		add(keyLeft);
+		keyLeft.visible = ClientPrefs.keystrokes;
+		keyLeft.y = ClientPrefs.downScroll ? 73 : 650;
+
+		var leftControl:String = getKeyName(keysArray[0][0]);
+		keyLeftText = new FlxText(8, 0, 60, "", 22);
+		keyLeftText.text = leftControl.toUpperCase();
+		keyLeftText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.WHITE, CENTER);
+		keyLeftText.scrollFactor.set();
+		keyLeftText.borderSize = 0;
+	    keyLeftText.antialiasing = false;
+		add(keyLeftText);
+		keyLeftText.visible = ClientPrefs.keystrokes;
+		keyLeftText.y = ClientPrefs.downScroll ? 89 : 666;
+
+		keyDown = new FlxSprite(75, 0).makeGraphic(60, 60);
+		keyDown.color = FlxColor.WHITE;
+		keyDown.alpha = 0.26;
+		add(keyDown);
+		keyDown.visible = ClientPrefs.keystrokes;
+		keyDown.y = ClientPrefs.downScroll ? 73 : 650;
+
+		var downControl:String = getKeyName(keysArray[1][0]);
+		keyDownText = new FlxText(74, 0, 60, "", 22);
+		keyDownText.text = downControl.toUpperCase();
+		keyDownText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.WHITE, CENTER);
+		keyDownText.scrollFactor.set();
+		keyDownText.borderSize = 0;
+		keyDownText.antialiasing = false;
+		add(keyDownText);
+		keyDownText.visible = ClientPrefs.keystrokes;
+		keyDownText.y = ClientPrefs.downScroll ? 89 : 666;
+
+		keyUp = new FlxSprite(75, 0).makeGraphic(60, 60);
+		keyUp.color = FlxColor.WHITE;
+		keyUp.alpha = 0.26;
+		add(keyUp);
+		keyUp.visible = ClientPrefs.keystrokes;
+		keyUp.y = ClientPrefs.downScroll ? 6 : 585;
+
+		var upControl:String = getKeyName(keysArray[2][0]);
+		keyUpText = new FlxText(74, 0, 60, "", 22);
+		keyUpText.text = upControl.toUpperCase();
+		keyUpText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.WHITE, CENTER);
+		keyUpText.scrollFactor.set();
+		keyUpText.borderSize = 0;
+	    keyUpText.antialiasing = false;
+		add(keyUpText);
+		keyUpText.visible = ClientPrefs.keystrokes;
+		keyUpText.y = ClientPrefs.downScroll ? 22 : 601;
+
+        keyRight = new FlxSprite(141, 0).makeGraphic(60, 60);
+		keyRight.color = FlxColor.WHITE;
+		keyRight.alpha = 0.26;
+		add(keyRight);
+		keyRight.visible = ClientPrefs.keystrokes;
+		keyRight.y = ClientPrefs.downScroll ? 73 : 650;
+
+		var rightControl:String = getKeyName(keysArray[3][0]);
+		keyRightText = new FlxText(140, 0, 60, "", 22);
+		keyRightText.text = rightControl.toUpperCase();
+		keyRightText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.WHITE, CENTER);
+		keyRightText.scrollFactor.set();
+		keyRightText.borderSize = 0;
+	    keyRightText.antialiasing = false;
+		add(keyRightText);
+		keyRightText.visible = ClientPrefs.keystrokes;
+		keyRightText.y = ClientPrefs.downScroll ? 89 : 666;
+
+
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1465,6 +1550,18 @@ class PlayState extends MusicBeatState
         vintage.cameras = [camHUD];
 		badLoseVin.cameras = [camHUD];
         songTxt.cameras = [camHUD];
+
+		keyLeft.cameras = [camOther];
+		keyLeftText.cameras = [camOther];
+
+		keyDown.cameras = [camOther];
+		keyDownText.cameras = [camOther];
+
+		keyUp.cameras = [camOther];
+		keyUpText.cameras = [camOther];
+
+		keyRight.cameras = [camOther];
+		keyRightText.cameras = [camOther];
 
 		startingSong = true;
 
@@ -3002,6 +3099,9 @@ class PlayState extends MusicBeatState
 			for (timer in modchartTimers) {
 				timer.active = false;
 			}
+			for (tween in keyStrockesTweens) {
+				tween.active = false;
+			}
 		}
 
 		super.openSubState(SubState);
@@ -3049,6 +3149,9 @@ class PlayState extends MusicBeatState
 			}
 			for (timer in modchartTimers) {
 				timer.active = true;
+			}
+			for (tween in keyStrockesTweens) {
+				tween.active = true;
 			}
 			paused = false;
 			callOnLuas('onResume', []);
@@ -3632,6 +3735,9 @@ class PlayState extends MusicBeatState
 				}
 				for (timer in modchartTimers) {
 					timer.active = true;
+				}
+				for (tween in keyStrockesTweens) {
+					tween.active = true;
 				}
 				!ClientPrefs.instantRespawn ? openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y))
 				: MusicBeatState.resetState();
@@ -4651,6 +4757,8 @@ class PlayState extends MusicBeatState
 		var key:Int = getKeyFromEvent(eventKey);
 		//trace('Pressed: ' + eventKey);
 
+		initKeyStroke(key);
+
 		if (!cpuControlled && startedCountdown && !paused && key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || ClientPrefs.controllerMode))
 		{
 			if(!boyfriend.stunned && generatedMusic && !endingSong)
@@ -4725,6 +4833,64 @@ class PlayState extends MusicBeatState
 		}
 		//trace('pressed: ' + controlArray);
 	}
+
+	function initKeyStroke(key:Int)
+	{
+		if(!ClientPrefs.keystrokes) return;
+
+        switch(key)
+		{
+	        case 0:
+	
+				if(keyStrockesTweens.exists(0))  {
+					keyStrockesTweens.get(0).cancel();
+				    keyStrockesTweens.get(0).destroy();
+				    keyStrockesTweens.remove(0); }
+				keyLeft.alpha = 1;
+				if(keyStrockesTweens.exists(4))  {
+					keyStrockesTweens.get(4).cancel();
+				    keyStrockesTweens.get(4).destroy();
+				    keyStrockesTweens.remove(4); }
+				keyLeftText.color = 0x969697;
+
+			case 1:
+
+				if(keyStrockesTweens.exists(1))  {
+					keyStrockesTweens.get(1).cancel();
+				    keyStrockesTweens.get(1).destroy();
+				    keyStrockesTweens.remove(1); }
+				keyDown.alpha = 1;
+				if(keyStrockesTweens.exists(5))  {
+					keyStrockesTweens.get(5).cancel();
+				    keyStrockesTweens.get(5).destroy();
+				    keyStrockesTweens.remove(5); }
+				keyDownText.color = 0x969697;
+
+			case 2:
+
+				if(keyStrockesTweens.exists(2))  {
+					keyStrockesTweens.get(2).cancel();
+				    keyStrockesTweens.get(2).destroy();
+				    keyStrockesTweens.remove(2); }
+				keyUp.alpha = 1;
+				if(keyStrockesTweens.exists(6))  {
+					keyStrockesTweens.get(6).cancel();
+				    keyStrockesTweens.get(6).destroy();
+				    keyStrockesTweens.remove(6); }
+				keyUpText.color = 0x969697;
+			case 3:
+				if(keyStrockesTweens.exists(3))  {
+					keyStrockesTweens.get(3).cancel();
+				    keyStrockesTweens.get(3).destroy();
+				    keyStrockesTweens.remove(3); }
+				keyRight.alpha = 1;
+				if(keyStrockesTweens.exists(7))  {
+					keyStrockesTweens.get(7).cancel();
+				    keyStrockesTweens.get(7).destroy();
+				    keyStrockesTweens.remove(7); }
+				keyRightText.color = 0x969697;
+		}
+	}
 	
 	function sortHitNotes(a:Note, b:Note):Int
 	{
@@ -4735,11 +4901,19 @@ class PlayState extends MusicBeatState
 
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
+
+	public function getKeyName(key:FlxKey):String {
+		var keyName:String = FlxKey.toStringMap.get(key);
+        return keyName.toUpperCase().replace("NUMPAD", "N").replace("BACKSPACE", "BACK");
+	}
 	
 	private function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
+
+		keyStrokeFade(key);
+
 		if(!cpuControlled && startedCountdown && !paused && key > -1)
 		{
 			var spr:StrumNote = playerStrums.members[key];
@@ -4751,6 +4925,67 @@ class PlayState extends MusicBeatState
 			callOnLuas('onKeyRelease', [key]);
 		}
 		//trace('released: ' + controlArray);
+	}
+
+	function keyStrokeFade(key:Int)
+	{
+		if(!ClientPrefs.keystrokes) return;
+		
+		switch(key)
+		{
+	        case 0:
+				keyStrockesTweens.set(0, FlxTween.tween(keyLeft, {alpha: .26}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(0);
+					}}));
+
+				keyStrockesTweens.set(4, FlxTween.tween(keyLeftText, {color: 0xFFFFFF}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(4);
+					}}));
+		 
+
+			case 1:
+				keyStrockesTweens.set(1, FlxTween.tween(keyDown, {alpha: .26}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(1);
+					}}));
+
+				keyStrockesTweens.set(5, FlxTween.tween(keyDownText, {color: 0xFFFFFF}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(5);
+					}}));
+			case 2:
+
+			    keyStrockesTweens.set(2, FlxTween.tween(keyUp, {alpha: .26}, .3, {ease: FlxEase.linear,
+			    	onComplete: function(twn:FlxTween)
+			    	{
+			    		keyStrockesTweens.remove(2);
+			    	}}));
+
+				keyStrockesTweens.set(6, FlxTween.tween(keyUpText, {color: 0xFFFFFF}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(6);
+					}}));
+    
+			case 3:
+			    keyStrockesTweens.set(3, FlxTween.tween(keyRight, {alpha: .26}, .3, {ease: FlxEase.linear,
+			    	onComplete: function(twn:FlxTween)
+			    	{
+			    		keyStrockesTweens.remove(3);
+			    	}}));
+
+				keyStrockesTweens.set(7, FlxTween.tween(keyRightText, {color: 0xFFFFFF}, .3, {ease: FlxEase.linear,
+					onComplete: function(twn:FlxTween)
+					{
+						keyStrockesTweens.remove(7);
+					}}));
+		}
 	}
 
 	private function getKeyFromEvent(key:FlxKey):Int
