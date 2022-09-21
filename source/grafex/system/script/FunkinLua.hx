@@ -11,6 +11,7 @@ import grafex.system.statesystem.MusicBeatState;
 import grafex.system.notes.StrumNote;
 import grafex.system.notes.Note;
 import grafex.system.song.Song;
+import grafex.system.Conductor;
 import grafex.states.substates.GameOverSubstate;
 import grafex.states.substates.LoadingState;
 import grafex.sprites.characters.Character;
