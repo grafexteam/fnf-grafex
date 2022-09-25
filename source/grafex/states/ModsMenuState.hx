@@ -399,7 +399,7 @@ class ModsMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		FlxG.mouse.visible = true;
-                FlxG.mouse.useSystemCursor = true;
+        FlxG.mouse.useSystemCursor = true;
 
 		super.create();
 	}
@@ -483,7 +483,7 @@ class ModsMenuState extends MusicBeatState
 
 		var path:String = 'modsList.txt';
 		File.saveContent(path, fileStr);
-Paths.pushGlobalMods();
+        Paths.pushGlobalMods();
 	}
 
 	var noModsSine:Float = 0;

@@ -61,6 +61,8 @@ import lime.ui.WindowAttributes;
 
 using StringTools;
 
+using flixel.util.FlxSpriteUtil;
+
 typedef TitleData =
 {
 	titlex:Float,
@@ -81,6 +83,9 @@ class TitleState extends MusicBeatState
 	public static var initialized:Bool = false;
     public static var fromMainMenu:Bool = false;
     public static var skipped:Bool = false;
+
+	public static var titleBgImage:String = '';
+	public static var titleBgVelocity:Array<Int> = [0, 0]; 
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -139,6 +144,12 @@ class TitleState extends MusicBeatState
             };
 		}
 
+		titleBgImage = titleJSON.backdropImage;
+
+		titleBgVelocity[0] = titleJSON.backdropImageVelocityX;
+
+		titleBgVelocity[1] = titleJSON.backdropImageVelocityY;
+
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
@@ -154,6 +165,7 @@ class TitleState extends MusicBeatState
 		bgFlash.antialiasing = true;
 		add(bgFlash);
 
+		FlxG.mouse.useSystemCursor = false;
 
 		if (FlxG.save.data.weekCompleted != null)
 		{
@@ -220,13 +232,18 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		if(titleJSON.backdropImage == null)
-			titleJSON.backdropImage = 'titleBg';
-        bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
-		bgMenu.color = 0x7208A0;
-		bgMenu.alpha = 0.6;
-        bgMenu.velocity.set(titleJSON.backdropImageVelocityX, titleJSON.backdropImageVelocityY); //thats it :D- snake
-		add(bgMenu);
+		if(titleBgImage != null || titleBgImage != '')
+		{
+            bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
+		    bgMenu.color = 0x7208A0;
+		    bgMenu.alpha = 0.6;
+            bgMenu.velocity.set(titleBgVelocity[0], titleBgVelocity[1]); //thats it :D- snake
+		    add(bgMenu);
+		}
+		else
+		{
+			bgMenu = null;
+		}
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');	
@@ -388,7 +405,7 @@ class TitleState extends MusicBeatState
 	        		if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
 				    if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 					FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
-                	FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+                	if (bgMenu != null) FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
 
 					var skippedText:FlxText = new FlxText(450, 300, "SKIPPED...", 80);
 					skippedText.setFormat("VCR OSD Mono", 80, FlxColor.WHITE, CENTER);
@@ -437,7 +454,7 @@ class TitleState extends MusicBeatState
 	        	if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
 				if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
-                FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+                if (bgMenu != null) FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
 				transitioning = true;
                 skipped = true; // true
@@ -623,8 +640,10 @@ class TitleState extends MusicBeatState
 			remove(credGroup);
 			skippedIntro = true;
             bgFlash.alpha = 0.25;
-            if(!fromMainMenu)
-            	FlxG.sound.music.time = 9400;
+
+			if(Conductor.bpm == 120)
+              if(!fromMainMenu)
+            	  FlxG.sound.music.time = 9400;
 		}
 	}
 }

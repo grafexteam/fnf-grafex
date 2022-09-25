@@ -432,6 +432,8 @@ class ChartingState extends MusicBeatState
 		add(zoomTxt);
 		
 		updateGrid();
+
+		PlayState.chartingMode = true;
 		super.create();
 	}
 
@@ -875,10 +877,13 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 
 			for (note in _song.notes[daSec - value].sectionNotes)
 			{
-				var strum = note[0] + Conductor.stepCrochet * (getSectionBeats(daSec) * 4 * value);
+				if(check_notesSec.checked)
+					{
+						var strum = note[0] + Conductor.stepCrochet * (getSectionBeats(daSec) * 4 * value);
 
-				var copiedNote:Array<Dynamic> = [strum, note[1], note[2], note[3]];
-				_song.notes[daSec].sectionNotes.push(copiedNote);
+						var copiedNote:Array<Dynamic> = [strum, note[1], note[2], note[3]];
+						_song.notes[daSec].sectionNotes.push(copiedNote);
+					}
 			}
 
 			var startThing:Float = sectionStartTime(-value);
@@ -886,7 +891,7 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 			for (event in _song.events)
 			{
 				var strumTime:Float = event[0];
-				if(endThing > event[0] && event[0] >= startThing)
+				if(endThing > event[0] && event[0] >= startThing && check_eventsSec.checked)
 				{
 					strumTime += Conductor.stepCrochet * (getSectionBeats(daSec) * 4 * value);
 					var copiedEventArray:Array<Dynamic> = [];
@@ -2754,7 +2759,10 @@ if(!blockInput){
 		if(height < minHeight) height = minHeight;
 		if(height < 1) height = 1; //Prevents error of invalid height
 
-		var spr:FlxSprite = new FlxSprite(note.x + (GRID_SIZE * 0.5) - 4, note.y + GRID_SIZE / 2).makeGraphic(8, height);
+		var colorList:Array<String> = ['c24b99', '00ffff', '12fa05', 'f9393f'];
+		var susColor:Int = Std.parseInt('0xff' + colorList[note.noteData]);
+
+		var spr:FlxSprite = new FlxSprite(note.x + (GRID_SIZE * 0.5) - 4, note.y + GRID_SIZE / 2).makeGraphic(8, height, susColor);
 		return spr;
 	}
 

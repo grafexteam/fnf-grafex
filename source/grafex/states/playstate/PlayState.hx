@@ -610,8 +610,6 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		FlxG.camera.followLerp = 0.04;
-
 		switch (curStage)
 		{
 			case 'stage': //Week 1
@@ -1330,10 +1328,11 @@ class PlayState extends MusicBeatState
 		}
 		add(camFollowPos);
 
-		FlxG.camera.follow(camFollowPos, LOCKON, 1);
+		FlxG.camera.follow(camFollowPos, LOCKON, 0.04); //first LERP set - PurSnake
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow);
+		FlxG.camera.followLerp = 0.04; //second LERP set - PurSnake
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
@@ -3416,13 +3415,7 @@ class PlayState extends MusicBeatState
 					icon.updateAnim(healthBar.percent);
 				else
 					icon.updateAnim(100 - healthBar.percent);
-			});
-
-			if (healthBar.percent < 20)
-				shakeFromLosing(iconP1);
-
-			if (healthBar.percent > 80)
-				shakeFromLosing(iconP2);	
+			});	
 		}
 
 		iconGroup.forEach(function(icon:HealthIcon)
@@ -3681,7 +3674,7 @@ class PlayState extends MusicBeatState
 			//}
 
 			#if desktop
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter().toUpperCase());
 			#end
 		}
 	}
@@ -5093,7 +5086,7 @@ class PlayState extends MusicBeatState
 			}
 
 			songMisses++;
-        	healthBarShake(0.85);
+        	healthBarShake(0.45);
             if(ClientPrefs.playMissSounds) {
         	FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), 0.07);
 			vocals.volume = 0; }
@@ -5151,7 +5144,7 @@ class PlayState extends MusicBeatState
 
 			totalPlayed++;
 			RecalculateRating();
-            healthBarShake(0.65);
+            healthBarShake(0.35);
             if(ClientPrefs.playMissSounds)
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.3, 0.4));
 
@@ -5609,14 +5602,6 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		if (healthBar.percent < 20)
-			if(!endingSong)
-				shakeFromLosing(iconP1);
-
-		if (healthBar.percent > 80)
-			if(!endingSong)
-				shakeFromLosing(iconP2);
-
         if (generatedMusic)
 		{
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
@@ -5866,28 +5851,7 @@ class PlayState extends MusicBeatState
 	var curLight:Int = -1;
 	var curLightEvent:Int = -1;
 
-	function shakeFromLosing(icon:HealthIcon)
-	{
-		new FlxTimer().start(0.1, function(tmr:FlxTimer)
-		{
-			icon.offset.x += 2;
-			icon.offset.y += 2;
-			icon.setPosition(icon.x + 2, icon.y + 2);
-			new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{
-				icon.offset.x -= 4;
-			    icon.offset.y -= 4;
-				icon.setPosition(icon.x - 4, icon.y - 4);
-				new FlxTimer().start(0.1, function(tmr:FlxTimer)
-				{
-					icon.offset.x += 2;
-			        icon.offset.y += 2;
-					icon.setPosition(icon.x + 2, icon.y + 2);
-				});
-			});
-		});
-	}
-
+	
 	public function reloadHealthBarColors() {
 		healthBar.createFilledBar(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]), FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
 	    healthBarWN.createFilledBar(FlxColor.fromRGB(dad.healthColorArray2[0], dad.healthColorArray2[1], dad.healthColorArray2[2]), FlxColor.fromRGB(boyfriend.healthColorArray2[0], boyfriend.healthColorArray2[1], boyfriend.healthColorArray2[2]));
@@ -5899,7 +5863,7 @@ class PlayState extends MusicBeatState
 	{
 		redFlash();
 
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
+		for (helem in [healthBar, healthBarWN, healthBarBG, healthStrips]) {
 			if (helem != null) {
 				for (timer in [
 					{time: 0.01, forse:  (10 * intensity)},

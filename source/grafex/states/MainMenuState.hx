@@ -90,8 +90,8 @@ class MainMenuState extends MusicBeatState
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
 			}
 
-        FlxG.mouse.visible = false;
-        //FlxG.mouse.useSystemCursor = true;
+		FlxG.mouse.visible = true;
+        FlxG.mouse.useSystemCursor = true;
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		
