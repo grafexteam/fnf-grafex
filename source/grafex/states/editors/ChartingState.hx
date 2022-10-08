@@ -1,6 +1,7 @@
 package grafex.states.editors;
 
 import grafex.states.playstate.PlayState;
+import grafex.effects.shaders.ColorSwap;
 
 import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
@@ -35,6 +36,7 @@ import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
+import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
 import flixel.addons.transition.FlxTransitionableState;
@@ -109,7 +111,7 @@ class ChartingState extends MusicBeatState
 		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF or GF)\nValue 2: New suffix (Leave it blank to disable)"],
 		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
-		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds.\nValue 3: (Optional) Ease name for the change tween.\nDefault is linear."],
         ['Set Cam Zoom', "Value 1: Cam zoom \n Value 2: if blank, it will smoothly zoom regularly, otherwise it will do an instant zoom."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Set Cam Speed', "Value 1: New camera speed"],
@@ -189,6 +191,8 @@ class ChartingState extends MusicBeatState
 	var value2InputText:FlxUIInputText;
 	var value3InputText:FlxUIInputText;
 	var currentSongName:String;
+
+	public var colorSwap:ColorSwap = null;
 	
 	var zoomTxt:FlxText;
 
@@ -1252,6 +1256,19 @@ for(mod in Paths.getGlobalMods())
 	#end
 	var instVolume:FlxUINumericStepper;
 	var voicesVolume:FlxUINumericStepper;
+
+	var playbackRate_Slider:FlxUISlider;
+	var playbackRate(default, set):Float = 1;
+
+	function set_playbackRate(value:Float):Float {
+		playbackRate = FlxMath.roundDecimal(value,2);
+		if(vocals != null) vocals.pitch = playbackRate;
+		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000 * value;
+		FlxG.sound.music.pitch = playbackRate;
+		return value;
+	}
+
+
 	function addChartingUI() {
 		var tab_group_chart = new FlxUI(null, UI_box);
 		tab_group_chart.name = 'Charting';
@@ -1381,6 +1398,12 @@ for(mod in Paths.getGlobalMods())
 			shiftNotes(Std.int(stepperShiftNoteDial.value),Std.int(stepperShiftNoteDialstep.value),Std.int(stepperShiftNoteDialms.value));
 		});
 
+		var playbackRate_Slider = new FlxUISlider(this, 'playbackRate', waveformUseVoices.x-5, check_vortex.y-15, 0.25, 2, 150,
+		10, 10, FlxColor.WHITE, FlxColor.BLACK);
+		var default_playbackRate:FlxButton = new FlxButton(playbackRate_Slider.x , 200, 'Default Rate', function() {
+			set_playbackRate(1);
+		});
+
 		tab_group_chart.add(new FlxText(metronomeStepper.x, metronomeStepper.y - 15, 0, 'BPM:'));
 		tab_group_chart.add(new FlxText(metronomeOffsetStepper.x, metronomeOffsetStepper.y - 15, 0, 'Offset (ms):'));
 		tab_group_chart.add(new FlxText(instVolume.x, instVolume.y - 15, 0, 'Inst Volume'));
@@ -1393,6 +1416,8 @@ for(mod in Paths.getGlobalMods())
 		tab_group_chart.add(waveformUseVoices);
 		tab_group_chart.add(waveformUseInstrumental);
 		#end
+		tab_group_chart.add(playbackRate_Slider);
+		tab_group_chart.add(default_playbackRate);
 		tab_group_chart.add(instVolume);
 		tab_group_chart.add(voicesVolume);
 		tab_group_chart.add(check_mute_inst);
@@ -2759,10 +2784,24 @@ if(!blockInput){
 		if(height < minHeight) height = minHeight;
 		if(height < 1) height = 1; //Prevents error of invalid height
 
+		var colorSwap = new ColorSwap();
+		var shader = colorSwap.shader;
+
 		var colorList:Array<String> = ['c24b99', '00ffff', '12fa05', 'f9393f'];
 		var susColor:Int = Std.parseInt('0xff' + colorList[note.noteData]);
 
+		var hueColor = ClientPrefs.arrowHSV[note.noteData][0] / 360;
+		var saturationColor = ClientPrefs.arrowHSV[note.noteData][1] / 100;
+		var brightnessColor = ClientPrefs.arrowHSV[note.noteData][2] / 100;
+		if (note.noteType == "Hurt Note") susColor = Utils.dominantColor(note);
+
 		var spr:FlxSprite = new FlxSprite(note.x + (GRID_SIZE * 0.5) - 4, note.y + GRID_SIZE / 2).makeGraphic(8, height, susColor);
+		if (note.noteType != "Hurt Note"){
+			spr.shader = colorSwap.shader;
+			colorSwap.hue = hueColor;
+			colorSwap.saturation = saturationColor;
+			colorSwap.brightness = brightnessColor;
+		}
 		return spr;
 	}
 
