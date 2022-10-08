@@ -5368,7 +5368,9 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
+				if (ClientPrefs.hsvol > 0 && !cpuControlled)
+					FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
+
                 if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
