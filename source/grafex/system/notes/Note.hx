@@ -36,6 +36,8 @@ class Note extends FlxSprite
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
 
+	public var hitsoundDisabled:Bool = false;
+
     public var nextNote:Note;
 
 	public var spawned:Bool = false;
@@ -214,6 +216,7 @@ class Note extends FlxSprite
 		{
 			alpha = 0.6;
 			multAlpha = 0.6;
+			hitsoundDisabled = true;
 			if(ClientPrefs.downScroll) flipY = true;
 
 			offsetX += width / 2;
