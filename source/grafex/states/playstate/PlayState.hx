@@ -398,10 +398,15 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-
         Paths.clearStoredMemory();
 
 		instance = this;
+
+		notes.forEachAlive(function(daNote:Note){
+			if (ClientPrefs.hsvol = 0)
+				daNote.hitsoundDisabled = true;
+		}
+		
 
 		log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
 
