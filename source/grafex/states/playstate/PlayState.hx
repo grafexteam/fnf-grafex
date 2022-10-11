@@ -401,11 +401,6 @@ class PlayState extends MusicBeatState
         Paths.clearStoredMemory();
 
 		instance = this;
-
-		notes.forEachAlive(function(daNote:Note){
-			if (ClientPrefs.hsvol = 0)
-				daNote.hitsoundDisabled = true;
-		}
 		
 
 		log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
@@ -3668,6 +3663,11 @@ class PlayState extends MusicBeatState
 			});
 		}
 		checkEventNote();
+
+		notes.forEachAlive(function(daNote:Note){
+			if (ClientPrefs.hsvol == 0)
+				daNote.hitsoundDisabled = true;
+		}
 
 		#if debug
 		if(!endingSong && !startingSong) {
