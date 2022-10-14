@@ -40,6 +40,9 @@ class HealthIcon extends FlxSprite
 		if (sprTracker != null)
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
 
+		if(oldAlligment != alligment)
+			onChangeAlligment();
+
 		if(spriteType == "animated")
 		{
 			if(animation.curAnim.finished && animation.getByName(animation.curAnim.name + '-loop') != null)
@@ -52,6 +55,8 @@ class HealthIcon extends FlxSprite
 	private var iconOffsets:Array<Float> = [0, 0];
 	public var spriteType = "dual";
 	var animatedIconStage = "normal";
+	public var alligment:String = 'right';
+	var oldAlligment:String = 'right';
 	public function changeIcon(char:String)
 	{
 		if(this.char != char)
@@ -198,73 +203,56 @@ class HealthIcon extends FlxSprite
 	public function doIconWork() {
 		
 		if(spriteType == "animated")
-			{
 				animation.play(animatedIconStage, true);
-			}
 
-		switch(ClientPrefs.healthIconBop)
-			{
-				case 'Modern':
-					scale.set(1.2, 1.2);
-					updateHitbox();
-				case 'Grafex':
-					scale.x = 1;
-					scale.y = 1;
-					FlxTween.tween(this.scale, {x: 1.15, y: 1.15}, Conductor.crochet / 2000, {ease: FlxEase.quadOut, type: BACKWARD});
-				case 'Classic':
-					scale.set(1.1, 1.1);
-			}
+		scale.set(1.2, 1.2);
+		updateHitbox();
+
 	}
 
 	var iconOffset:Int = 26;
 	public function doIconPos(elapsed:Float) {
-		switch(ClientPrefs.healthIconBop)
-		{
-			case 'Grafex':	
+	
+		var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
+		scale.set(mult, mult);
+		updateHitbox();
 
+		switch(alligment) {
+            case 'right':
 				this.isPlayer ? {
-					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-				} : {
-					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (width - iconOffset);
-				}
-
-			 case 'Modern':	
-
-				var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				scale.set(mult, mult);
-				updateHitbox();
-
+		    		x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * scale.x - 150) / 2 - iconOffset;
+		    	} : {
+		    		x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * scale.x) / 2 - iconOffset * 2;
+		    	}	
+	    case 'left':
 				this.isPlayer ? {
-						x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * scale.x - 150) / 2 - iconOffset;
-					} : {
-						x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * scale.x) / 2 - iconOffset * 2;
-					}
-   
-			case 'Classic':    
-				setGraphicSize(Std.int(FlxMath.lerp(150, this.width, 0.50)));
+				x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(100 - PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * scale.x) / 2 - iconOffset * 2;
+		    	} : {
+		    		x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(100 - PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * scale.x - 150) / 2 - iconOffset;
+		    	}
 
-				this.isPlayer ? {
-					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-				} : {
-					x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (width - iconOffset);
-				}
 		}
 	}
 
 	public function doIconPosFreePlayBoyezz(elapsed:Float) {
-		switch(ClientPrefs.healthIconBop)
-		{
-			case 'Grafex':	
-                //nothing dumbass
-
-			case 'Modern':	
-
-				var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
-				scale.set(mult, mult);
+	
+		var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
+		scale.set(mult, mult);
    
-			case 'Classic':    
-				scale.set(1, 1);
+	}
+
+	public function onChangeAlligment()
+	{
+		switch(alligment) {
+			case 'right':
+				this.flipX = isPlayer;
+
+			case 'left':
+				this.flipX = !isPlayer;
 		}
+
+		oldAlligment = alligment;
+
 	}
 
 	override function updateHitbox()

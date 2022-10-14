@@ -46,17 +46,10 @@ class MainMenuState extends MusicBeatState
 	public var movingBG:FlxBackdrop;
 	public var menuBox:FlxSprite;
 
-        public static var firstStart:Bool = true;
+    public static var firstStart:Bool = true;
 
 	var boxMain:FlxSprite;
-	var optionShit:Array<String> = [
-		'story_mode',
-		'freeplay',
-        #if MODS_ALLOWED 'mods', #end
-		'credits',
-		//#if !switch 'donate', #end // you can uncomment this if you want - Xale
-		'options'
-	];
+	var optionShit:Array<String> = ['story_mode', 'freeplay', #if MODS_ALLOWED 'mods', #end 'credits', 'options'];
 
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;

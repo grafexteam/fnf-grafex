@@ -1479,40 +1479,6 @@ class ColorBlindOption extends Option
 	}
 }
 
-class IconBop extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function left():Bool
-	{
-		ClientPrefs.healthIconBopNum--;
-		if (ClientPrefs.healthIconBopNum < 0)
-		ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 3;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
-		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		ClientPrefs.healthIconBopNum++;
-		if (ClientPrefs.healthIconBopNum > OptionsHelpers.IconsBopArray.length - 1)
-			ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 1;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
-		display = updateDisplay();
-		return true;
-	}
-
-	public override function getValue():String
-	{
-		return "Icon bopping type: < " + OptionsHelpers.getIconBopByID(ClientPrefs.healthIconBopNum) + " >";
-	}
-}
-
 class TimeBarType extends Option
 {
 	public function new(desc:String)

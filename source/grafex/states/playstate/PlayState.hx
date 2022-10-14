@@ -2515,12 +2515,12 @@ class PlayState extends MusicBeatState
 
                 if (curSong == 'Test')
 		        {
-                        pxgfdanced = !pxgfdanced;
+                    pxgfdanced = !pxgfdanced;
                  
-	                    if (pxgfdanced)
-		                gfPixel.animation.play('danceRight');
-		                else
-		                gfPixel.animation.play('danceLeft');
+	                if (pxgfdanced)
+		            gfPixel.animation.play('danceRight');
+		            else
+		            gfPixel.animation.play('danceLeft');
 		        }
 
 				// head bopping for bg characters on Mall
@@ -3663,6 +3663,10 @@ class PlayState extends MusicBeatState
 			});
 		}
 		checkEventNote();
+
+        notes.forEachAlive(function(daNote:Note) {
+			if (ClientPrefs.hsvol == 0) daNote.neededHitsounds = false; //MemeHoovy realy cool dude - PurSnake
+		});
 
 		#if debug
 		if(!endingSong && !startingSong) {
@@ -5368,7 +5372,9 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
+                if(note.neededHitsounds && ClientPrefs.hsvol > 0 && !cpuControlled)
+				    FlxG.sound.play(Paths.sound('note_click'), ClientPrefs.hsvol); // it must be HERE - PurSnake
+
                 if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);

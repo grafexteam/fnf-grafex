@@ -19,8 +19,6 @@ class ClientPrefs {
     public static var shouldCameraMove:Bool = true;
     public static var hsvol:Float = 0;
     public static var instantRespawn:Bool = false;
-    public static var healthIconBop:String = 'Modern';
-    public static var healthIconBopNum:Int = 1;
     public static var underDelayAlpha:Float = 0.1;
     public static var underDelayEnabled:Bool = true;
     public static var noteSkin:String = 'Default';
@@ -129,8 +127,6 @@ class ClientPrefs {
         FlxG.save.data.playMissSounds = playMissSounds;
         FlxG.save.data.hitSound = hitSound;
         FlxG.save.data.shouldCameraMove = shouldCameraMove;
-        FlxG.save.data.healthIconBop = healthIconBop;
-        FlxG.save.data.healthIconBopNum = healthIconBopNum;
         FlxG.save.data.noteSkin = noteSkin;
         FlxG.save.data.noteSkinNum = noteSkinNum;
 		FlxG.save.data.chartAutoSaveInterval = chartAutoSaveInterval;
@@ -247,8 +243,6 @@ class ClientPrefs {
 			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
 		};
 		FlxG.save.data.ghostTapping != null ? ghostTapping = FlxG.save.data.ghostTapping : ghostTapping = true;
-		FlxG.save.data.healthIconBop != null ? healthIconBop = FlxG.save.data.healthIconBop : healthIconBop = 'Modern';
-		FlxG.save.data.healthIconBopNum != null ? healthIconBopNum = FlxG.save.data.healthIconBopNum : healthIconBopNum = 1;
 		FlxG.save.data.timeBarType != null ? timeBarType = FlxG.save.data.timeBarType : timeBarType = 'Time Left';
 		FlxG.save.data.timeBarTypeNum != null ? timeBarTypeNum = FlxG.save.data.timeBarTypeNum : timeBarTypeNum = 0;
 		FlxG.save.data.scoreZoom != null ? scoreZoom = FlxG.save.data.scoreZoom : scoreZoom = true;
