@@ -398,9 +398,6 @@ class ModsMenuState extends MusicBeatState
 		updatePosition();
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
-		FlxG.mouse.visible = true;
-        FlxG.mouse.useSystemCursor = true;
-
 		super.create();
 	}
 
@@ -501,11 +498,12 @@ class ModsMenuState extends MusicBeatState
 
 		if(canExit && controls.BACK)
 		{
+			FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.mouse.visible = false;
 			saveTxt();
 			if(needaReset)
 				{

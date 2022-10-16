@@ -398,7 +398,6 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-
         Paths.clearStoredMemory();
 
 		instance = this;
@@ -492,14 +491,6 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
-                /*
-                var iconPath = Paths.image('icon.png');
-		trace(iconPath);
-		if (Assets.exists(iconPath)) {
-			lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
-			iconChanged = true;
-		} 
-                */  //Maybe - PurSnake
 		#if desktop
 		storyDifficultyText = Utils.difficulties[storyDifficulty];
 
@@ -1695,7 +1686,10 @@ class PlayState extends MusicBeatState
 		callOnLuas('onCreatePost', []);
 
 		//hideHPHud();
-	
+
+		FlxG.mouse.visible = true;
+		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+
 		super.create();
 		
 		cacheCountdown();

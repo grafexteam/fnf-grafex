@@ -3,8 +3,6 @@ package grafex.states.editors;
 import grafex.states.playstate.PlayState;
 import grafex.effects.shaders.ColorSwap;
 
-import grafex.system.log.GrfxLogger.log;
-import grafex.system.log.GrfxLogger;
 import grafex.sprites.characters.Character;
 import grafex.sprites.characters.Character.CharacterFile;
 import grafex.states.substates.LoadingState;
@@ -274,8 +272,6 @@ class ChartingState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
 
-		GrfxLogger.log('info', 'Started charting "' + _song.song + '"');
-
 		vortex = FlxG.save.data.chart_vortex;
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.set();
@@ -314,10 +310,6 @@ class ChartingState extends MusicBeatState
 		nextRenderedNotes = new FlxTypedGroup<Note>();
 
 		if(curSec >= _song.notes.length) curSec = _song.notes.length - 1;
-
-		FlxG.mouse.visible = true;
-                FlxG.mouse.useSystemCursor = true;
-		//FlxG.save.bind('grafex', 'xale');
 
 		tempBpm = _song.bpm;
 
@@ -460,7 +452,6 @@ class ChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			//trace('CHECKED!');
 		};
 
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
@@ -648,8 +639,8 @@ var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Paths.current
 				PlayState.storyDifficulty = Std.parseInt(difficulty);
 				try {
 					loadJson(_song.song.toLowerCase());
-				} catch (e:Any) {
-					trace ("File " + _song.song.toLowerCase() + Utils.getDifficultyFilePath() + " is not found.");
+				} catch (e:Any)
+				{ //nothing
 				}
 			}
 		});
@@ -1398,8 +1389,7 @@ for(mod in Paths.getGlobalMods())
 			shiftNotes(Std.int(stepperShiftNoteDial.value),Std.int(stepperShiftNoteDialstep.value),Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var playbackRate_Slider = new FlxUISlider(this, 'playbackRate', waveformUseVoices.x-5, check_vortex.y-15, 0.25, 2, 150,
-		10, 10, FlxColor.WHITE, FlxColor.BLACK);
+		var playbackRate_Slider = new FlxUISlider(this, 'playbackRate', waveformUseVoices.x-5, check_vortex.y-15, 0.25, 3, 150, null, 5, FlxColor.WHITE, FlxColor.BLACK);
 		var default_playbackRate:FlxButton = new FlxButton(playbackRate_Slider.x , 200, 'Default Rate', function() {
 			set_playbackRate(1);
 		});
@@ -1412,7 +1402,7 @@ for(mod in Paths.getGlobalMods())
 		tab_group_chart.add(disableAutoScrolling);
 		tab_group_chart.add(metronomeStepper);
 		tab_group_chart.add(metronomeOffsetStepper);
-		#if desktop
+		#if desktops
 		tab_group_chart.add(waveformUseVoices);
 		tab_group_chart.add(waveformUseInstrumental);
 		#end
@@ -1511,7 +1501,6 @@ for(mod in Paths.getGlobalMods())
 
 				case 'Change BPM':
 					_song.notes[curSec].changeBPM = check.checked;
-					FlxG.log.add('changed bpm shit');
 				case "Alt Animation":
 					_song.notes[curSec].altAnim = check.checked;
 			}
@@ -1520,7 +1509,6 @@ for(mod in Paths.getGlobalMods())
 		{
 			var nums:FlxUINumericStepper = cast sender;
 			var wname = nums.name;
-			FlxG.log.add(wname);
 			if (wname == 'section_beats')
 			{
 				_song.notes[curSec].sectionBeats = nums.value;
@@ -1585,8 +1573,6 @@ for(mod in Paths.getGlobalMods())
 				}
 			}
 		}
-
-		// FlxG.log.add(id + " WEED " + sender + " WEED " + data + " WEED " + params);
 	}
 
 	var updatedSection:Bool = false;
@@ -1635,7 +1621,6 @@ for(mod in Paths.getGlobalMods())
 			strumLineNotes.members[i].y = strumLine.y;
 		}
 
-		FlxG.mouse.visible = true;//cause reasons. trust me 
 		camPos.y = strumLine.y;
 		if(!disableAutoScrolling.checked) {
 			if (Math.ceil(strumLine.y) >= gridBG.height)
@@ -1704,7 +1689,6 @@ for(mod in Paths.getGlobalMods())
 					&& FlxG.mouse.y > gridBG.y
 					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom])
 				{
-					FlxG.log.add('added note');
 					addNote();
 				}
 			}
@@ -1758,7 +1742,6 @@ for(mod in Paths.getGlobalMods())
 			if (FlxG.keys.justPressed.ENTER)
 			{
 				autosaveSong();
-				FlxG.mouse.visible = false;
 				PlayState.SONG = _song;
 				FlxG.sound.music.stop();
 				if(vocals != null) vocals.stop();
@@ -1791,7 +1774,6 @@ for(mod in Paths.getGlobalMods())
 					MusicBeatState.switchState(new MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				//}
-				FlxG.mouse.visible = false;
 				return;
 			}
 
@@ -1960,11 +1942,11 @@ if(!blockInput){
                                 if (FlxG.keys.pressed.UP)
 				{
 				var fuck:Float = Utils.quantize(beat, snap) - snap;
-					trace(fuck);
+					//trace(fuck);
 					feces = Conductor.beatToSeconds(fuck);
 				}else{
 					var fuck:Float = Utils.quantize(beat, snap) + snap; //(Math.floor((beat+snap) / snap) * snap);
-					trace(fuck);
+					//trace(fuck);
 					feces = Conductor.beatToSeconds(fuck);
 				}
 				FlxTween.tween(FlxG.sound.music, {time:feces}, 0.1, {ease:FlxEase.circOut});
@@ -2481,7 +2463,6 @@ if(!blockInput){
 
 	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
-		GrfxLogger.debug('Changed section');
 		if (_song.notes[sec] != null)
 		{
 			curSec = sec;
@@ -2883,7 +2864,6 @@ if(!blockInput){
 				if (i[0] == note.strumTime && i[1] == noteDataToCheck)
 				{
 					if(i == curSelectedNote) curSelectedNote = null;
-					//FlxG.log.add('FOUND EVIL NOTE');
 					_song.notes[curSec].sectionNotes.remove(i);
 					break;
 				}
@@ -2900,7 +2880,6 @@ if(!blockInput){
 						curSelectedNote = null;
 						changeEventSelected();
 					}
-					//FlxG.log.add('FOUND EVIL EVENT');
 					_song.events.remove(i);
 					break;
 				}
@@ -2945,7 +2924,7 @@ if(!blockInput){
 			
 			var millisecadd = (((measure*4)+step/4)*(60000/_song.bpm))+ms;
 			var totaladdsection = Std.int((millisecadd/(60000/_song.bpm)/4));
-			trace(millisecadd,totaladdsection);
+			//trace(millisecadd,totaladdsection);
 			if(millisecadd > 0)
 				{
 					for(i in 0...totaladdsection)
@@ -3092,7 +3071,7 @@ if(!blockInput){
 			"song": _song
 		});
 
-		trace('Chart saved!');
+		//trace('Chart saved!');
 		FlxTween.tween(ChartAuSaveInText, {alpha: 1}, 1, {ease: FlxEase.backInOut, type: ONESHOT});
 
 		new FlxTimer().start(3, function(tmr:FlxTimer) {
@@ -3158,8 +3137,6 @@ if(!blockInput){
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
-		FlxG.log.notice("Successfully saved LEVEL DATA.");
-		GrfxLogger.log('info', "Successfully saved LEVEL DATA in " + Paths.formatToSongPath(_song.song) + (Utils.getDifficultyFilePath() == null ? Utils.getDifficultyFilePath() : '') + ".json");
 	}
 
 	/**
@@ -3182,7 +3159,6 @@ if(!blockInput){
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
-		GrfxLogger.debug("Problem saving Level data");
 	}
 
 	function getSectionBeats(?section:Null<Int> = null)

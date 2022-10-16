@@ -62,7 +62,6 @@ import lime.ui.WindowAttributes;
 using StringTools;
 
 using flixel.util.FlxSpriteUtil;
-
 typedef TitleData =
 {
 	titlex:Float,
@@ -163,14 +162,15 @@ class TitleState extends MusicBeatState
 		bgFlash.antialiasing = true;
 		add(bgFlash);
 
-		FlxG.mouse.useSystemCursor = false;
-
 		if (FlxG.save.data.weekCompleted != null)
 		{
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
 
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
+		
+		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING

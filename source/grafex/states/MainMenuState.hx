@@ -83,9 +83,6 @@ class MainMenuState extends MusicBeatState
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
 			}
 
-		FlxG.mouse.visible = true;
-        FlxG.mouse.useSystemCursor = true;
-
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		
 		camGame = new FlxCamera();
@@ -207,7 +204,6 @@ class MainMenuState extends MusicBeatState
 		if(selectedSomethin)
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
-					FlxG.mouse.visible = false;
                     movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
 				});
 
@@ -237,7 +233,6 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
-                FlxG.mouse.visible = false;
                 TitleState.fromMainMenu = true;
 			}
 

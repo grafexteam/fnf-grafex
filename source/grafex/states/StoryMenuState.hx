@@ -150,7 +150,7 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		FlxG.mouse.useSystemCursor = true;
+		//FlxG.mouse.useSystemCursor = true;
 
 		WeekData.setDirectoryFromWeek(loadedWeeks[0]);
 		var charArray:Array<String> = loadedWeeks[0].weekCharacters;
