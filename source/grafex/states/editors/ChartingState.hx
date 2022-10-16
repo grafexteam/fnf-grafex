@@ -1402,7 +1402,7 @@ for(mod in Paths.getGlobalMods())
 		tab_group_chart.add(disableAutoScrolling);
 		tab_group_chart.add(metronomeStepper);
 		tab_group_chart.add(metronomeOffsetStepper);
-		#if desktops
+		#if desktop
 		tab_group_chart.add(waveformUseVoices);
 		tab_group_chart.add(waveformUseInstrumental);
 		#end
