@@ -4170,7 +4170,7 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					songSpeedTween = FlxTween.tween(this, {songSpeed: newValue}, val2, {ease: ease, onComplete:
+					songSpeedTween = FlxTween.tween(this, {songSpeed: newValue}, val2 / playbackRate, {ease: ease, onComplete:
 						function(twn:FlxTween)
 						{
 							songSpeedTween = null;

@@ -147,25 +147,25 @@ class HealthIcon extends FlxSprite
 					}
 					
 					if(spriteType == "animated")
-						{
-							frames = Paths.getSparrowAtlas(name);
-					        animation.addByPrefix('win', 'win', 24, false, isPlayer);
-							animation.addByPrefix('win-loop', 'win-loop', 24, true, isPlayer);
-							animation.addByPrefix('normal', 'normal', 24, false, isPlayer);
-							animation.addByPrefix('normal-loop', 'normal-loop', 24, true, isPlayer);
-							animation.addByPrefix('loose', 'loose', 24, false, isPlayer);
-							animation.addByPrefix('loose-loop', 'loose-loop', 24, true, isPlayer);
+					{
+						frames = Paths.getSparrowAtlas(name);
+					    animation.addByPrefix('win', 'win', 24, false, isPlayer);
+						animation.addByPrefix('win-loop', 'win-loop', 24, true, isPlayer);
+						animation.addByPrefix('normal', 'normal', 24, false, isPlayer);
+						animation.addByPrefix('normal-loop', 'normal-loop', 24, true, isPlayer);
+						animation.addByPrefix('loose', 'loose', 24, false, isPlayer);
+						animation.addByPrefix('loose-loop', 'loose-loop', 24, true, isPlayer);
 
-							updateHitbox();
+						updateHitbox();
 
-							animation.play('normal', true);
-							this.char = char;
+						animation.play('normal', true);
+						this.char = char;
 
-							antialiasing = ClientPrefs.globalAntialiasing;
-							if(char.endsWith('-pixel')) {
-								antialiasing = false;
-							}
+						antialiasing = ClientPrefs.globalAntialiasing;
+						if(char.endsWith('-pixel')) {
+							antialiasing = false;
 						}
+					}
 			}
 		}
 	}
@@ -201,7 +201,6 @@ class HealthIcon extends FlxSprite
 	}
 
 	public function doIconWork() {
-		
 		if(spriteType == "animated")
 				animation.play(animatedIconStage, true);
 
@@ -213,7 +212,7 @@ class HealthIcon extends FlxSprite
 	var iconOffset:Int = 26;
 	public function doIconPos(elapsed:Float) {
 	
-		var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult:Float = FlxMath.lerp(1, scale.x, Utils.boundTo(1 - (elapsed * 9 * PlayState.instance.playbackRate), 0, 1));
 		scale.set(mult, mult);
 		updateHitbox();
 
@@ -224,13 +223,12 @@ class HealthIcon extends FlxSprite
 		    	} : {
 		    		x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * scale.x) / 2 - iconOffset * 2;
 		    	}	
-	    case 'left':
+	        case 'left':
 				this.isPlayer ? {
 				x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(100 - PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * scale.x) / 2 - iconOffset * 2;
 		    	} : {
 		    		x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(100 - PlayState.instance.healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * scale.x - 150) / 2 - iconOffset;
 		    	}
-
 		}
 	}
 
