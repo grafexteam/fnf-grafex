@@ -171,6 +171,15 @@ class TitleState extends MusicBeatState
 		
 		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
 
+		//lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
+		//lime.app.Application.current.window.setIcon(Paths.image("icon"));
+		//lime.app.Application.current.window.setIcon(lime.utils.Assets.getImage(getGameIconPath()));
+		//lime.utils.Assets.getImage(path)
+		//getGameIconPath()
+		//lime.utils.Assets.getImage(getGameIconPath())
+
+		lime.app.Application.current.window.setIcon(lime.graphics.Image.fromBitmapData(Paths.image("icon").bitmap));
+
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
@@ -626,6 +635,27 @@ class TitleState extends MusicBeatState
 		#end
 		return data;
 	}
+
+	/*public static function getGameIconPath()
+	{
+		Paths.image("icon");
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/icon.png";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/icon.png";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/icon.png";
+		}
+		trace(path, FileSystem.exists(path));
+		#else
+		var path = Paths.getPreloadPath("images/icon.png");
+		#end
+		return path;
+	}*/
+	
 
 	var skippedIntro:Bool = false;
 

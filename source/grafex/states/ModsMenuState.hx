@@ -399,6 +399,9 @@ class ModsMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		super.create();
+
+		FlxG.mouse.unload();
+		FlxG.mouse.visible = true;
 	}
 
 	/*function getIntArray(max:Int):Array<Int>{
@@ -499,6 +502,7 @@ class ModsMenuState extends MusicBeatState
 		if(canExit && controls.BACK)
 		{
 			FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+			lime.app.Application.current.window.setIcon(lime.graphics.Image.fromBitmapData(Paths.image("icon").bitmap));
 
 			if(colorTween != null) {
 				colorTween.cancel();
