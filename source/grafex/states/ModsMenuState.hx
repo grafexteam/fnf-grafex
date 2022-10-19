@@ -502,7 +502,9 @@ class ModsMenuState extends MusicBeatState
 		if(canExit && controls.BACK)
 		{
 			FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
-			lime.app.Application.current.window.setIcon(lime.graphics.Image.fromBitmapData(Paths.image("icon").bitmap));
+			#if desktop
+		        lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(TitleState.getGameIconPath()));
+	        #end
 
 			if(colorTween != null) {
 				colorTween.cancel();

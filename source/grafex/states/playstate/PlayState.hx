@@ -1689,7 +1689,10 @@ class PlayState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
-		lime.app.Application.current.window.setIcon(lime.graphics.Image.fromBitmapData(Paths.image("icon").bitmap));
+
+		#if desktop
+		    lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(TitleState.getGameIconPath()));
+	    #end
 
 		super.create();
 		
