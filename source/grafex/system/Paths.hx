@@ -233,6 +233,11 @@ class Paths
 		return file;
 	}
 
+	inline static public function chart(song:String, key:String)
+	{
+		return getPath('data/$song/$key.json', TEXT);
+	}
+
 	inline static public function voices(song:String):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Voices';
@@ -385,6 +390,10 @@ class Paths
 	inline static public function getCharacterIconXml(key:String, ?library:String)
 	{
 		return getPath('icons/icon-' + key + '.xml', IMAGE, library);
+	}
+
+	inline static public function modsCharts(song:String, key:String) {
+		return modFolders('songs/' + song + '/' + key + '.json');
 	}
 	
 	inline static public function mods(key:String = '') {
