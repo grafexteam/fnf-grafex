@@ -150,6 +150,8 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
+		//FlxG.mouse.useSystemCursor = true;
+
 		WeekData.setDirectoryFromWeek(loadedWeeks[0]);
 		var charArray:Array<String> = loadedWeeks[0].weekCharacters;
 		for (char in 0...3)
@@ -318,8 +320,13 @@ class StoryMenuState extends MusicBeatState
 
 				grpWeekText.members[curWeek].startFlashing();
 
-				var bf:MenuCharacter = grpWeekCharacters.members[1];
-				if(bf.character != '' && bf.hasConfirmAnimation) grpWeekCharacters.members[1].animation.play('confirm');
+				for (char in grpWeekCharacters.members)
+				{
+					if (char.character != '' && char.hasConfirmAnimation)
+					{
+						char.animation.play('confirm');
+					}
+				}
 				stopspamming = true;
 			}
 

@@ -35,7 +35,7 @@ class OptionsHelpers
 
     static public function ChangeIconBop(id:Int)
     {
-        ClientPrefs.healthIconBop = getIconBopByID(id);
+       // ClientPrefs.healthIconBop = getIconBopByID(id);
     }
 
     public static function getTimeBarByID(id:Int)

@@ -470,6 +470,8 @@ class HideHud extends Option
 		//	return false;
 		ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
+		if (Type.getClass(FlxG.state) == PlayState){
+
 		PlayState.instance.healthBarBG.visible = !ClientPrefs.hideHud;
 		PlayState.instance.healthBar.visible = !ClientPrefs.hideHud;
 		PlayState.instance.healthBarWN.visible = !ClientPrefs.hideHud;
@@ -491,6 +493,7 @@ class HideHud extends Option
 			}  
 		}
 
+	    }
 		display = updateDisplay();
 		return true;
 	}
@@ -1249,10 +1252,12 @@ class JudgementCounter extends Option
 	{
 		ClientPrefs.showJudgement = !ClientPrefs.showJudgement;
 
+		if (Type.getClass(FlxG.state) == PlayState){
 		if(ClientPrefs.showJudgement) 
 			PlayState.instance.judgementCounter.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
 		else
 			PlayState.instance.judgementCounter.visible = false;
+	    }
 
 		display = updateDisplay();
 		return true;
@@ -1474,40 +1479,6 @@ class ColorBlindOption extends Option
 	}
 }
 
-class IconBop extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function left():Bool
-	{
-		ClientPrefs.healthIconBopNum--;
-		if (ClientPrefs.healthIconBopNum < 0)
-		ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 3;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
-		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		ClientPrefs.healthIconBopNum++;
-		if (ClientPrefs.healthIconBopNum > OptionsHelpers.IconsBopArray.length - 1)
-			ClientPrefs.healthIconBopNum = OptionsHelpers.IconsBopArray.length - 1;
-        OptionsHelpers.ChangeIconBop(ClientPrefs.healthIconBopNum);
-		display = updateDisplay();
-		return true;
-	}
-
-	public override function getValue():String
-	{
-		return "Icon bopping type: < " + OptionsHelpers.getIconBopByID(ClientPrefs.healthIconBopNum) + " >";
-	}
-}
-
 class TimeBarType extends Option
 {
 	public function new(desc:String)
@@ -1523,9 +1494,11 @@ class TimeBarType extends Option
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 3;
      	OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
+		}
 		return true;
 	}
 
@@ -1536,9 +1509,11 @@ class TimeBarType extends Option
 			ClientPrefs.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 1;
         OptionsHelpers.ChangeTimeBar(ClientPrefs.timeBarTypeNum);
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.timeBarBG.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeBar.visible = (ClientPrefs.timeBarType != 'Disabled');
 		PlayState.instance.timeTxt.visible = (ClientPrefs.timeBarType != 'Disabled');
+		}
 		return true;
 	}
 
@@ -1561,12 +1536,14 @@ class HealthBarOption extends Option
 		ClientPrefs.visibleHealthbar = !ClientPrefs.visibleHealthbar;
 		display = updateDisplay();
 
+		if (Type.getClass(FlxG.state) == PlayState){
 		if(!ClientPrefs.hideHud)
 			for (helem in [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.healthBarWN, PlayState.instance.healthBarBG, PlayState.instance.healthStrips]) {
 				if (helem != null) {
 					helem.visible = ClientPrefs.visibleHealthbar;
 			}  
 		}
+	    }
 		return true;
 	}
 
@@ -1597,14 +1574,14 @@ class HealthBarAlpha extends Option
 		ClientPrefs.healthBarAlpha += 0.1;
 		if (ClientPrefs.healthBarAlpha > 1)
 			ClientPrefs.healthBarAlpha = 1;
-
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
-
+		}
 		return true;
 	}
 
@@ -1614,14 +1591,14 @@ class HealthBarAlpha extends Option
 
 		if (ClientPrefs.healthBarAlpha < 0)
 			ClientPrefs.healthBarAlpha = 0;
-
+		if (Type.getClass(FlxG.state) == PlayState){
 		PlayState.instance.healthBarBG.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBar.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthBarWN.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.healthStrips.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP1.alpha = ClientPrefs.healthBarAlpha;
 		PlayState.instance.iconP2.alpha = ClientPrefs.healthBarAlpha;
-
+		}
 		return true;
 	}
 
@@ -1765,6 +1742,7 @@ class SongNameOption extends Option
 	{
 		ClientPrefs.songNameDisplay = !ClientPrefs.songNameDisplay;
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState)
 		PlayState.instance.songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		return true;
 	}
@@ -1793,6 +1771,7 @@ class VintageOption extends Option
 	{
 		ClientPrefs.vintageOnGame = !ClientPrefs.vintageOnGame;
 		display = updateDisplay();
+		if (Type.getClass(FlxG.state) == PlayState)
 		PlayState.instance.vintage.visible = ClientPrefs.vintageOnGame;
 		return true;
 	}
@@ -1865,5 +1844,43 @@ class ComboStacking extends Option
 	private override function updateDisplay():String
 	{
 		return "Combo Stacking: < " + (ClientPrefs.comboStacking ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+class Keystrokes extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		ClientPrefs.keystrokes = !ClientPrefs.keystrokes;
+		display = updateDisplay();
+
+		if (Type.getClass(FlxG.state) == PlayState) {
+			PlayState.instance.keyLeft.visible  = ClientPrefs.keystrokes;
+			PlayState.instance.keyDown.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyUp.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyRight.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyLeftText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyDownText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyUpText.visible = ClientPrefs.keystrokes;
+			PlayState.instance.keyRightText.visible = ClientPrefs.keystrokes;
+		}
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Keystrokes: < " + (ClientPrefs.keystrokes ? "Enabled" : "Disabled") + " >";
 	}
 }

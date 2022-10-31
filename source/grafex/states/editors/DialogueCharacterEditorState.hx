@@ -162,7 +162,6 @@ class DialogueCharacterEditorState extends MusicBeatState
 		reloadText();
 
 		addEditorBox();
-		FlxG.mouse.visible = true;
 		updateCharTypeBox();
 		
 		super.create();
@@ -700,7 +699,6 @@ class DialogueCharacterEditorState extends MusicBeatState
 				MusicBeatState.switchState(new MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 				transitioning = true;
-				FlxG.mouse.visible = false;
 			}
 
 			ghostLoop.setPosition(character.x, character.y);

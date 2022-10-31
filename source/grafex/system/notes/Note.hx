@@ -18,7 +18,7 @@ typedef EventNote = {
 	event:String,
 	value1:String,
 	value2:String,
-	value3:String
+	?value3:String
 }
 class Note extends FlxSprite
 { 
@@ -89,6 +89,7 @@ class Note extends FlxSprite
 	public var rating:String = 'unknown';
 	public var ratingMod:Float = 0; //9 = unknown, 0.25 = shit, 0.5 = bad, 0.75 = good, 1 = sick
 	public var ratingDisabled:Bool = false;
+        public var neededHitsounds:Bool = true;
 
 	public var texture(default, set):String = null;
 
@@ -144,6 +145,7 @@ class Note extends FlxSprite
 				case 'Hurt Note':
 					ignoreNote = mustPress;
 					reloadNote('HURT','','', true);
+                                        neededHitsounds = false;
                     multSpeed = 1.1;
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
@@ -214,6 +216,7 @@ class Note extends FlxSprite
 		{
 			alpha = 0.6;
 			multAlpha = 0.6;
+                        neededHitsounds = true;
 			if(ClientPrefs.downScroll) flipY = true;
 
 			offsetX += width / 2;
@@ -271,11 +274,12 @@ class Note extends FlxSprite
 		x += offsetX;
 	}
 
-	function reloadNote(?prefix:String = '', ?texture:String = '', ?suffix:String = '', ?deftype:Bool) {
+	function reloadNote(?prefix:String = '', ?texture:String = '', ?suffix:String = '', ?deftype:Bool, ?needHitsounds:Bool) {
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
                 if(deftype == null) deftype = false;
+                if(needHitsounds != null) neededHitsounds = needHitsounds;
 		
 		var coolswag:String = '';
 		if(ClientPrefs.noteSkin != 'Default')

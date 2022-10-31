@@ -27,8 +27,18 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	function getOptions()
 	{
+		
 		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant"]);
 		optionsArray.push(goption);
+
+		var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', 'float', 1);
+		option.scrollSpeed = 1;
+		option.minValue = 0.5;
+		option.maxValue = 3.0;
+		option.changeValue = 0.05;
+		option.displayFormat = '%vX';
+		option.decimals = 2;
+		optionsArray.push(option);
 
 		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
 		option.scrollSpeed = 1.5;
@@ -241,9 +251,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 							curOption.change();
 							FlxG.sound.play(Paths.sound('scrollMenu'));
 						} else if(curOption.type != 'string') {
-							holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
-							if(holdValue < curOption.minValue) holdValue = curOption.minValue;
-							else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
+							holdValue = Math.max(curOption.minValue, Math.min(curOption.maxValue, holdValue + curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1)));
 
 							switch(curOption.type)
 							{
@@ -254,7 +262,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 									curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
 							}
 							updateTextFrom(curOption);
-							curOption.change();
+							var blah:Float = Math.max(curOption.minValue, Math.min(curOption.maxValue, holdValue + curOption.changeValue - (holdValue % curOption.changeValue)));
+							curOption.setValue(FlxMath.roundDecimal(blah, curOption.decimals));
 						}
 					}
 

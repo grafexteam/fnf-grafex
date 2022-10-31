@@ -10,6 +10,7 @@ import grafex.util.Controls;
 import external.FPSMem;
 
 class ClientPrefs {
+	public static var keystrokes:Bool = false;
 	public static var vintageOnGame:Bool = true;
     public static var playMissSounds:Bool = true;
 	public static var playMissAnims:Bool = true;
@@ -18,8 +19,6 @@ class ClientPrefs {
     public static var shouldCameraMove:Bool = true;
     public static var hsvol:Float = 0;
     public static var instantRespawn:Bool = false;
-    public static var healthIconBop:String = 'Modern';
-    public static var healthIconBopNum:Int = 1;
     public static var underDelayAlpha:Float = 0.1;
     public static var underDelayEnabled:Bool = true;
     public static var noteSkin:String = 'Default';
@@ -128,8 +127,6 @@ class ClientPrefs {
         FlxG.save.data.playMissSounds = playMissSounds;
         FlxG.save.data.hitSound = hitSound;
         FlxG.save.data.shouldCameraMove = shouldCameraMove;
-        FlxG.save.data.healthIconBop = healthIconBop;
-        FlxG.save.data.healthIconBopNum = healthIconBopNum;
         FlxG.save.data.noteSkin = noteSkin;
         FlxG.save.data.noteSkinNum = noteSkinNum;
 		FlxG.save.data.chartAutoSaveInterval = chartAutoSaveInterval;
@@ -169,7 +166,7 @@ class ClientPrefs {
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
         FlxG.save.data.hsvol = hsvol;
 		FlxG.save.data.comboOffset = comboOffset;
-
+        FlxG.save.data.keystrokes = keystrokes;
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
@@ -188,6 +185,7 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		FlxG.save.data.keystrokes != null ? keystrokes = FlxG.save.data.keystrokes : keystrokes = false;
 		FlxG.save.data.comboStacking != null ? comboStacking = FlxG.save.data.comboStacking : comboStacking = false;
 		FlxG.save.data.susTransper != null ? susTransper = FlxG.save.data.susTransper : susTransper = 1;
 		FlxG.save.data.vintageOnGame != null ? vintageOnGame = FlxG.save.data.vintageOnGame : vintageOnGame = true;
@@ -245,8 +243,6 @@ class ClientPrefs {
 			FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
 		};
 		FlxG.save.data.ghostTapping != null ? ghostTapping = FlxG.save.data.ghostTapping : ghostTapping = true;
-		FlxG.save.data.healthIconBop != null ? healthIconBop = FlxG.save.data.healthIconBop : healthIconBop = 'Modern';
-		FlxG.save.data.healthIconBopNum != null ? healthIconBopNum = FlxG.save.data.healthIconBopNum : healthIconBopNum = 1;
 		FlxG.save.data.timeBarType != null ? timeBarType = FlxG.save.data.timeBarType : timeBarType = 'Time Left';
 		FlxG.save.data.timeBarTypeNum != null ? timeBarTypeNum = FlxG.save.data.timeBarTypeNum : timeBarTypeNum = 0;
 		FlxG.save.data.scoreZoom != null ? scoreZoom = FlxG.save.data.scoreZoom : scoreZoom = true;

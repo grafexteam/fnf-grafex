@@ -46,17 +46,10 @@ class MainMenuState extends MusicBeatState
 	public var movingBG:FlxBackdrop;
 	public var menuBox:FlxSprite;
 
-        public static var firstStart:Bool = true;
+    public static var firstStart:Bool = true;
 
 	var boxMain:FlxSprite;
-	var optionShit:Array<String> = [
-		'story_mode',
-		'freeplay',
-        #if MODS_ALLOWED 'mods', #end
-		'credits',
-		//#if !switch 'donate', #end // you can uncomment this if you want - Xale
-		'options'
-	];
+	var optionShit:Array<String> = ['story_mode', 'freeplay', #if MODS_ALLOWED 'mods', #end 'credits', 'options'];
 
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
@@ -89,9 +82,6 @@ class MainMenuState extends MusicBeatState
 				TitleState.titleJSON = TitleState.getTitleData();
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
 			}
-
-        FlxG.mouse.visible = false;
-        //FlxG.mouse.useSystemCursor = true;
 
 		Application.current.window.title = Main.appTitle + ' - Main Menu';
 		
@@ -214,7 +204,6 @@ class MainMenuState extends MusicBeatState
 		if(selectedSomethin)
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
-					FlxG.mouse.visible = false;
                     movingBG.velocity.x -= (40 / ClientPrefs.framerate * 60);
 				});
 
@@ -244,7 +233,6 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
-                FlxG.mouse.visible = false;
                 TitleState.fromMainMenu = true;
 			}
 

@@ -54,7 +54,7 @@ class PrelaunchingState extends MusicBeatState
 
         Application.current.window.title = Main.appTitle;
         
-        FlxG.mouse.visible = false;
+		FlxG.mouse.visible = false;
         FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
 		FlxG.sound.volumeDownKeys = volumeDownKeys;

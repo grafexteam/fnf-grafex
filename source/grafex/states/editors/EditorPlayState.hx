@@ -164,7 +164,6 @@ class EditorPlayState extends MusicBeatState
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
 		add(tipText);
-		FlxG.mouse.visible = false;
 
 		if(!ClientPrefs.controllerMode)
 		{

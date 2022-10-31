@@ -36,7 +36,6 @@ class Main extends Sprite
 
 	final normalFps:Int = ClientPrefs.framerate; // it's gonna get removed by DCE anyways, so I'm not gonna comment it out
 	// final lowFps:Int = 10;
-	var focusMusicTween:FlxTween;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -78,11 +77,6 @@ class Main extends Sprite
 
 		if(!ClientPrefs.autoPause /*&& Type.getClass(FlxG.state) != PlayState || !PlayState.instance.paused*/)
 		{
-			// Lower global volume when unfocused
-				if (focusMusicTween != null)
-					focusMusicTween.cancel();
-				focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 0.2}, 0.5);
-
 			// Conserve power by lowering draw framerate when unfocuced
 			FlxG.drawFramerate = 10;
 		}
@@ -94,11 +88,6 @@ class Main extends Sprite
 
 		if(!ClientPrefs.autoPause /*&& Type.getClass(FlxG.state) != PlayState || !PlayState.instance.paused*/)
 		{
-			// Normal global volume when focused
-			if (focusMusicTween != null)
-				focusMusicTween.cancel();
-			focusMusicTween = FlxTween.tween(FlxG.sound, {volume: FlxG.sound.volume * 5}, 0.5);
-			// Bring framerate back when focused
 			FlxG.drawFramerate = ClientPrefs.framerate;
 			FlxG.updateFramerate = ClientPrefs.framerate;
 		}
