@@ -31,6 +31,7 @@ class GrfxStage extends FlxTypedGroup<FlxSprite> {
 		exposure.set('this', PlayState.instance);
 		exposure.set('add', add);
 		exposure.set('foreground', foreground);
+		exposure.set('PlayState', PlayState);
 		exposure.set('stage', this);
         exposure.set('curStage', this.curStage);
 		exposure.set('boyfriend', PlayState.instance.boyfriend);
@@ -38,9 +39,9 @@ class GrfxStage extends FlxTypedGroup<FlxSprite> {
 		exposure.set('dad', PlayState.instance.dad);
 		exposure.set('dadOpponent', PlayState.instance.dad);
 
-		if(FileSystem.exists('assets/stages/$stage/$stage.hx')) {
+		if(FileSystem.exists(Paths.hxModule('stages/$stage/$stage'))) {
 		        stageBuild = GrfxScriptHandler.loadModule('stages/$stage/$stage', exposure);
-			Paths.doStageFuckinShitOH('assets/stages/$stage');
+			Paths.doStageFuckinShitOH('/stages/$stage');
 			if (stageBuild.exists("onCreate"))
 				stageBuild.get("onCreate")();
 			Paths.doStageFuckinShitOH();
@@ -56,6 +57,7 @@ class GrfxStage extends FlxTypedGroup<FlxSprite> {
 	public function stageCreatePost() {
 		stageBuild.set('this', PlayState.instance);
 		stageBuild.set('add', PlayState.instance.add);
+		stageBuild.set('PlayState', PlayState);
 		stageBuild.set('boyfriend', PlayState.instance.boyfriend);
 		stageBuild.set('dad', PlayState.instance.dad);
         stageBuild.set('gf', PlayState.instance.gf);
@@ -83,6 +85,12 @@ class GrfxStage extends FlxTypedGroup<FlxSprite> {
 	{
 		if (stageBuild.exists("onUpdate"))
 			stageBuild.get("onUpdate")(elapsed);
+	}
+
+	public function stageUpdateConstantPost(elapsed:Float)
+	{
+		if (stageBuild.exists("onUpdatePost"))
+			stageBuild.get("onUpdatePost")(elapsed);
 	}
 
 	public function dispatchEvent(eventName:String, val1:String, val2:String, ?val3:String)

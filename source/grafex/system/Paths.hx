@@ -133,7 +133,7 @@ class Paths
 	// level we're loading
 	static var currentLevel:String = null;
 	static var previousLevel:String = null;
-	static var stageShitFUCK:String = null;
+	static var stageShitFUCK:String = '';
 
 	// set the current level top the condition of this function if called
 	static public function setCurrentLevel(name:String)
@@ -150,7 +150,7 @@ class Paths
 		previousLevel = tempCurLevel;
 	}
 
-	static public function doStageFuckinShitOH(?doit:String = null) {
+	static public function doStageFuckinShitOH(?doit:String = '') {
 		stageShitFUCK = doit;
 	}
 
@@ -193,7 +193,7 @@ class Paths
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return if(stageShitFUCK == null || stageShitFUCK == '') 'assets/$file'; else '$stageShitFUCK/$file';
+		return 'assets' + stageShitFUCK +'/$file';
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -218,7 +218,16 @@ class Paths
 
 	static public function hxModule(key:String, ?library:String)
 	{
-		return getPath('$key.hx', TEXT, library);
+		#if MODS_ALLOWED
+		var file:String = modFolders('$key.hx');
+		if(FileSystem.exists(file)) {
+			return file;
+		}
+		#end
+
+		//return getPath('$key.hx', TEXT, library);
+        return 'assets/$key.hx';
+
 	}
 
     inline static public function shaderFragment(key:String, ?library:String)
@@ -477,19 +486,19 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
+			var fileToCheck:String = mods(currentModDirectory + stageShitFUCK + '/' + key);
 			if(FileSystem.exists(fileToCheck)) {
 				return fileToCheck;
 			}
 		}
 
 		for(mod in getGlobalMods()){
-			var fileToCheck:String = mods(mod + '/' + key);
+			var fileToCheck:String = mods(mod + stageShitFUCK + '/' + key);
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 
 		}
-		return 'mods/' + key;
+		return 'mods' + stageShitFUCK + '/' + key;
 	}
 
 

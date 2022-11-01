@@ -3277,9 +3277,6 @@ class PlayState extends MusicBeatState
 		setOnLuas('curDecStep', curDecStep);
 		setOnLuas('curDecBeat', curDecBeat);
 
-		if(stageBuild.exist)
-            stageBuild.stageUpdateConstant(elapsed);
-
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
 		maxHealthProb = health * 100;
@@ -3290,6 +3287,8 @@ class PlayState extends MusicBeatState
         }
 
 		callOnLuas('onUpdate', [elapsed]);
+		if(stageBuild.exist)
+            stageBuild.stageUpdateConstant(elapsed);
 
 		switch (curStage)
 		{
@@ -3719,6 +3718,8 @@ class PlayState extends MusicBeatState
 		setOnLuas('cameraY', camFollowPos.y);
 		setOnLuas('botPlay', cpuControlled);
 		callOnLuas('onUpdatePost', [elapsed]);
+		if(stageBuild.exist)
+            stageBuild.stageUpdateConstantPost(elapsed);
         /*for (i in shaderUpdates)
 		{
 			i(elapsed);
@@ -4683,7 +4684,7 @@ class PlayState extends MusicBeatState
 		rating.visible = (!ClientPrefs.hideHud && showRating);
 		rating.x += ClientPrefs.comboOffset[0];
 		rating.y -= ClientPrefs.comboOffset[1];
-
+                rating.angle = FlxG.random.int(-6, 6);
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.cameras = [camHUD];
@@ -4696,6 +4697,7 @@ class PlayState extends MusicBeatState
 		comboSpr.visible = (!ClientPrefs.hideHud && ClientPrefs.showCombo);
 		comboSpr.x += ClientPrefs.comboOffset[2];
 		comboSpr.y -= ClientPrefs.comboOffset[3];
+                comboSpr.angle = FlxG.random.int(-6, 6);
 
         if (combo >= 35 || combo == 0)
 		insert(members.indexOf(strumLineNotes), comboSpr);
@@ -4779,17 +4781,21 @@ class PlayState extends MusicBeatState
 			numScore.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
 			numScore.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
 			numScore.velocity.x = FlxG.random.float(-5, 5) * playbackRate;
+                        numScore.angle = FlxG.random.int(-6, 6);
 			numScore.visible = !ClientPrefs.hideHud;
 
 			if (combo >= 10 || combo == 0)
 				insert(members.indexOf(strumLineNotes), numScore);
 
+                        FlxTween.tween(numScore, {"scale.x": 0.2, "scale.y": 0.2, angle: FlxG.random.int(-20, 20)}, 0.15 / playbackRate, {
+			        startDelay: (0.05 + Conductor.crochet * 0.001) / playbackRate
+		        });
 			FlxTween.tween(numScore, {alpha: 0}, 0.2 / playbackRate, {
 				onComplete: function(tween:FlxTween)
 				{
 					numScore.destroy();
 				},
-				startDelay: Conductor.crochet * 0.002 / playbackRate
+				startDelay: Conductor.crochet * 0.001 / playbackRate
 			});
 
 			daLoop++;
@@ -4805,8 +4811,15 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
 			startDelay: Conductor.crochet * 0.001 / playbackRate
 		});
+                FlxTween.tween(rating, {"scale.x": 0.5, "scale.y": 0.5, angle: FlxG.random.int(-20, 20)}, 0.15 / playbackRate, {
+			startDelay: (0.05 + Conductor.crochet * 0.001) / playbackRate
+		});
 
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
+                FlxTween.tween(comboSpr, {"scale.x": 0.5, "scale.y": 0.5, angle: FlxG.random.int(-20, 20)}, 0.15 / playbackRate, {
+			startDelay: (0.05 + Conductor.crochet * 0.001) / playbackRate
+		});
+
+		FlxTween.tween(comboSpr, {"scale.x": 0.6, "scale.y": 0.6, alpha: 0}, 0.2 / playbackRate, {
 			onComplete: function(tween:FlxTween)
 			{
 				coolText.destroy();
@@ -5968,11 +5981,9 @@ class PlayState extends MusicBeatState
 		
 	function redFlash() // HaxeFlixel documentaion be like - PurSnake || Rewrited - PurSnake
 	{
-		for (helem in [healthBar, iconP1, iconP2, healthBarWN, healthBarBG, healthStrips]) {
-		    if (helem != null) {
-		        FlxTween.color(helem, 0.4, FlxColor.RED, FlxColor.WHITE, {ease: FlxEase.quadOut});
-				FlxTween.tween(helem, {alpha: ClientPrefs.healthBarAlpha}, Conductor.crochet / 300, {ease: FlxEase.quadInOut, startDelay: 0.55});
-            }  }
+
+                //Hell nah - PurSnake
+               
 		if(isHealthCheckingEnabled)
 		isHealthCheckingEnabled = false;
 		if(iconP1.spriteType != "animated")
