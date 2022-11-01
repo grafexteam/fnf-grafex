@@ -129,10 +129,29 @@ class Paths
 	}
 
     static public var currentModDirectory:String = '';
-	static public var currentLevel:String;
+
+	// level we're loading
+	static var currentLevel:String = null;
+	static var previousLevel:String = null;
+	static var stageShitFUCK:String = null;
+
+	// set the current level top the condition of this function if called
 	static public function setCurrentLevel(name:String)
 	{
-		currentLevel = name.toLowerCase();
+		if (currentLevel != name) {
+			previousLevel = currentLevel;
+			currentLevel = name.toLowerCase();
+		}
+	}
+
+	static public function revertCurrentLevel() {
+		var tempCurLevel = currentLevel;
+		currentLevel = previousLevel;
+		previousLevel = tempCurLevel;
+	}
+
+	static public function doStageFuckinShitOH(?doit:String = null) {
+		stageShitFUCK = doit;
 	}
 
 	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
@@ -174,7 +193,7 @@ class Paths
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file';
+		return if(stageShitFUCK == null || stageShitFUCK == '') 'assets/$file'; else '$stageShitFUCK/$file';
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -195,6 +214,11 @@ class Paths
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
+	}
+
+	static public function hxModule(key:String, ?library:String)
+	{
+		return getPath('$key.hx', TEXT, library);
 	}
 
     inline static public function shaderFragment(key:String, ?library:String)

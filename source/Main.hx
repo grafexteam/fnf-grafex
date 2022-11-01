@@ -12,6 +12,8 @@ import openfl.events.Event;
 import grafex.system.log.GrfxLogger;
 import grafex.util.ClientPrefs;
 
+import grafex.system.script.GrfxScriptHandler;
+
 // for crashing shit - Xale
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
@@ -138,6 +140,8 @@ class Main extends Sprite
 		}
 
 		ClientPrefs.loadDefaultKeys();
+		trace('fuck it');
+		GrfxScriptHandler.initialize();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile

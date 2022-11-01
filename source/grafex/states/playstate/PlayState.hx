@@ -1,5 +1,7 @@
 package grafex.states.playstate;
 
+import grafex.system.loader.GrfxStage;
+
 import grafex.system.log.GrfxLogger.log;
 import grafex.system.log.GrfxLogger;
 
@@ -260,6 +262,8 @@ class PlayState extends MusicBeatState
 	public var iconGroup:FlxTypedGroup<HealthIcon>;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
+
+	public var stageBuild:GrfxStage;
 
 	public var camHUD:FlxCamera;
 	public var camPAUSE:FlxCamera;
@@ -605,6 +609,8 @@ class PlayState extends MusicBeatState
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
+
+                stageBuild = new GrfxStage(curStage); 
 
 		switch (curStage)
 		{
@@ -968,6 +974,11 @@ class PlayState extends MusicBeatState
 				
 			default: //custom stages
 				isPixelStage = stageData.isPixelStage;
+
+				if(stageBuild.exist)
+		            add(stageBuild);
+
+
 				if(bgLayers != null)
 				for (layer in bgLayers) {
 					if(!layer.beforeChars)
@@ -1235,6 +1246,9 @@ class PlayState extends MusicBeatState
 		add(timeBar);
 		add(timeTxt);
 		timeBarBG.sprTracker = timeBar;
+
+		if(stageBuild.exist)
+		    stageBuild.stageCreatePost();
 
         strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
@@ -2439,6 +2453,8 @@ class PlayState extends MusicBeatState
 
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
+			if(stageBuild.exist)
+				stageBuild.stageStartCountDown();
 			return;
 		}
 
@@ -2470,6 +2486,8 @@ class PlayState extends MusicBeatState
 			Conductor.songPosition -= Conductor.crochet * 5;
 			setOnLuas('startedCountdown', true);
 			callOnLuas('onCountdownStarted', []);
+			if(stageBuild.exist)
+				stageBuild.stageCountDownStarted();
 
 			var swagCounter:Int = 0;
 
@@ -2755,6 +2773,8 @@ class PlayState extends MusicBeatState
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
+		if(stageBuild.exist)
+			stageBuild.stageSongStart();
 	}
 
 	var debugNum:Int = 0;
@@ -3256,6 +3276,9 @@ class PlayState extends MusicBeatState
 
 		setOnLuas('curDecStep', curDecStep);
 		setOnLuas('curDecBeat', curDecBeat);
+
+		if(stageBuild.exist)
+            stageBuild.stageUpdateConstant(elapsed);
 
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
@@ -4304,6 +4327,9 @@ class PlayState extends MusicBeatState
 				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
+
+		if(stageBuild.exist)
+            stageBuild.dispatchEvent(eventName, value1, value2, value3);
 	}
  
 	var cameraTwn:FlxTween;
@@ -5640,6 +5666,8 @@ class PlayState extends MusicBeatState
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
+		if(stageBuild.exist)
+            stageBuild.stageUpdateStep(curStep);
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -5750,6 +5778,9 @@ class PlayState extends MusicBeatState
 		}
 		lastBeatHit = curBeat;
 
+        if(stageBuild.exist)
+            stageBuild.stageUpdate(curBeat);
+
 		setOnLuas('curBeat', curBeat);
 		callOnLuas('onBeatHit', []);
 	}
@@ -5785,6 +5816,8 @@ class PlayState extends MusicBeatState
 
 		setOnLuas('curSection', curSection);
 		callOnLuas('onSectionHit', []);
+		if(stageBuild.exist)
+			stageBuild.stageUpdateSection(curSection);
 	}
 
 	public function callOnLuas(event:String, args:Array<Dynamic>, ignoreStops = true, exclusions:Array<String> = null):Dynamic {
