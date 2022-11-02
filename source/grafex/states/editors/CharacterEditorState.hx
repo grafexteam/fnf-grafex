@@ -142,7 +142,9 @@ class CharacterEditorState extends MusicBeatState
 		leHealthIcon = new HealthIcon(char.healthIcon, false);
 		leHealthIcon.y = FlxG.height - 150;
 		add(leHealthIcon);
+		leHealthIcon.updateHitbox();
 		leHealthIcon.cameras = [camHUD];
+		leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
@@ -199,7 +201,9 @@ class CharacterEditorState extends MusicBeatState
 
 		var tabs = [
 			{name: 'Character', label: 'Character'},
+			{name: 'Properties', label: 'Properties'},  // by BeastlyGhost - PurSnake
 			{name: 'Animations', label: 'Animations'},
+			{name: 'Icon', label: 'Icon'},
 		];
 		UI_characterbox = new FlxUITabMenu(null, tabs, true);
 		UI_characterbox.cameras = [camMenu];
@@ -216,6 +220,8 @@ class CharacterEditorState extends MusicBeatState
 		addSettingsUI();
 
 		addCharacterUI();
+		addPropertiesUI();
+		addIconUI();
 		addAnimationsUI();
 		UI_characterbox.selected_tab_id = 'Character';
 
@@ -432,6 +438,12 @@ class CharacterEditorState extends MusicBeatState
 				0,
 				0
 			],
+			"gameover_properties": [
+				"bf-dead",
+				"fnf_loss_sfx",
+				"gameOver",
+				"gameOverEnd"
+			],
 			"sing_duration": 6.1,
 			"scale": 1
 		}';
@@ -488,6 +500,7 @@ class CharacterEditorState extends MusicBeatState
 				character.singDuration = parsedJson.sing_duration;
 				character.positionArray = parsedJson.position;
 				character.cameraPosition = parsedJson.camera_position;
+				character.iconOffsets = parsedJson.healthicon_offsets;
 				
 				character.imageFile = parsedJson.image;
 				character.jsonScale = parsedJson.scale;
@@ -531,14 +544,6 @@ class CharacterEditorState extends MusicBeatState
 	var flipXCheckBox:FlxUICheckBox;
 	var noAntialiasingCheckBox:FlxUICheckBox;
 
-	var healthColorStepperR:FlxUINumericStepper;
-	var healthColorStepperG:FlxUINumericStepper;
-	var healthColorStepperB:FlxUINumericStepper;
-
-        var healthColorStepper2R:FlxUINumericStepper;
-	var healthColorStepper2G:FlxUINumericStepper;
-	var healthColorStepper2B:FlxUINumericStepper;
-
 	function addCharacterUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Character";
@@ -553,27 +558,7 @@ class CharacterEditorState extends MusicBeatState
 			}
 		});
 
-		var decideIconColor:FlxButton = new FlxButton(reloadImage.x, reloadImage.y + 30, "Get Icon Color", function()
-			{
-				var coolColor = FlxColor.fromInt(Utils.dominantColor(leHealthIcon));
-				healthColorStepperR.value = coolColor.red;
-				healthColorStepperG.value = coolColor.green;
-				healthColorStepperB.value = coolColor.blue;
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperR, null);
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperG, null);
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperB, null); 
-                                var coolColor = FlxColor.fromInt(Utils.dominantColor(leHealthIcon));
-				healthColorStepper2R.value = coolColor.red;
-				healthColorStepper2G.value = coolColor.green;
-				healthColorStepper2B.value = coolColor.blue;
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2R, null);
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2G, null);
-				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2B, null); 
-			});
-
-		healthIconInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, leHealthIcon.getCharacter(), 8);
-
-		singDurationStepper = new FlxUINumericStepper(15, healthIconInputText.y + 45, 0.1, 4, 0, 999, 1);
+		singDurationStepper = new FlxUINumericStepper(15, imageInputText.y + 35, 0.1, 4, 0, 999, 1);
 
 		scaleStepper = new FlxUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 1);
 
@@ -609,24 +594,13 @@ class CharacterEditorState extends MusicBeatState
 			saveCharacter();
 		});
 
-		healthColorStepperR = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y + 20, 20, char.healthColorArray[0], 0, 255, 0);
-		healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y + 20, 20, char.healthColorArray[1], 0, 255, 0);
-		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y + 20, 20, char.healthColorArray[2], 0, 255, 0);
-        healthColorStepper2R = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray2[0], 0, 255, 0);
-		healthColorStepper2G = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray2[1], 0, 255, 0);
-		healthColorStepper2B = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray2[2],0, 255, 0);
-
 		tab_group.add(new FlxText(15, imageInputText.y - 18, 0, 'Image file name:'));
-		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
 		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 0, 'Sing Animation length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 0, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
 		tab_group.add(new FlxText(positionCameraXStepper.x, positionCameraXStepper.y - 18, 0, 'Camera X/Y:'));
-		tab_group.add(new FlxText(healthColorStepperR.x, healthColorStepperR.y - 18, 0, 'Health bar R/G/B:'));
 		tab_group.add(imageInputText);
 		tab_group.add(reloadImage);
-		tab_group.add(decideIconColor);
-		tab_group.add(healthIconInputText);
 		tab_group.add(singDurationStepper);
 		tab_group.add(scaleStepper);
 		tab_group.add(flipXCheckBox);
@@ -635,13 +609,104 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(positionYStepper);
 		tab_group.add(positionCameraXStepper);
 		tab_group.add(positionCameraYStepper);
+
+		tab_group.add(saveCharacterButton);
+		UI_characterbox.addGroup(tab_group);
+	}
+
+	var characterDeathName:FlxUIInputText;
+	var characterDeathSound:FlxUIInputText;
+	var characterDeathConfirm:FlxUIInputText;
+	var characterDeathMusic:FlxUIInputText;
+	function addPropertiesUI() {
+		var tab_group = new FlxUI(null, UI_box);
+		tab_group.name = "Properties";
+
+		characterDeathName = new FlxUIInputText(15, 35, 150, char.deathChar, 8);
+		characterDeathSound = new FlxUIInputText(characterDeathName.x, characterDeathName.y + 45, 150, char.deathSound, 8);
+		characterDeathConfirm = new FlxUIInputText(characterDeathName.x, characterDeathName.y + 85, 150, char.deathConfirm, 8);
+		characterDeathMusic = new FlxUIInputText(characterDeathName.x, characterDeathName.y + 125, 150, char.deathMusic, 8);
+
+		tab_group.add(new FlxText(characterDeathName.x, characterDeathName.y - 18, 0, 'Game Over Character:'));
+		tab_group.add(new FlxText(characterDeathSound.x, characterDeathSound.y - 18, 0, 'Game Over Starting Sound:'));
+		tab_group.add(new FlxText(characterDeathConfirm.x, characterDeathConfirm.y - 18, 0, 'Game Over Confirm Sound:'));
+		tab_group.add(new FlxText(characterDeathMusic.x, characterDeathMusic.y - 18, 0, 'Game Over Music:'));
+
+		tab_group.add(characterDeathName);
+		tab_group.add(characterDeathSound);
+		tab_group.add(characterDeathConfirm);
+		tab_group.add(characterDeathMusic);
+
+		UI_characterbox.addGroup(tab_group);
+	}
+
+	var healthColorStepperR:FlxUINumericStepper;
+	var healthColorStepperG:FlxUINumericStepper;
+	var healthColorStepperB:FlxUINumericStepper;
+
+    var healthColorStepper2R:FlxUINumericStepper;
+	var healthColorStepper2G:FlxUINumericStepper;
+	var healthColorStepper2B:FlxUINumericStepper;
+
+	var iconOffsetX:FlxUINumericStepper;
+	var iconOffsetY:FlxUINumericStepper;
+
+	function addIconUI() {
+		var tab_group = new FlxUI(null, UI_box);
+		tab_group.name = "Icon";
+
+        //TODO: make more smoother - PurSnake
+		healthIconInputText = new FlxUIInputText(15, 30, 75, leHealthIcon.getCharacter(), 8);
+
+		var decideIconColor:FlxButton = new FlxButton(120, 30, "Get Icon Color", function()
+		{
+			var coolColor = FlxColor.fromInt(Utils.dominantColor(leHealthIcon));
+			healthColorStepperR.value = coolColor.red;
+			healthColorStepperG.value = coolColor.green;
+			healthColorStepperB.value = coolColor.blue;
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperR, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperG, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperB, null); 
+            var coolColor = FlxColor.fromInt(Utils.dominantColor(leHealthIcon));
+			healthColorStepper2R.value = coolColor.red;
+			healthColorStepper2G.value = coolColor.green;
+			healthColorStepper2B.value = coolColor.blue;
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2R, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2G, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepper2B, null); 
+		});
+
+
+		iconOffsetX = new FlxUINumericStepper(280, decideIconColor.y, 5, 0, -500, 500, 0);
+		getEvent(FlxUINumericStepper.CHANGE_EVENT, iconOffsetX, null); 
+		
+        iconOffsetY = new FlxUINumericStepper(280, decideIconColor.y + 40, 5, 0, -500, 500, 0);
+		getEvent(FlxUINumericStepper.CHANGE_EVENT, iconOffsetY, null); 
+
+		var personalY:Int = 100;
+
+		healthColorStepperR = new FlxUINumericStepper(15, personalY, 20, char.healthColorArray[0], 0, 255, 0);
+		healthColorStepperG = new FlxUINumericStepper(80, personalY, 20, char.healthColorArray[1], 0, 255, 0);
+		healthColorStepperB = new FlxUINumericStepper(145, personalY, 20, char.healthColorArray[2], 0, 255, 0);
+        healthColorStepper2R = new FlxUINumericStepper(15, personalY - 20, 20, char.healthColorArray2[0], 0, 255, 0);
+		healthColorStepper2G = new FlxUINumericStepper(80, personalY - 20, 20, char.healthColorArray2[1], 0, 255, 0);
+		healthColorStepper2B = new FlxUINumericStepper(145, personalY - 20, 20, char.healthColorArray2[2],0, 255, 0);
+
+		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
+		tab_group.add(new FlxText(healthColorStepper2R.x, healthColorStepper2R.y - 18, 0, 'Health bar R/G/B:'));
+		tab_group.add(new FlxText(iconOffsetY.x, iconOffsetY.y + 18, 0, 'Icon offsets'));
+		tab_group.add(healthIconInputText);
+		tab_group.add(decideIconColor);
+
+		tab_group.add(iconOffsetX);
+		tab_group.add(iconOffsetY);
+
 		tab_group.add(healthColorStepperR);
 		tab_group.add(healthColorStepperG);
 		tab_group.add(healthColorStepperB);
 		tab_group.add(healthColorStepper2R);
 		tab_group.add(healthColorStepper2G);
 		tab_group.add(healthColorStepper2B);
-		tab_group.add(saveCharacterButton);
 		UI_characterbox.addGroup(tab_group);
 	}
 
@@ -803,11 +868,25 @@ class CharacterEditorState extends MusicBeatState
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
 			if(sender == healthIconInputText) {
 				leHealthIcon.changeIcon(healthIconInputText.text);
+				leHealthIcon.updateHitbox();
+				leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 				char.healthIcon = healthIconInputText.text;
 				updatePresence();
 			}
 			else if(sender == imageInputText) {
 				char.imageFile = imageInputText.text;
+			}
+			else if(sender == characterDeathName) {
+				char.deathChar = characterDeathName.text;
+			}
+			else if(sender == characterDeathSound) {
+				char.deathSound = characterDeathSound.text;
+			}
+			else if(sender == characterDeathConfirm) {
+				char.deathConfirm = characterDeathConfirm.text;
+			}
+			else if(sender == characterDeathMusic) {
+				char.deathMusic = characterDeathMusic.text;
 			}
 		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if (sender == scaleStepper)
@@ -846,7 +925,22 @@ class CharacterEditorState extends MusicBeatState
 			{
 				char.cameraPosition[1] = positionCameraYStepper.value;
 				updatePointerPos();
+			}  //iconOffsetX iconOffsetY
+
+			else if(sender == iconOffsetX)
+			{
+				char.iconOffsets[0] = iconOffsetX.value;
+				leHealthIcon.updateHitbox();
+				leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 			}
+
+			else if(sender == iconOffsetY)
+			{
+				char.iconOffsets[1] = iconOffsetY.value;
+				leHealthIcon.updateHitbox();
+				leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
+			}
+
 			else if(sender == healthColorStepperR)
 			{
 				char.healthColorArray[0] = Math.round(healthColorStepperR.value);
@@ -863,7 +957,7 @@ class CharacterEditorState extends MusicBeatState
 				char.healthColorArray[2] = Math.round(healthColorStepperB.value);
 				healthBarBG.color = FlxColor.fromRGB(char.healthColorArray[0], char.healthColorArray[1], char.healthColorArray[2]);
 			}
-		       else if(sender == healthColorStepper2R)
+		    else if(sender == healthColorStepper2R)
 			{
 				
                 char.healthColorArray2[0] = Math.round(healthColorStepper2R.value);
@@ -1034,6 +1128,8 @@ class CharacterEditorState extends MusicBeatState
 			imageInputText.text = char.imageFile;
 			healthIconInputText.text = char.healthIcon;
 			singDurationStepper.value = char.singDuration;
+			iconOffsetX.value = char.iconOffsets[0];
+			iconOffsetY.value = char.iconOffsets[1];
 			scaleStepper.value = char.jsonScale;
 			flipXCheckBox.checked = char.originalFlipX;
 			noAntialiasingCheckBox.checked = char.noAntialiasing;
@@ -1043,8 +1139,15 @@ class CharacterEditorState extends MusicBeatState
 			positionYStepper.value = char.positionArray[1];
 			positionCameraXStepper.value = char.cameraPosition[0];
 			positionCameraYStepper.value = char.cameraPosition[1];
+			characterDeathName.text = char.deathChar;
+			characterDeathSound.text = char.deathSound;
+			characterDeathConfirm.text = char.deathConfirm;
+			characterDeathMusic.text = char.deathMusic;
 			reloadAnimationDropDown();
 			updatePresence();
+
+			leHealthIcon.updateHitbox();
+			leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 		}
 	}
 
@@ -1394,6 +1497,7 @@ class CharacterEditorState extends MusicBeatState
 			"scale": char.jsonScale,
 			"sing_duration": char.singDuration,
 			"healthicon": char.healthIcon,
+			"healthicon_offsets": char.iconOffsets,
 		
 			"position":	char.positionArray,
 			"camera_position": char.cameraPosition,
@@ -1402,6 +1506,7 @@ class CharacterEditorState extends MusicBeatState
 			"no_antialiasing": char.noAntialiasing,
 			"healthbar_colors": char.healthColorArray,
             "healthbar_colors2": char.healthColorArray2,
+			"gameover_properties": [char.deathChar, char.deathSound, char.deathMusic, char.deathConfirm],
 		};
 
 		var data:String = Json.stringify(json, "\t");

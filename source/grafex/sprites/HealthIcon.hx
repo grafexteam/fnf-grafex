@@ -53,6 +53,7 @@ class HealthIcon extends FlxSprite
 	}
 
 	private var iconOffsets:Array<Float> = [0, 0];
+	public var customIconOffsets:Array<Float> = [0, 0];
 	public var spriteType = "dual";
 	var animatedIconStage = "normal";
 	public var alligment:String = 'right';
@@ -170,6 +171,11 @@ class HealthIcon extends FlxSprite
 		}
 	}
 
+	public function changeOffsets(?xd:Float = 0, ?yd:Float = 0) {
+		customIconOffsets[0] = xd; // -
+		customIconOffsets[1] = yd; // +
+	}
+
 	public dynamic function updateAnim(health:Float){ // Dynamic to prevent having like 20 if statements
 		    switch(spriteType)
 		    {
@@ -250,14 +256,13 @@ class HealthIcon extends FlxSprite
 		}
 
 		oldAlligment = alligment;
-
 	}
 
 	override function updateHitbox()
 	{
 		super.updateHitbox();
-		offset.x = iconOffsets[0];
-		offset.y = iconOffsets[1];
+		offset.x = iconOffsets[0] -	customIconOffsets[0];
+		offset.y = iconOffsets[1] +	customIconOffsets[1];
 	}
 
 	public function getCharacter():String {
