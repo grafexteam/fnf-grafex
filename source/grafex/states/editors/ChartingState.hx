@@ -1512,6 +1512,7 @@ for(mod in Paths.getGlobalMods())
 			if (wname == 'section_beats')
 			{
 				_song.notes[curSec].sectionBeats = nums.value;
+				_song.notes[curSec].lengthInSteps = Std.int(nums.value);
 				reloadGridLayer();
 			}
 			else if (wname == 'song_speed')
@@ -2786,10 +2787,11 @@ if(!blockInput){
 		return spr;
 	}
 
-	private function addSection(sectionBeats:Float = 4):Void
+	private function addSection(sectionBeats:Float = 4, lengthInSteps:Int = 16):Void
 	{
 		var sec:SwagSection = {
 			sectionBeats: sectionBeats,
+			lengthInSteps: lengthInSteps,
 			bpm: _song.bpm,
 			changeBPM: false,
 			mustHitSection: true,
@@ -2802,10 +2804,11 @@ if(!blockInput){
 		_song.notes.push(sec);
 	}
 
-	private function newSection(sectionBeats:Float = 4,mustHitSection:Bool = false,altAnim:Bool = true):SwagSection
+	private function newSection(sectionBeats:Float = 4, lengthInSteps:Int = 16,mustHitSection:Bool = false,altAnim:Bool = true):SwagSection
 		{
 			var sec:SwagSection = {
 				sectionBeats: sectionBeats,
+			lengthInSteps: lengthInSteps,
 				bpm: _song.bpm,
 				changeBPM: false,
 				mustHitSection: mustHitSection,
