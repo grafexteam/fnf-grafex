@@ -56,7 +56,6 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
-import openfl.Assets;
 import lime.ui.WindowAttributes;
 
 using StringTools;
@@ -109,8 +108,6 @@ class TitleState extends MusicBeatState
 	{
 		PlayerSettings.init();
 		
-		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
-		
         Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -137,7 +134,7 @@ class TitleState extends MusicBeatState
 	            gfy :40,
 	            backgroundSprite: "",
 	            bpm: 102,
-                backdropImage: "titleBg",
+                backdropImage: "images/menus/title/titleBg",
                 backdropImageVelocityX: 70,
                 backdropImageVelocityY: 70
             };
@@ -154,7 +151,7 @@ class TitleState extends MusicBeatState
 		swagShader = new ColorSwap();
 		super.create();
 
-        bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('bgFlash'));
+        bgFlash = new FlxSprite(0, 0).loadGraphic(Paths.image('images/menus/title/bgFlash'));
 		bgFlash.visible = true;
 		bgFlash.alpha = 0;
 		bgFlash.scale.set(2, 2);
@@ -169,7 +166,7 @@ class TitleState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 		
-		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+		FlxG.mouse.load(BitmapData.fromFile(Paths.image("images/application/cursor")), 1, 0, 0);
 
 		//lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
 		//lime.app.Application.current.window.setIcon(Paths.image("icon"));
@@ -220,7 +217,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.playMusic(Paths.music('music/freakyMenu'), 0);
 			}
 		}
 
@@ -255,7 +252,7 @@ class TitleState extends MusicBeatState
 		}
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');	
+		logoBl.frames = Paths.getSparrowAtlas('images/menus/title/logoBumpin');	
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
@@ -265,7 +262,7 @@ class TitleState extends MusicBeatState
 		logoBl.shader = swagShader.shader;
 
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		gfDance.frames = Paths.getSparrowAtlas('images/menus/title/gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
@@ -275,7 +272,7 @@ class TitleState extends MusicBeatState
         if(logoBl != null)  FlxTween.tween(logoBl, {y: logoBl.y + 50}, Conductor.crochet / 1000, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
 	
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);		
-		titleText.frames = Paths.getSparrowAtlas('titleEnter');
+		titleText.frames = Paths.getSparrowAtlas('images/menus/title/titleEnter');
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {
 			titleText.animation.findByPrefix(animFrames, "ENTER IDLE");
@@ -311,7 +308,7 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
+		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('images/menus/title/newgrounds_logo'));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -337,7 +334,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = Assets.getText(Paths.txt('introText'));
+		var fullText:String = File.getContent(Paths.txt('data/introText'));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
@@ -455,7 +452,7 @@ class TitleState extends MusicBeatState
 				if(titleText != null) titleText.animation.play('press');
 
 				FlxG.camera.flash(ClientPrefs.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
-				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+				FlxG.sound.play(Paths.sound('sounds/confirmMenu'), 0.7);
                 FlxTween.tween(FlxG.camera, {zoom: 1.04}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
                 FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 				FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
@@ -581,7 +578,7 @@ class TitleState extends MusicBeatState
 			{
 				case 1:
                     FlxG.sound.music.stop();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					FlxG.sound.playMusic(Paths.music('music/freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					createCoolText(['Grafex Engine by'], 45);
@@ -616,25 +613,9 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	public static function getTitleData()
-	{
-		var data:TitleData;
-		#if (desktop && MODS_ALLOWED)
-		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "mods/images/gfDanceTitle.json";
-		}
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "assets/images/gfDanceTitle.json";
-		}
-		trace(path, FileSystem.exists(path));
-		data = Json.parse(File.getContent(path));
-		#else
-		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		data = Json.parse(Assets.getText(path)); 
-		#end
+	public static function getTitleData() {
+		var path = Paths.json("images/menus/title/gfDanceTitle");
+		var data:TitleData = Json.parse(File.getContent(path)); 
 		return data;
 	}
 

@@ -14,7 +14,7 @@ import grafex.system.Paths;
 import grafex.system.statesystem.MusicBeatState;
 import grafex.system.song.Section.SwagSection;
 import grafex.system.song.Song.SwagSong;
-import grafex.system.script.FunkinLua;
+//import grafex.system.script.FunkinLua;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;

@@ -22,7 +22,7 @@ import flash.media.Sound;
 
 using StringTools;
 
-class Paths
+/*class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 	inline public static var VIDEO_EXT = "mp4";
@@ -649,4 +649,129 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 	{
 		return getPath('stages/$key.$ext', TEXT, library);
 	}
+}*/
+
+class Paths {
+	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
+	inline public static var VIDEO_EXT = "mp4";
+	
+	public static function assets(key:String):String {
+		return 'assets/' + key;
+	}
+
+	public static function mod(key:String, mod:String) {
+		return 'mods/' + mod + '/' + key;
+	}
+
+	public static function allMods() {
+		var dirs:Array<String> = [];
+		for (modFolder in FileSystem.readDirectory('mods')) {
+			if (FileSystem.isDirectory(modFolder)) {
+				dirs.push(modFolder);
+			}
+		}
+		return dirs;
+	}
+
+	public static function forDirectories(dir:String):Array<String> {
+		var dirs:Array<String> = [];
+		for (path in FileSystem.readDirectory(assets(dir))) {
+			dirs.push(assets(dir) + '/' + path);
+		}
+		for (mod in allMods()) {
+			for (path in FileSystem.readDirectory(Paths.mod(dir, mod))) {
+				dirs.push(Paths.mod(dir, mod) + '/' + path);
+			}
+		}
+		return dirs;
+		
+		/*var dirs:Array<String> = FileSystem.readDirectory(assets(dir));
+		for (mod in allMods()) {
+			for (path in FileSystem.readDirectory(Paths.mod(dir, mod))) {
+				dirs.push(path);
+			}
+		}
+		return dirs;*/
+	}
+	
+	public static function getSparrowAtlas(key:String, ?shit):FlxAtlasFrames {
+		return FlxAtlasFrames.fromSparrow(image(key), File.getContent(xml(key)));
+	}
+
+	public static  function getPackerAtlas(key:String):FlxAtlasFrames {
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), File.getContent(txt(key)));
+	}
+
+	public static function image(key:String, ?shit):Dynamic {
+		return assets(key + '.png');
+	}
+
+	public static function xml(key:String) {
+		return assets(key + '.xml');
+	}
+
+	public static function sound(?key:String, ?shit) {
+		return assets(key + '.' + SOUND_EXT);
+	}
+
+	public static function music(?key:String, ?shit) {
+		return assets(key + '.' + SOUND_EXT);
+	}
+
+	public static function font(key:String) {
+		return assets('fonts/' + key);
+	}
+
+	public static function json(key:String) {
+		return assets(key + '.json');
+	}
+
+	public static function txt(key:String) {
+		return assets(key + '.txt');
+	}
+
+	public static function video(key:String) {
+		return assets(key + '.' + VIDEO_EXT);
+	}
+
+	static public function modFolders(key:String) {
+		return null;
+	}
+
+	static public function mods(?shit) {
+		return null;
+	}
+
+	inline static public function formatToSongPath(path:String) {
+		var invalidChars = ~/[~&\\;:<>#]/;
+		var hideChars = ~/[.,'"%?!]/;
+
+		var path = invalidChars.split(path.replace(' ', '-')).join("-");
+		return hideChars.split(path).join("").toLowerCase();
+	}
+
+	static public var currentModDirectory:Dynamic = null;
+	static public var ignoreModFolders:Dynamic = null;
+
+	inline static public function clearUnusedMemory(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function clearStoredMemory(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function getPreloadPath(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function getGlobalMods(?shit, ?shit2, ?shit3):Array<Dynamic> {return null;}
+	inline static public function pushGlobalMods(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function soundRandom(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function modsImages(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function getPath(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function getModDirectories(?shit, ?shit2, ?shit3) {return [];}
+	inline static public function voices(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function inst(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function setCurrentLevel(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function getTextFromFile(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function modsTxt(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function voiceline(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function cutscenePic(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function modsJson(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function fileExists(?shit, ?shit2, ?shit3) {return false;}
+	inline static public function modsXml(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function hxModule(?shit, ?shit2, ?shit3) {return null;}
+	inline static public function doStageFuckinShitOH(?shit, ?shit2, ?shit3) {return null;}
 }

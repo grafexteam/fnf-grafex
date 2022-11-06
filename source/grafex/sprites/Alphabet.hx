@@ -220,7 +220,7 @@ class Alphabet extends FlxSpriteGroup
 				timerCheck();
 			}
 			if(dialogueSound != null) dialogueSound.stop();
-			dialogueSound = FlxG.sound.play(Paths.sound(soundDialog));
+			dialogueSound = FlxG.sound.play(Paths.sound('sounds/' + soundDialog));
 		} else {
 			typeTimer = new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 				typeTimer = new FlxTimer().start(speed, function(tmr:FlxTimer) {
@@ -318,7 +318,7 @@ class Alphabet extends FlxSpriteGroup
 
 				if(tmr != null) {
 					if(dialogueSound != null) dialogueSound.stop();
-					dialogueSound = FlxG.sound.play(Paths.sound(soundDialog));
+					dialogueSound = FlxG.sound.play(Paths.sound('sounds/' + soundDialog));
 				}
 
 				add(letter);
@@ -411,7 +411,7 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float, textSize:Float)
 	{
 		super(x, y);
-		var tex = Paths.getSparrowAtlas('alphabet');
+		var tex = Paths.getSparrowAtlas('images/system/alphabet');
 		frames = tex;
 
 		setGraphicSize(Std.int(width * textSize));

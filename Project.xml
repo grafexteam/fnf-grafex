@@ -34,11 +34,11 @@
 
 	<classpath name="source" />
 
-	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
-	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>
+	<assets path="assets" exclude="*.ogg" if="web"/>
+	<assets path="assets" exclude="*.mp3"  unless="web"/>
 	
 	<!-- GRAFEX ENGINE CUSTOMIZATION -->
-	<define name="LUA_ALLOWED" if="windows"/>
+	<!--define name="LUA_ALLOWED" if="windows"/-->
 	<define name="ACHIEVEMENTS_ALLOWED"/>
 	<define name="MODS_ALLOWED" if="desktop"/>
 	<define name="VIDEOS_ALLOWED" if="web || windows" unless="32bits"/>
@@ -48,7 +48,7 @@
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 	
-	<library name="videos"        	  preload="true" />
+	<!--library name="videos"        	  preload="true" />
 	<library name="cutscenes"         preload="true" />
 	<section if="PRELOAD_ALL">
 		<library name="songs"         preload="true" />
@@ -90,7 +90,7 @@
 	<assets path="assets/week6"         library="week6"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week6"         library="week6"         exclude="*.mp3" unless="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.ogg" if="web"/>
-	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/>
+	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/-->
 
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false'/>
@@ -103,8 +103,8 @@
 	<assets path="plugins/" rename='' if="windows"/>
 	<assets path="dlls/" rename='' if="windows"/>
 
-	<assets path="assets/videos" exclude="*.mp3" if="web"/>
-	<assets path="assets/videos" exclude="*.ogg" unless="web"/>
+	<!--assets path="assets/videos" exclude="*.mp3" if="web"/>
+	<assets path="assets/videos" exclude="*.ogg" unless="web"/-->
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO

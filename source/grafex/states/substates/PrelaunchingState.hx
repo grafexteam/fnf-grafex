@@ -183,7 +183,7 @@ class PrelaunchingState extends MusicBeatState
         if(curSelected == txts.length)
             makeCoolTransition();
             
-        FlxG.sound.play(Paths.sound('scrollMenu'));
+        FlxG.sound.play(Paths.sound('sounds/scrollMenu'));
     }
 
    function requestVersion():Array<Int>

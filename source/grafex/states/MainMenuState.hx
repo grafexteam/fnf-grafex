@@ -64,7 +64,7 @@ class MainMenuState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		
-		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		super.create();
 		
 		#if desktop
 		// Updating Discord Rich Presence
@@ -77,7 +77,7 @@ class MainMenuState extends MusicBeatState
         if(FlxG.sound.music != null)
 			if (!FlxG.sound.music.playing)
 			{	
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+				FlxG.sound.playMusic(Paths.music('music/freakyMenu'), 0.7);
         		FlxG.sound.music.time = 9400;
 				TitleState.titleJSON = TitleState.getTitleData();
 				Conductor.changeBPM(TitleState.titleJSON.bpm);
@@ -112,14 +112,14 @@ class MainMenuState extends MusicBeatState
 		add(camFollow);
 		add(camFollowPos);
 
-		movingBG = new FlxBackdrop(Paths.image('menuDesat'), 10, 0, true, true);
+		movingBG = new FlxBackdrop(Paths.image('images/bgs/menuDesat'), 10, 0, true, true);
 		movingBG.scrollFactor.set(0,0);
 		movingBG.color = 0xfffde871;
         movingBG.velocity.x = -90;
 		add(movingBG);
 
 		menuBox = new FlxSprite(-125, -100);
-		menuBox.frames = Paths.getSparrowAtlas('mainmenu/menuBox');
+		menuBox.frames = Paths.getSparrowAtlas('images/menus/main/menuBox');
 		menuBox.animation.addByPrefix('idle', 'beat', 36, true);
 		menuBox.animation.play('idle');
 		menuBox.antialiasing = ClientPrefs.globalAntialiasing;
@@ -131,7 +131,7 @@ class MainMenuState extends MusicBeatState
 		add(menuItems);
 
         boxMain = new FlxSprite(-25, 495);
-		boxMain.frames = Paths.getSparrowAtlas('mainmenu/boxMain');
+		boxMain.frames = Paths.getSparrowAtlas('images/menus/main/boxMain');
 		boxMain.animation.addByPrefix('idle', 'beat', 13, false);
 		//boxMain.animation.play('idle');
 		boxMain.antialiasing = ClientPrefs.globalAntialiasing;
@@ -145,7 +145,7 @@ class MainMenuState extends MusicBeatState
 			{
 				var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
 				var menuItem:FlxSprite = new FlxSprite(FlxG.width * -1.5, (i * 140)  + offset);
-				menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
+				menuItem.frames = Paths.getSparrowAtlas('images/menus/main/menu_' + optionShit[i]);
 				menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 				menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 				menuItem.animation.play('idle');
@@ -182,8 +182,6 @@ class MainMenuState extends MusicBeatState
 		add(versionShit);
 
 		changeItem();
-
-		super.create();
 	}
 
 	var selectedSomethin:Bool = false;
@@ -213,25 +211,25 @@ class MainMenuState extends MusicBeatState
 		{
 			if(FlxG.mouse.wheel != 0)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					FlxG.sound.play(Paths.sound('sounds/scrollMenu'), 0.4);
 					changeItem(-FlxG.mouse.wheel);
 				}
 			
 			if (controls.UI_UP_P)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('sounds/scrollMenu'));
 				changeItem(-1);
 			}
 			else if (controls.UI_DOWN_P)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('sounds/scrollMenu'));
 				changeItem(1);
 			}
 
             if (controls.BACK)
 			{
 				selectedSomethin = true;
-				FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.sound.play(Paths.sound('sounds/cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
                 TitleState.fromMainMenu = true;
 			}
@@ -347,7 +345,7 @@ class MainMenuState extends MusicBeatState
 				else
 				{
 					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
+					FlxG.sound.play(Paths.sound('sounds/confirmMenu'));
                     FlxTween.tween(menuBox, {x:  -700}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
 					menuItems.forEach(function(spr:FlxSprite)
 					{

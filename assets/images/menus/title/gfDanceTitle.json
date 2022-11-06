@@ -8,7 +8,7 @@
 	"backgroundSprite":"",
 	"bpm":102,
         "logoBlTray": true,
-        "backdropImage":"titleBg",
+        "backdropImage":"images/menus/title/titleBg",
         "backdropImageVelocityX":70,
         "backdropImageVelocityY":70
 }

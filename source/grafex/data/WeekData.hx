@@ -89,8 +89,15 @@ class WeekData {
 	public static function reloadWeekFiles(isStoryMode:Null<Bool> = false)
 	{
 		weeksList = [];
-		weeksLoaded.clear();
-		#if MODS_ALLOWED
+		//weeksLoaded.clear();
+		
+		for (path in Paths.forDirectories('weeks')) {
+			//trace(path);
+			/*trace(path);
+			if (FileSystem.isDirectory(path))*/ weeksList.push(path);
+		}
+
+		/*#if MODS_ALLOWED
 		var disabledMods:Array<String> = [];
 		var modsListPath:String = 'modsList.txt';
 		var directories:Array<String> = [Paths.mods(), Paths.getPreloadPath()];
@@ -181,10 +188,10 @@ class WeekData {
 				}
 			}
 		}
-		#end
+		#end*/
 	}
 
-	private static function addWeek(weekToCheck:String, path:String, directory:String, i:Int, originalLength:Int)
+	/*private static function addWeek(weekToCheck:String, path:String, directory:String, i:Int, originalLength:Int)
 	{
 		if(!weeksLoaded.exists(weekToCheck))
 		{
@@ -205,7 +212,7 @@ class WeekData {
 				}
 			}
 		}
-	}
+	}*/
 
 	private static function getWeekFile(path:String):WeekFile {
 		var rawJson:String = null;
@@ -234,7 +241,8 @@ class WeekData {
 
 	//Used on LoadingState, nothing really too relevant
 	public static function getCurrentWeek():WeekData {
-		return weeksLoaded.get(weeksList[PlayState.storyWeek]);
+		return null;
+		//return weeksLoaded.get(weeksList[PlayState.storyWeek]);
 	}
 
 	public static function setDirectoryFromWeek(?data:WeekData = null) {

@@ -12,6 +12,8 @@ import flixel.FlxState;
 import grafex.util.Controls;
 import grafex.util.ClientPrefs;
 import grafex.util.PlayerSettings;
+import grafex.system.log.GrfxLogger.log;
+import grafex.system.log.GrfxLogger;
 
 class MusicBeatState extends FlxUIState
 {
@@ -33,6 +35,8 @@ class MusicBeatState extends FlxUIState
 		return PlayerSettings.player1.controls;
 
 	override function create() {
+		GrfxLogger.log('info', 'Switched state to: ' + Type.getClassName(Type.getClass(this)));
+		
 		Application.current.window.onFocusOut.add(onFocusLost);
 		Application.current.window.onFocusIn.add(onFocus);
 		camBeat = FlxG.camera;

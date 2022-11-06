@@ -21,7 +21,7 @@ import grafex.system.song.Song;
 import grafex.system.notes.Note.EventNote;
 import grafex.system.notes.*;
 import grafex.system.CustomFadeTransition;
-import grafex.system.script.FunkinLua;
+//import grafex.system.script.FunkinLua;
 import grafex.system.Conductor.Rating;
 import grafex.system.Conductor;
 import grafex.system.Paths;
@@ -145,10 +145,10 @@ class PlayState extends MusicBeatState
 	public var gfMap:Map<String, Character> = new Map();
 	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
-	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
+	//public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
 	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
-	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
+	//public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 	public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
@@ -377,8 +377,8 @@ class PlayState extends MusicBeatState
 	// Lua shit
 	public static var instance:PlayState;
 
-	public var luaArray:Array<FunkinLua> = [];
-	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
+	//public var luaArray:Array<FunkinLua> = [];
+	//private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
 	public var introSoundsSuffix:String = '';
 
 	// Debug buttons
@@ -1023,7 +1023,7 @@ class PlayState extends MusicBeatState
 		}
 
 		#if LUA_ALLOWED
-		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
+		//luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
@@ -1049,7 +1049,7 @@ class PlayState extends MusicBeatState
 					{
 						if(file.endsWith('.lua') && !filesPushed.contains(file))
 						{
-							luaArray.push(new FunkinLua(folder + file));
+							//luaArray.push(new FunkinLua(folder + file));
 							filesPushed.push(file);
 						}
 					}
@@ -1071,8 +1071,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(doPush) 
-			luaArray.push(new FunkinLua(luaFile));
+		/*if(doPush) 
+			luaArray.push(new FunkinLua(luaFile));*/
 		#end
 
 		var gfVersion:String = SONG.gfVersion;
@@ -1265,21 +1265,21 @@ class PlayState extends MusicBeatState
 			var luaToLoad:String = Paths.modFolders('custom_notetypes/' + notetype + '.lua');
 			if(FileSystem.exists(luaToLoad))
 			{
-				luaArray.push(new FunkinLua(luaToLoad));
+				//luaArray.push(new FunkinLua(luaToLoad));
 			}
 			else
 			{
 				luaToLoad = Paths.getPreloadPath('custom_notetypes/' + notetype + '.lua');
 				if(FileSystem.exists(luaToLoad))
 				{
-					luaArray.push(new FunkinLua(luaToLoad));
+					//luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
                         #elseif sys
 			var luaToLoad:String = Paths.getPreloadPath('custom_notetypes/' + notetype + '.lua');
 			if(OpenFlAssets.exists(luaToLoad))
 			{
-				luaArray.push(new FunkinLua(luaToLoad));
+				//luaArray.push(new FunkinLua(luaToLoad));
 			}
 			#end
 		}
@@ -1289,21 +1289,21 @@ class PlayState extends MusicBeatState
 			var luaToLoad:String = Paths.modFolders('custom_events/' + event + '.lua');
 			if(FileSystem.exists(luaToLoad))
 			{
-				luaArray.push(new FunkinLua(luaToLoad));
+				//luaArray.push(new FunkinLua(luaToLoad));
 			}
 			else
 			{
 				luaToLoad = Paths.getPreloadPath('custom_events/' + event + '.lua');
 				if(FileSystem.exists(luaToLoad))
 				{
-					luaArray.push(new FunkinLua(luaToLoad));
+					//luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
                         #elseif sys
 			var luaToLoad:String = Paths.getPreloadPath('custom_events/' + event + '.lua');
 			if(OpenFlAssets.exists(luaToLoad))
 			{
-				luaArray.push(new FunkinLua(luaToLoad));
+				//luaArray.push(new FunkinLua(luaToLoad));
 			}
 			#end
 		}
@@ -1592,7 +1592,7 @@ class PlayState extends MusicBeatState
 				{
 					if(file.endsWith('.lua') && !filesPushed.contains(file))
 					{
-						luaArray.push(new FunkinLua(folder + file));
+						//luaArray.push(new FunkinLua(folder + file));
 						filesPushed.push(file);
 					}
 				}
@@ -1830,7 +1830,7 @@ class PlayState extends MusicBeatState
 
 	public function addTextToDebug(text:String, color:FlxColor) {
 		#if LUA_ALLOWED
-		luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
+		/*luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
 			spr.y += 20;
 		});
 
@@ -1839,7 +1839,7 @@ class PlayState extends MusicBeatState
 			blah.destroy();
 			luaDebugGroup.remove(blah);
 		}
-		luaDebugGroup.insert(0, new DebugLuaText(text, luaDebugGroup, color));
+		luaDebugGroup.insert(0, new DebugLuaText(text, luaDebugGroup, color));*/
 		#end
 	}
 
@@ -1902,11 +1902,11 @@ class PlayState extends MusicBeatState
 		
 		if(doPush)
 		{
-			for (script in luaArray)
+			/*for (script in luaArray)
 			{
 				if(script.scriptName == luaFile) return;
-			}
-			luaArray.push(new FunkinLua(luaFile));
+			}*/
+			//luaArray.push(new FunkinLua(luaFile));
 		}
 		#end
 	}
@@ -1914,17 +1914,17 @@ class PlayState extends MusicBeatState
 	//Sussy baka
 
     public function getModObject(tag:String, text:Bool=true):FlxSprite {
-		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
+		/*if(modchartObjects.exists(tag))return modchartObjects.get(tag);
 		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
-		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);
+		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);*/
 		return null;
 	}
 
 	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
-		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
+		/*if(modchartObjects.exists(tag))return modchartObjects.get(tag);
 		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
 		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
-		if(variables.exists(tag)) return variables.get(tag);
+		if(variables.exists(tag)) return variables.get(tag);*/
 		return null;
 	}
 
@@ -2457,7 +2457,7 @@ class PlayState extends MusicBeatState
 
 		inCutscene = false;
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
-		if(ret != FunkinLua.Function_Stop) {
+		//if(ret != FunkinLua.Function_Stop) {
                     if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
 		    generateStaticArrows(0);
@@ -2636,7 +2636,7 @@ class PlayState extends MusicBeatState
 				swagCounter += 1;
 				// generateSong('fresh');
 			}, 5);
-		}
+		//}
             
 	}
 
@@ -3415,9 +3415,9 @@ class PlayState extends MusicBeatState
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
-			if(ret != FunkinLua.Function_Stop) {
+			//if(ret != FunkinLua.Function_Stop) {
 				pauseState();
-			}
+			//}
 		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
@@ -3698,7 +3698,7 @@ class PlayState extends MusicBeatState
     function pauseState()
 	{
 		var ret:Dynamic = callOnLuas('onPause', [], false);
-		if(ret != FunkinLua.Function_Stop) {
+		//if(ret != FunkinLua.Function_Stop) {
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;
@@ -3713,7 +3713,7 @@ class PlayState extends MusicBeatState
 			#if desktop
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter().toUpperCase());
 			#end
-		}
+		//}
 	}
 
 	public function openChangersMenu()
@@ -3749,7 +3749,7 @@ class PlayState extends MusicBeatState
 		{
 			GrfxLogger.log('info', 'Player died');
 			var ret:Dynamic = callOnLuas('onGameOver', [], false);
-			if(ret != FunkinLua.Function_Stop) {
+			//if(ret != FunkinLua.Function_Stop) {
 				boyfriend.stunned = true;
 				deathCounter++;
 
@@ -3778,7 +3778,7 @@ class PlayState extends MusicBeatState
 				#end
 				isDead = true;
 				return true;
-			}
+			//}
 		}
 		return false;
 	}
@@ -4166,7 +4166,7 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 			
 			case 'Change Scroll Speed':
-				if (songSpeedType == "constant")
+				/*if (songSpeedType == "constant")
 					return;
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
@@ -4188,15 +4188,15 @@ class PlayState extends MusicBeatState
 							songSpeedTween = null;
 						}
 					});
-				}
+				}*/
 
 			case 'Set Property':
-				var killMe:Array<String> = value1.split('.');
+				/*var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1) {
 					FunkinLua.setVarInArray(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
 				} else {
 					FunkinLua.setVarInArray(this, value1, value2);
-				}
+				}*/
 
 			case 'Swap Hud':
 				if (!hudIsSwapped) {
@@ -4436,7 +4436,7 @@ class PlayState extends MusicBeatState
 		
 		var ret:Dynamic = callOnLuas('onEndSong', [], false);
 
-		if(ret != FunkinLua.Function_Stop && !transitioning) {
+		if(/*ret != FunkinLua.Function_Stop && */!transitioning) {
 			if (SONG.validScore)
 			{
 				#if !switch
@@ -5606,14 +5606,14 @@ class PlayState extends MusicBeatState
 	}
 
 	override function destroy() {
-		for (lua in luaArray) {
+		/*for (lua in luaArray) {
 			lua.call('onDestroy', []);
 			lua.stop();
 		}
-		luaArray = [];
-		#if hscript
+		luaArray = [];*/
+		/*#if hscript
 		if(FunkinLua.hscript != null) FunkinLua.hscript = null;
-		#end
+		#end*/
 
 		if(!ClientPrefs.controllerMode)
 		{
@@ -5805,7 +5805,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function callOnLuas(event:String, args:Array<Dynamic>, ignoreStops = true, exclusions:Array<String> = null):Dynamic {
-		var returnVal:Dynamic = FunkinLua.Function_Continue;
+		/*var returnVal:Dynamic = FunkinLua.Function_Continue;
 		#if LUA_ALLOWED
 		if(exclusions == null) exclusions = [];
 		for (script in luaArray) {
@@ -5824,15 +5824,17 @@ class PlayState extends MusicBeatState
 		}
 		#end
 		//trace(event, returnVal);
-		return returnVal;
+		return returnVal;*/
+
+		return null;
 	}
 
 	public function setOnLuas(variable:String, arg:Dynamic) {
-		#if LUA_ALLOWED
+		/*#if LUA_ALLOWED
 		for (i in 0...luaArray.length) {
 			luaArray[i].set(variable, arg);
 		}
-		#end
+		#end*/
 	}
 
 	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
@@ -5858,8 +5860,8 @@ class PlayState extends MusicBeatState
 		setOnLuas('hits', songHits);
 
 		var ret:Dynamic = callOnLuas('onRecalculateRating', [], false);
-		if(ret != FunkinLua.Function_Stop)
-		{
+		//if(ret != FunkinLua.Function_Stop)
+		//{
 			if(totalPlayed < 1) //Prevent divide by 0
 				ratingName = '?';
 			else
@@ -5910,7 +5912,7 @@ class PlayState extends MusicBeatState
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
 			else if (songMisses >= 10) ratingFC = "Clear";
-		}
+		//}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
