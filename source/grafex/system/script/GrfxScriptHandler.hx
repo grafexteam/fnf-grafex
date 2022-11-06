@@ -56,7 +56,7 @@ class GrfxHxScript extends GrfxModule //Its bullshit - PurSnake
         smthVal = null;
             if (this.exists(eventName))
 	        //smthVal = this.get(eventName)(args);
-			smthVal = Reflect.callMethod(interp.variables, eventName, args);
+			smthVal = Reflect.callMethod(interp.variables, this.get(eventName), args);
 
         return smthVal;
 
