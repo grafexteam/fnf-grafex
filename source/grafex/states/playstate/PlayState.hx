@@ -5898,6 +5898,8 @@ class PlayState extends MusicBeatState
 
 		setOnLuas('curSection', curSection);
 		callOnLuas('onSectionHit', []);
+		if(stageBuild.exist)
+			stageBuild.stageUpdateSection(curSection);
 
                 callOnHscript("onSection", [curSection]);
 	}
