@@ -55,7 +55,8 @@ class GrfxHxScript extends GrfxModule //Its bullshit - PurSnake
     public function bipis(eventName:String, args:Array<Dynamic>):Dynamic {
         smthVal = null;
             if (this.exists(eventName))
-	        smthVal = this.get(eventName)(args);
+	        //smthVal = this.get(eventName)(args);
+			smthVal = Reflect.callMethod(interp.variables, eventName, args);
 
         return smthVal;
 
