@@ -1,5 +1,6 @@
 package grafex.system.script;
 
+import grafex.system.log.GrfxLogger.log;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
@@ -41,7 +42,7 @@ class GrfxScriptHandler {
 	}
 	
 	public static function noPathModule(path:String, ?extraParams:StringMap<Dynamic>) {
-		trace('Loading Module $path');
+                log('Haxeinfo', 'Loading haxe file: $path');
 		var modulePath:String = path;
 		//return new GrfxModule(parser.parseString(File.getContent(modulePath), modulePath), extraParams, path);
         return new GrfxHxScript(parser.parseString(File.getContent(modulePath), modulePath), extraParams, path);

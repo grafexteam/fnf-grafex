@@ -2595,10 +2595,11 @@ class PlayState extends MusicBeatState
 				}
 
 
-                if(curBeat % iconsWorkBeat == 0)
+                if((swagCounter % iconsWorkBeat == 0) && (iconsWorkBeat != 0))
 				    iconGroup.forEach(function(icon:HealthIcon)
 				    {
 				    	icon.doIconWork();
+                       callOnHscript("onIconsBeat", [swagCounter]);
 				    }); //For stuped icons to do their shit while song isnt started - Snake
 
 				switch (swagCounter)
@@ -5768,10 +5769,11 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-		if(curBeat % iconsWorkBeat == 0)
+       if((curBeat % iconsWorkBeat == 0) && (iconsWorkBeat != 0))
 			iconGroup.forEach(function(icon:HealthIcon)
 			{
 				icon.doIconWork();
+               callOnHscript("onIconsBeat", [curBeat]);
 			});
 
 		if(ClientPrefs.scoreZoom && curBeat % 2 == 1)
