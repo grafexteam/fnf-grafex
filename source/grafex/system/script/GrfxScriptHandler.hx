@@ -36,7 +36,7 @@ class GrfxScriptHandler {
 	}
 
 	public static function loadModule(path:String, ?extraParams:StringMap<Dynamic>) {
-		trace('Loading Module $path');
+                log('Haxeinfo', 'Loading haxe file: $path');
 		var modulePath:String = Paths.hxModule(path);
 		return new GrfxModule(parser.parseString(File.getContent(modulePath), modulePath), extraParams);
 	}
