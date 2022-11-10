@@ -80,7 +80,7 @@ class Main extends Sprite
 		if(!ClientPrefs.autoPause /*&& Type.getClass(FlxG.state) != PlayState || !PlayState.instance.paused*/)
 		{
 			// Conserve power by lowering draw framerate when unfocuced
-			FlxG.drawFramerate = 10;
+			FlxG.drawFramerate = 30;
 		}
 	}
 	

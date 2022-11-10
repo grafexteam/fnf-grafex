@@ -217,6 +217,8 @@ class PlayState extends MusicBeatState
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
+        public var camZoomingFreq:Float = 0;
+        public var camZoomingExVal:Float = 0;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -338,7 +340,8 @@ class PlayState extends MusicBeatState
 	public var bgLayers:Array<Dynamic>;
 	public var loadedBgLayers:Array<Dynamic> = [];
 	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
-	public var iconsWorkBeat:Int = 1;
+
+	public var iconsWorkBeat:Float = 1;
 
     public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -1470,7 +1473,7 @@ class PlayState extends MusicBeatState
 		vintage.updateHitbox();
 		vintage.screenCenter();
 		vintage.visible = ClientPrefs.vintageOnGame;
-		vintage.alpha = 0.2;
+		vintage.alpha = 0.15;
 		add(vintage);
 
 		keyLeft = new FlxSprite(9, 0).makeGraphic(60, 60);
@@ -2594,11 +2597,18 @@ class PlayState extends MusicBeatState
 					santa.dance(true);
 				}
 
+                iconGroup.forEach(function(icon:HealthIcon)
+		{
+			icon.doIconAnim();
+                        callOnHscript("onIconsBeatAnim", [swagCounter]);
+		});
 
-                if((swagCounter % iconsWorkBeat == 0) && (iconsWorkBeat != 0))
+
+                if(iconsWorkBeat != 0)
+                if(swagCounter % iconsWorkBeat == 0)
 				    iconGroup.forEach(function(icon:HealthIcon)
 				    {
-				    	icon.doIconWork();
+				    	icon.doIconSize();
                        callOnHscript("onIconsBeat", [swagCounter]);
 				    }); //For stuped icons to do their shit while song isnt started - Snake
 
@@ -5769,10 +5779,18 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-       if((curBeat % iconsWorkBeat == 0) && (iconsWorkBeat != 0))
+                iconGroup.forEach(function(icon:HealthIcon)
+		{
+			icon.doIconAnim();
+                        callOnHscript("onIconsBeatAnim", [curBeat]);
+		});
+ 
+
+                if(iconsWorkBeat != 0)
+                if(curBeat % iconsWorkBeat == 0)
 			iconGroup.forEach(function(icon:HealthIcon)
 			{
-				icon.doIconWork();
+				icon.doIconSize();
                callOnHscript("onIconsBeat", [curBeat]);
 			});
 
@@ -5858,6 +5876,16 @@ class PlayState extends MusicBeatState
 		{
 			lightningStrikeShit();
 		}
+
+		if (camZoomingFreq != 0 && camZoomingFreq != -1) {
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % camZoomingFreq == camZoomingExVal)
+			{
+			    FlxG.camera.zoom += 0.015 * camZoomingMult;
+			    camHUD.zoom += 0.03 * camZoomingMult;
+			}
+		}
+
+
 		lastBeatHit = curBeat;
 
         if(stageBuild.exist)
@@ -5892,7 +5920,7 @@ class PlayState extends MusicBeatState
 			setOnLuas('gfSection', SONG.notes[curSection].gfSection);
 		}
 
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms)
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && camZoomingFreq == 0)
 		{
 			FlxG.camera.zoom += 0.015 * camZoomingMult;
 			camHUD.zoom += 0.03 * camZoomingMult;

@@ -157,6 +157,10 @@ class HealthIcon extends FlxSprite
 						animation.addByPrefix('loose', 'loose', 24, false, isPlayer);
 						animation.addByPrefix('loose-loop', 'loose-loop', 24, true, isPlayer);
 
+					        animation.addByPrefix('win-2', 'win-2', 24, false, isPlayer);
+						animation.addByPrefix('normal-2', 'normal-2', 24, false, isPlayer);
+						animation.addByPrefix('loose-2', 'loose-2', 24, false, isPlayer);
+
 						updateHitbox();
 
 						animation.play('normal', true);
@@ -196,23 +200,24 @@ class HealthIcon extends FlxSprite
 					animation.curAnim.curFrame = 0;
 
 				case 'animated':
-					if (health < 20) {
+					if ((health < 20) && (animation.getByName("loose") != null)) {
 						animatedIconStage = "loose";
-					} else if (health > 80) {
+					} else if ((health > 80) && (animation.getByName("win") != null)) {
 						animatedIconStage = "win";
-					} else {
+					} else if (animation.getByName("normal") != null) {
 						animatedIconStage = "normal";
 					}
 	       }
 	}
 
-	public function doIconWork() {
-		if(spriteType == "animated")
-				animation.play(animatedIconStage, true);
-
+	public function doIconSize() {
 		scale.set(1.2, 1.2);
 		updateHitbox();
+	}
 
+	public function doIconAnim() {
+		if(spriteType == "animated")
+		    animation.play(animatedIconStage, true);
 	}
 
 	var iconOffset:Int = 26;

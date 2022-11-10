@@ -929,16 +929,16 @@ class CharacterEditorState extends MusicBeatState
 
 			else if(sender == iconOffsetX)
 			{
-				char.iconOffsets[0] = iconOffsetX.value;
+				char.iconOffsets[0] = sender.value;
+				leHealthIcon.changeOffsets(sender.value, char.iconOffsets[1]);
 				leHealthIcon.updateHitbox();
-				leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 			}
 
 			else if(sender == iconOffsetY)
 			{
-				char.iconOffsets[1] = iconOffsetY.value;
+				char.iconOffsets[1] = sender.value;
+				leHealthIcon.changeOffsets(char.iconOffsets[0], sender.value);
 				leHealthIcon.updateHitbox();
-				leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 			}
 
 			else if(sender == healthColorStepperR)
@@ -1135,6 +1135,7 @@ class CharacterEditorState extends MusicBeatState
 			noAntialiasingCheckBox.checked = char.noAntialiasing;
 			resetHealthBarColor();
 			leHealthIcon.changeIcon(healthIconInputText.text);
+		        leHealthIcon.changeOffsets(iconOffsetX.value, iconOffsetY.value);
 			positionXStepper.value = char.positionArray[0];
 			positionYStepper.value = char.positionArray[1];
 			positionCameraXStepper.value = char.cameraPosition[0];
@@ -1145,9 +1146,6 @@ class CharacterEditorState extends MusicBeatState
 			characterDeathMusic.text = char.deathMusic;
 			reloadAnimationDropDown();
 			updatePresence();
-
-			leHealthIcon.updateHitbox();
-			leHealthIcon.changeOffsets(char.iconOffsets[0], char.iconOffsets[1]);
 		}
 	}
 
@@ -1264,7 +1262,7 @@ class CharacterEditorState extends MusicBeatState
 			textAnim.text = '';
 		}
 
-		var inputTexts:Array<FlxUIInputText> = [animationInputText, imageInputText, healthIconInputText, animationNameInputText, animationIndicesInputText];
+		var inputTexts:Array<FlxUIInputText> = [animationInputText, imageInputText, healthIconInputText, animationNameInputText, animationIndicesInputText, characterDeathName, characterDeathSound, characterDeathConfirm, characterDeathMusic];
 		for (i in 0...inputTexts.length) {
 			if(inputTexts[i].hasFocus) {
 				if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.V && Clipboard.text != null) { //Copy paste

@@ -532,11 +532,13 @@ class FreeplayState extends MusicBeatState
 			if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20 || (PlayState.SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
 				resyncVocals();
 
-		    iconArray[freeplayinstPlaying].doIconWork();
+		    iconArray[freeplayinstPlaying].doIconSize();
+                    iconArray[freeplayinstPlaying].doIconAnim(); //Reasons - PurSnake
 	    } : {
            for (i in 0...iconArray.length)
 		    {
-				iconArray[i].doIconWork();
+				iconArray[i].doIconSize();
+                                iconArray[i].doIconAnim(); //Reasons - PurSnake
 		    }
 	    }
 	}
@@ -631,7 +633,7 @@ class FreeplayState extends MusicBeatState
 		    iconArray[curSelected].alpha = 1;
 			if(iconArray[curSelected].animation.frames == 3)
 			{
-				songs[curSelected].songName == 'Tutorial'
+				iconArray[curSelected].getCharacter().startsWith('gf')
 				? iconArray[curSelected].animation.curAnim.curFrame = 1
 				: iconArray[curSelected].animation.curAnim.curFrame = 2;
 			}
