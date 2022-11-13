@@ -125,7 +125,7 @@ class GrfxLogger
     private static function crash(e:String)
     {
         var date = Date.now().toString();
-        var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/JustXale/fnf-grafex/issues/new/choose';
+        var errorMsg:String = '\n[$date]Fatal Error occured: $e\n> Please report this error to the GitHub page: https://github.com/grafexteam/fnf-grafex/issues/new/choose';
         var crashReportPath:String = './logs/crash/Crash_Grafex_' + Date.now().toString().replace(" ", "_").replace(":", "-") + '.log';
 
         if(!FileSystem.exists('./logs/crash/'))
