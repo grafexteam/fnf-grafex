@@ -481,10 +481,7 @@ class HideHud extends Option
 		PlayState.instance.songTxt.visible = !(ClientPrefs.hideHud || !ClientPrefs.songNameDisplay);
 		PlayState.instance.scoreTxt.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
 
-		if(ClientPrefs.showJudgement) 
-			PlayState.instance.judgementCounter.visible = (!ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
-		else
-			PlayState.instance.judgementCounter.visible = false;
+		PlayState.instance.judgementCounter.visible = (ClientPrefs.showJudgement && !ClientPrefs.hideHud && !PlayState.instance.cpuControlled);
 
 		if(!ClientPrefs.hideHud)
 			for (helem in [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.healthBarWN, PlayState.instance.healthBarBG, PlayState.instance.healthStrips]) {
@@ -1844,43 +1841,5 @@ class ComboStacking extends Option
 	private override function updateDisplay():String
 	{
 		return "Combo Stacking: < " + (ClientPrefs.comboStacking ? "Enabled" : "Disabled") + " >";
-	}
-}
-
-class Keystrokes extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function left():Bool
-	{
-		ClientPrefs.keystrokes = !ClientPrefs.keystrokes;
-		display = updateDisplay();
-
-		if (Type.getClass(FlxG.state) == PlayState) {
-			PlayState.instance.keyLeft.visible  = ClientPrefs.keystrokes;
-			PlayState.instance.keyDown.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyUp.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyRight.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyLeftText.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyDownText.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyUpText.visible = ClientPrefs.keystrokes;
-			PlayState.instance.keyRightText.visible = ClientPrefs.keystrokes;
-		}
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Keystrokes: < " + (ClientPrefs.keystrokes ? "Enabled" : "Disabled") + " >";
 	}
 }

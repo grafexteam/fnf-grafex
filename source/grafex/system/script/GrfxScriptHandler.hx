@@ -36,20 +36,20 @@ class GrfxScriptHandler {
 	}
 
 	public static function loadModule(path:String, ?extraParams:StringMap<Dynamic>) {
-                log('Haxeinfo', 'Loading haxe file: $path');
+        log('Haxeinfo', 'Loading haxe file: $path');
 		var modulePath:String = Paths.hxModule(path);
 		return new GrfxModule(parser.parseString(File.getContent(modulePath), modulePath), extraParams);
 	}
 	
 	public static function noPathModule(path:String, ?extraParams:StringMap<Dynamic>) {
-                log('Haxeinfo', 'Loading haxe file: $path');
+        log('Haxeinfo', 'Loading haxe file: $path');
 		var modulePath:String = path;
 		//return new GrfxModule(parser.parseString(File.getContent(modulePath), modulePath), extraParams, path);
         return new GrfxHxScript(parser.parseString(File.getContent(modulePath), modulePath), extraParams, path);
 	}
 }
 
-class GrfxHxScript extends GrfxModule //Its bullshit - PurSnake
+class GrfxHxScript extends GrfxModule
 {
 
     var smthVal:Dynamic;
@@ -85,6 +85,9 @@ class GrfxModule
 		interp.variables.set('import', import_type); // use standart haxe import but with brackets, import(flixel.FlxSprite); - Acolyte
 		interp.execute(contents);
 	}
+
+	public function activate():Dynamic
+		return this.alive = true;
 
 	public function dispose():Dynamic
 		return this.alive = false;
