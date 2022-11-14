@@ -19,13 +19,13 @@ typedef MenuCharacterFile = {
 	var position:Array<Int>;
 	var idle_anim:String;
 	var confirm_anim:String;
- var flipX:Bool;
+    var flipX:Bool;
 }
 
 class MenuCharacter extends FlxSprite
 {
 	public var character:String;
-        public var hasConfirmAnimation:Bool = false;
+    public var hasConfirmAnimation:Bool = false;
 	private static var DEFAULT_CHARACTER:String = 'bf';
 
 	public function new(x:Float, character:String = 'bf')
@@ -81,8 +81,8 @@ class MenuCharacter extends FlxSprite
 				frames = Paths.getSparrowAtlas('menucharacters/' + charFile.image);
 				animation.addByPrefix('idle', charFile.idle_anim, 24);
 				
-                                var confirmAnim:String = charFile.confirm_anim;
-				if(confirmAnim != null && confirmAnim != charFile.idle_anim)
+                var confirmAnim:String = charFile.confirm_anim;
+				if(confirmAnim != null && confirmAnim.length > 0 && confirmAnim != charFile.idle_anim)
 				{
 					animation.addByPrefix('confirm', confirmAnim, 24, false);
 					if (animation.getByName('confirm') != null) //check for invalid animation

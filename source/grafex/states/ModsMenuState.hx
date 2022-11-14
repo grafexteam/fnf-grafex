@@ -398,10 +398,10 @@ class ModsMenuState extends MusicBeatState
 		updatePosition();
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
-		FlxG.mouse.visible = true;
-                FlxG.mouse.useSystemCursor = true;
-
 		super.create();
+
+		FlxG.mouse.unload();
+		FlxG.mouse.visible = true;
 	}
 
 	/*function getIntArray(max:Int):Array<Int>{
@@ -483,7 +483,7 @@ class ModsMenuState extends MusicBeatState
 
 		var path:String = 'modsList.txt';
 		File.saveContent(path, fileStr);
-Paths.pushGlobalMods();
+        Paths.pushGlobalMods();
 	}
 
 	var noModsSine:Float = 0;
@@ -501,11 +501,15 @@ Paths.pushGlobalMods();
 
 		if(canExit && controls.BACK)
 		{
+			FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+			#if desktop
+		        lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(TitleState.getGameIconPath()));
+	        #end
+
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.mouse.visible = false;
 			saveTxt();
 			if(needaReset)
 				{

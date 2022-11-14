@@ -6,6 +6,10 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.system.System;
 import grafex.data.EngineData;
+
+import openfl.display.Shader;
+import openfl.filters.ShaderFilter;
+
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
@@ -47,11 +51,14 @@ class FPSMem extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-                defaultTextFormat = new TextFormat(openfl.utils.Assets.getFont("assets/fonts/vcr.ttf").fontName, 14, color);
+        defaultTextFormat = new TextFormat(openfl.utils.Assets.getFont("assets/fonts/vcr.ttf").fontName, 16, color);
 		width = 1280;
 		height = 720;
 
 		//text = "FPS: ";
+
+		autoSize = LEFT;
+		backgroundColor = 0;
 
 		cacheCount = 0;
 		currentTime = 0;
@@ -83,20 +90,12 @@ class FPSMem extends TextField
 		if (currentCount != cacheCount /*&& visible*/)
 		{
             text = "";
+            if(showFPS) 
+			   text += "FPS: " + currentFPS + "\n"; 
 
-            if(showFPS) {
-			   text += "FPS: " + currentFPS + "\n"; }
-            if(showMem) {
-				/*if(currentMem < 0){
-        	        text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n";
-				} else {
-					text += "Memory: " + currentMem + " MB\n";
-				}*/
+            if(showMem) 
 				currentMem < 0 ? text += "Memory: Leaking " + Math.abs(currentMem) + " MB\n" : text += "Memory: " + currentMem + " MB\n";
-			}
-		text += "Grafex Engine v. " + EngineData.grafexEngineVersion + "\n" ;
 		}
-
 		cacheCount = currentCount;
 	}
 }

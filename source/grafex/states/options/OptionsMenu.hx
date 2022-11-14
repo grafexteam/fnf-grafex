@@ -119,6 +119,7 @@ class OptionsMenu extends FlxSubState
 
 	var startSong = true;
 
+	public var optionsImage:FlxSprite;
 	public function new(pauseMenu:Bool = false)
 	{
 		super();
@@ -151,7 +152,7 @@ class OptionsMenu extends FlxSubState
 				new NoReset("Toggle pressing R to gameover."),
 				new InstantRespawn("Toggle if you instantly respawn after dying."),
 				new CamZoomOption("Toggle the camera zoom in-game."),
-                                new ControllerMode("Enables you to play with controller."),
+                new ControllerMode("Enables you to play with controller."),
                 new DFJKOption(),
                 new NotesOption(),
                 new Customizeption(),
@@ -161,23 +162,22 @@ class OptionsMenu extends FlxSubState
 			new OptionCata(345, 40, "Appearance", [
                 new NoteskinOption("Change your current noteskin"),
 				new AccTypeOption("Change your current accuracy type you want!"),
-                new IconBop("Change icon bopping type"),
 				new SongNameOption("Shows to you name of song your playing on HUD"),
 				new MiddleScrollOption("Put your lane in the center or on the right."), 
 				new HideOppStrumsOption("Shows/Hides opponent strums on screen.(RESTART SONG)"),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
 				new MissAnimsOption("Toggle miss animations playing when you don't hit a note."),
                 new ShowSplashes("Show particles on SICK hit."),
-                new MicedUpSusOption("Enables filter like in MicedUp Engine."),
                // new SustainsAlpha("Change Sustain Notes Alpha."),
 				new HealthBarOption("Toggles health bar visibility"),
 				new JudgementCounter("Show your judgements that you've gotten in the song"),
 				new LaneUnderlayOption("How transparent your lane is, higher = more visible."),
                 new HideHud("Shows to you hud."),
                 new ShowCombo("Combo sprite appearance."),
+				new ComboStacking("Ratings and Combo won't stack, saving on System Memory and making them easier to read."),
                 new ScoreZoom("Zoom score on 2'nd beat."),
                 new HealthBarAlpha("Healthbar Transparceny."),
-                new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."),
+                //new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."), // TODO: rework later - Snake
 			    new TimeBarType("Change the song's current position bar."),
 			]),
 			new OptionCata(640, 40, "Misc", [
@@ -233,8 +233,8 @@ class OptionsMenu extends FlxSubState
 			bg.scrollFactor.set();
 			menu.add(bg);
 
-			background.alpha = 0.5;
-			bg.alpha = 0.6;
+			background.alpha = 0.3;
+			bg.alpha = 0.4;
 
 			cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		}
@@ -275,6 +275,15 @@ class OptionsMenu extends FlxSubState
 		restoreSettingsText.borderSize = 2;
 		restoreSettingsText.borderQuality = 3;
 		add(restoreSettingsText);
+
+		optionsImage = new FlxSprite(0, 0);
+		optionsImage.frames = Paths.getSparrowAtlas('mainmenu/menu_options');
+		optionsImage.animation.addByPrefix('idle', "options white", 24);
+		optionsImage.animation.play('idle');
+		optionsImage.scale.set(0.35, 0.35);
+		optionsImage.screenCenter(X);
+		optionsImage.y -= 39;
+		add(optionsImage);
 
 		super.create();
 	}
@@ -763,7 +772,6 @@ class OptionsMenu extends FlxSubState
  		FlxG.save.data.SusTransper = null;
 		FlxG.save.data.songNameDisplay = null;
 		FlxG.save.data.vintageOnGame = null;
- 		FlxG.save.data.micedUpSus = null;
 		FlxG.save.data.middleScroll = null;
 		FlxG.save.data.countdownpause = null;
 		FlxG.save.data.showFPS = null;

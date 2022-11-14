@@ -5,7 +5,8 @@ import grafex.system.log.GrfxLogger;
 
 typedef SwagSection =
 {
-	var sectionNotes:Array<Dynamic>;
+	var sectionNotes:Array<Dynamic>;		
+        var lengthInSteps:Int;
 	var sectionBeats:Float;
 	var typeOfSection:Int;
 	var mustHitSection:Bool;
@@ -19,6 +20,7 @@ class Section
 {
 	public var sectionNotes:Array<Dynamic> = [];
 
+	public var lengthInSteps:Int = 16;
 	public var sectionBeats:Float = 4;
 	public var gfSection:Bool = false;
 	public var typeOfSection:Int = 0;
@@ -29,8 +31,9 @@ class Section
 	 */
 	public static var COPYCAT:Int = 0;
 
-	public function new(sectionBeats:Float = 4)
+	public function new(sectionBeats:Float = 4, lengthInSteps:Int = 16)
 	{
 		this.sectionBeats = sectionBeats;
+		this.lengthInSteps = lengthInSteps;
 	}
 }

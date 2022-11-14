@@ -53,6 +53,8 @@ class CreditsState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 		persistentUpdate = true;
+
+		//FlxG.mouse.useSystemCursor = true;
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		add(bg);
@@ -94,9 +96,10 @@ class CreditsState extends MusicBeatState
 	
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Grafex Engine by'],
-		    ['JustXale',			'xale',				'Programmer',													'https://github.com/JustXale',			'f7a300'],
 		    ['PurSnake',			'snake',			'Programmer',													'https://github.com/PurSnake', 			'C549DB'],
+		    ['JustXale',			'xale',				'Programmer',													'https://github.com/JustXale',			'f7a300'],
 			['MrOlegTitov', 		'olegus', 			'Programmer', 													'https://github.com/MrOlegTitov', 		'9E29CF'],
+		    ['Acolyte',			    null,			    'Assistant Programmer',											'https://github.com/Acolyte-Neko', 	    '9EFF00'],
 			['LenyaTheCat',			'lenya',			'Artist',														'https://youtube.com/channel/UCMQ8ExqI_qKt8a6OrhHGkbQ', 'ffffff'],
 			['NotGeorg', 			null,				'Custom Arrows Skin Artist',									'https://twitter.com/VolkovGeorg', 		'919191'],
             [''],

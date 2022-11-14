@@ -11,7 +11,8 @@ class RatingsData
 		["S-", 0.96], // 95%
 		["S", 0.98], // 97%
 		["S+", 0.99], // 98%
-		["SS", 1] // 100%
+		["SS", 1], // 99%
+		["SS+", 1] // 100%
 	];
 
 	public static var foreverRatings:Array<Dynamic> = [

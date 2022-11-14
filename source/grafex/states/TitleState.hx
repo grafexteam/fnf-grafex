@@ -61,6 +61,7 @@ import lime.ui.WindowAttributes;
 
 using StringTools;
 
+using flixel.util.FlxSpriteUtil;
 typedef TitleData =
 {
 	titlex:Float,
@@ -71,7 +72,6 @@ typedef TitleData =
 	gfy:Float,
 	backgroundSprite:String,
 	bpm:Int,
-	logoBlTray:Bool,
 	backdropImage:String,
 	backdropImageVelocityX:Int,
 	backdropImageVelocityY:Int
@@ -82,6 +82,9 @@ class TitleState extends MusicBeatState
 	public static var initialized:Bool = false;
     public static var fromMainMenu:Bool = false;
     public static var skipped:Bool = false;
+
+	public static var titleBgImage:String = '';
+	public static var titleBgVelocity:Array<Int> = [0, 0]; 
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -121,22 +124,7 @@ class TitleState extends MusicBeatState
     	FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		
-		#if (desktop && MODS_ALLOWED)
-		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "mods/images/gfDanceTitle.json";
-		}
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
-			path = "assets/images/gfDanceTitle.json";
-		}
-		//trace(path, FileSystem.exists(path));
-		titleJSON = Json.parse(File.getContent(path));
-		#else
-		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
-		titleJSON = Json.parse(Assets.getText(path)); 
-		#end
+		titleJSON = getTitleData();
 
 		if(titleJSON == null)
 		{	
@@ -149,16 +137,19 @@ class TitleState extends MusicBeatState
 	            gfy :40,
 	            backgroundSprite: "",
 	            bpm: 102,
-                logoBlTray: true,
                 backdropImage: "titleBg",
                 backdropImageVelocityX: 70,
                 backdropImageVelocityY: 70
             };
 		}
 
-		curWacky = FlxG.random.getObject(getIntroTextShit());
+		titleBgImage = titleJSON.backdropImage;
 
-		// DEBUG BULLSHIT
+		titleBgVelocity[0] = titleJSON.backdropImageVelocityX;
+
+		titleBgVelocity[1] = titleJSON.backdropImageVelocityY;
+
+		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		swagShader = new ColorSwap();
 		super.create();
@@ -171,18 +162,32 @@ class TitleState extends MusicBeatState
 		bgFlash.antialiasing = true;
 		add(bgFlash);
 
-
 		if (FlxG.save.data.weekCompleted != null)
 		{
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
 
-		FlxG.mouse.visible = false;
-		#if FREEPLAY
-		MusicBeatState.switchState(new FreeplayState());
-		#elseif CHARTING
-		MusicBeatState.switchState(new ChartingState());
-		#else
+		FlxG.mouse.visible = true;
+		
+		FlxG.mouse.load(Paths.image("cursor").bitmap, 1, 0, 0);
+
+		//lime.app.Application.current.window.setIcon(Assets.getImage(iconPath));
+		//lime.app.Application.current.window.setIcon(Paths.image("icon"));
+		//lime.utils.Assets.getImage(path)
+		//getGameIconPath()
+		//lime.utils.Assets.getImage(getGameIconPath())
+
+		//lime.app.Application.current.window.setIcon(lime.utils.Assets.getImage(getGameIconPath()));
+
+		//loadFromFile
+
+		#if desktop
+		    lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(getGameIconPath()));
+		#end
+
+
+		//lime.app.Application.current.window.setIcon(lime.graphics.Image.fromBitmapData(Paths.image("icon").bitmap));
+
 		#if desktop
 		DiscordClient.initialize();
 		Application.current.onExit.add (function (exitCode) {
@@ -197,12 +202,10 @@ class TitleState extends MusicBeatState
 			{
 				startIntro();
 			});
-		}
-	#end                
+		}            
 	}
 
 	var logoBl:FlxSprite;
-    var logoBltrail:FlxTrail;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
@@ -238,46 +241,39 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		if(titleJSON.backdropImage == null)
-			titleJSON.backdropImage = 'titleBg';
-        bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
-		bgMenu.color = 0x7208A0;
-		bgMenu.alpha = 0.6;
-        bgMenu.velocity.set(titleJSON.backdropImageVelocityX, titleJSON.backdropImageVelocityY); //thats it :D- snake
-		add(bgMenu);
+		if(titleBgImage != null || titleBgImage != '')
+		{
+            bgMenu = new FlxBackdrop(Paths.image(titleJSON.backdropImage), 10, 0, true, true);
+		    bgMenu.color = 0x7208A0;
+		    bgMenu.alpha = 0.6;
+            bgMenu.velocity.set(titleBgVelocity[0], titleBgVelocity[1]); //thats it :D- snake
+		    add(bgMenu);
+		}
+		else
+		{
+			bgMenu = null;
+		}
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-			
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');	
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 1, false);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
-		swagShader = new ColorSwap();
+		add(logoBl);
+		logoBl.shader = swagShader.shader;
 
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
-	
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-	
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
-		if(titleJSON.logoBlTray)
-		{
-        logoBltrail = new FlxTrail(logoBl, 24, 0, 0.4, 0.02);
-		add(logoBltrail);
-		}
  
-		add(logoBl);
-        logoBltrail.shader = swagShader.shader;
-		logoBl.shader = swagShader.shader;
-       
-        FlxTween.tween(logoBl, {y: logoBl.y + 80}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
-
+        if(logoBl != null)  FlxTween.tween(logoBl, {y: logoBl.y + 50}, Conductor.crochet / 1000, {ease: FlxEase.quadInOut, type: PINGPONG}); //Bruh -snake
+	
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);		
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		var animFrames:Array<FlxFrame> = [];
@@ -415,10 +411,10 @@ class TitleState extends MusicBeatState
                 	FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 					FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
 					FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-	        		FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
-					FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        		if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+				    if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 					FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
-                	FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+                	if (bgMenu != null) FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
 
 					var skippedText:FlxText = new FlxText(450, 300, "SKIPPED...", 80);
 					skippedText.setFormat("VCR OSD Mono", 80, FlxColor.WHITE, CENTER);
@@ -464,10 +460,10 @@ class TitleState extends MusicBeatState
                 FlxTween.tween(FlxG.camera, {zoom: 1}, 0.2, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0.25});
 				FlxTween.tween(gfDance, {y:2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(titleText, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
-	        	FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
-				FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
+	        	if (logoBl != null) FlxTween.tween(logoBl, {alpha: 0}, 1.2, {ease: FlxEase.expoInOut});
+				if (logoBl != null) FlxTween.tween(logoBl, {y: 2000}, 2.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(bgFlash, {y: 2000}, 2, {ease: FlxEase.expoInOut});
-                FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
+                if (bgMenu != null) FlxTween.tween(bgMenu, {x: -1000}, 5, {ease: FlxEase.expoInOut});
                            			
 				transitioning = true;
                 skipped = true; // true
@@ -573,10 +569,10 @@ class TitleState extends MusicBeatState
 		if(gfDance != null) {
 			danceLeft = !danceLeft;
 
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
+		if (danceLeft)
+			gfDance.animation.play('danceRight');
+		else
+			gfDance.animation.play('danceLeft');
 		}
 
 		if(!closedState) {
@@ -593,7 +589,7 @@ class TitleState extends MusicBeatState
 					for(i in 0...EngineData.devsNicks.length)
 					{
 						addMoreText(EngineData.devsNicks[i], 45);
-					} // HAHA, PROTOGEN OPTIMIZED
+					} // HAHA, PROTOGEN OPTIMIZED  || eh? - PurSnake
 											
 				case 6:
                     deleteCoolText();
@@ -620,6 +616,48 @@ class TitleState extends MusicBeatState
 		}
 	}
 
+	public static function getTitleData()
+	{
+		var data:TitleData;
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/gfDanceTitle.json";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/gfDanceTitle.json";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/gfDanceTitle.json";
+		}
+		trace(path, FileSystem.exists(path));
+		data = Json.parse(File.getContent(path));
+		#else
+		var path = Paths.getPreloadPath("images/gfDanceTitle.json");
+		data = Json.parse(Assets.getText(path)); 
+		#end
+		return data;
+	}
+
+	public static function getGameIconPath()
+	{
+		#if (desktop && MODS_ALLOWED)
+		var path = "mods/" + Paths.currentModDirectory + "/images/icon.png";
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "mods/images/icon.png";
+		}
+		//trace(path, FileSystem.exists(path));
+		if (!FileSystem.exists(path)) {
+			path = "assets/images/icon.png";
+		}
+		trace(path, FileSystem.exists(path));
+		#else
+		var path = Paths.getPreloadPath("images/icon.png");
+		#end
+		return path;
+	}
+	
+
 	var skippedIntro:Bool = false;
 
 	function skipIntro():Void
@@ -631,8 +669,10 @@ class TitleState extends MusicBeatState
 			remove(credGroup);
 			skippedIntro = true;
             bgFlash.alpha = 0.25;
-            if(!fromMainMenu)
-            	FlxG.sound.music.time = 9400;
+
+			if(Conductor.bpm == 120)
+              if(!fromMainMenu)
+            	  FlxG.sound.music.time = 9400;
 		}
 	}
 }

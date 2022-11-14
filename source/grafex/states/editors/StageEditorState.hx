@@ -261,8 +261,6 @@ class StageEditorState extends MusicBeatState
 		gridOutline.cameras = [camGrid];
 		add(gridOutline);
 
-		FlxG.mouse.visible = true;
-
 		dummyLayer = new FlxSprite();
 		dummyLayer.visible = false;
 		dummyLayer.cameras = [camhidden];
@@ -924,7 +922,6 @@ class StageEditorState extends MusicBeatState
 			MusicBeatState.switchState(new MasterEditorMenu());
 			FlxG.sound.playMusic(Paths.music());
 
-			FlxG.mouse.visible = false;
 			return;
 		}
 	}

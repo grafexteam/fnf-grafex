@@ -49,9 +49,11 @@ class Utils
 		return Paths.formatToSongPath(fileSuffix);
 	}
 
-	public static function difficultyString():String
+	public static function difficultyString(diff:Int = null):String
 	{
-		return difficulties[PlayState.storyDifficulty].toUpperCase();
+		var difficulty = diff;
+		if (difficulty == null) difficulty = PlayState.storyDifficulty;
+		return difficulties[difficulty].toUpperCase();
 	}
 
 	inline public static function boundTo(value:Float, min:Float, max:Float):Float {
@@ -157,38 +159,38 @@ class Utils
 	}
 
 	public static function checkExistingChart(song:String, poop:String)
+	{
+		if (FileSystem.exists('assets/data/' + song.toLowerCase() + '/' + poop.toLowerCase() + '.json'))
 		{
-				if (FileSystem.exists('assets/data/' + song.toLowerCase() + '/' + poop.toLowerCase() + '.json'))
-				{
-					var json:Dynamic;
-		
-					try
-					{
-						json = Assets.getText(Paths.modsJson(song.toLowerCase() + '/' + poop.toLowerCase())).trim();
-					}
-					catch (e)
-					{
-						trace("dang! stupid hashlink cant handle an empty file!");
-						json = null;
-					}
-		
-					if (json == null)
-					{
-						trace('aw fuck its null');
-						createFakeSong(song);
-					}
-					else
-					{
-						trace('found file');
-						PlayState.SONG = Song.loadFromJson(poop, song);
-					}
-				}
-				else
-				{
-					trace('aw fuck its null');
-					createFakeSong(song);
-				}
+			var json:Dynamic;
+	
+			try
+			{
+				json = Assets.getText(Paths.modsJson(song.toLowerCase() + '/' + poop.toLowerCase())).trim();
+			}
+			catch (e)
+			{
+				trace("dang! stupid hashlink cant handle an empty file!");
+				json = null;
+			}
+	
+			if (json == null)
+			{
+				trace('aw fuck its null');
+				createFakeSong(song);
+			}
+			else
+			{
+				trace('found file');
+				PlayState.SONG = Song.loadFromJson(poop, song);
+			}
 		}
+		else
+		{
+			trace('aw fuck its null');
+			createFakeSong(song);
+		}
+	}
 
     public static function precacheMusic(sound:String, ?library:String = null):Void {
 	Paths.music(sound, library);
@@ -222,23 +224,21 @@ class Utils
 	}
 
 	public static function getArtist(song:String) 
+	{
+		var artistPrefix:String = '';
+		switch (song)
 		{
-			var artistPrefix:String = '';
-			switch (song) // Write here your Composer(s)
-			{
-				case 'alteratrocity' | 'fluffy-revenge':
-                    artistPrefix = 'JustXale';
-                default:
-				    artistPrefix = 'Kawai Sprite';
-			}	
-	
-			return artistPrefix;
-		}
+            default:
+			    artistPrefix = 'Kawai Sprite';
+		}	
+
+		return artistPrefix;
+	}
 
 	public static function cameraZoom(target, zoomLevel, speed, style, type)
-		{
-			FlxTween.tween(target, {zoom: zoomLevel}, speed, {ease: style, type: type});
-		}
+	{
+		FlxTween.tween(target, {zoom: zoomLevel}, speed, {ease: style, type: type});
+	}
 	
 	public static function truncateFloat(number:Float, precision:Int):Float
 	{

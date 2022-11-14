@@ -129,33 +129,58 @@ class Paths
 	}
 
     static public var currentModDirectory:String = '';
-	static public var currentLevel:String;
+
+	// level we're loading
+	static var currentLevel:String = null;
+	static var previousLevel:String = null;
+	static var stageShitFUCK:String = '';
+
+	// set the current level top the condition of this function if called
 	static public function setCurrentLevel(name:String)
 	{
-		currentLevel = name.toLowerCase();
+		if (currentLevel != name) {
+			previousLevel = currentLevel;
+			currentLevel = name.toLowerCase();
+		}
+	}
+
+	static public function revertCurrentLevel() {
+		var tempCurLevel = currentLevel;
+		currentLevel = previousLevel;
+		previousLevel = tempCurLevel;
+	}
+
+	static public function doStageFuckinShitOH(?doit:String = '') {
+		stageShitFUCK = doit;
 	}
 
 	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
+	{
+		file = file.replace("\\", "/");
+		while(file.contains("//")) {
+			file = file.replace("//", "/");
+		}
+		//while(file.startsWith("/")) file = file.substr(1);
+		
+		if (library != null)
+			return getLibraryPath(file, library);
+
+		if (currentLevel != null)
 		{
-			if (library != null)
-				return getLibraryPath(file, library);
-	
-			if (currentLevel != null)
-			{
-				var levelPath:String = '';
-				if(currentLevel != 'shared') {
-					levelPath = getLibraryPathForce(file, currentLevel);
-					if (OpenFlAssets.exists(levelPath, type))
-						return levelPath;
-				}
-	
-				levelPath = getLibraryPathForce(file, "shared");
+			var levelPath:String = '';
+			if(currentLevel != 'shared') {
+				levelPath = getLibraryPathForce(file, currentLevel);
 				if (OpenFlAssets.exists(levelPath, type))
 					return levelPath;
 			}
-	
-			return getPreloadPath(file);
+
+			levelPath = getLibraryPathForce(file, "shared");
+			if (OpenFlAssets.exists(levelPath, type))
+				return levelPath;
 		}
+
+		return getPreloadPath(file);
+	}
 	static public function getLibraryPath(file:String, library = "preload")
 	{
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
@@ -168,7 +193,7 @@ class Paths
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file';
+		return 'assets' + stageShitFUCK +'/$file';
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -191,7 +216,21 @@ class Paths
 		return getPath('data/$key.json', TEXT, library);
 	}
 
-inline static public function shaderFragment(key:String, ?library:String)
+	static public function hxModule(key:String, ?library:String)
+	{
+		#if MODS_ALLOWED
+		var file:String = modFolders('$key.hx');
+		if(FileSystem.exists(file)) {
+			return file;
+		}
+		#end
+
+		//return getPath('$key.hx', TEXT, library);
+        return 'assets/$key.hx';
+
+	}
+
+    inline static public function shaderFragment(key:String, ?library:String)
 	{
 		return getPath('shaders/$key.frag', TEXT, library);
 	}
@@ -206,21 +245,21 @@ inline static public function shaderFragment(key:String, ?library:String)
 	}
 
 	static public function video(key:String)
-		{
-			#if MODS_ALLOWED
-			var file:String = modsVideo(key);
-			if(FileSystem.exists(file)) {
-				return file;
-			}
-			#end
-			return 'assets/videos/$key.$VIDEO_EXT';
+	{
+		#if MODS_ALLOWED
+		var file:String = modsVideo(key);
+		if(FileSystem.exists(file)) {
+			return file;
 		}
+		#end
+		return 'assets/videos/$key.$VIDEO_EXT';
+	}
 
 	static public function sound(key:String, ?library:String):Sound
-		{
-			var sound:Sound = returnSound('sounds', key, library);
-			return sound;
-		}
+	{
+		var sound:Sound = returnSound('sounds', key, library);
+		return sound;
+	}
 	
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
@@ -231,6 +270,11 @@ inline static public function shaderFragment(key:String, ?library:String)
 	{
 		var file:Sound = returnSound(where, key, library);
 		return file;
+	}
+
+	inline static public function chart(song:String, key:String)
+	{
+		return getPath('data/$song/$key.json', TEXT);
 	}
 
 	inline static public function voices(song:String):Any
@@ -386,6 +430,10 @@ inline static public function shaderFragment(key:String, ?library:String)
 	{
 		return getPath('icons/icon-' + key + '.xml', IMAGE, library);
 	}
+
+	inline static public function modsCharts(song:String, key:String) {
+		return modFolders('songs/' + song + '/' + key + '.json');
+	}
 	
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
@@ -438,19 +486,19 @@ inline static public function modsShaderFragment(key:String, ?library:String)
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
+			var fileToCheck:String = mods(currentModDirectory + stageShitFUCK + '/' + key);
 			if(FileSystem.exists(fileToCheck)) {
 				return fileToCheck;
 			}
 		}
 
 		for(mod in getGlobalMods()){
-			var fileToCheck:String = mods(mod + '/' + key);
+			var fileToCheck:String = mods(mod + stageShitFUCK + '/' + key);
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 
 		}
-		return 'mods/' + key;
+		return 'mods' + stageShitFUCK + '/' + key;
 	}
 
 

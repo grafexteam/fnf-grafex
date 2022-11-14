@@ -54,7 +54,7 @@ class PrelaunchingState extends MusicBeatState
 
         Application.current.window.title = Main.appTitle;
         
-        FlxG.mouse.visible = false;
+		FlxG.mouse.visible = false;
         FlxG.game.focusLostFramerate = 60;
 		FlxG.sound.muteKeys = muteKeys;
 		FlxG.sound.volumeDownKeys = volumeDownKeys;
@@ -103,8 +103,13 @@ class PrelaunchingState extends MusicBeatState
             txts.push(["Couldn't connect to the server", '']);
         }
         #end
-        if(alreadySeen)
-        MusicBeatState.switchState(new TitleState());
+
+
+        if(FlxG.save.data.noLaunchScreen == null)
+            FlxG.save.data.noLaunchScreen = false;
+
+        if(FlxG.save.data.noLaunchScreen == true)
+            MusicBeatState.switchState(new TitleState());
 
         txts.push(["Thanks for using our engine! <3\n- with love\n    Grafex Team", '']);
 
@@ -246,11 +251,12 @@ class PrelaunchingState extends MusicBeatState
         //FlxG.camera.fade(FlxColor.BLACK, 3, true);
         FlxTween.tween(txt, {alpha: 0}, 3);
         FlxTween.tween(arrowTxt, {alpha: 0}, 3);
-        FlxG.sound.play(Paths.sound('titleShoot')).fadeOut(4, 0);
+        FlxG.sound.play(Paths.sound('titleShoot'), 0.8).fadeOut(4, 0);
         FlxG.camera.flash(FlxColor.WHITE, 3, function() {
             FlxTransitionableState.skipNextTransIn = false;
             FlxTransitionableState.skipNextTransOut = false;
-
+            FlxG.save.data.noLaunchScreen = true;
+            FlxG.save.flush();
             MusicBeatState.switchState(new TitleState());
         });
     }

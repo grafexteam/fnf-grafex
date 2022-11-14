@@ -29,6 +29,7 @@ typedef CharacterFile = {
 	var scale:Float;
 	var sing_duration:Float;
 	var healthicon:String;
+	var healthicon_offsets:Array<Float>;
 
 	var position:Array<Float>;
 	var camera_position:Array<Float>;
@@ -37,6 +38,7 @@ typedef CharacterFile = {
 	var no_antialiasing:Bool;
 	var healthbar_colors:Array<Int>;
     var healthbar_colors2:Array<Int>;
+	var gameover_properties:Array<String>;
 }
 
 typedef AnimArray = {
@@ -72,9 +74,16 @@ class Character extends FlxSprite
 
 	public var positionArray:Array<Float> = [0, 0];
 	public var cameraPosition:Array<Float> = [0, 0];
+	public var iconOffsets:Array<Float> = [0, 0];
 
 	public var hasMissAnimations:Bool = false;
 
+	//Used for Game Over Properties
+	public var deathChar:String = 'bf-dead';
+	public var deathSound:String = 'fnf_loss_sfx';
+	public var deathConfirm:String = 'gameOverEnd';
+	public var deathMusic:String = 'gameOver';
+	
 	//Used on Character Editor
 	public var imageFile:String = '';
 	public var jsonScale:Float = 1;
@@ -152,7 +161,7 @@ class Character extends FlxSprite
 					
 					case "sparrow":
 						frames = Paths.getSparrowAtlas(json.image);
-                                        case "texture":
+                    case "texture":
 						frames = AtlasFrameMaker.construct(json.image);		
 				}
 				
@@ -166,6 +175,9 @@ class Character extends FlxSprite
 
 				positionArray = json.position;
 				cameraPosition = json.camera_position;
+				
+				if(json.healthicon_offsets != null && json.healthicon_offsets.length > 0)
+				    iconOffsets = json.healthicon_offsets;
 
 				healthIcon = json.healthicon;
 				singDuration = json.sing_duration;
@@ -175,6 +187,14 @@ class Character extends FlxSprite
 					noAntialiasing = true;
 				}
 
+				if (json.gameover_properties != null)
+				{
+					deathChar = json.gameover_properties[0];
+					deathSound = json.gameover_properties[1];
+					deathMusic = json.gameover_properties[2]; // by BeastlyGhost - PurSnake
+					deathConfirm = json.gameover_properties[3];
+				}
+	
 				if(json.healthbar_colors != null && json.healthbar_colors.length > 2)
 				{        healthColorArray = json.healthbar_colors;}
                                 
@@ -236,7 +256,7 @@ class Character extends FlxSprite
 		{
 			if(heyTimer > 0)
 			{
-				heyTimer -= elapsed;
+				heyTimer -= elapsed * PlayState.instance.playbackRate;
 				if(heyTimer <= 0)
 				{
 					if(specialAnim && animation.curAnim.name == 'hey' || animation.curAnim.name == 'cheer')
@@ -280,7 +300,7 @@ class Character extends FlxSprite
 					holdTimer += elapsed;
 				}
 
-				if (holdTimer >= Conductor.stepCrochet * 0.0011 * singDuration)
+				if (holdTimer >= Conductor.stepCrochet * (0.0011 / (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1)) * singDuration)
 				{
 					dance();
 					holdTimer = 0;

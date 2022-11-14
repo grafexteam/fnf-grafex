@@ -114,7 +114,8 @@ class GameOverSubstate extends MusicBeatSubstate
 				MusicBeatState.switchState(new FreeplayState());
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-            Conductor.changeBPM(102);
+			TitleState.titleJSON = TitleState.getTitleData();
+			Conductor.changeBPM(TitleState.titleJSON.bpm);
 			PlayState.instance.callOnLuas('onGameOverConfirm', [false]);
 		}
 
