@@ -217,8 +217,9 @@ class PlayState extends MusicBeatState
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
-        public var camZoomingFreq:Float = 0;
-        public var camZoomingExVal:Float = 0;
+	public var camZoomingFreq:Int = 0;
+	public var camZoomingExVal:Int = 0;
+	public var iconsZoomingFreq:Int = 1;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -339,9 +340,9 @@ class PlayState extends MusicBeatState
 	public var defaultCamZoom:Float = 1.05;
 	public var bgLayers:Array<Dynamic>;
 	public var loadedBgLayers:Array<Dynamic> = [];
-	public var currentCamBeat:Float = 4; //Deprecated - PurSnake
 
-	public var iconsWorkBeat:Float = 1;
+	public var currentCamBeat:Float = 4; //
+	public var iconsWorkBeat:Float = 1; //
 
     public var vintage:FlxSprite;
 	var badLoseVin:FlxSprite;
@@ -2519,8 +2520,8 @@ class PlayState extends MusicBeatState
 		        });
 
 
-                if(iconsWorkBeat != 0)
-                if(swagCounter % iconsWorkBeat == 0)
+			    if(iconsZoomingFreq != 0)
+				if(swagCounter % iconsZoomingFreq == 0)
 				    iconGroup.forEach(function(icon:HealthIcon)
 				    {
 				    	icon.doIconSize();
@@ -3225,6 +3226,12 @@ class PlayState extends MusicBeatState
         displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
 		maxHealthProb = health * 100;
+
+                healthBarWN.alpha = healthBar.alpha;
+                healthBarWN.visible = healthBar.visible;
+                //Meh - PurSnake
+                healthStrips.alpha = healthBarBG.alpha;
+                healthStrips.visible = healthBarBG.visible;
 
         if(FlxG.keys.justPressed.F11)
         {
@@ -5559,8 +5566,8 @@ class PlayState extends MusicBeatState
 		});
  
 
-        if(iconsWorkBeat != 0)
-        if(curBeat % iconsWorkBeat == 0)
+		if(iconsZoomingFreq > 0)
+		    if(curBeat % iconsZoomingFreq == 0)
 		    iconGroup.forEach(function(icon:HealthIcon)
 		    {
 		    	icon.doIconSize();
